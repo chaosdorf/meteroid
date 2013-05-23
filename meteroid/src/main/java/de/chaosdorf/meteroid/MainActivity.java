@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 
 public class MainActivity extends Activity
@@ -13,23 +14,27 @@ public class MainActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 
-		final SharedPreferences prefs = getPreferences(MODE_PRIVATE);
-
+		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		final String hostname = prefs.getString("hostname", null);
 		final String username = prefs.getString("username", null);
 
 		if (hostname == null)
 		{
+			// Set hostname if not done yet
 			Intent intent = new Intent(this, SetHostname.class);
 			startActivity(intent);
+			finish();
 		}
 		else if (username == null)
 		{
-			Intent intent = new Intent(this, SetHostname.class);
+			// Pick username if not done yet
+			Intent intent = new Intent(this, PickUsername.class);
 			startActivity(intent);
+			finish();
 		}
 		else
 		{
+			// Ready to buy some mate :)
 			setContentView(R.layout.activity_main);
 		}
 	}

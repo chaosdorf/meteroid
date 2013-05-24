@@ -48,6 +48,9 @@ public class PickUsername extends Activity implements LongRunningGetIOCallback
 	@Override
 	public void processIOResult(final String json)
 	{
-		Utility.displayToastMessage(activity, "Result: " + json);
+		if (json != null)
+		{
+			Utility.displayToastMessage(activity, "Result: " + json);
+		}
 	}
 }

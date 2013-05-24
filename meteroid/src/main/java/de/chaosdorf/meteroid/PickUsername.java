@@ -1,26 +1,28 @@
 package de.chaosdorf.meteroid;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import de.chaosdorf.meteroid.interfaces.LongRunningGetIOCallback;
+import de.chaosdorf.meteroid.util.LongRunningGetIO;
+import de.chaosdorf.meteroid.util.Utility;
 
-public class PickUsername extends Activity
+public class PickUsername extends Activity implements LongRunningGetIOCallback
 {
-	private Context context = null;
+	private Activity activity = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		context = this;
+		activity = this;
 		setContentView(R.layout.activity_pick_username);
 
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		final String hostname = prefs.getString("hostname", null);
 
-		new LongRunningGetIO(context, hostname + "users.json").execute();
+		new LongRunningGetIO(this, hostname + "users.json").execute();
 
 		/*
 		final Button saveButton = (Button) findViewById(R.id.save_button);
@@ -35,5 +37,17 @@ public class PickUsername extends Activity
 			}
 		});
 		*/
+	}
+
+	@Override
+	public void displayErrorMessage(final String message)
+	{
+		Utility.displayToastMessage(activity, message);
+	}
+
+	@Override
+	public void processIOResult(final String json)
+	{
+		Utility.displayToastMessage(activity, "Result: " + json);
 	}
 }

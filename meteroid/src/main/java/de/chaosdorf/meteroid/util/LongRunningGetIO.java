@@ -1,7 +1,7 @@
-package de.chaosdorf.meteroid;
+package de.chaosdorf.meteroid.util;
 
-import android.content.Context;
 import android.os.AsyncTask;
+import de.chaosdorf.meteroid.interfaces.LongRunningGetIOCallback;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -15,12 +15,12 @@ import java.io.InputStream;
 
 public class LongRunningGetIO extends AsyncTask<Void, Void, String>
 {
-	private final Context context;
+	private final LongRunningGetIOCallback callback;
 	private final String url;
 
-	public LongRunningGetIO(final Context context, final String url)
+	public LongRunningGetIO(final LongRunningGetIOCallback callback, final String url)
 	{
-		this.context = context;
+		this.callback = callback;
 		this.url = url;
 	}
 
@@ -39,7 +39,7 @@ public class LongRunningGetIO extends AsyncTask<Void, Void, String>
 		}
 		catch (Exception e)
 		{
-			//Utility.displayErrorMessage(e.getLocalizedMessage(), context);
+			callback.displayErrorMessage(e.getLocalizedMessage());
 			return null;
 		}
 		return json;
@@ -48,6 +48,7 @@ public class LongRunningGetIO extends AsyncTask<Void, Void, String>
 	@Override
 	protected void onPostExecute(String result)
 	{
+		callback.processIOResult(result);
 	}
 
 	private String getASCIIContentFromEntity(HttpEntity entity) throws IllegalStateException, IOException

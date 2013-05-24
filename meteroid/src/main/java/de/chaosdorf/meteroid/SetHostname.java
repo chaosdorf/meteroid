@@ -1,7 +1,6 @@
 package de.chaosdorf.meteroid;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,16 +11,17 @@ import android.view.View;
 import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.EditText;
+import de.chaosdorf.meteroid.util.Utility;
 
 public class SetHostname extends Activity
 {
-	private Context context = null;
+	private Activity activity = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		context = this;
+		activity = this;
 		setContentView(R.layout.activity_set_hostname);
 
 		final EditText editText = (EditText) findViewById(R.id.hostname);
@@ -36,7 +36,10 @@ public class SetHostname extends Activity
 				editText.setText(hostname);
 			}
 			final Editable editTextHostname = editText.getText();
-			Selection.setSelection(editTextHostname, editTextHostname.length());
+			if (editTextHostname != null)
+			{
+				Selection.setSelection(editTextHostname, editTextHostname.length());
+			}
 		}
 
 		final Button saveButton = (Button) findViewById(R.id.save_button);
@@ -44,19 +47,25 @@ public class SetHostname extends Activity
 		{
 			public void onClick(View view)
 			{
-				String newHostname = editText.getText().toString();
+				final Editable editTextHostname = editText.getText();
+				if (editTextHostname == null)
+				{
+					Utility.displayToastMessage(activity, "Please enter a hostname");
+					return;
+				}
+				String newHostname = editTextHostname.toString();
+				if (newHostname.equals("http://"))
+				{
+					Utility.displayToastMessage(activity, "Please enter a hostname");
+					return;
+				}
 				if (!newHostname.endsWith("/"))
 				{
 					newHostname += "/";
 				}
-				if (newHostname.equals("http://"))
-				{
-					Utility.displayErrorMessage("Please enter a hostname", context);
-					return;
-				}
 				if (!URLUtil.isHttpUrl(newHostname))
 				{
-					Utility.displayErrorMessage("Invalid hostname entered", context);
+					Utility.displayToastMessage(activity, "Invalid hostname entered");
 					return;
 				}
 				prefs.edit().putString("hostname", newHostname).apply();

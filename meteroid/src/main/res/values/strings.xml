@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- General -->
     <string name="app_name">meteroid</string>
     <string name="action_settings">Settings</string>
-    <string name="main_overview">Overview</string>
-    <string name="set_hostname">Please enter the URL of mete</string>
-    <string name="set_hostname_label">Hostname</string>
-    <string name="pick_username">Please choose a username</string>
-    <string name="pick_username_label">Username</string>
 
+    <!-- Main activity -->
+    <string name="main_overview">Overview</string>
+
+    <!-- Set hostname -->
+    <string name="set_hostname_label">Hostname</string>
+    <string name="set_hostname">Please enter the URL of mete</string>
+
+    <!-- Pick username -->
+    <string name="pick_username_label">Pick your username</string>
+
+    <!-- Buttons -->
     <string name="save">Save</string>
     <string name="ok">OK</string>
 

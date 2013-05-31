@@ -3,6 +3,7 @@ package de.chaosdorf.meteroid.util;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -119,14 +120,17 @@ public class Utility
 		}
 	}
 
-	public static String getGravatarURL(final User user)
+	public static void setGravatarImage(final ImageLoader imageLoader, final ImageView icon, final User user)
 	{
 		final String email = user.getEmail().trim().toLowerCase();
 		if (email == null || email.length() == 0)
 		{
-			return "http://www.gravatar.com/avatar/?f=y";
+			imageLoader.DisplayImage(null, icon);
 		}
-		return ("http://www.gravatar.com/avatar/" + md5Hex(email));
+		else
+		{
+			imageLoader.DisplayImage("http://www.gravatar.com/avatar/" + md5Hex(email), icon);
+		}
 	}
 
 	private static String arrayToHex(final byte[] array)

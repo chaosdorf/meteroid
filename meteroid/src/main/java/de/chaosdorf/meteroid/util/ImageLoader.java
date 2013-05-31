@@ -1,6 +1,5 @@
 package de.chaosdorf.meteroid.util;
 
-import android.R;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,32 +15,41 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Collections;
 import java.util.Map;
-import java.util.WeakHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import de.chaosdorf.meteroid.R;
+
 public class ImageLoader
 {
-	final int stub_id = R.drawable.star_big_on;
-	final MemoryCache memoryCache = new MemoryCache();
-	final FileCache fileCache;
-	final ExecutorService executorService;
+	final private Bitmap stubBitmap;
+
+	final private MemoryCache memoryCache;
+	final private FileCache fileCache;
+	final private ExecutorService executorService;
 
 	// Handler to display images in UI thread
-	final Handler handler = new Handler();
-	final private Map<ImageView, String> imageViews = Collections.synchronizedMap(new WeakHashMap<ImageView, String>());
+	final private Handler handler;
+	final private Map<ImageView, String> imageViews;
 
 	public ImageLoader(Context context)
 	{
+		final BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inSampleSize = calculateInSampleSize(80, 80);
+		stubBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.stub, options);
+
+		memoryCache = new MemoryCache();
 		fileCache = new FileCache(context);
 		executorService = Executors.newFixedThreadPool(5);
+
+		handler = new Handler();
+		imageViews = new ConcurrentHashMap<ImageView, String>();
 	}
 
 	public void DisplayImage(String url, ImageView imageView)
 	{
-		imageViews.put(imageView, url);
 		final Bitmap bitmap = memoryCache.get(url);
 		if (bitmap != null)
 		{
@@ -49,8 +57,12 @@ public class ImageLoader
 		}
 		else
 		{
-			queuePhoto(url, imageView);
-			imageView.setImageResource(stub_id);
+			if (url != null)
+			{
+				imageViews.put(imageView, url);
+				queuePhoto(url, imageView);
+			}
+			imageView.setImageBitmap(stubBitmap);
 		}
 	}
 
@@ -110,19 +122,7 @@ public class ImageLoader
 			stream1.close();
 
 			// Find the correct scale value. It should be the power of 2.
-			final int REQUIRED_SIZE = 70;
-			int width_tmp = o.outWidth, height_tmp = o.outHeight;
-			int scale = 1;
-			while (true)
-			{
-				if (width_tmp / 2 < REQUIRED_SIZE || height_tmp / 2 < REQUIRED_SIZE)
-				{
-					break;
-				}
-				width_tmp /= 2;
-				height_tmp /= 2;
-				scale *= 2;
-			}
+			int scale = calculateInSampleSize(o.outWidth, o.outHeight);
 
 			// Decode with inSampleSize
 			BitmapFactory.Options o2 = new BitmapFactory.Options();
@@ -134,13 +134,30 @@ public class ImageLoader
 		}
 		catch (FileNotFoundException e)
 		{
-            return null;
+			return null;
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	private int calculateInSampleSize(int width, int height)
+	{
+		final int REQUIRED_SIZE = 50;
+		int scale = 1;
+		while (true)
+		{
+			if (width / 2 < REQUIRED_SIZE && height / 2 < REQUIRED_SIZE)
+			{
+				break;
+			}
+			width /= 2;
+			height /= 2;
+			scale *= 2;
+		}
+		return scale;
 	}
 
 	boolean imageViewReused(PhotoToLoad photoToLoad)
@@ -226,7 +243,7 @@ public class ImageLoader
 			}
 			else
 			{
-				photoToLoad.imageView.setImageResource(stub_id);
+				photoToLoad.imageView.setImageBitmap(stubBitmap);
 			}
 		}
 	}

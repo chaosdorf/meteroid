@@ -129,12 +129,12 @@ public class PickUsername extends Activity implements LongRunningGetIOCallback, 
 				return null;
 			}
 
+			final User user = itemList.get(position);
 			final ImageView icon = (ImageView) view.findViewById(R.id.icon);
 			final TextView label = (TextView) view.findViewById(R.id.label);
 			final CheckedTextView checkBox = (CheckedTextView) view.findViewById(R.id.checkstate);
-			final User user = itemList.get(position);
 
-			imageLoader.DisplayImage(Utility.getGravatarURL(user), icon);
+			Utility.setGravatarImage(imageLoader, icon, user);
 			label.setText(user.getName());
 			checkBox.setChecked(listView.getCheckedItemPosition() == position);
 

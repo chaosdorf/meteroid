@@ -1,4 +1,4 @@
-package de.chaosdorf.meteroid.lazylist;
+package de.chaosdorf.meteroid.util;
 
 import android.content.Context;
 
@@ -19,7 +19,7 @@ public class FileCache
 		{
 			cacheDir = context.getCacheDir();
 		}
-		if (!cacheDir.exists())
+		if (cacheDir != null && !cacheDir.exists())
 		{
 			cacheDir.mkdirs();
 		}
@@ -32,7 +32,6 @@ public class FileCache
 		// String filename = URLEncoder.encode(url);
 		String filename = String.valueOf(url.hashCode());
 		return new File(cacheDir, filename);
-
 	}
 
 	public void clear()

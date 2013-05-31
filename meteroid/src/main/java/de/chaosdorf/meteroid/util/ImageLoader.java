@@ -1,4 +1,4 @@
-package de.chaosdorf.meteroid.lazylist;
+package de.chaosdorf.meteroid.util;
 
 import android.R;
 import android.content.Context;
@@ -7,7 +7,13 @@ import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.widget.ImageView;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Collections;
@@ -68,7 +74,6 @@ public class ImageLoader
 		// From web
 		try
 		{
-			Bitmap bitmap = null;
 			URL imageUrl = new URL(url);
 			HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
 			conn.setConnectTimeout(30000);
@@ -76,11 +81,10 @@ public class ImageLoader
 			conn.setInstanceFollowRedirects(true);
 			InputStream is = conn.getInputStream();
 			OutputStream os = new FileOutputStream(f);
-			Utils.CopyStream(is, os);
+			Utility.CopyStream(is, os);
 			os.close();
 			conn.disconnect();
-			bitmap = decodeFile(f);
-			return bitmap;
+			return decodeFile(f);
 		}
 		catch (Throwable ex)
 		{
@@ -130,6 +134,7 @@ public class ImageLoader
 		}
 		catch (FileNotFoundException e)
 		{
+            return null;
 		}
 		catch (IOException e)
 		{
@@ -141,11 +146,7 @@ public class ImageLoader
 	boolean imageViewReused(PhotoToLoad photoToLoad)
 	{
 		final String tag = imageViews.get(photoToLoad.imageView);
-		if (tag == null || !tag.equals(photoToLoad.url))
-		{
-			return true;
-		}
-		return false;
+		return (tag == null || !tag.equals(photoToLoad.url));
 	}
 
 	public void clearCache()

@@ -3,18 +3,23 @@ package de.chaosdorf.meteroid.util;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.widget.Toast;
-import de.chaosdorf.meteroid.model.User;
 
-import java.io.IOException;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import de.chaosdorf.meteroid.R;
+import de.chaosdorf.meteroid.model.User;
 
 public class Utility
 {
@@ -52,29 +57,69 @@ public class Utility
 		});
 	}
 
-	public static Bitmap getGravatarBitbamp(final User user)
+	public static void CopyStream(InputStream is, OutputStream os)
 	{
-		return getBitmapFromURL(getGravatarURL(user));
+		final int buffer_size = 1024;
+		try
+		{
+			byte[] bytes = new byte[buffer_size];
+			while (true)
+			{
+				int count = is.read(bytes, 0, buffer_size);
+				if (count == -1)
+				{
+					break;
+				}
+				os.write(bytes, 0, count);
+			}
+		}
+		catch (Exception ex)
+		{
+			// do nothing
+		}
 	}
 
-	private static Bitmap getBitmapFromURL(final String src)
+	public static List<User> parseAllUsersFromJSON(final String json)
+	{
+		final List<User> list = new ArrayList<User>();
+		try
+		{
+			final JSONArray jsonArray = new JSONArray(json);
+			for (int i = 0; i < jsonArray.length(); i++)
+			{
+				final User user = Utility.parseUserFromJSON(jsonArray.getJSONObject(i));
+				if (user != null)
+				{
+					list.add(user);
+				}
+			}
+		}
+		catch (JSONException ignored)
+		{
+		}
+		return list;
+	}
+
+	public static User parseUserFromJSON(final JSONObject jsonObject)
 	{
 		try
 		{
-			URL url = new URL(src);
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			connection.setDoInput(true);
-			connection.connect();
-			InputStream input = connection.getInputStream();
-			return BitmapFactory.decodeStream(input);
+			return new User(
+					jsonObject.getInt("id"),
+					jsonObject.getString("name"),
+					jsonObject.getString("email"),
+					jsonObject.getLong("balance_cents"),
+					new Date(),
+					new Date()
+			);
 		}
-		catch (IOException ignored)
+		catch (JSONException e)
 		{
+			return null;
 		}
-		return null;
 	}
 
-	private static String getGravatarURL(final User user)
+	public static String getGravatarURL(final User user)
 	{
 		final String email = user.getEmail().trim().toLowerCase();
 		if (email == null || email.length() == 0)

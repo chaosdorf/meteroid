@@ -47,12 +47,17 @@ public class SetHostname extends Activity
 		{
 			public void onClick(View view)
 			{
-				if (editText == null || editText.getText() == null)
+				if (editText == null)
 				{
 					Utility.displayToastMessage(activity, "Please enter a hostname");
 					return;
 				}
 				final Editable editTextHostname = editText.getText();
+                if (editTextHostname == null)
+                {
+                    Utility.displayToastMessage(activity, "Please enter a hostname");
+                    return;
+                }
 				String newHostname = editTextHostname.toString();
 				if (newHostname.equals("http://"))
 				{

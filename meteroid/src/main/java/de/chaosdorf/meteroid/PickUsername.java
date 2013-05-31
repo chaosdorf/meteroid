@@ -1,24 +1,29 @@
 package de.chaosdorf.meteroid;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckedTextView;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.List;
+
 import de.chaosdorf.meteroid.interfaces.LongRunningGetIOCallback;
 import de.chaosdorf.meteroid.model.User;
+import de.chaosdorf.meteroid.util.ImageLoader;
 import de.chaosdorf.meteroid.util.LongRunningGetIO;
 import de.chaosdorf.meteroid.util.Utility;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public class PickUsername extends Activity implements LongRunningGetIOCallback, View.OnClickListener, AdapterView.OnItemClickListener
 {
@@ -59,7 +64,7 @@ public class PickUsername extends Activity implements LongRunningGetIOCallback, 
 	{
 		if (json != null)
 		{
-			itemList = createItemList(json);
+			itemList = Utility.parseAllUsersFromJSON(json);
 			userAdapter = new UserAdapter();
 
 			listView = (ListView) findViewById(R.id.list_view);
@@ -83,17 +88,15 @@ public class PickUsername extends Activity implements LongRunningGetIOCallback, 
 		{
 			return;
 		}
-		/*
 		final User user = (User) listView.getAdapter().getItem(listView.getCheckedItemPosition());
 		if (user != null && user.getName() != null)
 		{
 			final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-			prefs.edit().putString("username", user.getName()).apply();
+			prefs.edit().putString("username", user.getName()).putInt("userid", user.getId()).apply();
 			Intent intent = new Intent(view.getContext(), MainActivity.class);
 			startActivity(intent);
 			finish();
 		}
-		*/
 	}
 
 	@Override
@@ -102,62 +105,40 @@ public class PickUsername extends Activity implements LongRunningGetIOCallback, 
 		userAdapter.notifyDataSetChanged();
 	}
 
-	private List<User> createItemList(final String json)
-	{
-		final List<User> list = new ArrayList<User>();
-		try
-		{
-			final JSONArray jsonArray = new JSONArray(json);
-			for (int i = 0; i < jsonArray.length(); i++)
-			{
-				final JSONObject jsonObject = jsonArray.getJSONObject(i);
-				final User user = new User(
-						jsonObject.getInt("id"),
-						jsonObject.getString("name"),
-						jsonObject.getString("email"),
-						jsonObject.getLong("balance_cents"),
-						new Date(),
-						new Date()
-				);
-				list.add(user);
-			}
-		}
-		catch (JSONException ignored)
-		{
-		}
-		return list;
-	}
-
 	private class UserAdapter extends ArrayAdapter<User>
 	{
+		private LayoutInflater inflater = null;
+		private ImageLoader imageLoader;
+
 		UserAdapter()
 		{
 			super(activity, R.layout.activity_pick_username, itemList);
+			inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			imageLoader = new ImageLoader(activity.getApplicationContext());
 		}
 
 		public View getView(int position, View convertView, ViewGroup parent)
 		{
-			View row = convertView;
-			if (row == null)
+			View view = convertView;
+			if (view == null)
 			{
-				LayoutInflater inflater = getLayoutInflater();
-				row = inflater.inflate(R.layout.activity_pick_username_item, parent, false);
+				view = inflater.inflate(R.layout.activity_pick_username_item, parent, false);
 			}
-			if (row == null)
+			if (view == null)
 			{
 				return null;
 			}
 
-			//final ImageView icon = (ImageView) row.findViewById(R.id.icon);
-			final TextView label = (TextView) row.findViewById(R.id.label);
-			final CheckedTextView checkBox = (CheckedTextView) row.findViewById(R.id.checkstate);
+			final ImageView icon = (ImageView) view.findViewById(R.id.icon);
+			final TextView label = (TextView) view.findViewById(R.id.label);
+			final CheckedTextView checkBox = (CheckedTextView) view.findViewById(R.id.checkstate);
 			final User user = itemList.get(position);
 
-			//icon.setImageBitmap(Utility.getGravatarBitbamp(user));
+			imageLoader.DisplayImage(Utility.getGravatarURL(user), icon);
 			label.setText(user.getName());
 			checkBox.setChecked(listView.getCheckedItemPosition() == position);
 
-			return (row);
+			return view;
 		}
 	}
 }

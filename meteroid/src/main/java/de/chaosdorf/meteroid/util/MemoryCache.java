@@ -1,4 +1,4 @@
-package de.chaosdorf.meteroid.lazylist;
+package de.chaosdorf.meteroid.util;
 
 import android.graphics.Bitmap;
 import android.util.Log;

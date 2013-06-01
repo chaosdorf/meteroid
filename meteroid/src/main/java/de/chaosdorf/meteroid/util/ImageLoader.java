@@ -24,20 +24,24 @@ import de.chaosdorf.meteroid.R;
 
 public class ImageLoader
 {
-	final private Bitmap stubBitmap;
+	private final int REQUIRED_SIZE;
 
-	final private MemoryCache memoryCache;
-	final private FileCache fileCache;
-	final private ExecutorService executorService;
+	private final Bitmap stubBitmap;
+
+	private final MemoryCache memoryCache;
+	private final FileCache fileCache;
+	private final ExecutorService executorService;
 
 	// Handler to display images in UI thread
-	final private Handler handler;
-	final private Map<ImageView, String> imageViews;
+	private final Handler handler;
+	private final Map<ImageView, String> imageViews;
 
-	public ImageLoader(Context context)
+	public ImageLoader(final Context context, final int requiredSize)
 	{
+		REQUIRED_SIZE = requiredSize;
+
 		final BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inSampleSize = calculateInSampleSize(80, 80);
+		options.inSampleSize = calculateInSampleSize(REQUIRED_SIZE, REQUIRED_SIZE);
 		stubBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.stub, options);
 
 		memoryCache = new MemoryCache();
@@ -145,7 +149,6 @@ public class ImageLoader
 
 	private int calculateInSampleSize(int width, int height)
 	{
-		final int REQUIRED_SIZE = 50;
 		int scale = 1;
 		while (true)
 		{

@@ -34,8 +34,10 @@ public class MainActivity extends Activity
 		}
 		else
 		{
-			// Ready to buy some mate :)
-			setContentView(R.layout.activity_main);
+			// Ready to buy some mate
+			Intent intent = new Intent(this, BuyMate.class);
+			startActivity(intent);
+			finish();
 		}
 	}
 

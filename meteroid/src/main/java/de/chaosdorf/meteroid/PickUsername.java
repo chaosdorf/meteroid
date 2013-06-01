@@ -20,6 +20,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import de.chaosdorf.meteroid.interfaces.LongRunningGetIOCallback;
+import de.chaosdorf.meteroid.model.LongRunningIOTask;
 import de.chaosdorf.meteroid.model.User;
 import de.chaosdorf.meteroid.util.ImageLoader;
 import de.chaosdorf.meteroid.util.LongRunningGetIO;
@@ -43,7 +44,7 @@ public class PickUsername extends Activity implements LongRunningGetIOCallback, 
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		final String hostname = prefs.getString("hostname", null);
 
-		new LongRunningGetIO(this, hostname + "users.json").execute();
+		new LongRunningGetIO(this, LongRunningIOTask.GET_USERS, hostname + "users.json").execute();
 	}
 
 	@Override
@@ -60,9 +61,9 @@ public class PickUsername extends Activity implements LongRunningGetIOCallback, 
 	}
 
 	@Override
-	public void processIOResult(final String json)
+	public void processIOResult(final LongRunningIOTask task, final String json)
 	{
-		if (json != null)
+		if (task == LongRunningIOTask.GET_USERS && json != null)
 		{
 			itemList = Utility.parseAllUsersFromJSON(json);
 			userAdapter = new UserAdapter();
@@ -114,7 +115,7 @@ public class PickUsername extends Activity implements LongRunningGetIOCallback, 
 		{
 			super(activity, R.layout.activity_pick_username, itemList);
 			inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			imageLoader = new ImageLoader(activity.getApplicationContext());
+			imageLoader = new ImageLoader(activity.getApplicationContext(), 50);
 		}
 
 		public View getView(int position, View convertView, ViewGroup parent)

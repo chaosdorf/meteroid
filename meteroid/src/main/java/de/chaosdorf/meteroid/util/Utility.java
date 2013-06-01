@@ -88,7 +88,7 @@ public class Utility
 			final JSONArray jsonArray = new JSONArray(json);
 			for (int i = 0; i < jsonArray.length(); i++)
 			{
-				final User user = Utility.parseUserFromJSON(jsonArray.getJSONObject(i));
+				final User user = Utility.parseUserFromJSONObject(jsonArray.getJSONObject(i));
 				if (user != null)
 				{
 					list.add(user);
@@ -97,11 +97,24 @@ public class Utility
 		}
 		catch (JSONException ignored)
 		{
+			// do nothing
 		}
 		return list;
 	}
 
-	public static User parseUserFromJSON(final JSONObject jsonObject)
+	public static User parseUserFromJSON(final String json)
+	{
+		try
+		{
+			return Utility.parseUserFromJSONObject(new JSONObject(json));
+		}
+		catch (JSONException e)
+		{
+			return null;
+		}
+	}
+
+	private static User parseUserFromJSONObject(final JSONObject jsonObject)
 	{
 		try
 		{
@@ -122,7 +135,15 @@ public class Utility
 
 	public static void setGravatarImage(final ImageLoader imageLoader, final ImageView icon, final User user)
 	{
-		final String email = user.getEmail().trim().toLowerCase();
+		String email = null;
+		if (user != null)
+		{
+			email = user.getEmail();
+		}
+		if (email != null)
+		{
+			email = email.trim().toLowerCase();
+		}
 		if (email == null || email.length() == 0)
 		{
 			imageLoader.DisplayImage(null, icon);

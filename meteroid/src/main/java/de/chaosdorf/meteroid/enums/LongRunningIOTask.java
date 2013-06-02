@@ -1,4 +1,4 @@
-package de.chaosdorf.meteroid.model;
+package de.chaosdorf.meteroid.enums;
 
 public enum LongRunningIOTask
 {

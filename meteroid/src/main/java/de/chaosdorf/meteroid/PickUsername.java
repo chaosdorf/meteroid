@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +20,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import de.chaosdorf.meteroid.controller.UserController;
+import de.chaosdorf.meteroid.enums.LongRunningIOTask;
 import de.chaosdorf.meteroid.interfaces.LongRunningGetIOCallback;
-import de.chaosdorf.meteroid.model.LongRunningIOTask;
 import de.chaosdorf.meteroid.model.User;
 import de.chaosdorf.meteroid.util.ImageLoader;
 import de.chaosdorf.meteroid.util.LongRunningGetIO;
@@ -65,7 +67,7 @@ public class PickUsername extends Activity implements LongRunningGetIOCallback, 
 	{
 		if (task == LongRunningIOTask.GET_USERS && json != null)
 		{
-			itemList = Utility.parseAllUsersFromJSON(json);
+			itemList = UserController.parseAllUsersFromJSON(json);
 			userAdapter = new UserAdapter();
 
 			listView = (ListView) findViewById(R.id.list_view);
@@ -135,8 +137,8 @@ public class PickUsername extends Activity implements LongRunningGetIOCallback, 
 			final TextView label = (TextView) view.findViewById(R.id.label);
 			final CheckedTextView checkBox = (CheckedTextView) view.findViewById(R.id.checkstate);
 
-			Utility.setGravatarImage(imageLoader, icon, user);
-			label.setText(user.getName());
+			Utility.loadGravatarImage(imageLoader, icon, user);
+			label.setText(Html.fromHtml(user.getName()));
 			checkBox.setChecked(listView.getCheckedItemPosition() == position);
 
 			return view;

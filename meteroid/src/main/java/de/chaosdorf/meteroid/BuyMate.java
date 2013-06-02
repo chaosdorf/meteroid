@@ -4,14 +4,17 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.text.Html;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
+import java.util.List;
 
+import de.chaosdorf.meteroid.controller.DrinkController;
+import de.chaosdorf.meteroid.controller.UserController;
 import de.chaosdorf.meteroid.interfaces.LongRunningGetIOCallback;
-import de.chaosdorf.meteroid.model.LongRunningIOTask;
+import de.chaosdorf.meteroid.model.Drink;
+import de.chaosdorf.meteroid.enums.LongRunningIOTask;
 import de.chaosdorf.meteroid.model.User;
 import de.chaosdorf.meteroid.util.ImageLoader;
 import de.chaosdorf.meteroid.util.LongRunningGetIO;
@@ -57,18 +60,19 @@ public class BuyMate extends Activity implements LongRunningGetIOCallback
 			{
 				// Parse user data
 				case GET_USER:
-					final User user = Utility.parseUserFromJSON(json);
+					final User user = UserController.parseUserFromJSON(json);
 					final ImageView icon = (ImageView) findViewById(R.id.icon);
 
-					Utility.setGravatarImage(imageLoader, icon, user);
+					Utility.loadGravatarImage(imageLoader, icon, user);
 
-					final DecimalFormat df = new DecimalFormat("0.00 '€'");
+					final DecimalFormat df = new DecimalFormat("0.00 '\u20AC'");
 					final TextView balance = (TextView) findViewById(R.id.balance);
-					balance.setText(Html.fromHtml(df.format(user.getBalance_cents() / 100.0)));
+					balance.setText(df.format(user.getBalanceCents() / 100.0));
 					break;
 
 				// Parse drinks
 				case GET_DRINKS:
+					final List<Drink> drinks = DrinkController.parseAllDrinksFromJSON(json);
 					break;
 			}
 		}

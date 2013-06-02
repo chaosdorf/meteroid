@@ -97,7 +97,7 @@ public class ImageLoader
 			conn.setInstanceFollowRedirects(true);
 			InputStream is = conn.getInputStream();
 			OutputStream os = new FileOutputStream(f);
-			Utility.CopyStream(is, os);
+			copyStream(is, os);
 			os.close();
 			conn.disconnect();
 			return decodeFile(f);
@@ -110,6 +110,28 @@ public class ImageLoader
 				memoryCache.clear();
 			}
 			return null;
+		}
+	}
+
+	private void copyStream(InputStream is, OutputStream os)
+	{
+		final int buffer_size = 1024;
+		try
+		{
+			byte[] bytes = new byte[buffer_size];
+			while (true)
+			{
+				int count = is.read(bytes, 0, buffer_size);
+				if (count == -1)
+				{
+					break;
+				}
+				os.write(bytes, 0, count);
+			}
+		}
+		catch (Exception ex)
+		{
+			// do nothing
 		}
 	}
 

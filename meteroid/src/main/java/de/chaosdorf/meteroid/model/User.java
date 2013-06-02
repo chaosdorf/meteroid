@@ -7,18 +7,18 @@ public class User
 	private final int id;
 	private final String name;
 	private final String email;
-	private final long balance_cents;
-	private final Date created_at;
-	private final Date updated_at;
+	private final long balanceCents;
+	private final Date createdAt;
+	private final Date updatedAt;
 
-	public User(final int id, final String name, final String email, final long balance_cents, final Date created_at, final Date updated_at)
+	public User(final int id, final String name, final String email, final long balanceCents, final Date createdAt, final Date updated_at)
 	{
 		this.id = id;
 		this.name = name;
 		this.email = email;
-		this.balance_cents = balance_cents;
-		this.created_at = created_at;
-		this.updated_at = updated_at;
+		this.balanceCents = balanceCents;
+		this.createdAt = createdAt;
+		this.updatedAt = updated_at;
 	}
 
 	public int getId()
@@ -36,18 +36,18 @@ public class User
 		return email;
 	}
 
-	public long getBalance_cents()
+	public long getBalanceCents()
 	{
-		return balance_cents;
+		return balanceCents;
 	}
 
-	public Date getCreated_at()
+	public Date getCreatedAt()
 	{
-		return created_at;
+		return createdAt;
 	}
 
-	public Date getUpdated_at()
+	public Date getUpdatedAt()
 	{
-		return updated_at;
+		return updatedAt;
 	}
 }

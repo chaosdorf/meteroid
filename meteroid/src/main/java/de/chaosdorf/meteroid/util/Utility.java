@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 import de.chaosdorf.meteroid.R;
+import de.chaosdorf.meteroid.model.Drink;
 import de.chaosdorf.meteroid.model.User;
 
 public class Utility
@@ -58,82 +59,7 @@ public class Utility
 		});
 	}
 
-	public static void CopyStream(InputStream is, OutputStream os)
-	{
-		final int buffer_size = 1024;
-		try
-		{
-			byte[] bytes = new byte[buffer_size];
-			while (true)
-			{
-				int count = is.read(bytes, 0, buffer_size);
-				if (count == -1)
-				{
-					break;
-				}
-				os.write(bytes, 0, count);
-			}
-		}
-		catch (Exception ex)
-		{
-			// do nothing
-		}
-	}
-
-	public static List<User> parseAllUsersFromJSON(final String json)
-	{
-		final List<User> list = new ArrayList<User>();
-		try
-		{
-			final JSONArray jsonArray = new JSONArray(json);
-			for (int i = 0; i < jsonArray.length(); i++)
-			{
-				final User user = Utility.parseUserFromJSONObject(jsonArray.getJSONObject(i));
-				if (user != null)
-				{
-					list.add(user);
-				}
-			}
-		}
-		catch (JSONException ignored)
-		{
-			// do nothing
-		}
-		return list;
-	}
-
-	public static User parseUserFromJSON(final String json)
-	{
-		try
-		{
-			return Utility.parseUserFromJSONObject(new JSONObject(json));
-		}
-		catch (JSONException e)
-		{
-			return null;
-		}
-	}
-
-	private static User parseUserFromJSONObject(final JSONObject jsonObject)
-	{
-		try
-		{
-			return new User(
-					jsonObject.getInt("id"),
-					jsonObject.getString("name"),
-					jsonObject.getString("email"),
-					jsonObject.getLong("balance_cents"),
-					new Date(),
-					new Date()
-			);
-		}
-		catch (JSONException e)
-		{
-			return null;
-		}
-	}
-
-	public static void setGravatarImage(final ImageLoader imageLoader, final ImageView icon, final User user)
+	public static void loadGravatarImage(final ImageLoader imageLoader, final ImageView icon, final User user)
 	{
 		String email = null;
 		if (user != null)

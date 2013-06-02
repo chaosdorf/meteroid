@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import de.chaosdorf.meteroid.interfaces.LongRunningGetIOCallback;
-import de.chaosdorf.meteroid.model.LongRunningIOTask;
+import de.chaosdorf.meteroid.enums.LongRunningIOTask;
 
 public class LongRunningGetIO extends AsyncTask<Void, Void, String>
 {

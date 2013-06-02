@@ -1,6 +1,6 @@
 package de.chaosdorf.meteroid.interfaces;
 
-import de.chaosdorf.meteroid.model.LongRunningIOTask;
+import de.chaosdorf.meteroid.enums.LongRunningIOTask;
 
 public interface LongRunningGetIOCallback
 {

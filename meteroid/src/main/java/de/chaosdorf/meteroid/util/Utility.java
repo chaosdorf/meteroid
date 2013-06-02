@@ -6,21 +6,12 @@ import android.content.DialogInterface;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import de.chaosdorf.meteroid.R;
-import de.chaosdorf.meteroid.model.Drink;
+import de.chaosdorf.meteroid.imageloader.ImageLoader;
 import de.chaosdorf.meteroid.model.User;
 
 public class Utility

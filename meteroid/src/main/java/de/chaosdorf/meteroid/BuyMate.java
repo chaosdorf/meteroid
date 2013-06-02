@@ -12,15 +12,15 @@ import java.util.List;
 
 import de.chaosdorf.meteroid.controller.DrinkController;
 import de.chaosdorf.meteroid.controller.UserController;
-import de.chaosdorf.meteroid.interfaces.LongRunningGetIOCallback;
+import de.chaosdorf.meteroid.longrunningio.LongRunningIOCallback;
 import de.chaosdorf.meteroid.model.Drink;
-import de.chaosdorf.meteroid.enums.LongRunningIOTask;
+import de.chaosdorf.meteroid.longrunningio.LongRunningIOTask;
 import de.chaosdorf.meteroid.model.User;
-import de.chaosdorf.meteroid.util.ImageLoader;
-import de.chaosdorf.meteroid.util.LongRunningGetIO;
+import de.chaosdorf.meteroid.imageloader.ImageLoader;
+import de.chaosdorf.meteroid.longrunningio.LongRunningIOGet;
 import de.chaosdorf.meteroid.util.Utility;
 
-public class BuyMate extends Activity implements LongRunningGetIOCallback
+public class BuyMate extends Activity implements LongRunningIOCallback
 {
 	private Activity activity = null;
 	private ImageLoader imageLoader;
@@ -41,8 +41,8 @@ public class BuyMate extends Activity implements LongRunningGetIOCallback
 		label.setText(prefs.getString("username", null));
 
 		final int userID = prefs.getInt("userid", 0);
-		new LongRunningGetIO(this, LongRunningIOTask.GET_USER, hostname + "users/" + userID + ".json").execute();
-		new LongRunningGetIO(this, LongRunningIOTask.GET_DRINKS, hostname + "drinks.json").execute();
+		new LongRunningIOGet(this, LongRunningIOTask.GET_USER, hostname + "users/" + userID + ".json").execute();
+		new LongRunningIOGet(this, LongRunningIOTask.GET_DRINKS, hostname + "drinks.json").execute();
 	}
 
 	@Override

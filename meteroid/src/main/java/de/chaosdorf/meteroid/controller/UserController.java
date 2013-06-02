@@ -26,12 +26,12 @@ public class UserController
 					list.add(user);
 				}
 			}
+			return list;
 		}
 		catch (JSONException ignored)
 		{
-			// do nothing
+			return null;
 		}
-		return list;
 	}
 
 	public static User parseUserFromJSON(final String json)
@@ -59,7 +59,7 @@ public class UserController
 					new Date()
 			);
 		}
-		catch (JSONException e)
+		catch (JSONException ignored)
 		{
 			return null;
 		}

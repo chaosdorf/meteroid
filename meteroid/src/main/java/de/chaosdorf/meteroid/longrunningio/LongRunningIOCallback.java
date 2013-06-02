@@ -1,8 +1,6 @@
-package de.chaosdorf.meteroid.interfaces;
+package de.chaosdorf.meteroid.longrunningio;
 
-import de.chaosdorf.meteroid.enums.LongRunningIOTask;
-
-public interface LongRunningGetIOCallback
+public interface LongRunningIOCallback
 {
 	public void displayErrorMessage(final String message);
 

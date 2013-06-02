@@ -26,12 +26,12 @@ public class DrinkController
 					list.add(drink);
 				}
 			}
+			return list;
 		}
 		catch (JSONException ignored)
 		{
-			// do nothing
+			return null;
 		}
-		return list;
 	}
 
 	private static Drink parseDrinkFromJSONObject(final JSONObject jsonObject)
@@ -49,7 +49,7 @@ public class DrinkController
 					new Date()
 			);
 		}
-		catch (JSONException e)
+		catch (JSONException ignored)
 		{
 			return null;
 		}

@@ -1,4 +1,4 @@
-package de.chaosdorf.meteroid.util;
+package de.chaosdorf.meteroid.imageloader;
 
 import android.graphics.Bitmap;
 import android.util.Log;

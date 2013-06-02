@@ -1,4 +1,4 @@
-package de.chaosdorf.meteroid.util;
+package de.chaosdorf.meteroid.imageloader;
 
 import android.content.Context;
 

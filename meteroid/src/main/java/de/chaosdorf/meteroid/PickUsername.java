@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,16 +20,15 @@ import android.widget.TextView;
 import java.util.List;
 
 import de.chaosdorf.meteroid.controller.UserController;
-import de.chaosdorf.meteroid.enums.LongRunningIOTask;
-import de.chaosdorf.meteroid.interfaces.LongRunningGetIOCallback;
+import de.chaosdorf.meteroid.imageloader.ImageLoader;
+import de.chaosdorf.meteroid.longrunningio.LongRunningIOCallback;
+import de.chaosdorf.meteroid.longrunningio.LongRunningIOGet;
+import de.chaosdorf.meteroid.longrunningio.LongRunningIOTask;
 import de.chaosdorf.meteroid.model.User;
-import de.chaosdorf.meteroid.util.ImageLoader;
-import de.chaosdorf.meteroid.util.LongRunningGetIO;
 import de.chaosdorf.meteroid.util.Utility;
 
-public class PickUsername extends Activity implements LongRunningGetIOCallback, View.OnClickListener, AdapterView.OnItemClickListener
+public class PickUsername extends Activity implements LongRunningIOCallback, View.OnClickListener, AdapterView.OnItemClickListener
 {
-	List<User> itemList = null;
 	private Activity activity = null;
 	private ListView listView = null;
 	private UserAdapter userAdapter = null;
@@ -46,7 +44,7 @@ public class PickUsername extends Activity implements LongRunningGetIOCallback, 
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		final String hostname = prefs.getString("hostname", null);
 
-		new LongRunningGetIO(this, LongRunningIOTask.GET_USERS, hostname + "users.json").execute();
+		new LongRunningIOGet(this, LongRunningIOTask.GET_USERS, hostname + "users.json").execute();
 	}
 
 	@Override
@@ -67,8 +65,8 @@ public class PickUsername extends Activity implements LongRunningGetIOCallback, 
 	{
 		if (task == LongRunningIOTask.GET_USERS && json != null)
 		{
-			itemList = UserController.parseAllUsersFromJSON(json);
-			userAdapter = new UserAdapter();
+			final List<User> itemList = UserController.parseAllUsersFromJSON(json);
+			userAdapter = new UserAdapter(itemList);
 
 			listView = (ListView) findViewById(R.id.list_view);
 			listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
@@ -110,14 +108,16 @@ public class PickUsername extends Activity implements LongRunningGetIOCallback, 
 
 	private class UserAdapter extends ArrayAdapter<User>
 	{
-		private LayoutInflater inflater = null;
-		private ImageLoader imageLoader;
+		private final List<User> userList;
+		private final LayoutInflater inflater;
+		private final ImageLoader imageLoader;
 
-		UserAdapter()
+		UserAdapter(final List<User> userList)
 		{
-			super(activity, R.layout.activity_pick_username, itemList);
-			inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			imageLoader = new ImageLoader(activity.getApplicationContext(), 50);
+			super(activity, R.layout.activity_pick_username, userList);
+			this.userList = userList;
+			this.inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			this.imageLoader = new ImageLoader(activity.getApplicationContext(), 50);
 		}
 
 		public View getView(int position, View convertView, ViewGroup parent)
@@ -132,13 +132,13 @@ public class PickUsername extends Activity implements LongRunningGetIOCallback, 
 				return null;
 			}
 
-			final User user = itemList.get(position);
+			final User user = userList.get(position);
 			final ImageView icon = (ImageView) view.findViewById(R.id.icon);
 			final TextView label = (TextView) view.findViewById(R.id.label);
 			final CheckedTextView checkBox = (CheckedTextView) view.findViewById(R.id.checkstate);
 
 			Utility.loadGravatarImage(imageLoader, icon, user);
-			label.setText(Html.fromHtml(user.getName()));
+			label.setText(user.getName());
 			checkBox.setChecked(listView.getCheckedItemPosition() == position);
 
 			return view;

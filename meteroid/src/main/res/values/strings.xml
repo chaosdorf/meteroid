@@ -15,6 +15,10 @@
     <!-- Pick username -->
     <string name="pick_username_label">Pick your username</string>
 
+    <!-- Buy mate -->
+    <string name="buy_mate_pending">Please wait for current transaction...</string>
+    <string name="buy_mate_bought_drink">Successfully bought drink</string>
+
     <!-- Buttons -->
     <string name="save">Save</string>
     <string name="ok">OK</string>

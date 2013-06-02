@@ -2,7 +2,7 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
-                android:layout_height="70dp"
+                android:layout_height="80dip"
                 android:gravity="center_vertical"
                 android:ignoreGravity="@+id/icon">
         >
@@ -12,8 +12,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentBottom="true"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:contentDescription="@string/app_name"/>
 
     <TextView

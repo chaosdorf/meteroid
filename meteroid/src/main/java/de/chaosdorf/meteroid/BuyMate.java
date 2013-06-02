@@ -118,7 +118,7 @@ public class BuyMate extends Activity implements LongRunningIOCallback, AdapterV
 			final Drink drink = (Drink) listView.getAdapter().getItem(index);
 			if (drink != null)
 			{
-				new LongRunningIOGet(this, LongRunningIOTask.PAY_DRINK, hostname + "users/" + userID + "/deposit?amount=" + (-drink.getDonationRecommendation() * 100));
+				new LongRunningIOGet(this, LongRunningIOTask.PAY_DRINK, hostname + "users/" + userID + "/deposit?amount=" + (-drink.getDonationRecommendation() * 100)).execute();
 			}
 		}
 	}

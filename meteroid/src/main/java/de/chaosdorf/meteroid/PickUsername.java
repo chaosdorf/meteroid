@@ -117,7 +117,7 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Vie
 			super(activity, R.layout.activity_pick_username, userList);
 			this.userList = userList;
 			this.inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			this.imageLoader = new ImageLoader(activity.getApplicationContext(), 50);
+			this.imageLoader = new ImageLoader(activity.getApplicationContext(), 80);
 		}
 
 		public View getView(int position, View convertView, ViewGroup parent)

@@ -42,7 +42,8 @@ public class ImageLoader
 
 		final BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inSampleSize = calculateInSampleSize(REQUIRED_SIZE, REQUIRED_SIZE);
-		stubBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.stub, options);
+		final Bitmap tmpBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.stub, options);
+		stubBitmap = Bitmap.createScaledBitmap(tmpBitmap, REQUIRED_SIZE, REQUIRED_SIZE, true);
 
 		memoryCache = new MemoryCache();
 		fileCache = new FileCache(context);
@@ -156,7 +157,7 @@ public class ImageLoader
 			FileInputStream stream2 = new FileInputStream(f);
 			Bitmap bitmap = BitmapFactory.decodeStream(stream2, null, o2);
 			stream2.close();
-			return bitmap;
+			return Bitmap.createScaledBitmap(bitmap, REQUIRED_SIZE, REQUIRED_SIZE, false);
 		}
 		catch (FileNotFoundException e)
 		{

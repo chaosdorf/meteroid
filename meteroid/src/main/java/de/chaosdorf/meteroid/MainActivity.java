@@ -16,7 +16,7 @@ public class MainActivity extends Activity
 
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		final String hostname = prefs.getString("hostname", null);
-		final String username = prefs.getString("username", null);
+		final int userID = prefs.getInt("userid", 0);
 
 		if (hostname == null)
 		{
@@ -25,7 +25,7 @@ public class MainActivity extends Activity
 			startActivity(intent);
 			finish();
 		}
-		else if (username == null)
+		else if (userID == 0)
 		{
 			// Pick username if not done yet
 			Intent intent = new Intent(this, PickUsername.class);

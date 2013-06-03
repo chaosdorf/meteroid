@@ -81,11 +81,7 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Vie
 	@Override
 	public void onClick(final View view)
 	{
-		if (view != chooseButton)
-		{
-			return;
-		}
-		if (listView.getCheckedItemPosition() <= 0)
+		if (view != chooseButton || listView.getCheckedItemPosition() < 0)
 		{
 			return;
 		}
@@ -93,7 +89,7 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Vie
 		if (user != null && user.getName() != null)
 		{
 			final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-			prefs.edit().putString("username", user.getName()).putInt("userid", user.getId()).apply();
+			prefs.edit().putInt("userid", user.getId()).apply();
 			Intent intent = new Intent(view.getContext(), MainActivity.class);
 			startActivity(intent);
 			finish();

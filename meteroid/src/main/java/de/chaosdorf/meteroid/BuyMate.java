@@ -48,9 +48,6 @@ public class BuyMate extends Activity implements LongRunningIOCallback, AdapterV
 
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-		final TextView label = (TextView) findViewById(R.id.username);
-		label.setText(prefs.getString("username", null));
-
 		hostname = prefs.getString("hostname", null);
 		userID = prefs.getInt("userid", 0);
 
@@ -78,8 +75,10 @@ public class BuyMate extends Activity implements LongRunningIOCallback, AdapterV
 					final TextView balance = (TextView) findViewById(R.id.balance);
 					if (task == LongRunningIOTask.GET_USER)
 					{
+						final TextView label = (TextView) findViewById(R.id.username);
 						final ImageLoader imageLoader = new ImageLoader(activity.getApplicationContext(), 80);
 						final ImageView icon = (ImageView) findViewById(R.id.icon);
+						label.setText(user.getName());
 						Utility.loadGravatarImage(imageLoader, icon, user);
 					}
 					balance.setText(df.format(user.getBalanceCents() / 100.0));

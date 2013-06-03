@@ -152,17 +152,27 @@ public class BuyMate extends Activity implements LongRunningIOCallback, AdapterV
 
 			final Drink drink = drinkList.get(position);
 			String logo = drink.getLogoUrl();
-			if (!logo.startsWith("euro_") && !logo.startsWith("drink_"))
+			boolean isDrink = false;
+			if (!logo.startsWith("euro_"))
 			{
+				isDrink = true;
 				logo = "drink_" + logo;
 			}
+			else if (logo.startsWith("drink_"))
+			{
+				isDrink = true;
+			}
+			final StringBuilder drinkLabel = new StringBuilder();
+			drinkLabel.append((drink.getDonationRecommendation() < 0) ? "+" : "")
+					.append(df.format(-drink.getDonationRecommendation()))
+					.append(isDrink ? " (" + drink.getName() + ")" : "");
 			final int drinkIconID = getResources().getIdentifier(logo, "drawable", getPackageName());
 			final ImageView icon = (ImageView) view.findViewById(R.id.icon);
 			final TextView label = (TextView) view.findViewById(R.id.label);
 
 			icon.setContentDescription(drink.getName());
 			icon.setImageResource(drinkIconID > 0 ? drinkIconID : R.drawable.drink_0l33);
-			label.setText(df.format(-drink.getDonationRecommendation()));
+			label.setText(drinkLabel.toString());
 
 			return view;
 		}

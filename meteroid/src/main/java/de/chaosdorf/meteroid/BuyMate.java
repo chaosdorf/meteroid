@@ -73,12 +73,15 @@ public class BuyMate extends Activity implements LongRunningIOCallback, AdapterV
 			{
 				// Parse user data
 				case GET_USER:
-					final ImageLoader imageLoader = new ImageLoader(activity.getApplicationContext(), 80);
+				case UPDATE_USER:
 					final User user = UserController.parseUserFromJSON(json);
-					final ImageView icon = (ImageView) findViewById(R.id.icon);
 					final TextView balance = (TextView) findViewById(R.id.balance);
-
-					Utility.loadGravatarImage(imageLoader, icon, user);
+					if (task == LongRunningIOTask.GET_USER)
+					{
+						final ImageLoader imageLoader = new ImageLoader(activity.getApplicationContext(), 80);
+						final ImageView icon = (ImageView) findViewById(R.id.icon);
+						Utility.loadGravatarImage(imageLoader, icon, user);
+					}
 					balance.setText(df.format(user.getBalanceCents() / 100.0));
 					break;
 
@@ -98,7 +101,7 @@ public class BuyMate extends Activity implements LongRunningIOCallback, AdapterV
 				// Bought drink
 				case PAY_DRINK:
 					Utility.displayToastMessage(activity, getResources().getString(R.string.buy_mate_bought_drink));
-					new LongRunningIOGet(this, LongRunningIOTask.GET_USER, hostname + "users/" + userID + ".json").execute();
+					new LongRunningIOGet(this, LongRunningIOTask.UPDATE_USER, hostname + "users/" + userID + ".json").execute();
 					isBuying.set(false);
 					break;
 			}

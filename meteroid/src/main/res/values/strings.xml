@@ -3,7 +3,6 @@
 
     <!-- General -->
     <string name="app_name">meteroid</string>
-    <string name="action_settings">Settings</string>
 
     <!-- Main activity -->
     <string name="main_overview">Overview</string>
@@ -22,5 +21,9 @@
     <!-- Buttons -->
     <string name="save">Save</string>
     <string name="ok">OK</string>
+
+    <!-- Menues -->
+    <string name="menu_reset_hostname">Reset hostname</string>
+    <string name="menu_reset_username">Reset username</string>
 
 </resources>

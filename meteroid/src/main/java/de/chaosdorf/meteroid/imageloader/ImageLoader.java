@@ -32,7 +32,6 @@ public class ImageLoader
 	private final FileCache fileCache;
 	private final ExecutorService executorService;
 
-	// Handler to display images in UI thread
 	private final Handler handler;
 	private final Map<ImageView, String> imageViews;
 

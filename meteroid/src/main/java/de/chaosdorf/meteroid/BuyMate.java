@@ -2,10 +2,13 @@ package de.chaosdorf.meteroid;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -32,10 +35,11 @@ import de.chaosdorf.meteroid.util.Utility;
 
 public class BuyMate extends Activity implements LongRunningIOCallback, AdapterView.OnItemClickListener
 {
-	private final DecimalFormat df = new DecimalFormat("0.00 '\u20AC'");
-	private Activity activity = null;
+	private final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.00 '\u20AC'");
+	private final AtomicBoolean isBuying = new AtomicBoolean(false);
+
+	private Activity activity;
 	private ListView listView;
-	private AtomicBoolean isBuying = new AtomicBoolean(false);
 	private String hostname;
 	private int userID;
 
@@ -53,6 +57,40 @@ public class BuyMate extends Activity implements LongRunningIOCallback, AdapterV
 
 		new LongRunningIOGet(this, LongRunningIOTask.GET_USER, hostname + "users/" + userID + ".json").execute();
 		new LongRunningIOGet(this, LongRunningIOTask.GET_DRINKS, hostname + "drinks.json").execute();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		getMenuInflater().inflate(R.menu.buymate, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+			case R.id.reset_hostname:
+				Utility.resetHostname(activity);
+				break;
+			case R.id.reset_username:
+				Utility.resetUsername(activity);
+				break;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+		Intent intent = new Intent(this, MainActivity.class);
+		startActivity(intent);
+		finish();
+		return true;
+	}
+
+	@Override
+	public void onDestroy()
+	{
+		listView.setAdapter(null);
+		super.onDestroy();
 	}
 
 	@Override
@@ -81,7 +119,7 @@ public class BuyMate extends Activity implements LongRunningIOCallback, AdapterV
 						label.setText(user.getName());
 						Utility.loadGravatarImage(imageLoader, icon, user);
 					}
-					balance.setText(df.format(user.getBalanceCents() / 100.0));
+					balance.setText(DECIMAL_FORMAT.format(user.getBalanceCents() / 100.0));
 					break;
 
 				// Parse drinks
@@ -163,7 +201,7 @@ public class BuyMate extends Activity implements LongRunningIOCallback, AdapterV
 			}
 			final StringBuilder drinkLabel = new StringBuilder();
 			drinkLabel.append((drink.getDonationRecommendation() < 0) ? "+" : "")
-					.append(df.format(-drink.getDonationRecommendation()))
+					.append(DECIMAL_FORMAT.format(-drink.getDonationRecommendation()))
 					.append(isDrink ? " (" + drink.getName() + ")" : "");
 			final int drinkIconID = getResources().getIdentifier(logo, "drawable", getPackageName());
 			final ImageView icon = (ImageView) view.findViewById(R.id.icon);

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.Menu;
 
 public class MainActivity extends Activity
 {
@@ -39,13 +38,5 @@ public class MainActivity extends Activity
 			startActivity(intent);
 			finish();
 		}
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
-	{
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
 	}
 }

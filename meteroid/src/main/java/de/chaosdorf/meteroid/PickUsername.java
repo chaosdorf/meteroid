@@ -7,12 +7,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckedTextView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,12 +27,10 @@ import de.chaosdorf.meteroid.longrunningio.LongRunningIOTask;
 import de.chaosdorf.meteroid.model.User;
 import de.chaosdorf.meteroid.util.Utility;
 
-public class PickUsername extends Activity implements LongRunningIOCallback, View.OnClickListener, AdapterView.OnItemClickListener
+public class PickUsername extends Activity implements LongRunningIOCallback, AdapterView.OnItemClickListener
 {
 	private Activity activity = null;
 	private ListView listView = null;
-	private UserAdapter userAdapter = null;
-	private Button chooseButton = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -45,6 +43,30 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Vie
 		final String hostname = prefs.getString("hostname", null);
 
 		new LongRunningIOGet(this, LongRunningIOTask.GET_USERS, hostname + "users.json").execute();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		getMenuInflater().inflate(R.menu.pickusername, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+			case R.id.reset_hostname:
+				Utility.resetHostname(activity);
+				break;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+		Intent intent = new Intent(this, MainActivity.class);
+		startActivity(intent);
+		finish();
+		return true;
 	}
 
 	@Override
@@ -66,22 +88,19 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Vie
 		if (task == LongRunningIOTask.GET_USERS && json != null)
 		{
 			final List<User> itemList = UserController.parseAllUsersFromJSON(json);
-			userAdapter = new UserAdapter(itemList);
+			final UserAdapter userAdapter = new UserAdapter(itemList);
 
 			listView = (ListView) findViewById(R.id.list_view);
 			listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 			listView.setAdapter(userAdapter);
 			listView.setOnItemClickListener(this);
-
-			chooseButton = (Button) findViewById(R.id.save_button);
-			chooseButton.setOnClickListener(this);
 		}
 	}
 
 	@Override
-	public void onClick(final View view)
+	public void onItemClick(final AdapterView<?> adapterView, final View view, final int i, final long l)
 	{
-		if (view != chooseButton || listView.getCheckedItemPosition() < 0)
+		if (listView.getCheckedItemPosition() < 0)
 		{
 			return;
 		}
@@ -94,12 +113,6 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Vie
 			startActivity(intent);
 			finish();
 		}
-	}
-
-	@Override
-	public void onItemClick(final AdapterView<?> adapterView, final View view, final int i, final long l)
-	{
-		userAdapter.notifyDataSetChanged();
 	}
 
 	private class UserAdapter extends ArrayAdapter<User>
@@ -131,11 +144,9 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Vie
 			final User user = userList.get(position);
 			final ImageView icon = (ImageView) view.findViewById(R.id.icon);
 			final TextView label = (TextView) view.findViewById(R.id.label);
-			final CheckedTextView checkBox = (CheckedTextView) view.findViewById(R.id.checkstate);
 
 			Utility.loadGravatarImage(imageLoader, icon, user);
 			label.setText(user.getName());
-			checkBox.setChecked(listView.getCheckedItemPosition() == position);
 
 			return view;
 		}

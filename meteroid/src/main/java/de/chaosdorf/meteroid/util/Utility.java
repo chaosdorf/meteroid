@@ -3,6 +3,8 @@ package de.chaosdorf.meteroid.util;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -48,6 +50,18 @@ public class Utility
 				builder.show();
 			}
 		});
+	}
+
+	public static void resetHostname(Activity activity)
+	{
+		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+		prefs.edit().remove("hostname").apply();
+	}
+
+	public static void resetUsername(final Activity activity)
+	{
+		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+		prefs.edit().remove("userid").apply();
 	}
 
 	public static void loadGravatarImage(final ImageLoader imageLoader, final ImageView icon, final User user)

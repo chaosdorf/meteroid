@@ -38,10 +38,10 @@ public class BuyMate extends Activity implements LongRunningIOCallback, AdapterV
 	private final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.00 '\u20AC'");
 	private final AtomicBoolean isBuying = new AtomicBoolean(false);
 
-	private Activity activity;
-	private ListView listView;
-	private String hostname;
-	private int userID;
+	private Activity activity = null;
+	private ListView listView = null;
+	private String hostname = null;
+	private int userID = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -89,14 +89,25 @@ public class BuyMate extends Activity implements LongRunningIOCallback, AdapterV
 	@Override
 	public void onDestroy()
 	{
-		listView.setAdapter(null);
+		if (listView != null)
+		{
+			listView.setAdapter(null);
+		}
 		super.onDestroy();
 	}
 
 	@Override
 	public void displayErrorMessage(final String message)
 	{
-		Utility.displayToastMessage(activity, message);
+		runOnUiThread(new Runnable()
+		{
+			public void run()
+			{
+				Utility.displayToastMessage(activity, message);
+				final TextView textView = (TextView) findViewById(R.id.buy_mate_error);
+				textView.setVisibility(View.VISIBLE);
+			}
+		});
 	}
 
 	@Override

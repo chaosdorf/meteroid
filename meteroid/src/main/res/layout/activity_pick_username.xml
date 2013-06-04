@@ -11,6 +11,15 @@
                 tools:context=".PickUsername"
         >
 
+    <TextView
+            android:id="@+id/pick_username_error"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:textSize="16sp"
+            android:visibility="gone"
+            android:text="@string/pick_username_error"
+            />
+
     <ListView android:id="@+id/list_view"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"

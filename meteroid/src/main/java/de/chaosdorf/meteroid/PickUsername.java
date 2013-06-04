@@ -72,14 +72,25 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 	@Override
 	public void onDestroy()
 	{
-		listView.setAdapter(null);
+		if (listView != null)
+		{
+			listView.setAdapter(null);
+		}
 		super.onDestroy();
 	}
 
 	@Override
 	public void displayErrorMessage(final String message)
 	{
-		Utility.displayToastMessage(activity, message);
+		runOnUiThread(new Runnable()
+		{
+			public void run()
+			{
+				Utility.displayToastMessage(activity, message);
+				final TextView textView = (TextView) findViewById(R.id.pick_username_error);
+				textView.setVisibility(View.VISIBLE);
+			}
+		});
 	}
 
 	@Override

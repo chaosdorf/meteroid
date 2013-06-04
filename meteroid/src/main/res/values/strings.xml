@@ -13,10 +13,16 @@
 
     <!-- Pick username -->
     <string name="pick_username_label">Pick your username</string>
+    <string name="pick_username_error">Could not load user list. Please check network connection or
+        reset hostname to proceed.
+    </string>
 
     <!-- Buy mate -->
     <string name="buy_mate_pending">Please wait for current transaction...</string>
     <string name="buy_mate_bought_drink">Successfully bought drink</string>
+    <string name="buy_mate_error">Could not load data from mete. Please check network connection or
+        reset hostname/username to proceed.
+    </string>
 
     <!-- Buttons -->
     <string name="save">Save</string>

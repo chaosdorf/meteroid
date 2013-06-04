@@ -45,6 +45,15 @@
                     android:layout_height="wrap_content"
                     android:textSize="16sp"/>
 
+            <TextView
+                    android:id="@+id/buy_mate_error"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:textSize="16sp"
+                    android:visibility="gone"
+                    android:text="@string/buy_mate_error"
+                    />
+
         </LinearLayout>
 
     </LinearLayout>
@@ -53,7 +62,6 @@
     <ListView android:id="@+id/list_view"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
-              android:layout_alignParentTop="true"
               android:layout_marginTop="@dimen/activity_vertical_margin"
               android:drawSelectorOnTop="false"
             />

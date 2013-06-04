@@ -191,12 +191,6 @@ public class ImageLoader
 		return (tag == null || !tag.equals(photoToLoad.url));
 	}
 
-	public void clearCache()
-	{
-		memoryCache.clear();
-		fileCache.clear();
-	}
-
 	// Task for the queue
 	private class PhotoToLoad
 	{

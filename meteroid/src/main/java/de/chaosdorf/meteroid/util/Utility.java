@@ -1,8 +1,6 @@
 package de.chaosdorf.meteroid.util;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.widget.ImageView;
@@ -12,7 +10,6 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import de.chaosdorf.meteroid.R;
 import de.chaosdorf.meteroid.imageloader.ImageLoader;
 import de.chaosdorf.meteroid.model.User;
 
@@ -26,28 +23,6 @@ public class Utility
 			public void run()
 			{
 				Toast.makeText(activity, message, Toast.LENGTH_LONG).show();
-			}
-		});
-	}
-
-	public static void displayAlertDialog(final Activity activity, final CharSequence message)
-	{
-		activity.runOnUiThread(new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-				builder.setMessage(message).setCancelable(false).setPositiveButton(
-						activity.getResources().getText(R.string.ok),
-						new DialogInterface.OnClickListener()
-						{
-							public void onClick(DialogInterface dialog, int id)
-							{
-								// do nothing
-							}
-						});
-				builder.show();
 			}
 		});
 	}

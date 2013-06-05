@@ -1,1 +1,3 @@
-Small Android application to use with mete (https://github.com/chaosdorf/mete).
+Small Android application to use with mete, the Matekasse of the Chaosdorf.
+
+https://github.com/chaosdorf/mete

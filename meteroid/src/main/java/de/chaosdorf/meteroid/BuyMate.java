@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -42,6 +43,7 @@ public class BuyMate extends Activity implements LongRunningIOCallback, AdapterV
 	private ListView listView = null;
 	private String hostname = null;
 	private int userID = 0;
+	private boolean multiUserMode;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -54,6 +56,18 @@ public class BuyMate extends Activity implements LongRunningIOCallback, AdapterV
 
 		hostname = prefs.getString("hostname", null);
 		userID = prefs.getInt("userid", 0);
+		multiUserMode = prefs.getBoolean("multi_user_mode", false);
+
+		final ImageButton backButton = (ImageButton) findViewById(R.id.back_button);
+		backButton.setOnClickListener(new View.OnClickListener()
+		{
+			public void onClick(View view)
+			{
+				Intent intent = new Intent(view.getContext(), PickUsername.class);
+				startActivity(intent);
+				finish();
+			}
+		});
 
 		new LongRunningIOGet(this, LongRunningIOTask.GET_USER, hostname + "users/" + userID + ".json").execute();
 		new LongRunningIOGet(this, LongRunningIOTask.GET_DRINKS, hostname + "drinks.json").execute();
@@ -63,12 +77,18 @@ public class BuyMate extends Activity implements LongRunningIOCallback, AdapterV
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		getMenuInflater().inflate(R.menu.buymate, menu);
+		final MenuItem menuItem = menu.findItem(R.id.multi_user_mode);
+		if (menuItem != null)
+		{
+			menuItem.setChecked(multiUserMode);
+		}
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
+		boolean resetView = true;
 		switch (item.getItemId())
 		{
 			case R.id.reset_hostname:
@@ -77,13 +97,23 @@ public class BuyMate extends Activity implements LongRunningIOCallback, AdapterV
 			case R.id.reset_username:
 				Utility.resetUsername(activity);
 				break;
-			default:
-				return super.onOptionsItemSelected(item);
+			case R.id.multi_user_mode:
+				multiUserMode = Utility.toggleMultiUserMode(activity);
+				item.setChecked(multiUserMode);
+				if (multiUserMode)
+				{
+					Utility.resetUsername(activity);
+				}
+				resetView = false;
+				break;
 		}
-		Intent intent = new Intent(this, MainActivity.class);
-		startActivity(intent);
-		finish();
-		return true;
+		if (resetView)
+		{
+			Intent intent = new Intent(this, MainActivity.class);
+			startActivity(intent);
+			finish();
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
@@ -120,6 +150,7 @@ public class BuyMate extends Activity implements LongRunningIOCallback, AdapterV
 				// Parse user data
 				case GET_USER:
 				case UPDATE_USER:
+				{
 					final User user = UserController.parseUserFromJSON(json);
 					final TextView balance = (TextView) findViewById(R.id.balance);
 					if (task == LongRunningIOTask.GET_USER)
@@ -131,10 +162,18 @@ public class BuyMate extends Activity implements LongRunningIOCallback, AdapterV
 						Utility.loadGravatarImage(imageLoader, icon, user);
 					}
 					balance.setText(DECIMAL_FORMAT.format(user.getBalanceCents() / 100.0));
+					if (task == LongRunningIOTask.UPDATE_USER && multiUserMode)
+					{
+						Intent intent = new Intent(activity, PickUsername.class);
+						startActivity(intent);
+						finish();
+					}
 					break;
+				}
 
 				// Parse drinks
 				case GET_DRINKS:
+				{
 					final List<Drink> drinks = DrinkController.parseAllDrinksFromJSON(json);
 					final DrinkAdapter drinkAdapter = new DrinkAdapter(drinks);
 					listView = (ListView) findViewById(R.id.list_view);
@@ -145,13 +184,16 @@ public class BuyMate extends Activity implements LongRunningIOCallback, AdapterV
 					listView.setAdapter(drinkAdapter);
 					listView.setOnItemClickListener(this);
 					break;
+				}
 
 				// Bought drink
 				case PAY_DRINK:
+				{
 					Utility.displayToastMessage(activity, getResources().getString(R.string.buy_mate_bought_drink));
 					new LongRunningIOGet(this, LongRunningIOTask.UPDATE_USER, hostname + "users/" + userID + ".json").execute();
 					isBuying.set(false);
 					break;
+				}
 			}
 		}
 	}

@@ -18,7 +18,7 @@
     </string>
 
     <!-- Buy mate -->
-    <string name="buy_mate_pending">Please wait for current transaction...</string>
+    <string name="buy_mate_pending">Please wait for current transaction…</string>
     <string name="buy_mate_bought_drink">Successfully bought drink</string>
     <string name="buy_mate_error">Could not load data from mete. Please check network connection or
         reset hostname/username to proceed.
@@ -31,5 +31,9 @@
     <!-- Menues -->
     <string name="menu_reset_hostname">Reset hostname</string>
     <string name="menu_reset_username">Reset username</string>
+    <string name="menu_multi_user_mode">Multi-user mode</string>
+    <string name="menu_multi_user_mode_enabled">Multi-user mode enabled</string>
+    <string name="menu_multi_user_mode_disabled">Multi-user mode disabled</string>
+    <string name="button_back">Back</string>
 
 </resources>

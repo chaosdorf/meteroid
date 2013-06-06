@@ -3,4 +3,11 @@
           android:title="@string/menu_reset_hostname"
           android:orderInCategory="100"
           android:showAsAction="never" />
+    <item
+            android:id="@+id/multi_user_mode"
+            android:title="@string/menu_multi_user_mode"
+            android:checkable="true"
+            android:checked="false"
+            android:orderInCategory="100"
+            android:showAsAction="never"/>
 </menu>

@@ -32,6 +32,8 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 	private Activity activity = null;
 	private ListView listView = null;
 
+	private boolean multiUserMode = false;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -41,6 +43,7 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		final String hostname = prefs.getString("hostname", null);
+		multiUserMode = prefs.getBoolean("multi_user_mode", false);
 
 		new LongRunningIOGet(this, LongRunningIOTask.GET_USERS, hostname + "users.json").execute();
 	}
@@ -49,24 +52,40 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		getMenuInflater().inflate(R.menu.pickusername, menu);
+		final MenuItem menuItem = menu.findItem(R.id.multi_user_mode);
+		if (menuItem != null)
+		{
+			menuItem.setChecked(multiUserMode);
+		}
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
+		boolean resetView = true;
 		switch (item.getItemId())
 		{
 			case R.id.reset_hostname:
 				Utility.resetHostname(activity);
 				break;
-			default:
-				return super.onOptionsItemSelected(item);
+			case R.id.multi_user_mode:
+				multiUserMode = Utility.toggleMultiUserMode(activity);
+				item.setChecked(multiUserMode);
+				if (multiUserMode)
+				{
+					Utility.resetUsername(activity);
+				}
+				resetView = false;
+				break;
 		}
-		Intent intent = new Intent(this, MainActivity.class);
-		startActivity(intent);
-		finish();
-		return true;
+		if (resetView)
+		{
+			Intent intent = new Intent(this, MainActivity.class);
+			startActivity(intent);
+			finish();
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override

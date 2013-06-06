@@ -10,12 +10,13 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import de.chaosdorf.meteroid.R;
 import de.chaosdorf.meteroid.imageloader.ImageLoader;
 import de.chaosdorf.meteroid.model.User;
 
 public class Utility
 {
-	public static void displayToastMessage(final Activity activity, final CharSequence message)
+	public static void displayToastMessage(final Activity activity, final String message)
 	{
 		activity.runOnUiThread(new Runnable()
 		{
@@ -37,6 +38,15 @@ public class Utility
 	{
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
 		prefs.edit().remove("userid").apply();
+	}
+
+	public static boolean toggleMultiUserMode(Activity activity)
+	{
+		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+		final boolean newState = !prefs.getBoolean("multi_user_mode", false);
+		prefs.edit().putBoolean("multi_user_mode", newState).apply();
+		displayToastMessage(activity, activity.getResources().getString(newState ? R.string.menu_multi_user_mode_enabled : R.string.menu_multi_user_mode_disabled));
+		return newState;
 	}
 
 	public static void loadGravatarImage(final ImageLoader imageLoader, final ImageView icon, final User user)

@@ -4,22 +4,22 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:orientation="vertical"
               android:layout_width="100dp"
-              android:layout_height="100dp"
+              android:layout_height="wrap_content"
               android:gravity="center_horizontal"
               tools:ignore="UseCompoundDrawables">
 
     <ImageView
             android:id="@+id/icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_gravity="center_horizontal"
             android:contentDescription="@string/app_name"/>
 
     <TextView
             android:id="@+id/label"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
             android:paddingTop="2dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:textSize="14sp"/>
 

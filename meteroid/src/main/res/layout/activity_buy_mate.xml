@@ -46,15 +46,6 @@
                     android:layout_height="wrap_content"
                     android:textSize="16sp"/>
 
-            <TextView
-                    android:id="@+id/buy_mate_error"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:textSize="16sp"
-                    android:visibility="gone"
-                    android:text="@string/buy_mate_error"
-                    />
-
         </LinearLayout>
 
         <ImageButton
@@ -67,6 +58,15 @@
                 />
 
     </LinearLayout>
+
+    <TextView
+            android:id="@+id/buy_mate_error"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:textSize="16sp"
+            android:visibility="gone"
+            android:text="@string/buy_mate_error"
+            />
 
     <!-- Display drinks -->
     <ListView

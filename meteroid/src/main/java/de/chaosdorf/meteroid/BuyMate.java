@@ -133,9 +133,20 @@ public class BuyMate extends Activity implements LongRunningIOCallback, AdapterV
 		{
 			public void run()
 			{
-				Utility.displayToastMessage(activity, message);
+				if (task == LongRunningIOTask.GET_USER || task == LongRunningIOTask.UPDATE_USER)
+				{
+					Utility.displayToastMessage(activity, getResources().getString(R.string.error_user_not_found) + " " + message);
+				}
+				else
+				{
+					Utility.displayToastMessage(activity, message);
+				}
 				final TextView textView = (TextView) findViewById(R.id.buy_mate_error);
 				textView.setVisibility(View.VISIBLE);
+				if (listView != null)
+				{
+					listView.setVisibility(View.GONE);
+				}
 			}
 		});
 	}

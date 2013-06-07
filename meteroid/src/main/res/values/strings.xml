@@ -3,6 +3,7 @@
 
     <!-- General -->
     <string name="app_name">meteroid</string>
+    <string name="error_user_not_found">Error while fetching user data:</string>
 
     <!-- Main activity -->
     <string name="main_overview">Overview</string>

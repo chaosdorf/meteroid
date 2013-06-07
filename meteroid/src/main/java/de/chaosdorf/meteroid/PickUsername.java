@@ -13,8 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -30,8 +30,7 @@ import de.chaosdorf.meteroid.util.Utility;
 public class PickUsername extends Activity implements LongRunningIOCallback, AdapterView.OnItemClickListener
 {
 	private Activity activity = null;
-	private ListView listView = null;
-
+	private GridView gridView = null;
 	private boolean multiUserMode = false;
 
 	@Override
@@ -91,9 +90,9 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 	@Override
 	public void onDestroy()
 	{
-		if (listView != null)
+		if (gridView != null)
 		{
-			listView.setAdapter(null);
+			gridView.setAdapter(null);
 		}
 		super.onDestroy();
 	}
@@ -120,21 +119,16 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 			final List<User> itemList = UserController.parseAllUsersFromJSON(json);
 			final UserAdapter userAdapter = new UserAdapter(itemList);
 
-			listView = (ListView) findViewById(R.id.list_view);
-			listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-			listView.setAdapter(userAdapter);
-			listView.setOnItemClickListener(this);
+			gridView = (GridView) findViewById(R.id.grid_view);
+			gridView.setAdapter(userAdapter);
+			gridView.setOnItemClickListener(this);
 		}
 	}
 
 	@Override
 	public void onItemClick(final AdapterView<?> adapterView, final View view, final int i, final long l)
 	{
-		if (listView.getCheckedItemPosition() < 0)
-		{
-			return;
-		}
-		final User user = (User) listView.getAdapter().getItem(listView.getCheckedItemPosition());
+		final User user = (User) gridView.getItemAtPosition(i);
 		if (user != null && user.getName() != null)
 		{
 			final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -176,6 +170,7 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 			final TextView label = (TextView) view.findViewById(R.id.label);
 
 			Utility.loadGravatarImage(imageLoader, icon, user);
+			icon.setContentDescription(user.getName());
 			label.setText(user.getName());
 
 			return view;

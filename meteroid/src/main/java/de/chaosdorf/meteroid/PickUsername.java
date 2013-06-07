@@ -99,7 +99,7 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 	}
 
 	@Override
-	public void displayErrorMessage(final String message)
+	public void displayErrorMessage(final LongRunningIOTask task, final String message)
 	{
 		runOnUiThread(new Runnable()
 		{

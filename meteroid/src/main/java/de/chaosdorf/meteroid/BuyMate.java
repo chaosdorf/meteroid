@@ -38,7 +38,7 @@ public class BuyMate extends Activity implements LongRunningIOCallback, AdapterV
 {
 	private final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.00 '\u20AC'");
 	private final AtomicBoolean isBuying = new AtomicBoolean(false);
-
+	private final AtomicBoolean isBuyingDrink = new AtomicBoolean(false);
 	private Activity activity = null;
 	private ListView listView = null;
 	private String hostname = null;
@@ -127,7 +127,7 @@ public class BuyMate extends Activity implements LongRunningIOCallback, AdapterV
 	}
 
 	@Override
-	public void displayErrorMessage(final String message)
+	public void displayErrorMessage(final LongRunningIOTask task, final String message)
 	{
 		runOnUiThread(new Runnable()
 		{
@@ -162,7 +162,7 @@ public class BuyMate extends Activity implements LongRunningIOCallback, AdapterV
 						Utility.loadGravatarImage(imageLoader, icon, user);
 					}
 					balance.setText(DECIMAL_FORMAT.format(user.getBalanceCents() / 100.0));
-					if (task == LongRunningIOTask.UPDATE_USER && multiUserMode)
+					if (task == LongRunningIOTask.UPDATE_USER && multiUserMode && isBuyingDrink.get())
 					{
 						Intent intent = new Intent(activity, PickUsername.class);
 						startActivity(intent);
@@ -189,7 +189,7 @@ public class BuyMate extends Activity implements LongRunningIOCallback, AdapterV
 				// Bought drink
 				case PAY_DRINK:
 				{
-					Utility.displayToastMessage(activity, getResources().getString(R.string.buy_mate_bought_drink));
+					Utility.displayToastMessage(activity, getResources().getString(isBuyingDrink.get() ? R.string.buy_mate_bought_drink : R.string.buy_mate_added_money));
 					new LongRunningIOGet(this, LongRunningIOTask.UPDATE_USER, hostname + "users/" + userID + ".json").execute();
 					isBuying.set(false);
 					break;
@@ -211,6 +211,7 @@ public class BuyMate extends Activity implements LongRunningIOCallback, AdapterV
 			final Drink drink = (Drink) listView.getAdapter().getItem(index);
 			if (drink != null)
 			{
+				isBuyingDrink.set(drink.getDonationRecommendation() > 0);
 				new LongRunningIOGet(this, LongRunningIOTask.PAY_DRINK, hostname + "users/" + userID + "/deposit?amount=" + (-drink.getDonationRecommendation() * 100)).execute();
 			}
 		}

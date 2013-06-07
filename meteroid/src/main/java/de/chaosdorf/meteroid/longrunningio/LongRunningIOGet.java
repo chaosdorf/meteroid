@@ -34,12 +34,18 @@ public class LongRunningIOGet extends AsyncTask<Void, Void, String>
 		try
 		{
 			HttpResponse response = httpClient.execute(httpGet, localContext);
+			int code = response.getStatusLine().getStatusCode();
+			if (code >= 400 && code <= 599)
+			{
+				callback.displayErrorMessage(id, response.getStatusLine().getReasonPhrase());
+				return null;
+			}
 			HttpEntity entity = response.getEntity();
 			return EntityUtils.toString(entity, HTTP.UTF_8);
 		}
 		catch (Exception e)
 		{
-			callback.displayErrorMessage(e.getLocalizedMessage());
+			callback.displayErrorMessage(id, e.getLocalizedMessage());
 			return null;
 		}
 	}

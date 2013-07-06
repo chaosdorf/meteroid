@@ -16,13 +16,13 @@
     <EditText android:id="@+id/username" android:hint="@string/username" android:layout_height="wrap_content" android:layout_width="fill_parent"
               android:password="false" android:phoneNumber="false"/>
     <EditText android:id="@+id/email" android:hint="@string/email" android:layout_height="wrap_content" android:layout_width="fill_parent"
-              android:password="false" android:phoneNumber="false"/>
+              android:password="false" android:phoneNumber="false" />
     <EditText android:id="@+id/balance" android:hint="@string/balance" android:layout_height="wrap_content" android:layout_width="fill_parent"
               android:password="false" android:phoneNumber="false" android:numeric="decimal"/>
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/create_user"
-            android:id="@+id/save_button" android:layout_gravity="center"/>
+            android:id="@+id/add_user_button" android:layout_gravity="center"/>
 
 </LinearLayout>

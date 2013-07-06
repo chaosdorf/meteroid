@@ -150,7 +150,7 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 		}
 	}
 
-	private class UserAdapter extends ArrayAdapter<User>
+	public class UserAdapter extends ArrayAdapter<User>
 	{
 		private final List<User> userList;
 		private final LayoutInflater inflater;

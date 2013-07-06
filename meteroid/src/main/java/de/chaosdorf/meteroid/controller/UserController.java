@@ -1,5 +1,6 @@
 package de.chaosdorf.meteroid.controller;
 
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,4 +65,12 @@ public class UserController
 			return null;
 		}
 	}
+
+    public static List<BasicNameValuePair> userToPostParams(final User user) {
+        List<BasicNameValuePair> pairs = new ArrayList<BasicNameValuePair>();
+        pairs.add(new BasicNameValuePair("user[name]", user.getName()));
+        pairs.add(new BasicNameValuePair("user[email]", user.getEmail()));
+        pairs.add(new BasicNameValuePair("user[balance]", String.valueOf(user.getBalanceCents())));
+        return pairs;
+    }
 }

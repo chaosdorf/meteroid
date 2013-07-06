@@ -68,7 +68,7 @@ public class SetHostname extends Activity
 				{
 					newHostname += "/";
 				}
-				if (!URLUtil.isHttpUrl(newHostname) || !URLUtil.isHttpsUrl(newHostname))
+				if (!(URLUtil.isHttpUrl(newHostname) || URLUtil.isHttpsUrl(newHostname)))
 				{
 					Utility.displayToastMessage(activity, "Invalid hostname entered");
 					return;

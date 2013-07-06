@@ -37,5 +37,10 @@
     <string name="menu_multi_user_mode_enabled">Multi-user mode enabled</string>
     <string name="menu_multi_user_mode_disabled">Multi-user mode disabled</string>
     <string name="button_back">Back</string>
+    <string name="add_user">Benutzer hinzufügen</string>
+    <string name="username">Benutzername</string>
+    <string name="email">E-Mail</string>
+    <string name="balance">Guthaben</string>
+    <string name="create_user">Anlegen</string>
 
 </resources>

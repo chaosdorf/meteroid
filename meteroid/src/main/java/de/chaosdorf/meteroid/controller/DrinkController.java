@@ -51,10 +51,10 @@ public class DrinkController
 			return new Drink(
 					jsonObject.getInt("id"),
 					jsonObject.getString("name"),
-					jsonObject.getString("logoUrl"),
-					jsonObject.getDouble("bottleSize"),
+					jsonObject.getString("logo_url"),
+					jsonObject.getDouble("bottle_size"),
 					jsonObject.getString("caffeine"),
-					jsonObject.getDouble("donationRecommendation"),
+					jsonObject.getDouble("donation_recommendation"),
 					new Date(),
 					new Date()
 			);

@@ -55,7 +55,7 @@ public class UserController
 					jsonObject.getInt("id"),
 					jsonObject.getString("name"),
 					jsonObject.getString("email"),
-					jsonObject.getLong("balance_cents"),
+					jsonObject.getDouble("balance"),
 					new Date(),
 					new Date()
 			);
@@ -71,7 +71,7 @@ public class UserController
 		List<BasicNameValuePair> pairs = new ArrayList<BasicNameValuePair>();
 		pairs.add(new BasicNameValuePair("user[name]", user.getName()));
 		pairs.add(new BasicNameValuePair("user[email]", user.getEmail()));
-		pairs.add(new BasicNameValuePair("user[balance]", String.valueOf(user.getBalanceCents())));
+		pairs.add(new BasicNameValuePair("user[balance]", String.valueOf(user.getBalance())));
 		return pairs;
 	}
 }

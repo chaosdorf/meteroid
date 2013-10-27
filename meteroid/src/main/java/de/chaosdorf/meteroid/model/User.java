@@ -7,16 +7,16 @@ public class User
 	private final int id;
 	private final String name;
 	private final String email;
-	private final long balanceCents;
+	private final double balance;
 	private final Date createdAt;
 	private final Date updatedAt;
 
-	public User(final int id, final String name, final String email, final long balanceCents, final Date createdAt, final Date updated_at)
+	public User(final int id, final String name, final String email, final double balance, final Date createdAt, final Date updated_at)
 	{
 		this.id = id;
 		this.name = name;
 		this.email = email;
-		this.balanceCents = balanceCents;
+		this.balance = balance;
 		this.createdAt = createdAt;
 		this.updatedAt = updated_at;
 	}
@@ -36,9 +36,9 @@ public class User
 		return email;
 	}
 
-	public long getBalanceCents()
+	public double getBalance()
 	{
-		return balanceCents;
+		return balance;
 	}
 
 	public Date getCreatedAt()

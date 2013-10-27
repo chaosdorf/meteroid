@@ -172,7 +172,7 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 						label.setText(user.getName());
 						Utility.loadGravatarImage(imageLoader, icon, user);
 					}
-					balance.setText(DECIMAL_FORMAT.format(user.getBalanceCents() / 100.0));
+					balance.setText(DECIMAL_FORMAT.format(user.getBalance()));
 					if (task == LongRunningIOTask.UPDATE_USER && multiUserMode && isBuyingDrink.get())
 					{
 						Intent intent = new Intent(activity, PickUsername.class);
@@ -223,7 +223,7 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 			if (drink != null)
 			{
 				isBuyingDrink.set(drink.getDonationRecommendation() > 0);
-				new LongRunningIOGet(this, LongRunningIOTask.PAY_DRINK, hostname + "users/" + userID + "/deposit?amount=" + (-drink.getDonationRecommendation() * 100)).execute();
+				new LongRunningIOGet(this, LongRunningIOTask.PAY_DRINK, hostname + "users/" + userID + "/deposit?amount=" + (-drink.getDonationRecommendation())).execute();
 			}
 		}
 	}

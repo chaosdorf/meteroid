@@ -49,20 +49,20 @@ public class AddUserActivity extends Activity implements LongRunningIOCallback
 					Utility.displayToastMessage(activity, getResources().getString(R.string.add_user_empty_username));
 					return;
 				}
-				if (email == null)
+				String emailValue = "";
+				if (email != null && email.length() > 0)
 				{
-					Utility.displayToastMessage(activity, getResources().getString(R.string.add_user_empty_email));
-					return;
+					emailValue = email.toString();
 				}
 				if (balance == null)
 				{
 					Utility.displayToastMessage(activity, getResources().getString(R.string.add_user_empty_balance));
 					return;
 				}
-				final long balanceValue = Long.parseLong(balance.toString());
+				final double balanceValue = Double.parseDouble(balance.toString());
 				final User user = new User(0,
 						username.toString(),
-						email.toString(),
+						emailValue,
 						balanceValue,
 						new Date(),
 						new Date()

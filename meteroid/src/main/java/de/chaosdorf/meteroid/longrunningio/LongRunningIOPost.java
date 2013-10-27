@@ -9,7 +9,6 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.protocol.HttpContext;
@@ -23,14 +22,14 @@ public class LongRunningIOPost extends AsyncTask<Void, Void, String>
 	private final LongRunningIOCallback callback;
 	private final LongRunningIOTask id;
 	private final String url;
-    private final List<BasicNameValuePair> postData;
+	private final List<BasicNameValuePair> postData;
 
 	public LongRunningIOPost(final LongRunningIOCallback callback, final LongRunningIOTask id, final String url, final List<BasicNameValuePair> postData)
 	{
 		this.callback = callback;
 		this.id = id;
 		this.url = url;
-        this.postData = postData;
+		this.postData = postData;
 	}
 
 	@Override
@@ -39,13 +38,16 @@ public class LongRunningIOPost extends AsyncTask<Void, Void, String>
 		HttpClient httpClient = new DefaultHttpClient();
 		HttpContext localContext = new BasicHttpContext();
 		HttpPost httpPost = new HttpPost(url);
-        try {
-            httpPost.setEntity(new UrlEncodedFormEntity(postData));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            return null;
-        }
-        try
+		try
+		{
+			httpPost.setEntity(new UrlEncodedFormEntity(postData));
+		}
+		catch (UnsupportedEncodingException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+		try
 		{
 			HttpResponse response = httpClient.execute(httpPost, localContext);
 			int code = response.getStatusLine().getStatusCode();

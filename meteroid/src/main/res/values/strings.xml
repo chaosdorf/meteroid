@@ -11,12 +11,23 @@
     <!-- Set hostname -->
     <string name="set_hostname_label">Hostname</string>
     <string name="set_hostname">Please enter the URL of mete</string>
+    <string name="set_hostname_empty">Please enter a hostname</string>
+    <string name="set_hostname_invalid">Invalid hostname entered</string>
 
     <!-- Pick username -->
     <string name="pick_username_label">Pick your username</string>
     <string name="pick_username_error">Could not load user list. Please check network connection or
         reset hostname to proceed.
     </string>
+
+    <!-- Add user -->
+    <string name="add_user_label">Add user</string>
+    <string name="add_user_username">Username</string>
+    <string name="add_user_email">Email</string>
+    <string name="add_user_balance">Balance</string>
+    <string name="add_user_empty_username">Please enter a username</string>
+    <string name="add_user_empty_email">Please enter an email address</string>
+    <string name="add_user_empty_balance">Please enter a balance</string>
 
     <!-- Buy mate -->
     <string name="buy_mate_pending">Please wait for current transaction…</string>
@@ -27,6 +38,7 @@
     </string>
 
     <!-- Buttons -->
+    <string name="add">Add</string>
     <string name="save">Save</string>
     <string name="ok">OK</string>
 
@@ -37,10 +49,5 @@
     <string name="menu_multi_user_mode_enabled">Multi-user mode enabled</string>
     <string name="menu_multi_user_mode_disabled">Multi-user mode disabled</string>
     <string name="button_back">Back</string>
-    <string name="add_user">Benutzer hinzufügen</string>
-    <string name="username">Benutzername</string>
-    <string name="email">E-Mail</string>
-    <string name="balance">Guthaben</string>
-    <string name="create_user">Anlegen</string>
 
 </resources>

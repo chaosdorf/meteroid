@@ -11,6 +11,7 @@ import android.view.View;
 import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.EditText;
+
 import de.chaosdorf.meteroid.util.Utility;
 
 public class SetHostname extends Activity
@@ -49,19 +50,19 @@ public class SetHostname extends Activity
 			{
 				if (editText == null)
 				{
-					Utility.displayToastMessage(activity, "Please enter a hostname");
+					Utility.displayToastMessage(activity, getResources().getString(R.string.set_hostname_empty));
 					return;
 				}
 				final Editable editTextHostname = editText.getText();
-                if (editTextHostname == null)
-                {
-                    Utility.displayToastMessage(activity, "Please enter a hostname");
-                    return;
-                }
+				if (editTextHostname == null)
+				{
+					Utility.displayToastMessage(activity, getResources().getString(R.string.set_hostname_empty));
+					return;
+				}
 				String newHostname = editTextHostname.toString();
 				if (newHostname.equals("http://"))
 				{
-					Utility.displayToastMessage(activity, "Please enter a hostname");
+					Utility.displayToastMessage(activity, getResources().getString(R.string.set_hostname_empty));
 					return;
 				}
 				if (!newHostname.endsWith("/"))
@@ -70,7 +71,7 @@ public class SetHostname extends Activity
 				}
 				if (!(URLUtil.isHttpUrl(newHostname) || URLUtil.isHttpsUrl(newHostname)))
 				{
-					Utility.displayToastMessage(activity, "Invalid hostname entered");
+					Utility.displayToastMessage(activity, getResources().getString(R.string.set_hostname_invalid));
 					return;
 				}
 				prefs.edit().putString("hostname", newHostname).apply();

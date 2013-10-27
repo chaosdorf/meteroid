@@ -17,7 +17,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -31,6 +30,8 @@ import de.chaosdorf.meteroid.util.Utility;
 
 public class PickUsername extends Activity implements LongRunningIOCallback, AdapterView.OnItemClickListener
 {
+	private static final int NEW_USER_ID = -1;
+
 	private Activity activity = null;
 	private GridView gridView = null;
 	private boolean multiUserMode = false;
@@ -42,7 +43,7 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 		activity = this;
 		setContentView(R.layout.activity_pick_username);
 
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		final String hostname = prefs.getString("hostname", null);
 		multiUserMode = prefs.getBoolean("multi_user_mode", false);
 
@@ -118,9 +119,8 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 	{
 		if (task == LongRunningIOTask.GET_USERS && json != null)
 		{
-			final List<User> itemList = new ArrayList<User>();
-            itemList.add(new User(0, "Neuer Benutzer", "", 0, new Date(), new Date()));
-            itemList.addAll(UserController.parseAllUsersFromJSON(json));
+			final List<User> itemList = UserController.parseAllUsersFromJSON(json);
+			itemList.add(new User(NEW_USER_ID, "Neuer Benutzer", "", 0, new Date(), new Date()));
 			final UserAdapter userAdapter = new UserAdapter(itemList);
 
 			gridView = (GridView) findViewById(R.id.grid_view);
@@ -135,18 +135,20 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 		final User user = (User) gridView.getItemAtPosition(i);
 		if (user != null && user.getName() != null)
 		{
-			if(user.getId() == 0) {
-                Intent intent = new Intent(view.getContext(), AddUserActivity.class);
-                startActivity(intent);
-                finish();
-            }
-            else {
-                final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-                prefs.edit().putInt("userid", user.getId()).apply();
-                Intent intent = new Intent(view.getContext(), MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
+			if (user.getId() == NEW_USER_ID)
+			{
+				Intent intent = new Intent(view.getContext(), AddUserActivity.class);
+				startActivity(intent);
+				finish();
+			}
+			else
+			{
+				final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+				prefs.edit().putInt("userid", user.getId()).apply();
+				Intent intent = new Intent(view.getContext(), MainActivity.class);
+				startActivity(intent);
+				finish();
+			}
 		}
 	}
 

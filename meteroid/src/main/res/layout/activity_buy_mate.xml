@@ -15,22 +15,19 @@
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
 
         <ImageView
                 android:id="@+id/icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/app_name"
-                />
+                android:contentDescription="@string/app_name"/>
 
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
-                android:layout_weight="1"
-                >
+                android:layout_weight="1">
 
             <TextView
                     android:id="@+id/username"
@@ -54,8 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:src="@android:drawable/ic_menu_revert"
-                android:contentDescription="@string/button_back"
-                />
+                android:contentDescription="@string/button_back"/>
 
     </LinearLayout>
 
@@ -65,8 +61,7 @@
             android:layout_height="fill_parent"
             android:textSize="16sp"
             android:visibility="gone"
-            android:text="@string/buy_mate_error"
-            />
+            android:text="@string/buy_mate_error"/>
 
     <!-- Display drinks -->
     <ListView
@@ -74,7 +69,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:drawSelectorOnTop="false"
-            />
+            android:drawSelectorOnTop="false"/>
 
 </LinearLayout>

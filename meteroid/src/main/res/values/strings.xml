@@ -29,11 +29,11 @@
     <string name="add_user_empty_email">Please enter an email address</string>
     <string name="add_user_empty_balance">Please enter a balance</string>
 
-    <!-- Buy mate -->
-    <string name="buy_mate_pending">Please wait for current transaction…</string>
-    <string name="buy_mate_bought_drink">Successfully bought drink</string>
-    <string name="buy_mate_added_money">Successfully added money</string>
-    <string name="buy_mate_error">Could not load data from mete. Please check network connection or
+    <!-- Buy drink -->
+    <string name="buy_drink_pending">Please wait for current transaction…</string>
+    <string name="buy_drink_bought_drink">Successfully bought drink</string>
+    <string name="buy_drink_added_money">Successfully added money</string>
+    <string name="buy_drink_error">Could not load data from mete. Please check network connection or
         reset hostname/username to proceed.
     </string>
 

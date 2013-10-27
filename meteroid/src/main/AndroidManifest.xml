@@ -18,7 +18,7 @@
             android:theme="@style/AppTheme">
 
         <activity
-                android:name="de.chaosdorf.meteroid.MainActivity"
+                android:name=".MainActivity"
                 android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -27,22 +27,22 @@
         </activity>
 
         <activity
-                android:name="de.chaosdorf.meteroid.SetHostname"
+                android:name=".SetHostname"
                 android:label="@string/set_hostname_label">
         </activity>
 
         <activity
-                android:name="de.chaosdorf.meteroid.PickUsername"
+                android:name=".PickUsername"
                 android:label="@string/pick_username_label">
         </activity>
 
         <activity
-                android:name="de.chaosdorf.meteroid.BuyMate"
+                android:name=".BuyDrink"
                 android:label="@string/app_name">
         </activity>
 
         <activity
-                android:name="de.chaosdorf.meteroid.AddUserActivity"
+                android:name=".AddUserActivity"
                 android:label="@string/app_name">
         </activity>
 

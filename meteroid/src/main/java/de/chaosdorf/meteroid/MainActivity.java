@@ -33,8 +33,8 @@ public class MainActivity extends Activity
 		}
 		else
 		{
-			// Ready to buy some mate
-			Intent intent = new Intent(this, BuyMate.class);
+			// Ready to buy some drinks
+			Intent intent = new Intent(this, BuyDrink.class);
 			startActivity(intent);
 			finish();
 		}

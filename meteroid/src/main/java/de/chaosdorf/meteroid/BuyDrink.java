@@ -34,7 +34,7 @@ import de.chaosdorf.meteroid.model.Drink;
 import de.chaosdorf.meteroid.model.User;
 import de.chaosdorf.meteroid.util.Utility;
 
-public class BuyMate extends Activity implements LongRunningIOCallback, AdapterView.OnItemClickListener
+public class BuyDrink extends Activity implements LongRunningIOCallback, AdapterView.OnItemClickListener
 {
 	private final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.00 '\u20AC'");
 	private final AtomicBoolean isBuying = new AtomicBoolean(false);
@@ -50,7 +50,7 @@ public class BuyMate extends Activity implements LongRunningIOCallback, AdapterV
 	{
 		super.onCreate(savedInstanceState);
 		activity = this;
-		setContentView(R.layout.activity_buy_mate);
+		setContentView(R.layout.activity_buy_drink);
 
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -76,7 +76,7 @@ public class BuyMate extends Activity implements LongRunningIOCallback, AdapterV
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
-		getMenuInflater().inflate(R.menu.buymate, menu);
+		getMenuInflater().inflate(R.menu.buydrink, menu);
 		final MenuItem menuItem = menu.findItem(R.id.multi_user_mode);
 		if (menuItem != null)
 		{
@@ -141,7 +141,7 @@ public class BuyMate extends Activity implements LongRunningIOCallback, AdapterV
 				{
 					Utility.displayToastMessage(activity, message);
 				}
-				final TextView textView = (TextView) findViewById(R.id.buy_mate_error);
+				final TextView textView = (TextView) findViewById(R.id.buy_drink_error);
 				textView.setVisibility(View.VISIBLE);
 				if (listView != null)
 				{
@@ -200,7 +200,7 @@ public class BuyMate extends Activity implements LongRunningIOCallback, AdapterV
 				// Bought drink
 				case PAY_DRINK:
 				{
-					Utility.displayToastMessage(activity, getResources().getString(isBuyingDrink.get() ? R.string.buy_mate_bought_drink : R.string.buy_mate_added_money));
+					Utility.displayToastMessage(activity, getResources().getString(isBuyingDrink.get() ? R.string.buy_drink_bought_drink : R.string.buy_drink_added_money));
 					new LongRunningIOGet(this, LongRunningIOTask.UPDATE_USER, hostname + "users/" + userID + ".json").execute();
 					isBuying.set(false);
 					break;
@@ -214,7 +214,7 @@ public class BuyMate extends Activity implements LongRunningIOCallback, AdapterV
 	{
 		if (index < 0 || isBuying.get())
 		{
-			Utility.displayToastMessage(activity, getResources().getString(R.string.buy_mate_pending));
+			Utility.displayToastMessage(activity, getResources().getString(R.string.buy_drink_pending));
 			return;
 		}
 		if (isBuying.compareAndSet(false, true))
@@ -235,7 +235,7 @@ public class BuyMate extends Activity implements LongRunningIOCallback, AdapterV
 
 		DrinkAdapter(final List<Drink> drinkList)
 		{
-			super(activity, R.layout.activity_buy_mate, drinkList);
+			super(activity, R.layout.activity_buy_drink, drinkList);
 			this.drinkList = drinkList;
 			this.inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}
@@ -245,7 +245,7 @@ public class BuyMate extends Activity implements LongRunningIOCallback, AdapterV
 			View view = convertView;
 			if (view == null)
 			{
-				view = inflater.inflate(R.layout.activity_buy_mate_drink, parent, false);
+				view = inflater.inflate(R.layout.activity_buy_drink_item, parent, false);
 			}
 			if (view == null)
 			{

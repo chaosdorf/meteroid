@@ -44,7 +44,7 @@ public class AddUserActivity extends Activity implements LongRunningIOCallback
 				final CharSequence username = usernameText.getText();
 				final CharSequence email = emailText.getText();
 				final CharSequence balance = balanceText.getText();
-				if (username == null)
+				if (username == null || username.length() == 0)
 				{
 					Utility.displayToastMessage(activity, getResources().getString(R.string.add_user_empty_username));
 					return;
@@ -54,12 +54,21 @@ public class AddUserActivity extends Activity implements LongRunningIOCallback
 				{
 					emailValue = email.toString();
 				}
-				if (balance == null)
+				if (balance == null || balance.length() == 0)
 				{
 					Utility.displayToastMessage(activity, getResources().getString(R.string.add_user_empty_balance));
 					return;
 				}
-				final double balanceValue = Double.parseDouble(balance.toString());
+				double balanceValue;
+				try
+				{
+					balanceValue = Double.parseDouble(balance.toString());
+				}
+				catch (NumberFormatException ignored)
+				{
+					Utility.displayToastMessage(activity, getResources().getString(R.string.add_user_empty_balance));
+					return;
+				}
 				final User user = new User(0,
 						username.toString(),
 						emailValue,

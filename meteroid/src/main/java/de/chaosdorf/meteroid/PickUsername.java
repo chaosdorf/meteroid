@@ -147,7 +147,7 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 		if (task == LongRunningIOTask.GET_USERS && json != null)
 		{
 			final List<User> itemList = UserController.parseAllUsersFromJSON(json);
-			itemList.add(new User(NEW_USER_ID, "Neuer Benutzer", "", 0, new Date(), new Date()));
+			itemList.add(new User(NEW_USER_ID, getResources().getString(R.string.pick_username_new_user), "", 0, new Date(), new Date()));
 			final UserAdapter userAdapter = new UserAdapter(itemList);
 
 			gridView.setAdapter(userAdapter);

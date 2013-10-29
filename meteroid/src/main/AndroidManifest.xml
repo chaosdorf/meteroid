@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.chaosdorf.meteroid"
-    android:versionCode="2"
-    android:versionName="1.1">
+    android:versionCode="3"
+    android:versionName="1.2">
 
     <uses-sdk
         android:minSdkVersion="9"
@@ -28,19 +28,19 @@
 
         <activity
             android:name=".SetHostname"
-            android:label="@string/set_hostname_label"></activity>
+            android:label="@string/set_hostname_label" />
 
         <activity
             android:name=".PickUsername"
-            android:label="@string/pick_username_label"></activity>
+            android:label="@string/pick_username_label" />
 
         <activity
             android:name=".BuyDrink"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
 
         <activity
             android:name=".AddUserActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
 
     </application>
 

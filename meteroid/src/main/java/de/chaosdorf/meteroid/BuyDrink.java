@@ -58,12 +58,23 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 		userID = prefs.getInt("userid", 0);
 		multiUserMode = prefs.getBoolean("multi_user_mode", false);
 
-		final ImageButton backButton = (ImageButton) findViewById(R.id.back_button);
+		final ImageButton backButton = (ImageButton) findViewById(R.id.button_back);
 		backButton.setOnClickListener(new View.OnClickListener()
 		{
 			public void onClick(View view)
 			{
-				Intent intent = new Intent(view.getContext(), PickUsername.class);
+				Intent intent = new Intent(activity, PickUsername.class);
+				startActivity(intent);
+				finish();
+			}
+		});
+
+		final ImageButton reloadButton = (ImageButton) findViewById(R.id.button_reload);
+		reloadButton.setOnClickListener(new View.OnClickListener()
+		{
+			public void onClick(View view)
+			{
+				Intent intent = new Intent(activity, BuyDrink.class);
 				startActivity(intent);
 				finish();
 			}

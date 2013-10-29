@@ -43,7 +43,7 @@ public class SetHostname extends Activity
 			}
 		}
 
-		final Button saveButton = (Button) findViewById(R.id.save_button);
+		final Button saveButton = (Button) findViewById(R.id.button_save);
 		saveButton.setOnClickListener(new View.OnClickListener()
 		{
 			public void onClick(View view)
@@ -75,7 +75,7 @@ public class SetHostname extends Activity
 					return;
 				}
 				prefs.edit().putString("hostname", newHostname).apply();
-				Intent intent = new Intent(view.getContext(), MainActivity.class);
+				Intent intent = new Intent(activity, MainActivity.class);
 				startActivity(intent);
 				finish();
 			}

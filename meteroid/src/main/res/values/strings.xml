@@ -10,6 +10,7 @@
 
     <!-- Set hostname -->
     <string name="set_hostname_label">Hostname</string>
+    <string name="set_hostname_default_hostname">http://mete</string>
     <string name="set_hostname">Please enter the URL of mete</string>
     <string name="set_hostname_empty">Please enter a hostname</string>
     <string name="set_hostname_invalid">Invalid hostname entered</string>
@@ -38,9 +39,11 @@
     </string>
 
     <!-- Buttons -->
-    <string name="add">Add</string>
-    <string name="save">Save</string>
-    <string name="ok">OK</string>
+    <string name="button_back">Back</string>
+    <string name="button_reload">Reload</string>
+    <string name="button_add">Add</string>
+    <string name="button_save">Save</string>
+    <string name="button_ok">OK</string>
 
     <!-- Menues -->
     <string name="menu_reset_hostname">Reset hostname</string>
@@ -48,6 +51,5 @@
     <string name="menu_multi_user_mode">Multi-user mode</string>
     <string name="menu_multi_user_mode_enabled">Multi-user mode enabled</string>
     <string name="menu_multi_user_mode_disabled">Multi-user mode disabled</string>
-    <string name="button_back">Back</string>
 
 </resources>

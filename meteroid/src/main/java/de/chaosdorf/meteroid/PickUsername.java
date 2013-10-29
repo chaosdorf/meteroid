@@ -14,7 +14,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.Date;
@@ -43,9 +45,33 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 		activity = this;
 		setContentView(R.layout.activity_pick_username);
 
+		gridView = (GridView) findViewById(R.id.grid_view);
+
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		final String hostname = prefs.getString("hostname", null);
 		multiUserMode = prefs.getBoolean("multi_user_mode", false);
+
+		final ImageButton backButton = (ImageButton) findViewById(R.id.button_back);
+		backButton.setOnClickListener(new View.OnClickListener()
+		{
+			public void onClick(View view)
+			{
+				Intent intent = new Intent(activity, SetHostname.class);
+				startActivity(intent);
+				finish();
+			}
+		});
+
+		final ImageButton reloadButton = (ImageButton) findViewById(R.id.button_reload);
+		reloadButton.setOnClickListener(new View.OnClickListener()
+		{
+			public void onClick(View view)
+			{
+				Intent intent = new Intent(activity, PickUsername.class);
+				startActivity(intent);
+				finish();
+			}
+		});
 
 		new LongRunningIOGet(this, LongRunningIOTask.GET_USERS, hostname + "users.json").execute();
 	}
@@ -83,7 +109,7 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 		}
 		if (resetView)
 		{
-			Intent intent = new Intent(this, MainActivity.class);
+			Intent intent = new Intent(activity, MainActivity.class);
 			startActivity(intent);
 			finish();
 		}
@@ -108,8 +134,9 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 			public void run()
 			{
 				Utility.displayToastMessage(activity, message);
-				final TextView textView = (TextView) findViewById(R.id.pick_username_error);
-				textView.setVisibility(View.VISIBLE);
+				final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.pick_username_error);
+				linearLayout.setVisibility(View.VISIBLE);
+				gridView.setVisibility(View.GONE);
 			}
 		});
 	}
@@ -123,7 +150,6 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 			itemList.add(new User(NEW_USER_ID, "Neuer Benutzer", "", 0, new Date(), new Date()));
 			final UserAdapter userAdapter = new UserAdapter(itemList);
 
-			gridView = (GridView) findViewById(R.id.grid_view);
 			gridView.setAdapter(userAdapter);
 			gridView.setOnItemClickListener(this);
 		}
@@ -137,7 +163,7 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 		{
 			if (user.getId() == NEW_USER_ID)
 			{
-				Intent intent = new Intent(view.getContext(), AddUserActivity.class);
+				Intent intent = new Intent(activity, AddUserActivity.class);
 				startActivity(intent);
 				finish();
 			}
@@ -145,7 +171,7 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 			{
 				final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 				prefs.edit().putInt("userid", user.getId()).apply();
-				Intent intent = new Intent(view.getContext(), MainActivity.class);
+				Intent intent = new Intent(activity, MainActivity.class);
 				startActivity(intent);
 				finish();
 			}

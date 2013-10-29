@@ -28,7 +28,7 @@ public class AddUserActivity extends Activity implements LongRunningIOCallback
 		super.onCreate(savedInstanceState);
 		activity = this;
 		setContentView(R.layout.activity_add_user);
-		Button addButton = (Button) findViewById(R.id.add_user_button);
+		Button addButton = (Button) findViewById(R.id.button_add_user);
 
 		final TextView usernameText = (TextView) findViewById(R.id.username);
 		final TextView emailText = (TextView) findViewById(R.id.email);

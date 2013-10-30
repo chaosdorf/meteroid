@@ -17,7 +17,7 @@
 
     <!-- Pick username -->
     <string name="pick_username_label">Pick your username</string>
-    <string name="pick_username_new_user">New</string>
+    <string name="pick_username_new_user">New user</string>
     <string name="pick_username_error">Could not load user list. Please check network connection or
         reset hostname to proceed.
     </string>
@@ -28,10 +28,10 @@
     <string name="add_user_email">Email</string>
     <string name="add_user_balance">Balance</string>
     <string name="add_user_empty_username">Please enter a username</string>
-    <string name="add_user_empty_email">Please enter an email address</string>
     <string name="add_user_empty_balance">Please enter a balance</string>
 
     <!-- Buy drink -->
+    <string name="buy_drink_label">Buy drink</string>
     <string name="buy_drink_pending">Please wait for current transaction…</string>
     <string name="buy_drink_bought_drink">Successfully bought drink</string>
     <string name="buy_drink_added_money">Successfully added money</string>
@@ -42,7 +42,6 @@
     <!-- Buttons -->
     <string name="button_back">Back</string>
     <string name="button_reload">Reload</string>
-    <string name="button_add">Add</string>
     <string name="button_save">Save</string>
     <string name="button_ok">OK</string>
 

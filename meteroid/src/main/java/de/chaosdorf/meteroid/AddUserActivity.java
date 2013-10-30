@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.Date;
@@ -28,13 +28,24 @@ public class AddUserActivity extends Activity implements LongRunningIOCallback
 		super.onCreate(savedInstanceState);
 		activity = this;
 		setContentView(R.layout.activity_add_user);
-		Button addButton = (Button) findViewById(R.id.button_add_user);
 
 		final TextView usernameText = (TextView) findViewById(R.id.username);
 		final TextView emailText = (TextView) findViewById(R.id.email);
 		final TextView balanceText = (TextView) findViewById(R.id.balance);
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
+		final ImageButton backButton = (ImageButton) findViewById(R.id.button_back);
+		backButton.setOnClickListener(new View.OnClickListener()
+		{
+			public void onClick(View view)
+			{
+				Intent intent = new Intent(activity, PickUsername.class);
+				startActivity(intent);
+				finish();
+			}
+		});
+
+		final ImageButton addButton = (ImageButton) findViewById(R.id.button_add_user);
 		addButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override

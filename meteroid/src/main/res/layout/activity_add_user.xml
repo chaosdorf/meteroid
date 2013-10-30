@@ -1,21 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".AddUserActivity">
-
-    <TextView
-        android:id="@+id/text"
-        android:text="@string/add_user_label"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content" />
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical"
+              android:paddingLeft="@dimen/activity_horizontal_margin"
+              android:paddingRight="@dimen/activity_horizontal_margin"
+              android:paddingTop="@dimen/activity_vertical_margin"
+              android:paddingBottom="@dimen/activity_vertical_margin"
+              tools:context=".AddUserActivity">
 
     <EditText
         android:id="@+id/username"
@@ -23,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
         android:password="false"
-        android:phoneNumber="false" />
+        android:phoneNumber="false"/>
 
     <EditText
         android:id="@+id/email"
@@ -32,7 +26,7 @@
         android:layout_width="fill_parent"
         android:password="false"
         android:phoneNumber="false"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"/>
 
     <EditText
         android:id="@+id/balance"
@@ -41,13 +35,30 @@
         android:layout_width="fill_parent"
         android:password="false"
         android:phoneNumber="false"
-        android:numeric="decimal" />
+        android:numeric="decimal"/>
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
         android:layout_height="wrap_content"
-        android:text="@string/button_add"
-        android:id="@+id/button_add_user"
-        android:layout_gravity="center" />
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="right"
+        >
+
+        <ImageButton
+            android:id="@+id/button_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:src="@drawable/button_back"
+            android:contentDescription="@string/button_back"/>
+
+        <ImageButton
+            android:id="@+id/button_add_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/button_save"
+            android:contentDescription="@string/button_save"/>
+
+    </LinearLayout>
 
 </LinearLayout>

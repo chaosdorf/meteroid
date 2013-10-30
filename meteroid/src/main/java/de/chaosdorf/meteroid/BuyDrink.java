@@ -63,6 +63,7 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 		{
 			public void onClick(View view)
 			{
+				Utility.resetUsername(activity);
 				Intent intent = new Intent(activity, PickUsername.class);
 				startActivity(intent);
 				finish();

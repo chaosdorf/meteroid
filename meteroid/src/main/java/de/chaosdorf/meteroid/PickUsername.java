@@ -212,6 +212,11 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 			icon.setContentDescription(user.getName());
 			label.setText(user.getName());
 
+			if (user.getId() == NEW_USER_ID)
+			{
+				icon.setImageDrawable(getResources().getDrawable(R.drawable.add_person));
+			}
+
 			return view;
 		}
 	}

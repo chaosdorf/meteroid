@@ -1,7 +1,6 @@
 package de.chaosdorf.meteroid;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -19,17 +18,16 @@ public class SetHostname extends Activity
 	private Activity activity = null;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
+	protected void onCreate(final Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		activity = this;
 		setContentView(R.layout.activity_set_hostname);
 
-		final EditText editText = (EditText) findViewById(R.id.hostname);
-
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		final String hostname = prefs.getString("hostname", null);
 
+		final EditText editText = (EditText) findViewById(R.id.hostname);
 		if (editText != null)
 		{
 			if (hostname != null)
@@ -75,9 +73,7 @@ public class SetHostname extends Activity
 					return;
 				}
 				prefs.edit().putString("hostname", newHostname).apply();
-				Intent intent = new Intent(activity, MainActivity.class);
-				startActivity(intent);
-				finish();
+				Utility.startActivity(activity, PickUsername.class);
 			}
 		});
 	}

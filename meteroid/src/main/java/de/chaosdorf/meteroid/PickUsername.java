@@ -2,7 +2,6 @@ package de.chaosdorf.meteroid;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -39,7 +38,7 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 	private boolean multiUserMode = false;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
+	protected void onCreate(final Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		activity = this;
@@ -56,9 +55,7 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 		{
 			public void onClick(View view)
 			{
-				Intent intent = new Intent(activity, SetHostname.class);
-				startActivity(intent);
-				finish();
+				Utility.startActivity(activity, SetHostname.class);
 			}
 		});
 
@@ -67,9 +64,7 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 		{
 			public void onClick(View view)
 			{
-				Intent intent = new Intent(activity, PickUsername.class);
-				startActivity(intent);
-				finish();
+				Utility.startActivity(activity, PickUsername.class);
 			}
 		});
 
@@ -77,7 +72,7 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
+	public boolean onCreateOptionsMenu(final Menu menu)
 	{
 		getMenuInflater().inflate(R.menu.pickusername, menu);
 		final MenuItem menuItem = menu.findItem(R.id.multi_user_mode);
@@ -89,13 +84,13 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
+	public boolean onOptionsItemSelected(final MenuItem item)
 	{
-		boolean resetView = true;
 		switch (item.getItemId())
 		{
 			case R.id.reset_hostname:
 				Utility.resetHostname(activity);
+				Utility.startActivity(activity, SetHostname.class);
 				break;
 			case R.id.multi_user_mode:
 				multiUserMode = Utility.toggleMultiUserMode(activity);
@@ -104,14 +99,7 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 				{
 					Utility.resetUsername(activity);
 				}
-				resetView = false;
 				break;
-		}
-		if (resetView)
-		{
-			Intent intent = new Intent(activity, MainActivity.class);
-			startActivity(intent);
-			finish();
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -163,17 +151,13 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 		{
 			if (user.getId() == NEW_USER_ID)
 			{
-				Intent intent = new Intent(activity, AddUserActivity.class);
-				startActivity(intent);
-				finish();
+				Utility.startActivity(activity, AddUserActivity.class);
 			}
 			else
 			{
 				final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 				prefs.edit().putInt("userid", user.getId()).apply();
-				Intent intent = new Intent(activity, MainActivity.class);
-				startActivity(intent);
-				finish();
+				Utility.startActivity(activity, BuyDrink.class);
 			}
 		}
 	}
@@ -192,7 +176,7 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 			this.imageLoader = new ImageLoader(activity.getApplicationContext(), 80);
 		}
 
-		public View getView(int position, View convertView, ViewGroup parent)
+		public View getView(final int position, final View convertView, final ViewGroup parent)
 		{
 			View view = convertView;
 			if (view == null)

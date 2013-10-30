@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -23,7 +24,7 @@ public class AddUserActivity extends Activity implements LongRunningIOCallback
 	private Activity activity = null;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
+	protected void onCreate(final Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		activity = this;
@@ -39,9 +40,7 @@ public class AddUserActivity extends Activity implements LongRunningIOCallback
 		{
 			public void onClick(View view)
 			{
-				Intent intent = new Intent(activity, PickUsername.class);
-				startActivity(intent);
-				finish();
+				Utility.startActivity(activity, PickUsername.class);
 			}
 		});
 
@@ -51,20 +50,21 @@ public class AddUserActivity extends Activity implements LongRunningIOCallback
 			@Override
 			public void onClick(View view)
 			{
-				final String hostname = prefs.getString("hostname", null);
 				final CharSequence username = usernameText.getText();
-				final CharSequence email = emailText.getText();
-				final CharSequence balance = balanceText.getText();
 				if (username == null || username.length() == 0)
 				{
 					Utility.displayToastMessage(activity, getResources().getString(R.string.add_user_empty_username));
 					return;
 				}
+
+				final CharSequence email = emailText.getText();
 				String emailValue = "";
 				if (email != null && email.length() > 0)
 				{
 					emailValue = email.toString();
 				}
+
+				final CharSequence balance = balanceText.getText();
 				if (balance == null || balance.length() == 0)
 				{
 					Utility.displayToastMessage(activity, getResources().getString(R.string.add_user_empty_balance));
@@ -80,6 +80,7 @@ public class AddUserActivity extends Activity implements LongRunningIOCallback
 					Utility.displayToastMessage(activity, getResources().getString(R.string.add_user_empty_balance));
 					return;
 				}
+
 				final User user = new User(0,
 						username.toString(),
 						emailValue,
@@ -88,6 +89,7 @@ public class AddUserActivity extends Activity implements LongRunningIOCallback
 						new Date()
 				);
 
+				final String hostname = prefs.getString("hostname", null);
 				new LongRunningIOPost(
 						AddUserActivity.this,
 						LongRunningIOTask.ADD_USER,
@@ -99,8 +101,27 @@ public class AddUserActivity extends Activity implements LongRunningIOCallback
 	}
 
 	@Override
-	public void displayErrorMessage(LongRunningIOTask task, String message)
+	public boolean onKeyDown(final int keyCode, final KeyEvent event)
 	{
+		if (keyCode == KeyEvent.KEYCODE_BACK)
+		{
+			Utility.resetUsername(activity);
+			Utility.startActivity(activity, MainActivity.class);
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
+
+	@Override
+	public void displayErrorMessage(final LongRunningIOTask task, final String message)
+	{
+		runOnUiThread(new Runnable()
+		{
+			public void run()
+			{
+				Utility.displayToastMessage(activity, message);
+			}
+		});
 	}
 
 	@Override

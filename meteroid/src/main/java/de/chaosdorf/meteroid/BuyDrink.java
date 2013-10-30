@@ -2,10 +2,10 @@ package de.chaosdorf.meteroid;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -46,7 +46,7 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 	private boolean multiUserMode;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
+	protected void onCreate(final Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		activity = this;
@@ -64,9 +64,7 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 			public void onClick(View view)
 			{
 				Utility.resetUsername(activity);
-				Intent intent = new Intent(activity, PickUsername.class);
-				startActivity(intent);
-				finish();
+				Utility.startActivity(activity, PickUsername.class);
 			}
 		});
 
@@ -75,9 +73,7 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 		{
 			public void onClick(View view)
 			{
-				Intent intent = new Intent(activity, BuyDrink.class);
-				startActivity(intent);
-				finish();
+				Utility.startActivity(activity, BuyDrink.class);
 			}
 		});
 
@@ -86,7 +82,7 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
+	public boolean onCreateOptionsMenu(final Menu menu)
 	{
 		getMenuInflater().inflate(R.menu.buydrink, menu);
 		final MenuItem menuItem = menu.findItem(R.id.multi_user_mode);
@@ -98,16 +94,17 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
+	public boolean onOptionsItemSelected(final MenuItem item)
 	{
-		boolean resetView = true;
 		switch (item.getItemId())
 		{
 			case R.id.reset_hostname:
 				Utility.resetHostname(activity);
+				Utility.startActivity(activity, SetHostname.class);
 				break;
 			case R.id.reset_username:
 				Utility.resetUsername(activity);
+				Utility.startActivity(activity, PickUsername.class);
 				break;
 			case R.id.multi_user_mode:
 				multiUserMode = Utility.toggleMultiUserMode(activity);
@@ -116,16 +113,21 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 				{
 					Utility.resetUsername(activity);
 				}
-				resetView = false;
 				break;
 		}
-		if (resetView)
-		{
-			Intent intent = new Intent(this, MainActivity.class);
-			startActivity(intent);
-			finish();
-		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public boolean onKeyDown(final int keyCode, final KeyEvent event)
+	{
+		if (keyCode == KeyEvent.KEYCODE_BACK)
+		{
+			Utility.resetUsername(activity);
+			Utility.startActivity(activity, MainActivity.class);
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 
 	@Override
@@ -187,9 +189,7 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 					balance.setText(DECIMAL_FORMAT.format(user.getBalance()));
 					if (task == LongRunningIOTask.UPDATE_USER && multiUserMode && isBuyingDrink.get())
 					{
-						Intent intent = new Intent(activity, PickUsername.class);
-						startActivity(intent);
-						finish();
+						Utility.startActivity(activity, PickUsername.class);
 					}
 					break;
 				}
@@ -252,7 +252,7 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 			this.inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}
 
-		public View getView(int position, View convertView, ViewGroup parent)
+		public View getView(final int position, final View convertView, final ViewGroup parent)
 		{
 			View view = convertView;
 			if (view == null)
@@ -295,7 +295,7 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 	private class DrinkComparator implements Comparator<Drink>
 	{
 		@Override
-		public int compare(Drink drink, Drink drink2)
+		public int compare(final Drink drink, final Drink drink2)
 		{
 			return (int) Math.round(drink2.getDonationRecommendation() * 100 - drink.getDonationRecommendation() * 100);
 		}

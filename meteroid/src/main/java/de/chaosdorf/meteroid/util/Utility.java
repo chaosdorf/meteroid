@@ -1,6 +1,7 @@
 package de.chaosdorf.meteroid.util;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.widget.ImageView;
@@ -28,7 +29,14 @@ public class Utility
 		});
 	}
 
-	public static void resetHostname(Activity activity)
+	public static void startActivity(final Activity activity, Class<?> classType)
+	{
+		final Intent intent = new Intent(activity, classType);
+		activity.startActivity(intent);
+		activity.finish();
+	}
+
+	public static void resetHostname(final Activity activity)
 	{
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
 		prefs.edit().remove("hostname").apply();

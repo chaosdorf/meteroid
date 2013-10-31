@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -42,9 +43,11 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 	private final AtomicBoolean isBuying = new AtomicBoolean(false);
 	private final AtomicBoolean isBuyingDrink = new AtomicBoolean(false);
 	private Activity activity = null;
+	private GridView gridView = null;
 	private ListView listView = null;
 	private String hostname = null;
 	private int userID = 0;
+	private boolean useGridView;
 	private boolean multiUserMode;
 
 	@Override
@@ -54,10 +57,13 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 		activity = this;
 		setContentView(R.layout.activity_buy_drink);
 
-		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		gridView = (GridView) findViewById(R.id.grid_view);
+		listView = (ListView) findViewById(R.id.list_view);
 
+		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		hostname = prefs.getString("hostname", null);
 		userID = prefs.getInt("userid", 0);
+		useGridView = prefs.getBoolean("use_grid_view", false);
 		multiUserMode = prefs.getBoolean("multi_user_mode", false);
 
 		final ImageButton backButton = (ImageButton) findViewById(R.id.button_back);
@@ -87,7 +93,12 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 	public boolean onCreateOptionsMenu(final Menu menu)
 	{
 		getMenuInflater().inflate(R.menu.buydrink, menu);
-		final MenuItem menuItem = menu.findItem(R.id.multi_user_mode);
+		MenuItem menuItem = menu.findItem(R.id.use_grid_view);
+		if (menuItem != null)
+		{
+			menuItem.setChecked(useGridView);
+		}
+		menuItem = menu.findItem(R.id.multi_user_mode);
 		if (menuItem != null)
 		{
 			menuItem.setChecked(multiUserMode);
@@ -107,6 +118,11 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 			case R.id.reset_username:
 				Utility.resetUsername(activity);
 				Utility.startActivity(activity, PickUsername.class);
+				break;
+			case R.id.use_grid_view:
+				useGridView = Utility.toggleUseGridView(activity);
+				item.setChecked(useGridView);
+				Utility.startActivity(activity, BuyDrink.class);
 				break;
 			case R.id.multi_user_mode:
 				multiUserMode = Utility.toggleMultiUserMode(activity);
@@ -135,6 +151,10 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 	@Override
 	public void onDestroy()
 	{
+		if (gridView != null)
+		{
+			gridView.setAdapter(null);
+		}
 		if (listView != null)
 		{
 			listView.setAdapter(null);
@@ -159,10 +179,8 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 				}
 				final TextView textView = (TextView) findViewById(R.id.buy_drink_error);
 				textView.setVisibility(View.VISIBLE);
-				if (listView != null)
-				{
-					listView.setVisibility(View.GONE);
-				}
+				gridView.setVisibility(View.GONE);
+				listView.setVisibility(View.GONE);
 			}
 		});
 	}
@@ -201,13 +219,22 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 				{
 					final List<Drink> drinks = DrinkController.parseAllDrinksFromJSON(json);
 					final DrinkAdapter drinkAdapter = new DrinkAdapter(drinks);
-					listView = (ListView) findViewById(R.id.list_view);
 
 					drinks.addAll(DrinkController.getMoneyList());
 					Collections.sort(drinks, new DrinkComparator());
 
-					listView.setAdapter(drinkAdapter);
-					listView.setOnItemClickListener(this);
+					if (useGridView)
+					{
+						gridView.setAdapter(drinkAdapter);
+						gridView.setOnItemClickListener(this);
+						gridView.setVisibility(View.VISIBLE);
+					}
+					else
+					{
+						listView.setAdapter(drinkAdapter);
+						listView.setOnItemClickListener(this);
+						listView.setVisibility(View.VISIBLE);
+					}
 					break;
 				}
 
@@ -233,7 +260,7 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 		}
 		if (isBuying.compareAndSet(false, true))
 		{
-			final Drink drink = (Drink) listView.getAdapter().getItem(index);
+			final Drink drink = (Drink) (useGridView ? gridView.getItemAtPosition(index) : listView.getAdapter().getItem(index));
 			if (drink != null)
 			{
 				isBuyingDrink.set(drink.getDonationRecommendation() > 0);
@@ -259,7 +286,7 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 			View view = convertView;
 			if (view == null)
 			{
-				view = inflater.inflate(R.layout.activity_buy_drink_item, parent, false);
+				view = inflater.inflate(useGridView ? R.layout.activity_buy_drink_item_gridview : R.layout.activity_buy_drink_item, parent, false);
 			}
 			if (view == null)
 			{
@@ -269,14 +296,25 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 			final Drink drink = drinkList.get(position);
 			String logo = drink.getLogoUrl();
 			boolean isDrink = false;
-			if (!logo.startsWith("euro_"))
+			if (logo.startsWith("drink_"))
 			{
 				isDrink = true;
-				logo = "drink_" + logo;
 			}
-			else if (logo.startsWith("drink_"))
+			else if (!logo.startsWith("euro_"))
 			{
 				isDrink = true;
+				if (!logo.isEmpty())
+				{
+					logo = "drink_" + logo;
+				}
+				else if (drink.getBottleSize() == 0.5)
+				{
+					logo = "drink_0l5";
+				}
+				else
+				{
+					logo = "drink_0l33";
+				}
 			}
 			final StringBuilder drinkLabel = new StringBuilder();
 			drinkLabel.append((drink.getDonationRecommendation() < 0) ? "+" : "")

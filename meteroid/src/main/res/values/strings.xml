@@ -18,9 +18,7 @@
     <!-- Pick username -->
     <string name="pick_username_label">Pick your username</string>
     <string name="pick_username_new_user">New user</string>
-    <string name="pick_username_error">Could not load user list. Please check network connection or
-        reset hostname to proceed.
-    </string>
+    <string name="pick_username_error">Could not load user list. Please check network connection or reset hostname to proceed.</string>
 
     <!-- Add user -->
     <string name="add_user_label">Add user</string>
@@ -35,9 +33,7 @@
     <string name="buy_drink_pending">Please wait for current transaction…</string>
     <string name="buy_drink_bought_drink">Successfully bought drink</string>
     <string name="buy_drink_added_money">Successfully added money</string>
-    <string name="buy_drink_error">Could not load data from mete. Please check network connection or
-        reset hostname/username to proceed.
-    </string>
+    <string name="buy_drink_error">Could not load data from mete. Please check network connection or reset hostname/username to proceed.</string>
 
     <!-- Buttons -->
     <string name="button_back">Back</string>
@@ -51,5 +47,8 @@
     <string name="menu_multi_user_mode">Multi-user mode</string>
     <string name="menu_multi_user_mode_enabled">Multi-user mode enabled</string>
     <string name="menu_multi_user_mode_disabled">Multi-user mode disabled</string>
+    <string name="menu_use_grid_view">Use grid view</string>
+    <string name="menu_use_grid_view_enabled">Grid view enabled</string>
+    <string name="menu_use_grid_view_disabled">Grid view disabled</string>
 
 </resources>

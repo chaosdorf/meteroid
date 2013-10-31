@@ -48,6 +48,15 @@ public class Utility
 		prefs.edit().remove("userid").apply();
 	}
 
+	public static boolean toggleUseGridView(Activity activity)
+	{
+		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+		final boolean newState = !prefs.getBoolean("use_grid_view", false);
+		prefs.edit().putBoolean("use_grid_view", newState).apply();
+		displayToastMessage(activity, activity.getResources().getString(newState ? R.string.menu_use_grid_view_enabled : R.string.menu_use_grid_view_disabled));
+		return newState;
+	}
+
 	public static boolean toggleMultiUserMode(Activity activity)
 	{
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);

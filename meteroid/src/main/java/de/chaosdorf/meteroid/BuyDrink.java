@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.Comparator;
@@ -119,7 +121,7 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 	}
 
 	@Override
-	public boolean onKeyDown(final int keyCode, final KeyEvent event)
+	public boolean onKeyDown(final int keyCode, @NotNull final KeyEvent event)
 	{
 		if (keyCode == KeyEvent.KEYCODE_BACK)
 		{

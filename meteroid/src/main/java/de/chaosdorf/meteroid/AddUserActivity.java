@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Date;
 
 import de.chaosdorf.meteroid.controller.UserController;
@@ -101,7 +103,7 @@ public class AddUserActivity extends Activity implements LongRunningIOCallback
 	}
 
 	@Override
-	public boolean onKeyDown(final int keyCode, final KeyEvent event)
+	public boolean onKeyDown(final int keyCode, @NotNull final KeyEvent event)
 	{
 		if (keyCode == KeyEvent.KEYCODE_BACK)
 		{

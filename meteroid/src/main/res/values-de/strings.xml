@@ -1,0 +1,35 @@
+<resources>
+
+    <string name="add_user_balance">Guthaben</string>
+    <string name="add_user_email">Email</string>
+    <string name="add_user_empty_balance">Bitte Guthaben eingeben</string>
+    <string name="add_user_empty_username">Bitte Benutzername eingeben</string>
+    <string name="add_user_label">Benutzer hinzufügen</string>
+    <string name="add_user_username">Benutzername</string>
+    <string name="app_name">meteroid</string>
+    <string name="button_back">Zurück</string>
+    <string name="button_ok">OK</string>
+    <string name="button_reload">Neu laden</string>
+    <string name="button_save">Speichern</string>
+    <string name="buy_drink_added_money">Guthaben erfolgreich gebucht</string>
+    <string name="buy_drink_bought_drink">Getränk erfolgreich gekauft</string>
+    <string name="buy_drink_error">Daten konnte nicht von mete geladen werden. Bitte Netzwerkverbindung überprüfen oder Hostname/Benutzername zurücksetzen um fortzufahren.</string>
+    <string name="buy_drink_label">Getränk kaufen</string>
+    <string name="buy_drink_pending">Bitte warten bis aktueller Vorgang abgeschlossen ist…</string>
+    <string name="error_user_not_found">Fehler beim Laden von Daten:</string>
+    <string name="main_overview">Überblick</string>
+    <string name="menu_multi_user_mode">Mehrbenutzer-Modus</string>
+    <string name="menu_multi_user_mode_disabled">Mehrbenutzer-Modus deaktiviert</string>
+    <string name="menu_multi_user_mode_enabled">Mehrbenutzer-Modus aktiviert</string>
+    <string name="menu_reset_hostname">Hostname zurücksetzen</string>
+    <string name="menu_reset_username">Benutzer zurücksetzen</string>
+    <string name="pick_username_error">Konnte Benutzerliste nicht laden. Bitte Netzwerkverbindung übperorpfen oder Hostnamen zurücksetzen um fortzufahren</string>
+    <string name="pick_username_label">Benutzer auswählen</string>
+    <string name="pick_username_new_user">Neuer Benutzer</string>
+    <string name="set_hostname">Bitte URL von mete eingeben</string>
+    <string name="set_hostname_default_hostname">http://mete</string>
+    <string name="set_hostname_empty">Bitte einen Hostnamen eingeben</string>
+    <string name="set_hostname_invalid">Ungültiger Hostname eingegeben</string>
+    <string name="set_hostname_label">Hostname</string>
+
+</resources>

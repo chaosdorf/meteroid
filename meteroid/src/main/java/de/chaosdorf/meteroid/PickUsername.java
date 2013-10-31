@@ -144,9 +144,9 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 	}
 
 	@Override
-	public void onItemClick(final AdapterView<?> adapterView, final View view, final int i, final long l)
+	public void onItemClick(final AdapterView<?> adapterView, final View view, final int index, final long l)
 	{
-		final User user = (User) gridView.getItemAtPosition(i);
+		final User user = (User) gridView.getItemAtPosition(index);
 		if (user != null && user.getName() != null)
 		{
 			if (user.getId() == NEW_USER_ID)

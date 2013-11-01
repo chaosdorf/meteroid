@@ -48,21 +48,22 @@ public class Utility
 		prefs.edit().remove("userid").apply();
 	}
 
-	public static boolean toggleUseGridView(Activity activity)
+	public static boolean toggleUseGridView(final Activity activity)
 	{
-		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
-		final boolean newState = !prefs.getBoolean("use_grid_view", false);
-		prefs.edit().putBoolean("use_grid_view", newState).apply();
-		displayToastMessage(activity, activity.getResources().getString(newState ? R.string.menu_use_grid_view_enabled : R.string.menu_use_grid_view_disabled));
-		return newState;
+		return Utility.toogleBooleanSharedPreference(activity, "use_grid_view", false, R.string.menu_use_grid_view_enabled, R.string.menu_use_grid_view_disabled);
 	}
 
-	public static boolean toggleMultiUserMode(Activity activity)
+	public static boolean toggleMultiUserMode(final Activity activity)
+	{
+		return Utility.toogleBooleanSharedPreference(activity, "multi_user_mode", false, R.string.menu_multi_user_mode_enabled, R.string.menu_multi_user_mode_disabled);
+	}
+
+	private static boolean toogleBooleanSharedPreference(final Activity activity, final String prefName, final boolean defaultValue, final int enabledMessageID, final int disabledMessageID)
 	{
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
-		final boolean newState = !prefs.getBoolean("multi_user_mode", false);
-		prefs.edit().putBoolean("multi_user_mode", newState).apply();
-		displayToastMessage(activity, activity.getResources().getString(newState ? R.string.menu_multi_user_mode_enabled : R.string.menu_multi_user_mode_disabled));
+		final boolean newState = !prefs.getBoolean(prefName, defaultValue);
+		prefs.edit().putBoolean(prefName, newState).apply();
+		displayToastMessage(activity, activity.getResources().getString(newState ? enabledMessageID : disabledMessageID));
 		return newState;
 	}
 

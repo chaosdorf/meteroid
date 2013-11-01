@@ -141,9 +141,12 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 	{
 		if (keyCode == KeyEvent.KEYCODE_BACK)
 		{
-			Utility.resetUsername(activity);
-			Utility.startActivity(activity, MainActivity.class);
-			return true;
+			if (multiUserMode)
+			{
+				Utility.resetUsername(activity);
+				Utility.startActivity(activity, MainActivity.class);
+				return true;
+			}
 		}
 		return super.onKeyDown(keyCode, event);
 	}

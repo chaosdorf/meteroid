@@ -8,23 +8,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import de.chaosdorf.meteroid.model.BuyableItem;
 import de.chaosdorf.meteroid.model.Drink;
 
 public class DrinkController
 {
-	public static List<Drink> getMoneyList()
+	public static List<BuyableItem> parseAllDrinksFromJSON(final String json)
 	{
-		final List<Drink> list = new ArrayList<Drink>();
-		list.add(new Drink(0, "5 Euro", "euro_5", 0, "", -5, null, null));
-		list.add(new Drink(0, "10 Euro", "euro_10", 0, "", -10, null, null));
-		list.add(new Drink(0, "20 Euro", "euro_20", 0, "", -20, null, null));
-		list.add(new Drink(0, "50 Euro", "euro_50", 0, "", -50, null, null));
-		return list;
-	}
-
-	public static List<Drink> parseAllDrinksFromJSON(final String json)
-	{
-		final List<Drink> list = new ArrayList<Drink>();
+		final List<BuyableItem> list = new ArrayList<BuyableItem>();
 		try
 		{
 			final JSONArray jsonArray = new JSONArray(json);

@@ -28,12 +28,13 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import de.chaosdorf.meteroid.controller.DrinkController;
+import de.chaosdorf.meteroid.controller.MoneyController;
 import de.chaosdorf.meteroid.controller.UserController;
 import de.chaosdorf.meteroid.imageloader.ImageLoader;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOCallback;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOGet;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOTask;
-import de.chaosdorf.meteroid.model.Drink;
+import de.chaosdorf.meteroid.model.BuyableItem;
 import de.chaosdorf.meteroid.model.User;
 import de.chaosdorf.meteroid.util.Utility;
 
@@ -220,21 +221,20 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 				// Parse drinks
 				case GET_DRINKS:
 				{
-					final List<Drink> drinks = DrinkController.parseAllDrinksFromJSON(json);
-					final DrinkAdapter drinkAdapter = new DrinkAdapter(drinks);
+					final List<BuyableItem> buyableItemList = DrinkController.parseAllDrinksFromJSON(json);
+					MoneyController.addMoney(buyableItemList);
+					Collections.sort(buyableItemList, new BuyableComparator());
 
-					drinks.addAll(DrinkController.getMoneyList());
-					Collections.sort(drinks, new DrinkComparator());
-
+					final BuyableItemAdapter buyableItemAdapter = new BuyableItemAdapter(buyableItemList);
 					if (useGridView)
 					{
-						gridView.setAdapter(drinkAdapter);
+						gridView.setAdapter(buyableItemAdapter);
 						gridView.setOnItemClickListener(this);
 						gridView.setVisibility(View.VISIBLE);
 					}
 					else
 					{
-						listView.setAdapter(drinkAdapter);
+						listView.setAdapter(buyableItemAdapter);
 						listView.setOnItemClickListener(this);
 						listView.setVisibility(View.VISIBLE);
 					}
@@ -263,21 +263,21 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 		}
 		if (isBuying.compareAndSet(false, true))
 		{
-			final Drink drink = (Drink) (useGridView ? gridView.getItemAtPosition(index) : listView.getAdapter().getItem(index));
-			if (drink != null)
+			final BuyableItem buyableItem = (BuyableItem) (useGridView ? gridView.getItemAtPosition(index) : listView.getAdapter().getItem(index));
+			if (buyableItem != null)
 			{
-				isBuyingDrink.set(drink.getDonationRecommendation() > 0);
-				new LongRunningIOGet(this, LongRunningIOTask.PAY_DRINK, hostname + "users/" + userID + "/deposit?amount=" + (-drink.getDonationRecommendation())).execute();
+				isBuyingDrink.set(buyableItem.isDrink());
+				new LongRunningIOGet(this, LongRunningIOTask.PAY_DRINK, hostname + "users/" + userID + "/deposit?amount=" + (-buyableItem.getDonationRecommendation())).execute();
 			}
 		}
 	}
 
-	private class DrinkAdapter extends ArrayAdapter<Drink>
+	private class BuyableItemAdapter extends ArrayAdapter<BuyableItem>
 	{
-		private final List<Drink> drinkList;
+		private final List<BuyableItem> drinkList;
 		private final LayoutInflater inflater;
 
-		DrinkAdapter(final List<Drink> drinkList)
+		BuyableItemAdapter(final List<BuyableItem> drinkList)
 		{
 			super(activity, R.layout.activity_buy_drink, drinkList);
 			this.drinkList = drinkList;
@@ -296,51 +296,45 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 				return null;
 			}
 
-			final Drink drink = drinkList.get(position);
-			String logo = drink.getLogoUrl();
-			boolean isDrink = false;
-			if (logo.startsWith("drink_"))
-			{
-				isDrink = true;
-			}
-			else if (!logo.startsWith("euro_"))
-			{
-				isDrink = true;
-				if (!logo.isEmpty())
-				{
-					logo = "drink_" + logo;
-				}
-				else if (drink.getBottleSize() == 0.5)
-				{
-					logo = "drink_0l5";
-				}
-				else
-				{
-					logo = "drink_0l33";
-				}
-			}
-			final StringBuilder drinkLabel = new StringBuilder();
-			drinkLabel.append((drink.getDonationRecommendation() < 0) ? "+" : "")
-					.append(DECIMAL_FORMAT.format(-drink.getDonationRecommendation()))
-					.append(isDrink ? " (" + drink.getName() + ")" : "");
-			final int drinkIconID = getResources().getIdentifier(logo, "drawable", getPackageName());
-			final ImageView icon = (ImageView) view.findViewById(R.id.icon);
-			final TextView label = (TextView) view.findViewById(R.id.label);
+			final BuyableItem buyableItem = drinkList.get(position);
+			final int drinkIconID = getResources().getIdentifier(buyableItem.getLogoUrl(), "drawable", getPackageName());
 
-			icon.setContentDescription(drink.getName());
+			final ImageView icon = (ImageView) view.findViewById(R.id.icon);
+			icon.setContentDescription(buyableItem.getName());
 			icon.setImageResource(drinkIconID > 0 ? drinkIconID : R.drawable.drink_0l33);
-			label.setText(drinkLabel.toString());
+
+			final TextView label = (TextView) view.findViewById(R.id.label);
+			label.setText(createLabel(buyableItem, useGridView));
 
 			return view;
 		}
+
+		private String createLabel(final BuyableItem buyableItem, final boolean useGridView)
+		{
+			final StringBuilder label = new StringBuilder();
+			if (!buyableItem.isDrink())
+			{
+				label.append("+");
+			}
+			label.append(DECIMAL_FORMAT.format(-buyableItem.getDonationRecommendation()));
+			if (buyableItem.isDrink())
+			{
+				if (useGridView)
+				{
+					label.append("\n");
+				}
+				label.append(" (").append(buyableItem.getName()).append(")");
+			}
+			return label.toString();
+		}
 	}
 
-	private class DrinkComparator implements Comparator<Drink>
+	private class BuyableComparator implements Comparator<BuyableItem>
 	{
 		@Override
-		public int compare(final Drink drink, final Drink drink2)
+		public int compare(final BuyableItem buyableItem, final BuyableItem buyableItem2)
 		{
-			return (int) Math.round(drink2.getDonationRecommendation() * 100 - drink.getDonationRecommendation() * 100);
+			return (int) Math.round(buyableItem2.getDonationRecommendation() * 100 - buyableItem.getDonationRecommendation() * 100);
 		}
 	}
 }

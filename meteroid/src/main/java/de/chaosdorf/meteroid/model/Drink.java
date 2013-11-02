@@ -2,7 +2,7 @@ package de.chaosdorf.meteroid.model;
 
 import java.util.Date;
 
-public class Drink
+public class Drink implements BuyableItem
 {
 	private final int id;
 	private final String name;
@@ -19,7 +19,7 @@ public class Drink
 	{
 		this.id = id;
 		this.name = name;
-		this.logoUrl = logoUrl;
+		this.logoUrl = createLogoURL(logoUrl);
 		this.bottleSize = bottleSize;
 		this.caffeine = caffeine;
 		this.donationRecommendation = donationRecommendation;
@@ -65,5 +65,30 @@ public class Drink
 	public Date getUpdatedAt()
 	{
 		return updatedAt;
+	}
+
+	public boolean isDrink()
+	{
+		return true;
+	}
+
+	private String createLogoURL(final String logoUrl)
+	{
+		if (logoUrl.isEmpty())
+		{
+			if (bottleSize == 0.5)
+			{
+				return "drink_0l5";
+			}
+			else
+			{
+				return "drink_0l33";
+			}
+		}
+		else if (!logoUrl.startsWith("drink_"))
+		{
+			return "drink_" + logoUrl;
+		}
+		return logoUrl;
 	}
 }

@@ -31,8 +31,8 @@
     <!-- Buy drink -->
     <string name="buy_drink_label">Getränk kaufen</string>
     <string name="buy_drink_pending">Bitte warten bis aktueller Vorgang abgeschlossen ist…</string>
-    <string name="buy_drink_bought_drink">Getränk erfolgreich gekauft</string>
-    <string name="buy_drink_added_money">Guthaben erfolgreich gebucht</string>
+    <string name="buy_drink_bought_drink" formatted="false">%s für %s gekauft</string>
+    <string name="buy_drink_added_money">Erfolgreich %s gebucht</string>
     <string name="buy_drink_error">Daten konnte nicht von mete geladen werden. Bitte Netzwerkverbindung überprüfen oder Hostname/Benutzername zurücksetzen um fortzufahren.</string>
 
     <!-- Buttons -->
@@ -47,8 +47,8 @@
     <string name="menu_multi_user_mode">Mehrbenutzer-Modus</string>
     <string name="menu_multi_user_mode_enabled">Mehrbenutzer-Modus aktiviert</string>
     <string name="menu_multi_user_mode_disabled">Mehrbenutzer-Modus deaktiviert</string>
-    <string name="menu_use_grid_view">Gitter-Ansicht</string>
-    <string name="menu_use_grid_view_enabled">Gitter-Ansicht aktiviert</string>
-    <string name="menu_use_grid_view_disabled">Gitter-Ansicht deaktiviert</string>
+    <string name="menu_use_grid_view">Kachelansicht</string>
+    <string name="menu_use_grid_view_enabled">Kachelansicht aktiviert</string>
+    <string name="menu_use_grid_view_disabled">Kacgelansicht deaktiviert</string>
 
 </resources>

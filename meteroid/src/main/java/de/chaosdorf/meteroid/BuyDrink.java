@@ -26,6 +26,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 import de.chaosdorf.meteroid.controller.DrinkController;
 import de.chaosdorf.meteroid.controller.MoneyController;
@@ -41,13 +42,18 @@ import de.chaosdorf.meteroid.util.Utility;
 public class BuyDrink extends Activity implements LongRunningIOCallback, AdapterView.OnItemClickListener
 {
 	private final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.00 '\u20AC'");
-	private final AtomicBoolean isBuying = new AtomicBoolean(false);
-	private final AtomicBoolean isBuyingDrink = new AtomicBoolean(false);
+
+	private final AtomicBoolean isBuying = new AtomicBoolean(true);
+	private final AtomicReference<BuyableItem> buyingItem = new AtomicReference<BuyableItem>(null);
+
 	private Activity activity = null;
 	private GridView gridView = null;
 	private ListView listView = null;
 	private String hostname = null;
+
 	private int userID = 0;
+	private User user;
+
 	private boolean useGridView;
 	private boolean multiUserMode;
 
@@ -155,6 +161,7 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 	@Override
 	public void onDestroy()
 	{
+		buyingItem.set(null);
 		if (gridView != null)
 		{
 			gridView.setAdapter(null);
@@ -173,6 +180,7 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 		{
 			public void run()
 			{
+				buyingItem.set(null);
 				if (task == LongRunningIOTask.GET_USER || task == LongRunningIOTask.UPDATE_USER)
 				{
 					Utility.displayToastMessage(activity, getResources().getString(R.string.error_user_not_found) + " " + message);
@@ -200,8 +208,7 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 				case GET_USER:
 				case UPDATE_USER:
 				{
-					final User user = UserController.parseUserFromJSON(json);
-					final TextView balance = (TextView) findViewById(R.id.balance);
+					user = UserController.parseUserFromJSON(json);
 					if (task == LongRunningIOTask.GET_USER)
 					{
 						final TextView label = (TextView) findViewById(R.id.username);
@@ -210,11 +217,9 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 						label.setText(user.getName());
 						Utility.loadGravatarImage(imageLoader, icon, user);
 					}
+					final TextView balance = (TextView) findViewById(R.id.balance);
 					balance.setText(DECIMAL_FORMAT.format(user.getBalance()));
-					if (task == LongRunningIOTask.UPDATE_USER && multiUserMode && isBuyingDrink.get())
-					{
-						Utility.startActivity(activity, PickUsername.class);
-					}
+					isBuying.set(false);
 					break;
 				}
 
@@ -244,9 +249,30 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 				// Bought drink
 				case PAY_DRINK:
 				{
-					Utility.displayToastMessage(activity, getResources().getString(isBuyingDrink.get() ? R.string.buy_drink_bought_drink : R.string.buy_drink_added_money));
+					final BuyableItem buyableItem = buyingItem.get();
+					if (buyableItem != null)
+					{
+						buyingItem.set(null);
+						Utility.displayToastMessage(activity,
+								String.format(
+										getResources().getString(buyableItem.isDrink() ? R.string.buy_drink_bought_drink : R.string.buy_drink_added_money),
+										buyableItem.getName(),
+										DECIMAL_FORMAT.format(buyableItem.getDonationRecommendation())
+								)
+						);
+						// Adjust the displayed balance to give an immediate user feedback
+						if (user != null)
+						{
+							final TextView balance = (TextView) findViewById(R.id.balance);
+							balance.setText(DECIMAL_FORMAT.format(user.getBalance() - buyableItem.getDonationRecommendation()));
+						}
+						if (multiUserMode && buyableItem.isDrink())
+						{
+							Utility.startActivity(activity, PickUsername.class);
+							break;
+						}
+					}
 					new LongRunningIOGet(this, LongRunningIOTask.UPDATE_USER, hostname + "users/" + userID + ".json").execute();
-					isBuying.set(false);
 					break;
 				}
 			}
@@ -266,7 +292,7 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 			final BuyableItem buyableItem = (BuyableItem) (useGridView ? gridView.getItemAtPosition(index) : listView.getAdapter().getItem(index));
 			if (buyableItem != null)
 			{
-				isBuyingDrink.set(buyableItem.isDrink());
+				buyingItem.set(buyableItem);
 				new LongRunningIOGet(this, LongRunningIOTask.PAY_DRINK, hostname + "users/" + userID + "/deposit?amount=" + (-buyableItem.getDonationRecommendation())).execute();
 			}
 		}

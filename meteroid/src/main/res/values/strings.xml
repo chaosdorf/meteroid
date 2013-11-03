@@ -31,8 +31,8 @@
     <!-- Buy drink -->
     <string name="buy_drink_label">Buy drink</string>
     <string name="buy_drink_pending">Please wait for current transaction…</string>
-    <string name="buy_drink_bought_drink">Successfully bought drink</string>
-    <string name="buy_drink_added_money">Successfully added money</string>
+    <string name="buy_drink_bought_drink" formatted="false">Bought %s for %s</string>
+    <string name="buy_drink_added_money">Successfully added %s</string>
     <string name="buy_drink_error">Could not load data from mete. Please check network connection or reset hostname/username to proceed.</string>
 
     <!-- Buttons -->

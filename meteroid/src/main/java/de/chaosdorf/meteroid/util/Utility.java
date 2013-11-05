@@ -84,7 +84,7 @@ public class Utility
 		}
 		else
 		{
-			imageLoader.DisplayImage("http://www.gravatar.com/avatar/" + md5Hex(email), icon);
+			imageLoader.DisplayImage("http://www.gravatar.com/avatar/" + md5Hex(email) + "?d=404", icon);
 		}
 	}
 

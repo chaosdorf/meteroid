@@ -54,6 +54,11 @@ public class ImageLoader
 
 	public void DisplayImage(String url, ImageView imageView)
 	{
+		if (url == null)
+		{
+			imageView.setImageBitmap(stubBitmap);
+			return;
+		}
 		final Bitmap bitmap = memoryCache.get(url);
 		if (bitmap != null)
 		{
@@ -61,12 +66,8 @@ public class ImageLoader
 		}
 		else
 		{
-			if (url != null)
-			{
-				imageViews.put(imageView, url);
-				queuePhoto(url, imageView);
-			}
-			imageView.setImageBitmap(stubBitmap);
+			imageViews.put(imageView, url);
+			queuePhoto(url, imageView);
 		}
 	}
 

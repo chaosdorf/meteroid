@@ -36,12 +36,6 @@ public class Utility
 		activity.finish();
 	}
 
-	public static void resetHostname(final Activity activity)
-	{
-		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
-		prefs.edit().remove("hostname").apply();
-	}
-
 	public static void resetUsername(final Activity activity)
 	{
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);

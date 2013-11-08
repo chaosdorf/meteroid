@@ -42,7 +42,7 @@
     <string name="button_ok">OK</string>
 
     <!-- Menues -->
-    <string name="menu_reset_hostname">Reset hostname</string>
+    <string name="menu_edit_hostname">Edit hostname</string>
     <string name="menu_reset_username">Reset username</string>
     <string name="menu_multi_user_mode">Multi-user mode</string>
     <string name="menu_multi_user_mode_enabled">Multi-user mode enabled</string>

@@ -88,8 +88,7 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 	{
 		switch (item.getItemId())
 		{
-			case R.id.reset_hostname:
-				Utility.resetHostname(activity);
+			case R.id.edit_hostname:
 				Utility.startActivity(activity, SetHostname.class);
 				break;
 			case R.id.multi_user_mode:

@@ -37,6 +37,7 @@ import de.chaosdorf.meteroid.longrunningio.LongRunningIOGet;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOTask;
 import de.chaosdorf.meteroid.model.BuyableItem;
 import de.chaosdorf.meteroid.model.User;
+import de.chaosdorf.meteroid.util.MenuUtility;
 import de.chaosdorf.meteroid.util.Utility;
 
 public class BuyDrink extends Activity implements LongRunningIOCallback, AdapterView.OnItemClickListener
@@ -100,16 +101,8 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 	public boolean onCreateOptionsMenu(final Menu menu)
 	{
 		getMenuInflater().inflate(R.menu.buydrink, menu);
-		MenuItem menuItem = menu.findItem(R.id.use_grid_view);
-		if (menuItem != null)
-		{
-			menuItem.setChecked(useGridView);
-		}
-		menuItem = menu.findItem(R.id.multi_user_mode);
-		if (menuItem != null)
-		{
-			menuItem.setChecked(multiUserMode);
-		}
+		MenuUtility.setChecked(menu, R.id.use_grid_view, useGridView);
+		MenuUtility.setChecked(menu, R.id.multi_user_mode, multiUserMode);
 		return true;
 	}
 
@@ -131,12 +124,7 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 				Utility.startActivity(activity, BuyDrink.class);
 				break;
 			case R.id.multi_user_mode:
-				multiUserMode = Utility.toggleMultiUserMode(activity);
-				item.setChecked(multiUserMode);
-				if (multiUserMode)
-				{
-					Utility.resetUsername(activity);
-				}
+				multiUserMode = MenuUtility.onClickMultiUserMode(this, item);
 				break;
 		}
 		return super.onOptionsItemSelected(item);

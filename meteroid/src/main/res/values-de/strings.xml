@@ -42,7 +42,7 @@
     <!-- Pick username -->
     <string name="pick_username_label">Benutzer auswählen</string>
     <string name="pick_username_new_user">Neuer Benutzer</string>
-    <string name="pick_username_error">Konnte Benutzerliste nicht laden. Bitte Netzwerkverbindung übperorpfen oder Hostnamen zurücksetzen um fortzufahren</string>
+    <string name="pick_username_error">Konnte Benutzerliste nicht laden. Bitte Netzwerkverbindung überprüfen oder Hostnamen ändern um fortzufahren.</string>
 
     <!-- Add user -->
     <string name="add_user_label">Benutzer hinzufügen</string>
@@ -57,7 +57,7 @@
     <string name="buy_drink_pending">Bitte warten bis aktueller Vorgang abgeschlossen ist…</string>
     <string name="buy_drink_bought_drink" formatted="false">%s für %s gekauft</string>
     <string name="buy_drink_added_money">Erfolgreich %s gebucht</string>
-    <string name="buy_drink_error">Daten konnte nicht von mete geladen werden. Bitte Netzwerkverbindung überprüfen oder Hostname/Benutzername zurücksetzen um fortzufahren.</string>
+    <string name="buy_drink_error">Daten konnte nicht von mete geladen werden. Bitte Netzwerkverbindung überprüfen oder Hostname/Benutzername ändern um fortzufahren.</string>
 
     <!-- Buttons -->
     <string name="button_back">Zurück</string>

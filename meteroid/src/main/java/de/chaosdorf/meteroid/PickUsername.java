@@ -29,6 +29,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,6 +42,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
 import java.util.List;
@@ -61,6 +64,7 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 	private Activity activity = null;
 	private GridView gridView = null;
 	private boolean multiUserMode = false;
+	private boolean editHostnameOnBackButton = false;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState)
@@ -120,6 +124,20 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 	}
 
 	@Override
+	public boolean onKeyDown(final int keyCode, @NotNull final KeyEvent event)
+	{
+		if (keyCode == KeyEvent.KEYCODE_BACK)
+		{
+			if (editHostnameOnBackButton)
+			{
+				Utility.startActivity(activity, SetHostname.class);
+				return true;
+			}
+		}
+		return super.onKeyDown(keyCode, event);
+	}
+
+	@Override
 	public void onDestroy()
 	{
 		if (gridView != null)
@@ -140,6 +158,7 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 				final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.pick_username_error);
 				linearLayout.setVisibility(View.VISIBLE);
 				gridView.setVisibility(View.GONE);
+				editHostnameOnBackButton = true;
 			}
 		});
 	}

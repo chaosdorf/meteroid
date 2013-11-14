@@ -24,62 +24,36 @@
 
 package de.chaosdorf.meteroid.imageloader;
 
-import android.content.Context;
+import android.app.Activity;
 
-import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import java.util.concurrent.TimeUnit;
 
-public class FileCache
+public class ImageLoaderSingleton
 {
-	private final File cacheDir;
+	private static final long REFRESH_INTERVAL = TimeUnit.MINUTES.toNanos(15);
 
-	public FileCache(final Context context)
+	private static ImageLoader instance = null;
+	private static long refreshTimestamp = 0;
+
+	public static ImageLoader getInstance(final Activity activity)
 	{
-		// Find the dir to save cached images
-		if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
+		if (instance == null)
 		{
-			cacheDir = new File(android.os.Environment.getExternalStorageDirectory(), "meteroid");
+			ensureInstance(activity);
 		}
-		else
+		if (refreshTimestamp < System.nanoTime())
 		{
-			cacheDir = context.getCacheDir();
+			refreshTimestamp = System.nanoTime() + REFRESH_INTERVAL;
+			instance.clearCache();
 		}
-		if (cacheDir != null && !cacheDir.exists())
-		{
-			if (!cacheDir.mkdirs())
-			{
-				throw new RuntimeException("Could not create cache directory!");
-			}
-		}
+		return instance;
 	}
 
-	public File getFile(final String url)
+	private static synchronized void ensureInstance(final Activity activity)
 	{
-		try
+		if (instance == null)
 		{
-			return new File(cacheDir, URLEncoder.encode(url, "UTF-8"));
-		}
-		catch (UnsupportedEncodingException e)
-		{
-			e.printStackTrace();
-		}
-		return new File(cacheDir, String.valueOf(url.hashCode()));
-	}
-
-	public void clear()
-	{
-		final File[] cachedFiles = cacheDir.listFiles();
-		if (cachedFiles == null)
-		{
-			return;
-		}
-		for (File file : cachedFiles)
-		{
-			if (!file.delete())
-			{
-				throw new RuntimeException("Could not delete cached file " + file.getName());
-			}
+			instance = new ImageLoader(activity.getApplicationContext(), 80);
 		}
 	}
 }

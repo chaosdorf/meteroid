@@ -49,7 +49,6 @@ import java.util.Date;
 import java.util.List;
 
 import de.chaosdorf.meteroid.controller.UserController;
-import de.chaosdorf.meteroid.imageloader.ImageLoader;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOCallback;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOGet;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOTask;
@@ -200,14 +199,12 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 	{
 		private final List<User> userList;
 		private final LayoutInflater inflater;
-		private final ImageLoader imageLoader;
 
 		UserAdapter(final List<User> userList)
 		{
 			super(activity, R.layout.activity_pick_username, userList);
 			this.userList = userList;
 			this.inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			this.imageLoader = new ImageLoader(activity.getApplicationContext(), 80);
 		}
 
 		public View getView(final int position, final View convertView, final ViewGroup parent)
@@ -226,7 +223,7 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 			final ImageView icon = (ImageView) view.findViewById(R.id.icon);
 			final TextView label = (TextView) view.findViewById(R.id.label);
 
-			Utility.loadGravatarImage(imageLoader, icon, user);
+			Utility.loadGravatarImage(activity, icon, user);
 			icon.setContentDescription(user.getName());
 			label.setText(user.getName());
 

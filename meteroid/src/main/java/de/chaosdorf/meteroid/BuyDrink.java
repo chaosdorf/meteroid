@@ -55,7 +55,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import de.chaosdorf.meteroid.controller.DrinkController;
 import de.chaosdorf.meteroid.controller.MoneyController;
 import de.chaosdorf.meteroid.controller.UserController;
-import de.chaosdorf.meteroid.imageloader.ImageLoader;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOCallback;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOGet;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOTask;
@@ -223,10 +222,9 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 					if (task == LongRunningIOTask.GET_USER)
 					{
 						final TextView label = (TextView) findViewById(R.id.username);
-						final ImageLoader imageLoader = new ImageLoader(activity.getApplicationContext(), 80);
 						final ImageView icon = (ImageView) findViewById(R.id.icon);
 						label.setText(user.getName());
-						Utility.loadGravatarImage(imageLoader, icon, user);
+						Utility.loadGravatarImage(activity, icon, user);
 					}
 					final TextView balance = (TextView) findViewById(R.id.balance);
 					balance.setText(DECIMAL_FORMAT.format(user.getBalance()));

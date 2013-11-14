@@ -36,7 +36,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import de.chaosdorf.meteroid.R;
-import de.chaosdorf.meteroid.imageloader.ImageLoader;
+import de.chaosdorf.meteroid.imageloader.ImageLoaderSingleton;
 import de.chaosdorf.meteroid.model.User;
 
 public class Utility
@@ -85,7 +85,7 @@ public class Utility
 		return newState;
 	}
 
-	public static void loadGravatarImage(final ImageLoader imageLoader, final ImageView icon, final User user)
+	public static void loadGravatarImage(final Activity activity, final ImageView icon, final User user)
 	{
 		String email = null;
 		if (user != null)
@@ -98,11 +98,11 @@ public class Utility
 		}
 		if (email == null || email.length() == 0)
 		{
-			imageLoader.DisplayImage(null, icon);
+			ImageLoaderSingleton.getInstance(activity).displayImage(null, icon);
 		}
 		else
 		{
-			imageLoader.DisplayImage("http://www.gravatar.com/avatar/" + md5Hex(email) + "?d=404", icon);
+			ImageLoaderSingleton.getInstance(activity).displayImage("http://www.gravatar.com/avatar/" + md5Hex(email) + "?d=404", icon);
 		}
 	}
 

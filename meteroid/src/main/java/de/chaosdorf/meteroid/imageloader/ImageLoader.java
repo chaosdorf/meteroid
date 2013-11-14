@@ -76,7 +76,7 @@ public class ImageLoader
 		imageViews = new ConcurrentHashMap<ImageView, String>();
 	}
 
-	public void DisplayImage(String url, ImageView imageView)
+	public void displayImage(final String url, final ImageView imageView)
 	{
 		if (url == null)
 		{
@@ -95,42 +95,48 @@ public class ImageLoader
 		}
 	}
 
-	private void queuePhoto(String url, ImageView imageView)
+	public void clearCache()
+	{
+		memoryCache.clear();
+		fileCache.clear();
+	}
+
+	private void queuePhoto(final String url, final ImageView imageView)
 	{
 		final PhotoToLoad p = new PhotoToLoad(url, imageView);
 		executorService.submit(new PhotosLoader(p));
 	}
 
-	private Bitmap getBitmap(String url)
+	private Bitmap getBitmap(final String url)
 	{
-		final File f = fileCache.getFile(url);
+		final File file = fileCache.getFile(url);
 
 		// From SD cache
-		Bitmap b = decodeFile(f);
-		if (b != null)
+		final Bitmap bitmap = decodeFile(file);
+		if (bitmap != null)
 		{
-			return b;
+			return bitmap;
 		}
 
 		// From web
 		try
 		{
-			URL imageUrl = new URL(url);
-			HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
+			final URL imageUrl = new URL(url);
+			final HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
 			conn.setConnectTimeout(30000);
 			conn.setReadTimeout(30000);
 			conn.setInstanceFollowRedirects(true);
-			InputStream is = conn.getInputStream();
-			OutputStream os = new FileOutputStream(f);
+			final InputStream is = conn.getInputStream();
+			final OutputStream os = new FileOutputStream(file);
 			copyStream(is, os);
 			os.close();
 			conn.disconnect();
-			return decodeFile(f);
+			return decodeFile(file);
 		}
-		catch (Throwable ex)
+		catch (Throwable e)
 		{
-			ex.printStackTrace();
-			if (ex instanceof OutOfMemoryError)
+			e.printStackTrace();
+			if (e instanceof OutOfMemoryError)
 			{
 				memoryCache.clear();
 			}
@@ -138,7 +144,7 @@ public class ImageLoader
 		}
 	}
 
-	private void copyStream(InputStream is, OutputStream os)
+	private void copyStream(final InputStream is, final OutputStream os)
 	{
 		final int buffer_size = 1024;
 		try
@@ -154,32 +160,32 @@ public class ImageLoader
 				os.write(bytes, 0, count);
 			}
 		}
-		catch (Exception ex)
+		catch (Exception ignored)
 		{
 			// do nothing
 		}
 	}
 
 	// Decodes image and scales it to reduce memory consumption
-	private Bitmap decodeFile(File f)
+	private Bitmap decodeFile(final File file)
 	{
 		try
 		{
 			// Decode image size
-			BitmapFactory.Options o = new BitmapFactory.Options();
-			o.inJustDecodeBounds = true;
-			FileInputStream stream1 = new FileInputStream(f);
-			BitmapFactory.decodeStream(stream1, null, o);
+			final BitmapFactory.Options options1 = new BitmapFactory.Options();
+			options1.inJustDecodeBounds = true;
+			final FileInputStream stream1 = new FileInputStream(file);
+			BitmapFactory.decodeStream(stream1, null, options1);
 			stream1.close();
 
 			// Find the correct scale value. It should be the power of 2.
-			int scale = calculateInSampleSize(o.outWidth, o.outHeight);
+			final int scale = calculateInSampleSize(options1.outWidth, options1.outHeight);
 
 			// Decode with inSampleSize
-			BitmapFactory.Options o2 = new BitmapFactory.Options();
-			o2.inSampleSize = scale;
-			FileInputStream stream2 = new FileInputStream(f);
-			Bitmap bitmap = BitmapFactory.decodeStream(stream2, null, o2);
+			final BitmapFactory.Options options2 = new BitmapFactory.Options();
+			options2.inSampleSize = scale;
+			final FileInputStream stream2 = new FileInputStream(file);
+			final Bitmap bitmap = BitmapFactory.decodeStream(stream2, null, options2);
 			stream2.close();
 			return Bitmap.createScaledBitmap(bitmap, REQUIRED_SIZE, REQUIRED_SIZE, false);
 		}
@@ -210,7 +216,7 @@ public class ImageLoader
 		return scale;
 	}
 
-	boolean imageViewReused(PhotoToLoad photoToLoad)
+	private boolean imageViewReused(final PhotoToLoad photoToLoad)
 	{
 		final String tag = imageViews.get(photoToLoad.imageView);
 		return (tag == null || !tag.equals(photoToLoad.url));
@@ -222,18 +228,18 @@ public class ImageLoader
 		final public String url;
 		final public ImageView imageView;
 
-		public PhotoToLoad(String u, ImageView i)
+		public PhotoToLoad(final String url, final ImageView imageView)
 		{
-			url = u;
-			imageView = i;
+			this.url = url;
+			this.imageView = imageView;
 		}
 	}
 
-	class PhotosLoader implements Runnable
+	private class PhotosLoader implements Runnable
 	{
 		final PhotoToLoad photoToLoad;
 
-		PhotosLoader(PhotoToLoad photoToLoad)
+		PhotosLoader(final PhotoToLoad photoToLoad)
 		{
 			this.photoToLoad = photoToLoad;
 		}
@@ -241,38 +247,44 @@ public class ImageLoader
 		@Override
 		public void run()
 		{
+			Bitmap bmp = null;
 			try
 			{
 				if (imageViewReused(photoToLoad))
 				{
 					return;
 				}
-				Bitmap bmp = getBitmap(photoToLoad.url);
-				memoryCache.put(photoToLoad.url, bmp);
-				if (imageViewReused(photoToLoad))
-				{
-					return;
-				}
-				BitmapDisplayer bd = new BitmapDisplayer(bmp, photoToLoad);
-				handler.post(bd);
+				bmp = getBitmap(photoToLoad.url);
 			}
-			catch (Throwable th)
+			catch (Throwable e)
 			{
-				th.printStackTrace();
+				e.printStackTrace();
+			}
+			finally
+			{
+				if (bmp == null)
+				{
+					bmp = stubBitmap;
+				}
+				memoryCache.put(photoToLoad.url, bmp);
+				if (!imageViewReused(photoToLoad))
+				{
+					handler.post(new BitmapDisplayer(bmp, photoToLoad));
+				}
 			}
 		}
 	}
 
 	// Used to display bitmap in the UI thread
-	class BitmapDisplayer implements Runnable
+	private class BitmapDisplayer implements Runnable
 	{
 		final Bitmap bitmap;
 		final PhotoToLoad photoToLoad;
 
-		public BitmapDisplayer(Bitmap b, PhotoToLoad p)
+		public BitmapDisplayer(final Bitmap bitmap, final PhotoToLoad photoToLoad)
 		{
-			bitmap = b;
-			photoToLoad = p;
+			this.bitmap = bitmap;
+			this.photoToLoad = photoToLoad;
 		}
 
 		public void run()

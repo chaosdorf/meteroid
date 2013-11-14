@@ -49,31 +49,18 @@ public class MemoryCache
 		setLimit(Runtime.getRuntime().maxMemory() / 4);
 	}
 
-	public void setLimit(long new_limit)
+	public void setLimit(final long newLimit)
 	{
-		limit = new_limit;
+		limit = newLimit;
 		Log.i(TAG, "MemoryCache will use up to " + (limit / 1024. / 1024.) + " MB");
 	}
 
-	public Bitmap get(String id)
+	public Bitmap get(final String id)
 	{
-		try
-		{
-			if (!cache.containsKey(id))
-			{
-				return null;
-			}
-			// NullPointerException sometimes happen here http://code.google.com/p/osmdroid/issues/detail?id=78
-			return cache.get(id);
-		}
-		catch (NullPointerException ex)
-		{
-			ex.printStackTrace();
-			return null;
-		}
+		return cache.get(id);
 	}
 
-	public void put(String id, Bitmap bitmap)
+	public void put(final String id, final Bitmap bitmap)
 	{
 		try
 		{
@@ -85,9 +72,23 @@ public class MemoryCache
 			size += getSizeInBytes(bitmap);
 			checkSize();
 		}
-		catch (Throwable th)
+		catch (Throwable e)
 		{
-			th.printStackTrace();
+			e.printStackTrace();
+		}
+	}
+
+	public void clear()
+	{
+		try
+		{
+			// NullPointerException sometimes happen here http://code.google.com/p/osmdroid/issues/detail?id=78
+			cache.clear();
+			size = 0;
+		}
+		catch (NullPointerException e)
+		{
+			e.printStackTrace();
 		}
 	}
 
@@ -112,21 +113,7 @@ public class MemoryCache
 		}
 	}
 
-	public void clear()
-	{
-		try
-		{
-			// NullPointerException sometimes happen here http://code.google.com/p/osmdroid/issues/detail?id=78
-			cache.clear();
-			size = 0;
-		}
-		catch (NullPointerException ex)
-		{
-			ex.printStackTrace();
-		}
-	}
-
-	long getSizeInBytes(Bitmap bitmap)
+	private long getSizeInBytes(final Bitmap bitmap)
 	{
 		if (bitmap == null)
 		{

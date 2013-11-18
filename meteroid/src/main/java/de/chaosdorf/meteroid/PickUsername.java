@@ -229,7 +229,7 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 
 			if (user.getId() == NEW_USER_ID)
 			{
-				icon.setImageDrawable(getResources().getDrawable(R.drawable.add_person));
+				icon.setImageDrawable(getResources().getDrawable(R.drawable.add_user));
 			}
 
 			return view;

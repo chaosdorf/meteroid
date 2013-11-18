@@ -37,6 +37,7 @@ import java.security.NoSuchAlgorithmException;
 
 import de.chaosdorf.meteroid.R;
 import de.chaosdorf.meteroid.imageloader.ImageLoaderSingleton;
+import de.chaosdorf.meteroid.model.BuyableItem;
 import de.chaosdorf.meteroid.model.User;
 
 public class Utility
@@ -96,13 +97,27 @@ public class Utility
 		{
 			email = email.trim().toLowerCase();
 		}
-		if (email == null || email.length() == 0)
+		if (email != null && email.length() > 0)
 		{
-			ImageLoaderSingleton.getInstance(activity).displayImage(null, icon);
+			ImageLoaderSingleton.getInstance(activity).displayImage("http://www.gravatar.com/avatar/" + md5Hex(email) + "?d=404", icon, ImageLoaderSingleton.getUserDefaultImage());
 		}
 		else
 		{
-			ImageLoaderSingleton.getInstance(activity).displayImage("http://www.gravatar.com/avatar/" + md5Hex(email) + "?d=404", icon);
+			icon.setImageBitmap(ImageLoaderSingleton.getUserDefaultImage());
+		}
+	}
+
+	public static void loadBuyableItemImage(final Activity activity, final ImageView icon, final BuyableItem buyableItem)
+	{
+		icon.setContentDescription(buyableItem.getName());
+		if (buyableItem.isDrink())
+		{
+			ImageLoaderSingleton.getInstance(activity).displayImage(buyableItem.getLogoUrl(), icon, ImageLoaderSingleton.getDrinkDefaultImage());
+		}
+		else
+		{
+			final int iconID = activity.getResources().getIdentifier(buyableItem.getLogoUrl(), "drawable", activity.getPackageName());
+			icon.setImageResource(iconID > 0 ? iconID : R.drawable.euro_5);
 		}
 	}
 

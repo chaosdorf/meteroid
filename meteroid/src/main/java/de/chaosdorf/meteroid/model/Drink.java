@@ -24,6 +24,8 @@
 
 package de.chaosdorf.meteroid.model;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Date;
 
 public class Drink implements BuyableItem
@@ -39,11 +41,11 @@ public class Drink implements BuyableItem
 	private final Date createdAt;
 	private final Date updatedAt;
 
-	public Drink(final int id, final String name, final String logoUrl, final double bottleSize, final String caffeine, final double donationRecommendation, final Date created_at, final Date updated_at)
+	public Drink(final int id, final String name, final String logoUrl, final double bottleSize, final String caffeine, final double donationRecommendation, final Date created_at, final Date updated_at, final URL baseURL)
 	{
 		this.id = id;
 		this.name = name;
-		this.logoUrl = createLogoURL(logoUrl);
+		this.logoUrl = createLogoURL(logoUrl, baseURL);
 		this.bottleSize = bottleSize;
 		this.caffeine = caffeine;
 		this.donationRecommendation = donationRecommendation;
@@ -96,23 +98,19 @@ public class Drink implements BuyableItem
 		return true;
 	}
 
-	private String createLogoURL(final String logoUrl)
+	private String createLogoURL(final String logoUrl, final URL baseURL)
 	{
 		if (logoUrl.isEmpty())
 		{
-			if (bottleSize == 0.5)
-			{
-				return "drink_0l5";
-			}
-			else
-			{
-				return "drink_0l33";
-			}
+			return null;
 		}
-		else if (!logoUrl.startsWith("drink_"))
+		try
 		{
-			return "drink_" + logoUrl;
+			return new URL(baseURL, logoUrl).toString();
 		}
-		return logoUrl;
+		catch (MalformedURLException ignored)
+		{
+		}
+		return null;
 	}
 }

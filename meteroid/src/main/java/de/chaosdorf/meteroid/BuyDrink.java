@@ -235,7 +235,7 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 				// Parse drinks
 				case GET_DRINKS:
 				{
-					final List<BuyableItem> buyableItemList = DrinkController.parseAllDrinksFromJSON(json);
+					final List<BuyableItem> buyableItemList = DrinkController.parseAllDrinksFromJSON(json, hostname);
 					MoneyController.addMoney(buyableItemList);
 					Collections.sort(buyableItemList, new BuyableComparator());
 
@@ -332,11 +332,9 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 			}
 
 			final BuyableItem buyableItem = drinkList.get(position);
-			final int drinkIconID = getResources().getIdentifier(buyableItem.getLogoUrl(), "drawable", getPackageName());
 
 			final ImageView icon = (ImageView) view.findViewById(R.id.icon);
-			icon.setContentDescription(buyableItem.getName());
-			icon.setImageResource(drinkIconID > 0 ? drinkIconID : R.drawable.drink_0l33);
+			Utility.loadBuyableItemImage(activity, icon, buyableItem);
 
 			final TextView label = (TextView) view.findViewById(R.id.label);
 			label.setText(createLabel(buyableItem, useGridView));

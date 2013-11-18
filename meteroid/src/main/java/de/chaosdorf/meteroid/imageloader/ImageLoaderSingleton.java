@@ -25,15 +25,23 @@
 package de.chaosdorf.meteroid.imageloader;
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import java.util.concurrent.TimeUnit;
+
+import de.chaosdorf.meteroid.R;
 
 public class ImageLoaderSingleton
 {
 	private static final long REFRESH_INTERVAL = TimeUnit.MINUTES.toNanos(15);
 
 	private static ImageLoader instance = null;
-	private static long refreshTimestamp = 0;
+	private static long refreshTimestamp = System.nanoTime();
+
+	private static Bitmap userDefaultImage = null;
+	private static Bitmap drinkDefaultImage = null;
 
 	public static ImageLoader getInstance(final Activity activity)
 	{
@@ -49,11 +57,38 @@ public class ImageLoaderSingleton
 		return instance;
 	}
 
+	public static Bitmap getUserDefaultImage()
+	{
+		return userDefaultImage;
+	}
+
+	public static Bitmap getDrinkDefaultImage()
+	{
+		return drinkDefaultImage;
+	}
+
 	private static synchronized void ensureInstance(final Activity activity)
 	{
 		if (instance == null)
 		{
-			instance = new ImageLoader(activity.getApplicationContext(), 80);
+			if (activity == null)
+			{
+				return;
+			}
+			final Context context = activity.getApplicationContext();
+			if (context == null)
+			{
+				return;
+			}
+
+			// Set default images
+			final BitmapFactory.Options options = new BitmapFactory.Options();
+			options.inSampleSize = 1;
+			userDefaultImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_user, options);
+			drinkDefaultImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_drink, options);
+
+			// Set instance of ImageLoader
+			instance = new ImageLoader(context, 80);
 		}
 	}
 }

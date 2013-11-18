@@ -31,10 +31,7 @@ import android.os.Handler;
 import android.widget.ImageView;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -44,13 +41,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import de.chaosdorf.meteroid.R;
-
 public class ImageLoader
 {
 	private final int REQUIRED_SIZE;
-
-	private final Bitmap stubBitmap;
 
 	private final MemoryCache memoryCache;
 	private final FileCache fileCache;
@@ -63,11 +56,6 @@ public class ImageLoader
 	{
 		REQUIRED_SIZE = requiredSize;
 
-		final BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inSampleSize = calculateInSampleSize(REQUIRED_SIZE, REQUIRED_SIZE);
-		final Bitmap tmpBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.stub, options);
-		stubBitmap = Bitmap.createScaledBitmap(tmpBitmap, REQUIRED_SIZE, REQUIRED_SIZE, true);
-
 		memoryCache = new MemoryCache();
 		fileCache = new FileCache(context);
 		executorService = Executors.newFixedThreadPool(5);
@@ -76,11 +64,11 @@ public class ImageLoader
 		imageViews = new ConcurrentHashMap<ImageView, String>();
 	}
 
-	public void displayImage(final String url, final ImageView imageView)
+	public void displayImage(final String url, final ImageView imageView, final Bitmap defaultBitmap)
 	{
 		if (url == null)
 		{
-			imageView.setImageBitmap(stubBitmap);
+			imageView.setImageBitmap(defaultBitmap);
 			return;
 		}
 		final Bitmap bitmap = memoryCache.get(url);
@@ -91,7 +79,7 @@ public class ImageLoader
 		else
 		{
 			imageViews.put(imageView, url);
-			queuePhoto(url, imageView);
+			queuePhoto(url, imageView, defaultBitmap);
 		}
 	}
 
@@ -101,24 +89,28 @@ public class ImageLoader
 		fileCache.clear();
 	}
 
-	private void queuePhoto(final String url, final ImageView imageView)
+	private void queuePhoto(final String url, final ImageView imageView, final Bitmap defaultBitmap)
 	{
-		final PhotoToLoad p = new PhotoToLoad(url, imageView);
+		final PhotoToLoad p = new PhotoToLoad(url, imageView, defaultBitmap);
 		executorService.submit(new PhotosLoader(p));
 	}
 
 	private Bitmap getBitmap(final String url)
 	{
+		// Create file from URL
 		final File file = fileCache.getFile(url);
 
-		// From SD cache
-		final Bitmap bitmap = decodeFile(file);
-		if (bitmap != null)
+		// Read bitmap from SD
+		if (file.exists())
 		{
-			return bitmap;
+			final Bitmap bitmap = decodeFile(file);
+			if (bitmap != null)
+			{
+				return bitmap;
+			}
 		}
 
-		// From web
+		// Read bitmap from web
 		try
 		{
 			final URL imageUrl = new URL(url);
@@ -126,33 +118,40 @@ public class ImageLoader
 			conn.setConnectTimeout(30000);
 			conn.setReadTimeout(30000);
 			conn.setInstanceFollowRedirects(true);
+			conn.connect();
+			if (conn.getResponseCode() != HttpURLConnection.HTTP_OK)
+			{
+				return null;
+			}
 			final InputStream is = conn.getInputStream();
 			final OutputStream os = new FileOutputStream(file);
 			copyStream(is, os);
 			os.close();
+			is.close();
 			conn.disconnect();
 			return decodeFile(file);
 		}
-		catch (Throwable e)
+		catch (Throwable t)
 		{
-			e.printStackTrace();
-			if (e instanceof OutOfMemoryError)
+			if (t instanceof OutOfMemoryError)
 			{
 				memoryCache.clear();
+				fileCache.clear();
 			}
-			return null;
+			t.printStackTrace();
 		}
+		return null;
 	}
 
 	private void copyStream(final InputStream is, final OutputStream os)
 	{
 		final int buffer_size = 1024;
+		final byte[] bytes = new byte[buffer_size];
 		try
 		{
-			byte[] bytes = new byte[buffer_size];
 			while (true)
 			{
-				int count = is.read(bytes, 0, buffer_size);
+				final int count = is.read(bytes, 0, buffer_size);
 				if (count == -1)
 				{
 					break;
@@ -162,42 +161,29 @@ public class ImageLoader
 		}
 		catch (Exception ignored)
 		{
-			// do nothing
 		}
 	}
 
 	// Decodes image and scales it to reduce memory consumption
 	private Bitmap decodeFile(final File file)
 	{
-		try
-		{
-			// Decode image size
-			final BitmapFactory.Options options1 = new BitmapFactory.Options();
-			options1.inJustDecodeBounds = true;
-			final FileInputStream stream1 = new FileInputStream(file);
-			BitmapFactory.decodeStream(stream1, null, options1);
-			stream1.close();
+		// Decode image size
+		final BitmapFactory.Options options1 = new BitmapFactory.Options();
+		options1.inJustDecodeBounds = true;
+		BitmapFactory.decodeFile(file.getAbsolutePath(), options1);
 
-			// Find the correct scale value. It should be the power of 2.
-			final int scale = calculateInSampleSize(options1.outWidth, options1.outHeight);
+		// Find the correct scale value. It should be the power of 2.
+		final int scale = calculateInSampleSize(options1.outWidth, options1.outHeight);
 
-			// Decode with inSampleSize
-			final BitmapFactory.Options options2 = new BitmapFactory.Options();
-			options2.inSampleSize = scale;
-			final FileInputStream stream2 = new FileInputStream(file);
-			final Bitmap bitmap = BitmapFactory.decodeStream(stream2, null, options2);
-			stream2.close();
-			return Bitmap.createScaledBitmap(bitmap, REQUIRED_SIZE, REQUIRED_SIZE, false);
-		}
-		catch (FileNotFoundException e)
+		// Decode with inSampleSize
+		final BitmapFactory.Options options2 = new BitmapFactory.Options();
+		options2.inSampleSize = scale;
+		final Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), options2);
+		if (bitmap == null)
 		{
 			return null;
 		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		return null;
+		return Bitmap.createScaledBitmap(bitmap, REQUIRED_SIZE, REQUIRED_SIZE, false);
 	}
 
 	private int calculateInSampleSize(int width, int height)
@@ -227,11 +213,13 @@ public class ImageLoader
 	{
 		final public String url;
 		final public ImageView imageView;
+		final public Bitmap defaultImage;
 
-		public PhotoToLoad(final String url, final ImageView imageView)
+		public PhotoToLoad(final String url, final ImageView imageView, final Bitmap defaultImage)
 		{
 			this.url = url;
 			this.imageView = imageView;
+			this.defaultImage = defaultImage;
 		}
 	}
 
@@ -256,15 +244,15 @@ public class ImageLoader
 				}
 				bmp = getBitmap(photoToLoad.url);
 			}
-			catch (Throwable e)
+			catch (Throwable t)
 			{
-				e.printStackTrace();
+				t.printStackTrace();
 			}
 			finally
 			{
 				if (bmp == null)
 				{
-					bmp = stubBitmap;
+					bmp = photoToLoad.defaultImage;
 				}
 				memoryCache.put(photoToLoad.url, bmp);
 				if (!imageViewReused(photoToLoad))
@@ -299,7 +287,7 @@ public class ImageLoader
 			}
 			else
 			{
-				photoToLoad.imageView.setImageBitmap(stubBitmap);
+				photoToLoad.imageView.setImageBitmap(photoToLoad.defaultImage);
 			}
 		}
 	}

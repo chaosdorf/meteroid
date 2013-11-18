@@ -36,7 +36,7 @@ public class FileCache
 
 	public FileCache(final Context context)
 	{
-		// Find the dir to save cached images
+		// Find the directory to save cached images
 		if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
 		{
 			cacheDir = new File(android.os.Environment.getExternalStorageDirectory(), "meteroid");
@@ -54,19 +54,6 @@ public class FileCache
 		}
 	}
 
-	public File getFile(final String url)
-	{
-		try
-		{
-			return new File(cacheDir, URLEncoder.encode(url, "UTF-8"));
-		}
-		catch (UnsupportedEncodingException e)
-		{
-			e.printStackTrace();
-		}
-		return new File(cacheDir, String.valueOf(url.hashCode()));
-	}
-
 	public void clear()
 	{
 		final File[] cachedFiles = cacheDir.listFiles();
@@ -81,5 +68,23 @@ public class FileCache
 				throw new RuntimeException("Could not delete cached file " + file.getName());
 			}
 		}
+	}
+
+	public File getFile(final String url)
+	{
+		return new File(cacheDir, getCacheFileName(url));
+	}
+
+	private String getCacheFileName(final String url)
+	{
+		try
+		{
+			return URLEncoder.encode(url, "UTF-8");
+		}
+		catch (UnsupportedEncodingException e)
+		{
+			e.printStackTrace();
+		}
+		return String.valueOf(url.hashCode());
 	}
 }

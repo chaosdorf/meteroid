@@ -28,6 +28,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -82,10 +83,8 @@ public class ImageLoaderSingleton
 			}
 
 			// Set default images
-			final BitmapFactory.Options options = new BitmapFactory.Options();
-			options.inSampleSize = 1;
-			userDefaultImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_user, options);
-			drinkDefaultImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_drink, options);
+			userDefaultImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_user);
+			drinkDefaultImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_drink);
 
 			// Set instance of ImageLoader
 			instance = new ImageLoader(context, 80);

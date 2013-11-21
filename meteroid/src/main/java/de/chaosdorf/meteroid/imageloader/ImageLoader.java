@@ -27,6 +27,7 @@ package de.chaosdorf.meteroid.imageloader;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
 import android.os.Handler;
 import android.widget.ImageView;
 
@@ -103,7 +104,7 @@ public class ImageLoader
 		// Read bitmap from SD
 		if (file.exists())
 		{
-			final Bitmap bitmap = decodeFile(file);
+			final Bitmap bitmap = createThumbnailFromFile(file);
 			if (bitmap != null)
 			{
 				return bitmap;
@@ -129,7 +130,7 @@ public class ImageLoader
 			os.close();
 			is.close();
 			conn.disconnect();
-			return decodeFile(file);
+			return createThumbnailFromFile(file);
 		}
 		catch (Throwable t)
 		{
@@ -164,42 +165,15 @@ public class ImageLoader
 		}
 	}
 
-	// Decodes image and scales it to reduce memory consumption
-	private Bitmap decodeFile(final File file)
+	private Bitmap createThumbnailFromFile(final File file)
 	{
-		// Decode image size
-		final BitmapFactory.Options options1 = new BitmapFactory.Options();
-		options1.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(file.getAbsolutePath(), options1);
-
-		// Find the correct scale value. It should be the power of 2.
-		final int scale = calculateInSampleSize(options1.outWidth, options1.outHeight);
-
-		// Decode with inSampleSize
-		final BitmapFactory.Options options2 = new BitmapFactory.Options();
-		options2.inSampleSize = scale;
-		final Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), options2);
+		final Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
 		if (bitmap == null)
 		{
 			return null;
 		}
-		return Bitmap.createScaledBitmap(bitmap, REQUIRED_SIZE, REQUIRED_SIZE, false);
-	}
-
-	private int calculateInSampleSize(int width, int height)
-	{
-		int scale = 1;
-		while (true)
-		{
-			if (width / 2 < REQUIRED_SIZE && height / 2 < REQUIRED_SIZE)
-			{
-				break;
-			}
-			width /= 2;
-			height /= 2;
-			scale *= 2;
-		}
-		return scale;
+		final float ratio = (float)bitmap.getWidth() / (float)bitmap.getHeight();
+		return ThumbnailUtils.extractThumbnail(bitmap, (int)(REQUIRED_SIZE * ratio), REQUIRED_SIZE, ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
 	}
 
 	private boolean imageViewReused(final PhotoToLoad photoToLoad)
@@ -287,6 +261,8 @@ public class ImageLoader
 			}
 			else
 			{
+				final int padding = (REQUIRED_SIZE - photoToLoad.defaultImage.getWidth()) / 2;
+				photoToLoad.imageView.setPadding(padding, 0, padding, 0);
 				photoToLoad.imageView.setImageBitmap(photoToLoad.defaultImage);
 			}
 		}

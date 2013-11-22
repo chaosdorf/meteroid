@@ -32,6 +32,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -99,12 +101,17 @@ public class Utility
 		}
 		if (email != null && email.length() > 0)
 		{
-			ImageLoaderSingleton.getInstance(activity).displayImage("http://www.gravatar.com/avatar/" + md5Hex(email) + "?d=404", icon, ImageLoaderSingleton.getUserDefaultImage());
+			try
+			{
+				final URL url = new URL("http://www.gravatar.com/avatar/" + md5Hex(email) + "?d=404");
+				ImageLoaderSingleton.getInstance(activity).displayImage(url, icon, ImageLoaderSingleton.getUserDefaultImage());
+				return;
+			}
+			catch (MalformedURLException ignored)
+			{
+			}
 		}
-		else
-		{
-			icon.setImageBitmap(ImageLoaderSingleton.getUserDefaultImage());
-		}
+		icon.setImageBitmap(ImageLoaderSingleton.getUserDefaultImage());
 	}
 
 	public static void loadBuyableItemImage(final Activity activity, final ImageView icon, final BuyableItem buyableItem)
@@ -112,13 +119,20 @@ public class Utility
 		icon.setContentDescription(buyableItem.getName());
 		if (buyableItem.isDrink())
 		{
-			ImageLoaderSingleton.getInstance(activity).displayImage(buyableItem.getLogoUrl(), icon, ImageLoaderSingleton.getDrinkDefaultImage());
+			final URL url;
+			try
+			{
+				url = new URL(buyableItem.getLogoUrl());
+				ImageLoaderSingleton.getInstance(activity).displayImage(url, icon, ImageLoaderSingleton.getDrinkDefaultImage());
+			}
+			catch (MalformedURLException ignored)
+			{
+				icon.setImageBitmap(ImageLoaderSingleton.getDrinkDefaultImage());
+			}
+			return;
 		}
-		else
-		{
-			final int iconID = activity.getResources().getIdentifier(buyableItem.getLogoUrl(), "drawable", activity.getPackageName());
-			icon.setImageResource(iconID > 0 ? iconID : R.drawable.euro_5);
-		}
+		final int iconID = activity.getResources().getIdentifier(buyableItem.getLogoUrl(), "drawable", activity.getPackageName());
+		icon.setImageResource(iconID > 0 ? iconID : R.drawable.euro_5);
 	}
 
 	private static String arrayToHex(final byte[] array)

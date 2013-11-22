@@ -28,6 +28,7 @@ import android.content.Context;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.net.URLEncoder;
 
 public class FileCache
@@ -70,16 +71,17 @@ public class FileCache
 		}
 	}
 
-	public File getFile(final String url)
+	public File getFile(final URL url)
 	{
-		return new File(cacheDir, getCacheFileName(url));
+		return new File(cacheDir, createFileNameFromURL(url));
 	}
 
-	private String getCacheFileName(final String url)
+	private String createFileNameFromURL(final URL url)
 	{
 		try
 		{
-			return URLEncoder.encode(url, "UTF-8");
+			final String filename = url.toString().replaceFirst(url.getProtocol(), "").substring(1);
+			return URLEncoder.encode(filename.startsWith("//") ? filename.substring(2) : filename, "UTF-8");
 		}
 		catch (UnsupportedEncodingException e)
 		{

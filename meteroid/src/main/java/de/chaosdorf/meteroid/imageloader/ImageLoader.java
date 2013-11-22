@@ -51,7 +51,7 @@ public class ImageLoader
 	private final ExecutorService executorService;
 
 	private final Handler handler;
-	private final Map<ImageView, String> imageViews;
+	private final Map<ImageView, URL> imageViews;
 
 	public ImageLoader(final Context context, final int requiredSize)
 	{
@@ -62,10 +62,10 @@ public class ImageLoader
 		executorService = Executors.newFixedThreadPool(5);
 
 		handler = new Handler();
-		imageViews = new ConcurrentHashMap<ImageView, String>();
+		imageViews = new ConcurrentHashMap<ImageView, URL>();
 	}
 
-	public void displayImage(final String url, final ImageView imageView, final Bitmap defaultBitmap)
+	public void displayImage(final URL url, final ImageView imageView, final Bitmap defaultBitmap)
 	{
 		if (url == null)
 		{
@@ -90,13 +90,13 @@ public class ImageLoader
 		fileCache.clear();
 	}
 
-	private void queuePhoto(final String url, final ImageView imageView, final Bitmap defaultBitmap)
+	private void queuePhoto(final URL url, final ImageView imageView, final Bitmap defaultBitmap)
 	{
 		final PhotoToLoad p = new PhotoToLoad(url, imageView, defaultBitmap);
 		executorService.submit(new PhotosLoader(p));
 	}
 
-	private Bitmap getBitmap(final String url)
+	private Bitmap getBitmap(final URL url)
 	{
 		// Create file from URL
 		final File file = fileCache.getFile(url);
@@ -114,8 +114,7 @@ public class ImageLoader
 		// Read bitmap from web
 		try
 		{
-			final URL imageUrl = new URL(url);
-			final HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
+			final HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setConnectTimeout(30000);
 			conn.setReadTimeout(30000);
 			conn.setInstanceFollowRedirects(true);
@@ -178,18 +177,18 @@ public class ImageLoader
 
 	private boolean imageViewReused(final PhotoToLoad photoToLoad)
 	{
-		final String tag = imageViews.get(photoToLoad.imageView);
-		return (tag == null || !tag.equals(photoToLoad.url));
+		final URL url = imageViews.get(photoToLoad.imageView);
+		return (url == null || !url.equals(photoToLoad.url));
 	}
 
 	// Task for the queue
 	private class PhotoToLoad
 	{
-		final public String url;
+		final public URL url;
 		final public ImageView imageView;
 		final public Bitmap defaultImage;
 
-		public PhotoToLoad(final String url, final ImageView imageView, final Bitmap defaultImage)
+		public PhotoToLoad(final URL url, final ImageView imageView, final Bitmap defaultImage)
 		{
 			this.url = url;
 			this.imageView = imageView;

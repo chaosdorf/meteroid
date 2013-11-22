@@ -27,6 +27,7 @@ package de.chaosdorf.meteroid.imageloader;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import java.net.URL;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -55,13 +56,14 @@ public class MemoryCache
 		Log.i(TAG, "MemoryCache will use up to " + (limit / 1024. / 1024.) + " MB");
 	}
 
-	public Bitmap get(final String id)
+	public Bitmap get(final URL url)
 	{
-		return cache.get(id);
+		return cache.get(url.toString());
 	}
 
-	public void put(final String id, final Bitmap bitmap)
+	public void put(final URL url, final Bitmap bitmap)
 	{
+		final String id = url.toString();
 		try
 		{
 			if (cache.containsKey(id))

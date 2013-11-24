@@ -1,0 +1,11 @@
+Hochauflösendes Symbol 
+512 x 512
+32-Bit-PNG (mit Alpha)
+
+Funktionsgrafik
+1024 breit x 500 hoch
+JPG oder 24-Bit-PNG (kein Alpha)
+
+Werbegrafik
+180 breit x 120 hoch
+JPG oder 24-Bit-PNG (kein Alpha)

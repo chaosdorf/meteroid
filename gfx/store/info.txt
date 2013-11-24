@@ -1,3 +1,9 @@
+https://support.google.com/googleplay/android-developer/answer/1078870
+
+Screenshots 
+JPEG oder 24-Bit-PNG (kein Alpha). Mindestlänge für eine Seite: 320 px. Maximale Länge für eine Seite: 3.840 px.
+Es sind insgesamt mindestens 2 Screenshots erforderlich. Maximal 8 Screenshots pro Typ. Zum Neusortieren oder Wechseln zwischen den Typen ziehen.
+
 Hochauflösendes Symbol 
 512 x 512
 32-Bit-PNG (mit Alpha)

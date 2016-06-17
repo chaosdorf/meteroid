@@ -4,7 +4,7 @@ Small Android application to use with mete, the Matekasse of Chaosdorf.
 ### Where
 * [Chaosdorf Wiki](https://wiki.chaosdorf.de/Meteroid)
 * [Google Play](https://play.google.com/store/apps/details?id=de.chaosdorf.meteroid)
-* [apk](meteroid/meteroid-meteroid.apk)
+* [apk](https://github.com/chaosdorf/meteroid/releases/)
 
 ### License
 The MIT License (MIT)

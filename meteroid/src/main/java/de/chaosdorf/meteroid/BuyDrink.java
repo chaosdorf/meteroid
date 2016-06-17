@@ -60,6 +60,7 @@ import de.chaosdorf.meteroid.longrunningio.LongRunningIOGet;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOTask;
 import de.chaosdorf.meteroid.model.BuyableItem;
 import de.chaosdorf.meteroid.model.User;
+import de.chaosdorf.meteroid.model.Drink;
 import de.chaosdorf.meteroid.util.MenuUtility;
 import de.chaosdorf.meteroid.util.Utility;
 
@@ -256,7 +257,7 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 				}
 
 				// Bought drink
-				case PAY_DRINK:
+				case BUY_DRINK:
 				{
 					final BuyableItem buyableItem = buyingItem.get();
 					if (buyableItem != null)
@@ -264,7 +265,7 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 						buyingItem.set(null);
 						Utility.displayToastMessage(activity,
 								String.format(
-										getResources().getString(buyableItem.isDrink() ? R.string.buy_drink_bought_drink : R.string.buy_drink_added_money),
+										getResources().getString(R.string.buy_drink_bought_drink),
 										buyableItem.getName(),
 										DECIMAL_FORMAT.format(buyableItem.getDonationRecommendation())
 								)
@@ -275,10 +276,35 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 							final TextView balance = (TextView) findViewById(R.id.balance);
 							balance.setText(DECIMAL_FORMAT.format(user.getBalance() - buyableItem.getDonationRecommendation()));
 						}
-						if (multiUserMode && buyableItem.isDrink())
+						if (multiUserMode)
 						{
 							Utility.startActivity(activity, PickUsername.class);
 							break;
+						}
+					}
+					new LongRunningIOGet(this, LongRunningIOTask.UPDATE_USER, hostname + "users/" + userID + ".json").execute();
+					break;
+				}
+
+				// Added money
+				case ADD_MONEY:
+				{
+					final BuyableItem buyableItem = buyingItem.get();
+					if (buyableItem != null)
+					{
+						buyingItem.set(null);
+						Utility.displayToastMessage(activity,
+								String.format(
+										getResources().getString(R.string.buy_drink_added_money),
+										buyableItem.getName(),
+										DECIMAL_FORMAT.format(buyableItem.getDonationRecommendation())
+								)
+						);
+						// Adjust the displayed balance to give an immediate user feedback
+						if (user != null)
+						{
+							final TextView balance = (TextView) findViewById(R.id.balance);
+							balance.setText(DECIMAL_FORMAT.format(user.getBalance() - buyableItem.getDonationRecommendation()));
 						}
 					}
 					new LongRunningIOGet(this, LongRunningIOTask.UPDATE_USER, hostname + "users/" + userID + ".json").execute();
@@ -302,7 +328,14 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 			if (buyableItem != null)
 			{
 				buyingItem.set(buyableItem);
-				new LongRunningIOGet(this, LongRunningIOTask.PAY_DRINK, hostname + "users/" + userID + "/deposit?amount=" + (-buyableItem.getDonationRecommendation())).execute();
+				if(buyableItem.isDrink())
+				{
+					new LongRunningIOGet(this, LongRunningIOTask.BUY_DRINK, hostname + "users/" + userID + "/buy?drink=" + ((Drink)buyableItem).getId()).execute();
+				}
+				else
+				{
+					new LongRunningIOGet(this, LongRunningIOTask.ADD_MONEY, hostname + "users/" + userID + "/deposit?amount=" + (-buyableItem.getDonationRecommendation())).execute();
+				}
 			}
 		}
 	}

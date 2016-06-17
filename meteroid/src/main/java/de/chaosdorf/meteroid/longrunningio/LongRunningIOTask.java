@@ -29,7 +29,8 @@ public enum LongRunningIOTask
 	GET_USERS,
 	GET_USER,
 	GET_DRINKS,
-	PAY_DRINK,
+	BUY_DRINK,
+	ADD_MONEY,
 	ADD_USER,
 	UPDATE_USER
 }

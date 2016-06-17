@@ -38,11 +38,11 @@ dependencies {
 }
 
 android {
-    compileSdkVersion 17
-    buildToolsVersion '17.0.0'
+    compileSdkVersion 21
+    buildToolsVersion '23.0.3'
     defaultConfig {
         minSdkVersion 9
-        targetSdkVersion 17
+        targetSdkVersion 21
     }
     signingConfigs {}
 }

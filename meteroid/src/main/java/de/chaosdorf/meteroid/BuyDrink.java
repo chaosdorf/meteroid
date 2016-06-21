@@ -330,11 +330,11 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 				buyingItem.set(buyableItem);
 				if(buyableItem.isDrink())
 				{
-					new LongRunningIOGet(this, LongRunningIOTask.BUY_DRINK, hostname + "users/" + userID + "/buy?drink=" + ((Drink)buyableItem).getId()).execute();
+					new LongRunningIOGet(this, LongRunningIOTask.BUY_DRINK, hostname + "users/" + userID + "/buy.json?drink=" + ((Drink)buyableItem).getId()).execute();
 				}
 				else
 				{
-					new LongRunningIOGet(this, LongRunningIOTask.ADD_MONEY, hostname + "users/" + userID + "/deposit?amount=" + (-buyableItem.getDonationRecommendation())).execute();
+					new LongRunningIOGet(this, LongRunningIOTask.ADD_MONEY, hostname + "users/" + userID + "/deposit.json?amount=" + (-buyableItem.getDonationRecommendation())).execute();
 				}
 			}
 		}

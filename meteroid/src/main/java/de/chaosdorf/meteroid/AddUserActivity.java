@@ -119,7 +119,7 @@ public class AddUserActivity extends Activity implements LongRunningIOCallback
 				new LongRunningIOPost(
 						AddUserActivity.this,
 						LongRunningIOTask.ADD_USER,
-						hostname + "users",
+						hostname + "users.json",
 						UserController.userToPostParams(user)
 				).execute();
 			}

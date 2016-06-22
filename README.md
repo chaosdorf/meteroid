@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/chaosdorf/meteroid.svg?branch=master)](https://travis-ci.org/chaosdorf/meteroid)
+
 ### What
 Small Android application to use with mete, the Matekasse of Chaosdorf.
 

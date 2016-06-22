@@ -50,7 +50,6 @@
     <string name="add_user_email">Email</string>
     <string name="add_user_balance">Balance</string>
     <string name="add_user_empty_username">Please enter a username</string>
-    <string name="add_user_empty_balance">Please enter a balance</string>
 
     <!-- Buy drink -->
     <string name="buy_drink_label">Buy drink</string>

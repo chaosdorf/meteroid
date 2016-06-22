@@ -100,7 +100,7 @@ public class AddUserActivity extends Activity implements LongRunningIOCallback
 					}
 					catch (NumberFormatException ignored)
 					{
-						Utility.displayToastMessage(activity, getResources().getString(R.string.add_user_empty_balance));
+						Utility.displayToastMessage(activity, getResources().getString(R.string.add_user_balance_no_double));
 						return;
 					}
 				}

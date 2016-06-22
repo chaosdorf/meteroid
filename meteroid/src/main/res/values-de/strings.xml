@@ -50,6 +50,7 @@
     <string name="add_user_email">Email</string>
     <string name="add_user_balance">Guthaben</string>
     <string name="add_user_empty_username">Bitte Benutzername eingeben</string>
+    <string name="add_user_balance_no_double">Bitte Guthaben als Zahl eingeben</string>
 
     <!-- Buy drink -->
     <string name="buy_drink_label">Getränk kaufen</string>

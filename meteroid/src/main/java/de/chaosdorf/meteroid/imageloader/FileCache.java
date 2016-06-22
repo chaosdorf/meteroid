@@ -37,15 +37,7 @@ public class FileCache
 
 	public FileCache(final Context context)
 	{
-		// Find the directory to save cached images
-		if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
-		{
-			cacheDir = new File(android.os.Environment.getExternalStorageDirectory(), "meteroid");
-		}
-		else
-		{
-			cacheDir = context.getCacheDir();
-		}
+		cacheDir = context.getCacheDir();
 		if (cacheDir != null && !cacheDir.exists())
 		{
 			if (!cacheDir.mkdirs())

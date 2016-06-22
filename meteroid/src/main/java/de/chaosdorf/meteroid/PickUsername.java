@@ -96,7 +96,7 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 			}
 		});
 
-		new LongRunningIOGet(this, LongRunningIOTask.GET_USERS, hostname + "users.json").execute();
+		new LongRunningIOGet(this, LongRunningIOTask.GET_USERS, hostname + "users.json");
 	}
 
 	@Override
@@ -165,14 +165,21 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 	@Override
 	public void processIOResult(final LongRunningIOTask task, final String json)
 	{
+		final PickUsername pickusername = this;
 		if (task == LongRunningIOTask.GET_USERS && json != null)
 		{
-			final List<User> itemList = UserController.parseAllUsersFromJSON(json);
-			itemList.add(new User(NEW_USER_ID, getResources().getString(R.string.pick_username_new_user), "", 0, new Date(), new Date()));
-			final UserAdapter userAdapter = new UserAdapter(itemList);
+			runOnUiThread(new Runnable()
+			{
+				public void run()
+				{
+					final List<User> itemList = UserController.parseAllUsersFromJSON(json);
+					itemList.add(new User(NEW_USER_ID, getResources().getString(R.string.pick_username_new_user), "", 0, new Date(), new Date()));
+					final UserAdapter userAdapter = new UserAdapter(itemList);
 
-			gridView.setAdapter(userAdapter);
-			gridView.setOnItemClickListener(this);
+					gridView.setAdapter(userAdapter);
+					gridView.setOnItemClickListener(pickusername);
+				}
+			});
 		}
 	}
 

@@ -120,8 +120,8 @@ public class AddUserActivity extends Activity implements LongRunningIOCallback
 						AddUserActivity.this,
 						LongRunningIOTask.ADD_USER,
 						hostname + "users.json",
-						UserController.userToPostParams(user)
-				).execute();
+						UserController.userToJSONPostParams(user)
+				);
 			}
 		});
 	}
@@ -155,7 +155,13 @@ public class AddUserActivity extends Activity implements LongRunningIOCallback
 	{
 		if (task == LongRunningIOTask.ADD_USER && json != null)
 		{
-			startActivity(new Intent(getApplicationContext(), PickUsername.class));
+			runOnUiThread(new Runnable()
+			{
+				public void run()
+				{
+					startActivity(new Intent(getApplicationContext(), PickUsername.class));
+				}
+			});
 		}
 	}
 }

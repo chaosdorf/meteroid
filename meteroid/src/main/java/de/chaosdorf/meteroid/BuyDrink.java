@@ -117,8 +117,8 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 			}
 		});
 
-		new LongRunningIOGet(this, LongRunningIOTask.GET_USER, hostname + "users/" + userID + ".json").execute();
-		new LongRunningIOGet(this, LongRunningIOTask.GET_DRINKS, hostname + "drinks.json").execute();
+		new LongRunningIOGet(this, LongRunningIOTask.GET_USER, hostname + "users/" + userID + ".json");
+		new LongRunningIOGet(this, LongRunningIOTask.GET_DRINKS, hostname + "drinks.json");
 	}
 
 	@Override
@@ -213,104 +213,111 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 	{
 		if (json != null)
 		{
-			switch (task)
+			final BuyDrink buydrink = this;
+			runOnUiThread(new Runnable()
 			{
-				// Parse user data
-				case GET_USER:
-				case UPDATE_USER:
+				public void run()
 				{
-					user = UserController.parseUserFromJSON(json);
-					if (task == LongRunningIOTask.GET_USER)
+					switch (task)
 					{
-						final TextView label = (TextView) findViewById(R.id.username);
-						final ImageView icon = (ImageView) findViewById(R.id.icon);
-						label.setText(user.getName());
-						Utility.loadGravatarImage(activity, icon, user);
-					}
-					final TextView balance = (TextView) findViewById(R.id.balance);
-					balance.setText(DECIMAL_FORMAT.format(user.getBalance()));
-					isBuying.set(false);
-					break;
-				}
-
-				// Parse drinks
-				case GET_DRINKS:
-				{
-					final List<BuyableItem> buyableItemList = DrinkController.parseAllDrinksFromJSON(json, hostname);
-					MoneyController.addMoney(buyableItemList);
-					Collections.sort(buyableItemList, new BuyableComparator());
-
-					final BuyableItemAdapter buyableItemAdapter = new BuyableItemAdapter(buyableItemList);
-					if (useGridView)
-					{
-						gridView.setAdapter(buyableItemAdapter);
-						gridView.setOnItemClickListener(this);
-						gridView.setVisibility(View.VISIBLE);
-					}
-					else
-					{
-						listView.setAdapter(buyableItemAdapter);
-						listView.setOnItemClickListener(this);
-						listView.setVisibility(View.VISIBLE);
-					}
-					break;
-				}
-
-				// Bought drink
-				case BUY_DRINK:
-				{
-					final BuyableItem buyableItem = buyingItem.get();
-					if (buyableItem != null)
-					{
-						buyingItem.set(null);
-						Utility.displayToastMessage(activity,
-								String.format(
-										getResources().getString(R.string.buy_drink_bought_drink),
-										buyableItem.getName(),
-										DECIMAL_FORMAT.format(buyableItem.getDonationRecommendation())
-								)
-						);
-						// Adjust the displayed balance to give an immediate user feedback
-						if (user != null)
+						// Parse user data
+						case GET_USER:
+						case UPDATE_USER:
 						{
+							user = UserController.parseUserFromJSON(json);
+							if (task == LongRunningIOTask.GET_USER)
+							{
+								final TextView label = (TextView) findViewById(R.id.username);
+								final ImageView icon = (ImageView) findViewById(R.id.icon);
+								label.setText(user.getName());
+								Utility.loadGravatarImage(activity, icon, user);
+							}
 							final TextView balance = (TextView) findViewById(R.id.balance);
-							balance.setText(DECIMAL_FORMAT.format(user.getBalance() - buyableItem.getDonationRecommendation()));
+							balance.setText(DECIMAL_FORMAT.format(user.getBalance()));
+							isBuying.set(false);
+							break;
 						}
-						if (multiUserMode)
+
+						// Parse drinks
+						case GET_DRINKS:
 						{
-							Utility.startActivity(activity, PickUsername.class);
+							final List<BuyableItem> buyableItemList = DrinkController.parseAllDrinksFromJSON(json, hostname);
+							MoneyController.addMoney(buyableItemList);
+							Collections.sort(buyableItemList, new BuyableComparator());
+
+							final BuyableItemAdapter buyableItemAdapter = new BuyableItemAdapter(buyableItemList);
+							if (useGridView)
+							{
+								gridView.setAdapter(buyableItemAdapter);
+								gridView.setOnItemClickListener(buydrink);
+								gridView.setVisibility(View.VISIBLE);
+							}
+							else
+							{
+								listView.setAdapter(buyableItemAdapter);
+								listView.setOnItemClickListener(buydrink);
+								listView.setVisibility(View.VISIBLE);
+							}
+							break;
+						}
+
+						// Bought drink
+						case BUY_DRINK:
+						{
+							final BuyableItem buyableItem = buyingItem.get();
+							if (buyableItem != null)
+							{
+								buyingItem.set(null);
+								Utility.displayToastMessage(activity,
+										String.format(
+												getResources().getString(R.string.buy_drink_bought_drink),
+												buyableItem.getName(),
+												DECIMAL_FORMAT.format(buyableItem.getDonationRecommendation())
+										)
+								);
+								// Adjust the displayed balance to give an immediate user feedback
+								if (user != null)
+								{
+									final TextView balance = (TextView) findViewById(R.id.balance);
+									balance.setText(DECIMAL_FORMAT.format(user.getBalance() - buyableItem.getDonationRecommendation()));
+								}
+								if (multiUserMode)
+								{
+									Utility.startActivity(activity, PickUsername.class);
+									break;
+								}
+							}
+							new LongRunningIOGet(buydrink, LongRunningIOTask.UPDATE_USER, hostname + "users/" + userID + ".json");
+							break;
+						}
+
+						// Added money
+						case ADD_MONEY:
+						{
+							final BuyableItem buyableItem = buyingItem.get();
+							if (buyableItem != null)
+							{
+								buyingItem.set(null);
+								Utility.displayToastMessage(activity,
+										String.format(
+												getResources().getString(R.string.buy_drink_added_money),
+												buyableItem.getName(),
+												DECIMAL_FORMAT.format(buyableItem.getDonationRecommendation())
+										)
+								);
+								// Adjust the displayed balance to give an immediate user feedback
+								if (user != null)
+								{
+									final TextView balance = (TextView) findViewById(R.id.balance);
+									balance.setText(DECIMAL_FORMAT.format(user.getBalance() - buyableItem.getDonationRecommendation()));
+								}
+							}
+							new LongRunningIOGet(buydrink, LongRunningIOTask.UPDATE_USER, hostname + "users/" + userID + ".json");
 							break;
 						}
 					}
-					new LongRunningIOGet(this, LongRunningIOTask.UPDATE_USER, hostname + "users/" + userID + ".json").execute();
-					break;
 				}
-
-				// Added money
-				case ADD_MONEY:
-				{
-					final BuyableItem buyableItem = buyingItem.get();
-					if (buyableItem != null)
-					{
-						buyingItem.set(null);
-						Utility.displayToastMessage(activity,
-								String.format(
-										getResources().getString(R.string.buy_drink_added_money),
-										buyableItem.getName(),
-										DECIMAL_FORMAT.format(buyableItem.getDonationRecommendation())
-								)
-						);
-						// Adjust the displayed balance to give an immediate user feedback
-						if (user != null)
-						{
-							final TextView balance = (TextView) findViewById(R.id.balance);
-							balance.setText(DECIMAL_FORMAT.format(user.getBalance() - buyableItem.getDonationRecommendation()));
-						}
-					}
-					new LongRunningIOGet(this, LongRunningIOTask.UPDATE_USER, hostname + "users/" + userID + ".json").execute();
-					break;
-				}
-			}
+			});
 		}
 	}
 
@@ -330,11 +337,11 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 				buyingItem.set(buyableItem);
 				if(buyableItem.isDrink())
 				{
-					new LongRunningIOGet(this, LongRunningIOTask.BUY_DRINK, hostname + "users/" + userID + "/buy.json?drink=" + ((Drink)buyableItem).getId()).execute();
+					new LongRunningIOGet(this, LongRunningIOTask.BUY_DRINK, hostname + "users/" + userID + "/buy.json?drink=" + ((Drink)buyableItem).getId());
 				}
 				else
 				{
-					new LongRunningIOGet(this, LongRunningIOTask.ADD_MONEY, hostname + "users/" + userID + "/deposit.json?amount=" + (-buyableItem.getDonationRecommendation())).execute();
+					new LongRunningIOGet(this, LongRunningIOTask.ADD_MONEY, hostname + "users/" + userID + "/deposit.json?amount=" + (-buyableItem.getDonationRecommendation()));
 				}
 			}
 		}

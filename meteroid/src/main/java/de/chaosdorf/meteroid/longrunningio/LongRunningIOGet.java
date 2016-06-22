@@ -24,59 +24,47 @@
 
 package de.chaosdorf.meteroid.longrunningio;
 
-import android.os.AsyncTask;
+import java.io.IOException;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.protocol.BasicHttpContext;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.protocol.HttpContext;
-import org.apache.http.util.EntityUtils;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Callback;
+import okhttp3.Call;
+import okhttp3.Response;
 
-public class LongRunningIOGet extends AsyncTask<Void, Void, String>
+public class LongRunningIOGet
 {
-	private final LongRunningIOCallback callback;
-	private final LongRunningIOTask id;
-	private final String url;
-
 	public LongRunningIOGet(final LongRunningIOCallback callback, final LongRunningIOTask id, final String url)
 	{
-		this.callback = callback;
-		this.id = id;
-		this.url = url;
-	}
-
-	@Override
-	protected String doInBackground(Void... params)
-	{
-		HttpClient httpClient = new DefaultHttpClient();
-		HttpContext localContext = new BasicHttpContext();
-		HttpGet httpGet = new HttpGet(url);
-		try
+		OkHttpClient client = new OkHttpClient();
+		Request req = new Request.Builder().url(url).build();
+		client.newCall(req).enqueue(new Callback()
 		{
-			HttpResponse response = httpClient.execute(httpGet, localContext);
-			int code = response.getStatusLine().getStatusCode();
-			if (code >= 400 && code <= 599)
+			@Override
+			public void onFailure(Call call, IOException e)
 			{
-				callback.displayErrorMessage(id, response.getStatusLine().getReasonPhrase());
-				return null;
+				callback.displayErrorMessage(id, e.getLocalizedMessage());
 			}
-			HttpEntity entity = response.getEntity();
-			return EntityUtils.toString(entity, HTTP.UTF_8);
-		}
-		catch (Exception e)
-		{
-			callback.displayErrorMessage(id, e.getLocalizedMessage());
-			return null;
-		}
-	}
 
-	@Override
-	protected void onPostExecute(String result)
-	{
-		callback.processIOResult(id, result);
+			@Override
+			public void onResponse(Call call, Response resp)
+			{
+				if(resp.isSuccessful())
+				{
+					try
+					{
+						callback.processIOResult(id, resp.body().string());
+					}
+					catch(IOException e)
+					{
+						callback.displayErrorMessage(id, e.getLocalizedMessage());
+					}
+				}
+				else
+				{
+					callback.displayErrorMessage(id, resp.message());
+				}
+			}
+		});
 	}
 }

@@ -24,7 +24,6 @@
 
 package de.chaosdorf.meteroid.controller;
 
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -90,12 +89,18 @@ public class UserController
 		}
 	}
 
-	public static List<BasicNameValuePair> userToPostParams(final User user)
+	public static String userToJSONPostParams(final User user)
 	{
-		final List<BasicNameValuePair> pairs = new ArrayList<BasicNameValuePair>();
-		pairs.add(new BasicNameValuePair("user[name]", user.getName()));
-		pairs.add(new BasicNameValuePair("user[email]", user.getEmail()));
-		pairs.add(new BasicNameValuePair("user[balance]", String.valueOf(user.getBalance())));
-		return pairs;
+		final JSONObject jo = new JSONObject();
+		try
+		{
+			JSONObject ujo = new JSONObject();
+			ujo.put("name", user.getName());
+			ujo.put("email", user.getEmail());
+			ujo.put("balance", String.valueOf(user.getBalance()));
+			jo.put("user", ujo);
+		}
+		catch (JSONException e){}
+		return jo.toString();
 	}
 }

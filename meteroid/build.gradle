@@ -55,4 +55,7 @@ android {
         targetSdkVersion 23
     }
     signingConfigs {}
+    lintOptions {
+      abortOnError false
+    }
 }

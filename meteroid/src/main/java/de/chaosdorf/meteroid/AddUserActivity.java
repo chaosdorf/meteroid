@@ -25,12 +25,16 @@
 package de.chaosdorf.meteroid;
 
 import android.app.Activity;
+import android.app.ActionBar;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -48,6 +52,10 @@ import de.chaosdorf.meteroid.util.Utility;
 public class AddUserActivity extends Activity implements LongRunningIOCallback
 {
 	private Activity activity = null;
+	private TextView usernameText;
+	private TextView emailText;
+	private TextView balanceText;
+	private SharedPreferences prefs;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState)
@@ -56,10 +64,10 @@ public class AddUserActivity extends Activity implements LongRunningIOCallback
 		activity = this;
 		setContentView(R.layout.activity_add_user);
 
-		final TextView usernameText = (TextView) findViewById(R.id.username);
-		final TextView emailText = (TextView) findViewById(R.id.email);
-		final TextView balanceText = (TextView) findViewById(R.id.balance);
-		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		usernameText = (TextView) findViewById(R.id.username);
+		emailText = (TextView) findViewById(R.id.email);
+		balanceText = (TextView) findViewById(R.id.balance);
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
 		final ImageButton backButton = (ImageButton) findViewById(R.id.button_back);
 		backButton.setOnClickListener(new View.OnClickListener()
@@ -76,52 +84,40 @@ public class AddUserActivity extends Activity implements LongRunningIOCallback
 			@Override
 			public void onClick(View view)
 			{
-				final CharSequence username = usernameText.getText();
-				if (username == null || username.length() == 0)
-				{
-					Utility.displayToastMessage(activity, getResources().getString(R.string.add_user_empty_username));
-					return;
-				}
-
-				final CharSequence email = emailText.getText();
-				String emailValue = "";
-				if (email != null && email.length() > 0)
-				{
-					emailValue = email.toString();
-				}
-
-				double balanceValue = 0;
-				final CharSequence balance = balanceText.getText();
-				if (balance != null && balance.length() > 0)
-				{
-					try
-					{
-						balanceValue = Double.parseDouble(balance.toString());
-					}
-					catch (NumberFormatException ignored)
-					{
-						Utility.displayToastMessage(activity, getResources().getString(R.string.add_user_balance_no_double));
-						return;
-					}
-				}
-
-				final User user = new User(0,
-						username.toString(),
-						emailValue,
-						balanceValue,
-						new Date(),
-						new Date()
-				);
-
-				final String hostname = prefs.getString("hostname", null);
-				new LongRunningIOPost(
-						AddUserActivity.this,
-						LongRunningIOTask.ADD_USER,
-						hostname + "users.json",
-						UserController.userToJSONPostParams(user)
-				);
+				addUser();
 			}
 		});
+
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+		{
+			ActionBar actionBar = getActionBar();
+			actionBar.setDisplayHomeAsUpEnabled(true);
+			backButton.setVisibility(View.GONE);
+			addButton.setVisibility(View.GONE);
+		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(final MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+			case android.R.id.home:
+				Utility.resetUsername(activity);
+				Utility.startActivity(activity, PickUsername.class);
+				break;
+			case R.id.action_save:
+				addUser();
+				break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(final Menu menu)
+	{
+		getMenuInflater().inflate(R.menu.settings, menu);
+		return true;
 	}
 
 	@Override
@@ -134,6 +130,54 @@ public class AddUserActivity extends Activity implements LongRunningIOCallback
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
+	}
+
+	public void addUser()
+	{
+		final CharSequence username = usernameText.getText();
+		if (username == null || username.length() == 0)
+		{
+			Utility.displayToastMessage(activity, getResources().getString(R.string.add_user_empty_username));
+			return;
+		}
+
+		final CharSequence email = emailText.getText();
+		String emailValue = "";
+		if (email != null && email.length() > 0)
+		{
+			emailValue = email.toString();
+		}
+
+		double balanceValue = 0;
+		final CharSequence balance = balanceText.getText();
+		if (balance != null && balance.length() > 0)
+		{
+			try
+			{
+				balanceValue = Double.parseDouble(balance.toString());
+			}
+			catch (NumberFormatException ignored)
+			{
+				Utility.displayToastMessage(activity, getResources().getString(R.string.add_user_balance_no_double));
+				return;
+			}
+		}
+
+		final User user = new User(0,
+				username.toString(),
+				emailValue,
+				balanceValue,
+				new Date(),
+				new Date()
+		);
+
+		final String hostname = prefs.getString("hostname", null);
+		new LongRunningIOPost(
+				AddUserActivity.this,
+				LongRunningIOTask.ADD_USER,
+				hostname + "users.json",
+				UserController.userToJSONPostParams(user)
+		);
 	}
 
 	@Override

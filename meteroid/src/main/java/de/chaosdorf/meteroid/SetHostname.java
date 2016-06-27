@@ -25,12 +25,16 @@
 package de.chaosdorf.meteroid;
 
 import android.app.Activity;
+import android.app.ActionBar;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.Selection;
 import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,6 +44,9 @@ import de.chaosdorf.meteroid.util.Utility;
 public class SetHostname extends Activity
 {
 	private Activity activity = null;
+	private SharedPreferences prefs;
+	private EditText editText;
+	private Button saveButton;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState)
@@ -48,10 +55,10 @@ public class SetHostname extends Activity
 		activity = this;
 		setContentView(R.layout.activity_set_hostname);
 
-		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		final String hostname = prefs.getString("hostname", null);
 
-		final EditText editText = (EditText) findViewById(R.id.hostname);
+		editText = (EditText) findViewById(R.id.hostname);
 		if (editText != null)
 		{
 			if (hostname != null)
@@ -65,40 +72,70 @@ public class SetHostname extends Activity
 			}
 		}
 
-		final Button saveButton = (Button) findViewById(R.id.button_save);
+		saveButton = (Button) findViewById(R.id.button_save);
 		saveButton.setOnClickListener(new View.OnClickListener()
 		{
 			public void onClick(View view)
 			{
-				if (editText == null)
-				{
-					Utility.displayToastMessage(activity, getResources().getString(R.string.set_hostname_empty));
-					return;
-				}
-				final Editable editTextHostname = editText.getText();
-				if (editTextHostname == null)
-				{
-					Utility.displayToastMessage(activity, getResources().getString(R.string.set_hostname_empty));
-					return;
-				}
-				String newHostname = editTextHostname.toString();
-				if (newHostname.equals("http://"))
-				{
-					Utility.displayToastMessage(activity, getResources().getString(R.string.set_hostname_empty));
-					return;
-				}
-				if (!newHostname.endsWith("/"))
-				{
-					newHostname += "/";
-				}
-				if (!(URLUtil.isHttpUrl(newHostname) || URLUtil.isHttpsUrl(newHostname)))
-				{
-					Utility.displayToastMessage(activity, getResources().getString(R.string.set_hostname_invalid));
-					return;
-				}
-				prefs.edit().putString("hostname", newHostname).apply();
-				Utility.startActivity(activity, PickUsername.class);
+				saveHostname();
 			}
 		});
+
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+		{
+			ActionBar actionBar = getActionBar();
+			saveButton.setVisibility(View.GONE);
+		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(final MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+			case R.id.action_save:
+				saveHostname();
+				break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(final Menu menu)
+	{
+		getMenuInflater().inflate(R.menu.settings, menu);
+		return true;
+	}
+
+	public void saveHostname()
+	{
+		if (editText == null)
+		{
+			Utility.displayToastMessage(activity, getResources().getString(R.string.set_hostname_empty));
+			return;
+		}
+		final Editable editTextHostname = editText.getText();
+		if (editTextHostname == null)
+		{
+			Utility.displayToastMessage(activity, getResources().getString(R.string.set_hostname_empty));
+			return;
+		}
+		String newHostname = editTextHostname.toString();
+		if (newHostname.equals("http://"))
+		{
+			Utility.displayToastMessage(activity, getResources().getString(R.string.set_hostname_empty));
+			return;
+		}
+		if (!newHostname.endsWith("/"))
+		{
+			newHostname += "/";
+		}
+		if (!(URLUtil.isHttpUrl(newHostname) || URLUtil.isHttpsUrl(newHostname)))
+		{
+			Utility.displayToastMessage(activity, getResources().getString(R.string.set_hostname_invalid));
+			return;
+		}
+		prefs.edit().putString("hostname", newHostname).apply();
+		Utility.startActivity(activity, PickUsername.class);
 	}
 }

@@ -25,9 +25,11 @@
 package de.chaosdorf.meteroid;
 
 import android.app.Activity;
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -96,6 +98,14 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 			}
 		});
 
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+		{
+			ActionBar actionBar = getActionBar();
+			actionBar.setDisplayHomeAsUpEnabled(true);
+			reloadButton.setVisibility(View.GONE);
+			backButton.setVisibility(View.GONE);
+		}
+
 		new LongRunningIOGet(this, LongRunningIOTask.GET_USERS, hostname + "users.json");
 	}
 
@@ -112,6 +122,15 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 	{
 		switch (item.getItemId())
 		{
+			case android.R.id.home:
+				Utility.startActivity(activity, SetHostname.class);
+				break;
+			case R.id.action_reload:
+				Utility.startActivity(activity, PickUsername.class);
+				break;
+			case R.id.action_add:
+				Utility.startActivity(activity, AddUserActivity.class);
+				break;
 			case R.id.edit_hostname:
 				Utility.startActivity(activity, SetHostname.class);
 				break;
@@ -173,7 +192,10 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 				public void run()
 				{
 					final List<User> itemList = UserController.parseAllUsersFromJSON(json);
-					itemList.add(new User(NEW_USER_ID, getResources().getString(R.string.pick_username_new_user), "", 0, new Date(), new Date()));
+					if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB)
+					{
+						itemList.add(new User(NEW_USER_ID, getResources().getString(R.string.pick_username_new_user), "", 0, new Date(), new Date()));
+					}
 					final UserAdapter userAdapter = new UserAdapter(itemList);
 
 					gridView.setAdapter(userAdapter);

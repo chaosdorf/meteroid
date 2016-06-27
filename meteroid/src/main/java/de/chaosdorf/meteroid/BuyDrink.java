@@ -25,9 +25,11 @@
 package de.chaosdorf.meteroid;
 
 import android.app.Activity;
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -117,6 +119,14 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 			}
 		});
 
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+		{
+			ActionBar actionBar = getActionBar();
+			actionBar.setDisplayHomeAsUpEnabled(true);
+			reloadButton.setVisibility(View.GONE);
+			backButton.setVisibility(View.GONE);
+		}
+
 		new LongRunningIOGet(this, LongRunningIOTask.GET_USER, hostname + "users/" + userID + ".json");
 		new LongRunningIOGet(this, LongRunningIOTask.GET_DRINKS, hostname + "drinks.json");
 	}
@@ -135,6 +145,13 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 	{
 		switch (item.getItemId())
 		{
+			case android.R.id.home:
+				Utility.resetUsername(activity);
+				Utility.startActivity(activity, PickUsername.class);
+				break;
+			case R.id.action_reload:
+				Utility.startActivity(activity, BuyDrink.class);
+				break;
 			case R.id.edit_hostname:
 				Utility.startActivity(activity, SetHostname.class);
 				break;

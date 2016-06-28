@@ -62,8 +62,8 @@
             android:label="@string/buy_drink_label"/>
 
         <activity
-            android:name=".AddUserActivity"
-            android:label="@string/add_user_label"/>
+            android:name=".UserSettings"
+            android:label="@string/user_settings_label"/>
 
     </application>
 

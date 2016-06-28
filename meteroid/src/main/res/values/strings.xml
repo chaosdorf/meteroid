@@ -44,13 +44,13 @@
     <string name="pick_username_new_user">New user</string>
     <string name="pick_username_error">Could not load user list. Please check network connection or reset hostname to proceed.</string>
 
-    <!-- Add user -->
-    <string name="add_user_label">Add user</string>
-    <string name="add_user_username">Username</string>
-    <string name="add_user_email">Email</string>
-    <string name="add_user_balance">Balance</string>
-    <string name="add_user_empty_username">Please enter a username</string>
-    <string name="add_user_balance_no_double">Please enter a number as a balance</string>
+    <!-- User settings -->
+    <string name="user_settings_label">Add or edit user</string>
+    <string name="user_settings_username">Username</string>
+    <string name="user_settings_email">Email</string>
+    <string name="user_settings_balance">Balance</string>
+    <string name="user_settings_empty_username">Please enter a username</string>
+    <string name="user_settings_balance_no_double">Please enter a number as a balance</string>
 
     <!-- Buy drink -->
     <string name="buy_drink_label">Buy drink</string>
@@ -58,6 +58,7 @@
     <string name="buy_drink_bought_drink" formatted="false">Bought %s for %s</string>
     <string name="buy_drink_added_money">Successfully added %s</string>
     <string name="buy_drink_error">Could not load data from mete. Please check network connection or reset hostname/username to proceed.</string>
+    <string name="buy_drink_edit_user">Edit user</string>
 
     <!-- Buttons -->
     <string name="button_back">Back</string>

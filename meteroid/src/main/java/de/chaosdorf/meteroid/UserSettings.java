@@ -40,34 +40,43 @@ import android.widget.TextView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 
 import de.chaosdorf.meteroid.controller.UserController;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOCallback;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOPost;
+import de.chaosdorf.meteroid.longrunningio.LongRunningIOPatch;
+import de.chaosdorf.meteroid.longrunningio.LongRunningIOGet;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOTask;
 import de.chaosdorf.meteroid.model.User;
 import de.chaosdorf.meteroid.util.Utility;
 
-public class AddUserActivity extends Activity implements LongRunningIOCallback
+public class UserSettings extends Activity implements LongRunningIOCallback
 {
+	private final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.00");
+
 	private Activity activity = null;
 	private TextView usernameText;
 	private TextView emailText;
 	private TextView balanceText;
 	private SharedPreferences prefs;
+	private int userID;
+	private String hostname = null;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		activity = this;
-		setContentView(R.layout.activity_add_user);
+		setContentView(R.layout.activity_user_settings);
 
 		usernameText = (TextView) findViewById(R.id.username);
 		emailText = (TextView) findViewById(R.id.email);
 		balanceText = (TextView) findViewById(R.id.balance);
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		userID = prefs.getInt("userid", 0);
+		hostname = prefs.getString("hostname", null);
 
 		final ImageButton backButton = (ImageButton) findViewById(R.id.button_back);
 		backButton.setOnClickListener(new View.OnClickListener()
@@ -78,13 +87,13 @@ public class AddUserActivity extends Activity implements LongRunningIOCallback
 			}
 		});
 
-		final ImageButton addButton = (ImageButton) findViewById(R.id.button_add_user);
-		addButton.setOnClickListener(new View.OnClickListener()
+		final ImageButton saveButton = (ImageButton) findViewById(R.id.button_save);
+		saveButton.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View view)
 			{
-				addUser();
+				saveUser();
 			}
 		});
 
@@ -93,8 +102,15 @@ public class AddUserActivity extends Activity implements LongRunningIOCallback
 			ActionBar actionBar = getActionBar();
 			actionBar.setDisplayHomeAsUpEnabled(true);
 			backButton.setVisibility(View.GONE);
-			addButton.setVisibility(View.GONE);
+			saveButton.setVisibility(View.GONE);
 		}
+
+		if(userID != 0) //existing user
+		{
+			makeReadOnly();
+			new LongRunningIOGet(this, LongRunningIOTask.GET_USER, hostname + "users/" + userID + ".json");
+		}
+
 	}
 
 	@Override
@@ -107,7 +123,7 @@ public class AddUserActivity extends Activity implements LongRunningIOCallback
 				Utility.startActivity(activity, PickUsername.class);
 				break;
 			case R.id.action_save:
-				addUser();
+				saveUser();
 				break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -132,8 +148,24 @@ public class AddUserActivity extends Activity implements LongRunningIOCallback
 		return super.onKeyDown(keyCode, event);
 	}
 
-	public void addUser()
+	private void makeReadOnly()
 	{
+		usernameText.setEnabled(false);
+		emailText.setEnabled(false);
+		balanceText.setEnabled(false);
+	}
+
+	private void makeWritable()
+	{
+		usernameText.setEnabled(true);
+		emailText.setEnabled(true);
+		balanceText.setEnabled(true);
+	}
+
+	private void saveUser()
+	{
+		makeReadOnly();
+
 		final CharSequence username = usernameText.getText();
 		if (username == null || username.length() == 0)
 		{
@@ -158,12 +190,12 @@ public class AddUserActivity extends Activity implements LongRunningIOCallback
 			}
 			catch (NumberFormatException ignored)
 			{
-				Utility.displayToastMessage(activity, getResources().getString(R.string.add_user_balance_no_double));
+				Utility.displayToastMessage(activity, getResources().getString(R.string.user_settings_balance_no_double));
 				return;
 			}
 		}
 
-		final User user = new User(0,
+		final User user = new User(userID,
 				username.toString(),
 				emailValue,
 				balanceValue,
@@ -172,12 +204,25 @@ public class AddUserActivity extends Activity implements LongRunningIOCallback
 		);
 
 		final String hostname = prefs.getString("hostname", null);
-		new LongRunningIOPost(
-				AddUserActivity.this,
+
+		if(userID == 0) //new user
+		{
+			new LongRunningIOPost(
+				this,
 				LongRunningIOTask.ADD_USER,
 				hostname + "users.json",
 				UserController.userToJSONPostParams(user)
-		);
+			);
+		}
+		else
+		{
+			new LongRunningIOPatch(
+				this,
+				LongRunningIOTask.EDIT_USER,
+				hostname + "users/" + user.getId() + ".json",
+				UserController.userToJSONPostParams(user)
+			);
+		}
 	}
 
 	@Override
@@ -187,6 +232,7 @@ public class AddUserActivity extends Activity implements LongRunningIOCallback
 		{
 			public void run()
 			{
+				makeWritable();
 				Utility.displayToastMessage(activity, message);
 			}
 		});
@@ -195,13 +241,29 @@ public class AddUserActivity extends Activity implements LongRunningIOCallback
 	@Override
 	public void processIOResult(final LongRunningIOTask task, final String json)
 	{
-		if (task == LongRunningIOTask.ADD_USER && json != null)
+		final UserSettings usersettings = this;
+		if (json != null)
 		{
 			runOnUiThread(new Runnable()
 			{
 				public void run()
 				{
-					startActivity(new Intent(getApplicationContext(), PickUsername.class));
+					switch(task)
+					{
+						case ADD_USER:
+							Utility.startActivity(usersettings, PickUsername.class);
+							break;
+						case EDIT_USER:
+							Utility.startActivity(usersettings, BuyDrink.class);
+							break;
+						case GET_USER:
+							User user = UserController.parseUserFromJSON(json);
+							usernameText.setText(user.getName());
+							emailText.setText(user.getEmail());
+							balanceText.setText(DECIMAL_FORMAT.format(user.getBalance()));
+							makeWritable();
+							break;
+					}
 				}
 			});
 		}

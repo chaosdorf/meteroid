@@ -58,6 +58,7 @@
     <string name="buy_drink_bought_drink" formatted="false">%s für %s gekauft</string>
     <string name="buy_drink_added_money">Erfolgreich %s gebucht</string>
     <string name="buy_drink_error">Daten konnte nicht von mete geladen werden. Bitte Netzwerkverbindung überprüfen oder Hostname/Benutzername ändern um fortzufahren.</string>
+    <string name="buy_drink_edit_user">Benutzer bearbeiten</string>
 
     <!-- Buttons -->
     <string name="button_back">Zurück</string>

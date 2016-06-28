@@ -119,12 +119,22 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 			}
 		});
 
+		final ImageButton editButton = (ImageButton) findViewById(R.id.button_edit);
+		editButton.setOnClickListener(new View.OnClickListener()
+		{
+			public void onClick(View view)
+			{
+				Utility.startActivity(activity, UserSettings.class);
+			}
+		});
+
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
 		{
 			ActionBar actionBar = getActionBar();
 			actionBar.setDisplayHomeAsUpEnabled(true);
 			reloadButton.setVisibility(View.GONE);
 			backButton.setVisibility(View.GONE);
+			editButton.setVisibility(View.GONE);
 		}
 
 		new LongRunningIOGet(this, LongRunningIOTask.GET_USER, hostname + "users/" + userID + ".json");
@@ -151,6 +161,9 @@ public class BuyDrink extends Activity implements LongRunningIOCallback, Adapter
 				break;
 			case R.id.action_reload:
 				Utility.startActivity(activity, BuyDrink.class);
+				break;
+			case R.id.action_edit:
+				Utility.startActivity(activity, UserSettings.class);
 				break;
 			case R.id.edit_hostname:
 				Utility.startActivity(activity, SetHostname.class);

@@ -85,6 +85,14 @@
             android:src="@drawable/button_reload"
             android:contentDescription="@string/button_reload"/>
 
+        <ImageButton
+            android:id="@+id/button_edit"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right"
+            android:src="@android:drawable/ic_menu_edit"
+            android:contentDescription="@string/buy_drink_edit_user"/>
+
     </LinearLayout>
 
     <TextView

@@ -129,7 +129,7 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 				Utility.startActivity(activity, PickUsername.class);
 				break;
 			case R.id.action_add:
-				Utility.startActivity(activity, AddUserActivity.class);
+				Utility.startActivity(activity, UserSettings.class);
 				break;
 			case R.id.edit_hostname:
 				Utility.startActivity(activity, SetHostname.class);
@@ -213,7 +213,7 @@ public class PickUsername extends Activity implements LongRunningIOCallback, Ada
 		{
 			if (user.getId() == NEW_USER_ID)
 			{
-				Utility.startActivity(activity, AddUserActivity.class);
+				Utility.startActivity(activity, UserSettings.class);
 			}
 			else
 			{

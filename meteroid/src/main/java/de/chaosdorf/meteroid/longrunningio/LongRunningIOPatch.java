@@ -24,14 +24,51 @@
 
 package de.chaosdorf.meteroid.longrunningio;
 
-public enum LongRunningIOTask
+import java.io.IOException;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.Request;
+import okhttp3.Callback;
+import okhttp3.Call;
+import okhttp3.Response;
+
+public class LongRunningIOPatch
 {
-	GET_USERS,
-	GET_USER,
-	GET_DRINKS,
-	BUY_DRINK,
-	ADD_MONEY,
-	ADD_USER,
-	UPDATE_USER,
-	EDIT_USER
+	public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+	public LongRunningIOPatch(final LongRunningIOCallback callback, final LongRunningIOTask id, final String url, final String patchData)
+	{
+		OkHttpClient client = new OkHttpClient();
+		RequestBody reqbody = RequestBody.create(JSON, patchData);
+		Request req = new Request.Builder().url(url).patch(reqbody).build();
+		client.newCall(req).enqueue(new Callback()
+		{
+			@Override
+			public void onFailure(Call call, IOException e)
+			{
+				callback.displayErrorMessage(id, e.getLocalizedMessage());
+			}
+
+			@Override
+			public void onResponse(Call call, Response resp)
+			{
+				if(resp.isSuccessful())
+				{
+					try
+					{
+						callback.processIOResult(id, resp.body().string());
+					}
+					catch(IOException e)
+					{
+						callback.displayErrorMessage(id, e.getLocalizedMessage());
+					}
+				}
+				else
+				{
+					callback.displayErrorMessage(id, resp.message());
+				}
+			}
+		});
+	}
 }

@@ -24,8 +24,8 @@
 
 package de.chaosdorf.meteroid;
 
-import android.app.Activity;
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -57,7 +57,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import de.chaosdorf.meteroid.controller.DrinkController;
 import de.chaosdorf.meteroid.controller.MoneyController;
 import de.chaosdorf.meteroid.controller.UserController;
-import de.chaosdorf.meteroid.longrunningio.LongRunningIOCallback;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOGet;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOTask;
 import de.chaosdorf.meteroid.model.BuyableItem;
@@ -65,8 +64,9 @@ import de.chaosdorf.meteroid.model.User;
 import de.chaosdorf.meteroid.model.Drink;
 import de.chaosdorf.meteroid.util.MenuUtility;
 import de.chaosdorf.meteroid.util.Utility;
+import de.chaosdorf.meteroid.MeteroidNetworkActivity;
 
-public class BuyDrink extends Activity implements LongRunningIOCallback, AdapterView.OnItemClickListener
+public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnItemClickListener
 {
 	private final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.00 '\u20AC'");
 

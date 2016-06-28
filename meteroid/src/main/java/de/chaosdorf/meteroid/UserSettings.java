@@ -24,8 +24,8 @@
 
 package de.chaosdorf.meteroid;
 
-import android.app.Activity;
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -44,15 +44,15 @@ import java.text.DecimalFormat;
 import java.util.Date;
 
 import de.chaosdorf.meteroid.controller.UserController;
-import de.chaosdorf.meteroid.longrunningio.LongRunningIOCallback;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOPost;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOPatch;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOGet;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOTask;
 import de.chaosdorf.meteroid.model.User;
 import de.chaosdorf.meteroid.util.Utility;
+import de.chaosdorf.meteroid.MeteroidNetworkActivity;
 
-public class UserSettings extends Activity implements LongRunningIOCallback
+public class UserSettings extends MeteroidNetworkActivity
 {
 	private final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.00");
 

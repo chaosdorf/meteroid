@@ -44,13 +44,13 @@
     <string name="pick_username_new_user">Neuer Benutzer</string>
     <string name="pick_username_error">Konnte Benutzerliste nicht laden. Bitte Netzwerkverbindung überprüfen oder Hostnamen ändern um fortzufahren.</string>
 
-    <!-- Add user -->
-    <string name="add_user_label">Benutzer hinzufügen</string>
-    <string name="add_user_username">Benutzername</string>
-    <string name="add_user_email">Email</string>
-    <string name="add_user_balance">Guthaben</string>
-    <string name="add_user_empty_username">Bitte Benutzername eingeben</string>
-    <string name="add_user_balance_no_double">Bitte Guthaben als Zahl eingeben</string>
+    <!-- User settings -->
+    <string name="user_settings_label">Benutzer hinzufügen oder bearbeiten</string>
+    <string name="user_settings_username">Benutzername</string>
+    <string name="user_settings_email">Email</string>
+    <string name="user_settings_balance">Guthaben</string>
+    <string name="user_settings_empty_username">Bitte Benutzername eingeben</string>
+    <string name="user_settings_balance_no_double">Bitte Guthaben als Zahl eingeben</string>
 
     <!-- Buy drink -->
     <string name="buy_drink_label">Getränk kaufen</string>

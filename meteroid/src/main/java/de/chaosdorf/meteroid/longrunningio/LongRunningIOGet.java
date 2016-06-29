@@ -34,68 +34,12 @@ import okhttp3.Response;
 
 import de.chaosdorf.meteroid.MeteroidNetworkActivity;
 
-public class LongRunningIOGet
+public class LongRunningIOGet extends LongRunningIOBase
 {
 	public LongRunningIOGet(final MeteroidNetworkActivity callback, final LongRunningIOTask id, final String url)
 	{
-		OkHttpClient client = new OkHttpClient();
+		super();
 		Request req = new Request.Builder().url(url).build();
-		client.newCall(req).enqueue(new Callback()
-		{
-			@Override
-			public void onFailure(final Call call, final IOException e)
-			{
-				callback.runOnUiThread(new Runnable()
-				{
-					@Override
-					public void run()
-					{
-						callback.displayErrorMessage(id, e.getLocalizedMessage());
-					}
-				});
-			}
-
-			@Override
-			public void onResponse(final Call call, final Response resp)
-			{
-				if(resp.isSuccessful())
-				{
-					try
-					{
-						final String response = resp.body().string();
-						callback.runOnUiThread(new Runnable()
-						{
-							@Override
-							public void run()
-							{
-								callback.processIOResult(id, response);
-							}
-						});
-					}
-					catch(final IOException e)
-					{
-						callback.runOnUiThread(new Runnable()
-						{
-							@Override
-							public void run()
-							{
-								callback.displayErrorMessage(id, e.getLocalizedMessage());
-							}
-						});
-					}
-				}
-				else
-				{
-					callback.runOnUiThread(new Runnable()
-					{
-						@Override
-						public void run()
-						{
-							callback.displayErrorMessage(id, resp.message());
-						}
-					});
-				}
-			}
-		});
+		client.newCall(req).enqueue(newCallback(callback, id));
 	}
 }

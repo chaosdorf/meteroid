@@ -36,70 +36,14 @@ import okhttp3.Response;
 
 import de.chaosdorf.meteroid.MeteroidNetworkActivity;
 
-public class LongRunningIOPost
+public class LongRunningIOPost extends LongRunningIOBase
 {
 	public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 	public LongRunningIOPost(final MeteroidNetworkActivity callback, final LongRunningIOTask id, final String url, final String postData)
 	{
-		OkHttpClient client = new OkHttpClient();
+		super();
 		RequestBody reqbody = RequestBody.create(JSON, postData);
 		Request req = new Request.Builder().url(url).post(reqbody).build();
-		client.newCall(req).enqueue(new Callback()
-		{
-			@Override
-			public void onFailure(final Call call, final IOException e)
-			{
-				callback.runOnUiThread(new Runnable()
-				{
-					@Override
-					public void run()
-					{
-						callback.displayErrorMessage(id, e.getLocalizedMessage());
-					}
-				});
-			}
-
-			@Override
-			public void onResponse(final Call call, final Response resp)
-			{
-				if(resp.isSuccessful())
-				{
-					try
-					{
-						final String response = resp.body().string();
-						callback.runOnUiThread(new Runnable()
-						{
-							@Override
-							public void run()
-							{
-								callback.processIOResult(id, response);
-							}
-						});
-					}
-					catch(final IOException e)
-					{
-						callback.runOnUiThread(new Runnable()
-						{
-							@Override
-							public void run()
-							{
-								callback.displayErrorMessage(id, e.getLocalizedMessage());
-							}
-						});
-					}
-				}
-				else
-				{
-					callback.runOnUiThread(new Runnable()
-					{
-						@Override
-						public void run()
-						{
-							callback.displayErrorMessage(id, resp.message());
-						}
-					});
-				}
-			}
-		});
+		client.newCall(req).enqueue(newCallback(callback, id));
 	}
 }

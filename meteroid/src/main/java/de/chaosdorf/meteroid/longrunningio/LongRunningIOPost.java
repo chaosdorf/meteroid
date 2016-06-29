@@ -34,10 +34,12 @@ import okhttp3.Callback;
 import okhttp3.Call;
 import okhttp3.Response;
 
+import de.chaosdorf.meteroid.MeteroidNetworkActivity;
+
 public class LongRunningIOPost
 {
 	public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-	public LongRunningIOPost(final LongRunningIOCallback callback, final LongRunningIOTask id, final String url, final String postData)
+	public LongRunningIOPost(final MeteroidNetworkActivity callback, final LongRunningIOTask id, final String url, final String postData)
 	{
 		OkHttpClient client = new OkHttpClient();
 		RequestBody reqbody = RequestBody.create(JSON, postData);
@@ -45,28 +47,57 @@ public class LongRunningIOPost
 		client.newCall(req).enqueue(new Callback()
 		{
 			@Override
-			public void onFailure(Call call, IOException e)
+			public void onFailure(final Call call, final IOException e)
 			{
-				callback.displayErrorMessage(id, e.getLocalizedMessage());
+				callback.runOnUiThread(new Runnable()
+				{
+					@Override
+					public void run()
+					{
+						callback.displayErrorMessage(id, e.getLocalizedMessage());
+					}
+				});
 			}
 
 			@Override
-			public void onResponse(Call call, Response resp)
+			public void onResponse(final Call call, final Response resp)
 			{
 				if(resp.isSuccessful())
 				{
 					try
 					{
-						callback.processIOResult(id, resp.body().string());
+						final String response = resp.body().string();
+						callback.runOnUiThread(new Runnable()
+						{
+							@Override
+							public void run()
+							{
+								callback.processIOResult(id, response);
+							}
+						});
 					}
-					catch(IOException e)
+					catch(final IOException e)
 					{
-						callback.displayErrorMessage(id, e.getLocalizedMessage());
+						callback.runOnUiThread(new Runnable()
+						{
+							@Override
+							public void run()
+							{
+								callback.displayErrorMessage(id, e.getLocalizedMessage());
+							}
+						});
 					}
 				}
 				else
 				{
-					callback.displayErrorMessage(id, resp.message());
+					callback.runOnUiThread(new Runnable()
+					{
+						@Override
+						public void run()
+						{
+							callback.displayErrorMessage(id, resp.message());
+						}
+					});
 				}
 			}
 		});

@@ -46,14 +46,7 @@ public class Utility
 {
 	public static void displayToastMessage(final Activity activity, final String message)
 	{
-		activity.runOnUiThread(new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				Toast.makeText(activity, message, Toast.LENGTH_LONG).show();
-			}
-		});
+		Toast.makeText(activity, message, Toast.LENGTH_LONG).show();
 	}
 
 	public static void startActivity(final Activity activity, Class<?> classType)

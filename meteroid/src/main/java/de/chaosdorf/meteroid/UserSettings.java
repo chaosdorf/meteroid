@@ -119,8 +119,8 @@ public class UserSettings extends MeteroidNetworkActivity
 		switch (item.getItemId())
 		{
 			case android.R.id.home:
-				Utility.resetUsername(activity);
-				Utility.startActivity(activity, PickUsername.class);
+				Utility.resetUsername(this);
+				Utility.startActivity(this, PickUsername.class);
 				break;
 			case R.id.action_save:
 				saveUser();
@@ -141,8 +141,8 @@ public class UserSettings extends MeteroidNetworkActivity
 	{
 		if (keyCode == KeyEvent.KEYCODE_BACK)
 		{
-			Utility.resetUsername(activity);
-			Utility.startActivity(activity, MainActivity.class);
+			Utility.resetUsername(this);
+			Utility.startActivity(this, MainActivity.class);
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
@@ -169,7 +169,7 @@ public class UserSettings extends MeteroidNetworkActivity
 		final CharSequence username = usernameText.getText();
 		if (username == null || username.length() == 0)
 		{
-			Utility.displayToastMessage(activity, getResources().getString(R.string.add_user_empty_username));
+			Utility.displayToastMessage(this, getResources().getString(R.string.add_user_empty_username));
 			return;
 		}
 
@@ -190,7 +190,7 @@ public class UserSettings extends MeteroidNetworkActivity
 			}
 			catch (NumberFormatException ignored)
 			{
-				Utility.displayToastMessage(activity, getResources().getString(R.string.user_settings_balance_no_double));
+				Utility.displayToastMessage(this, getResources().getString(R.string.user_settings_balance_no_double));
 				return;
 			}
 		}
@@ -228,14 +228,8 @@ public class UserSettings extends MeteroidNetworkActivity
 	@Override
 	public void displayErrorMessage(final LongRunningIOTask task, final String message)
 	{
-		runOnUiThread(new Runnable()
-		{
-			public void run()
-			{
-				makeWritable();
-				Utility.displayToastMessage(activity, message);
-			}
-		});
+		makeWritable();
+		Utility.displayToastMessage(this, message);
 	}
 
 	@Override
@@ -244,28 +238,22 @@ public class UserSettings extends MeteroidNetworkActivity
 		final UserSettings usersettings = this;
 		if (json != null)
 		{
-			runOnUiThread(new Runnable()
+			switch(task)
 			{
-				public void run()
-				{
-					switch(task)
-					{
-						case ADD_USER:
-							Utility.startActivity(usersettings, PickUsername.class);
-							break;
-						case EDIT_USER:
-							Utility.startActivity(usersettings, BuyDrink.class);
-							break;
-						case GET_USER:
-							User user = UserController.parseUserFromJSON(json);
-							usernameText.setText(user.getName());
-							emailText.setText(user.getEmail());
-							balanceText.setText(DECIMAL_FORMAT.format(user.getBalance()));
-							makeWritable();
-							break;
-					}
-				}
-			});
+				case ADD_USER:
+					Utility.startActivity(usersettings, PickUsername.class);
+					break;
+				case EDIT_USER:
+					Utility.startActivity(usersettings, BuyDrink.class);
+					break;
+				case GET_USER:
+					User user = UserController.parseUserFromJSON(json);
+					usernameText.setText(user.getName());
+					emailText.setText(user.getEmail());
+					balanceText.setText(DECIMAL_FORMAT.format(user.getBalance()));
+					makeWritable();
+					break;
+			}
 		}
 	}
 }

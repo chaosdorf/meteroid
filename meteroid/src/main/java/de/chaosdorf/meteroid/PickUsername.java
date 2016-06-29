@@ -123,16 +123,16 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 		switch (item.getItemId())
 		{
 			case android.R.id.home:
-				Utility.startActivity(activity, SetHostname.class);
+				Utility.startActivity(this, SetHostname.class);
 				break;
 			case R.id.action_reload:
-				Utility.startActivity(activity, PickUsername.class);
+				Utility.startActivity(this, PickUsername.class);
 				break;
 			case R.id.action_add:
-				Utility.startActivity(activity, UserSettings.class);
+				Utility.startActivity(this, UserSettings.class);
 				break;
 			case R.id.edit_hostname:
-				Utility.startActivity(activity, SetHostname.class);
+				Utility.startActivity(this, SetHostname.class);
 				break;
 			case R.id.multi_user_mode:
 				multiUserMode = MenuUtility.onClickMultiUserMode(this, item);
@@ -148,7 +148,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 		{
 			if (editHostnameOnBackButton)
 			{
-				Utility.startActivity(activity, SetHostname.class);
+				Utility.startActivity(this, SetHostname.class);
 				return true;
 			}
 		}
@@ -168,17 +168,11 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 	@Override
 	public void displayErrorMessage(final LongRunningIOTask task, final String message)
 	{
-		runOnUiThread(new Runnable()
-		{
-			public void run()
-			{
-				Utility.displayToastMessage(activity, message);
-				final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.pick_username_error);
-				linearLayout.setVisibility(View.VISIBLE);
-				gridView.setVisibility(View.GONE);
-				editHostnameOnBackButton = true;
-			}
-		});
+		Utility.displayToastMessage(this, message);
+		final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.pick_username_error);
+		linearLayout.setVisibility(View.VISIBLE);
+		gridView.setVisibility(View.GONE);
+		editHostnameOnBackButton = true;
 	}
 
 	@Override
@@ -187,21 +181,15 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 		final PickUsername pickusername = this;
 		if (task == LongRunningIOTask.GET_USERS && json != null)
 		{
-			runOnUiThread(new Runnable()
+			final List<User> itemList = UserController.parseAllUsersFromJSON(json);
+			if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB)
 			{
-				public void run()
-				{
-					final List<User> itemList = UserController.parseAllUsersFromJSON(json);
-					if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB)
-					{
-						itemList.add(new User(NEW_USER_ID, getResources().getString(R.string.pick_username_new_user), "", 0, new Date(), new Date()));
-					}
-					final UserAdapter userAdapter = new UserAdapter(itemList);
+				itemList.add(new User(NEW_USER_ID, getResources().getString(R.string.pick_username_new_user), "", 0, new Date(), new Date()));
+			}
+			final UserAdapter userAdapter = new UserAdapter(itemList);
 
-					gridView.setAdapter(userAdapter);
-					gridView.setOnItemClickListener(pickusername);
-				}
-			});
+			gridView.setAdapter(userAdapter);
+			gridView.setOnItemClickListener(pickusername);
 		}
 	}
 
@@ -213,13 +201,13 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 		{
 			if (user.getId() == NEW_USER_ID)
 			{
-				Utility.startActivity(activity, UserSettings.class);
+				Utility.startActivity(this, UserSettings.class);
 			}
 			else
 			{
 				final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 				prefs.edit().putInt("userid", user.getId()).apply();
-				Utility.startActivity(activity, BuyDrink.class);
+				Utility.startActivity(this, BuyDrink.class);
 			}
 		}
 	}

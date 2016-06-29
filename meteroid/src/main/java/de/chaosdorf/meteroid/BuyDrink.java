@@ -156,26 +156,26 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		switch (item.getItemId())
 		{
 			case android.R.id.home:
-				Utility.resetUsername(activity);
-				Utility.startActivity(activity, PickUsername.class);
+				Utility.resetUsername(this);
+				Utility.startActivity(this, PickUsername.class);
 				break;
 			case R.id.action_reload:
-				Utility.startActivity(activity, BuyDrink.class);
+				Utility.startActivity(this, BuyDrink.class);
 				break;
 			case R.id.action_edit:
-				Utility.startActivity(activity, UserSettings.class);
+				Utility.startActivity(this, UserSettings.class);
 				break;
 			case R.id.edit_hostname:
-				Utility.startActivity(activity, SetHostname.class);
+				Utility.startActivity(this, SetHostname.class);
 				break;
 			case R.id.reset_username:
-				Utility.resetUsername(activity);
-				Utility.startActivity(activity, PickUsername.class);
+				Utility.resetUsername(this);
+				Utility.startActivity(this, PickUsername.class);
 				break;
 			case R.id.use_grid_view:
-				useGridView = Utility.toggleUseGridView(activity);
+				useGridView = Utility.toggleUseGridView(this);
 				item.setChecked(useGridView);
-				Utility.startActivity(activity, BuyDrink.class);
+				Utility.startActivity(this, BuyDrink.class);
 				break;
 			case R.id.multi_user_mode:
 				multiUserMode = MenuUtility.onClickMultiUserMode(this, item);
@@ -191,8 +191,8 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		{
 			if (multiUserMode)
 			{
-				Utility.resetUsername(activity);
-				Utility.startActivity(activity, MainActivity.class);
+				Utility.resetUsername(this);
+				Utility.startActivity(this, MainActivity.class);
 				return true;
 			}
 		}
@@ -217,25 +217,19 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 	@Override
 	public void displayErrorMessage(final LongRunningIOTask task, final String message)
 	{
-		runOnUiThread(new Runnable()
+		buyingItem.set(null);
+		if (task == LongRunningIOTask.GET_USER || task == LongRunningIOTask.UPDATE_USER)
 		{
-			public void run()
-			{
-				buyingItem.set(null);
-				if (task == LongRunningIOTask.GET_USER || task == LongRunningIOTask.UPDATE_USER)
-				{
-					Utility.displayToastMessage(activity, getResources().getString(R.string.error_user_not_found) + " " + message);
-				}
-				else
-				{
-					Utility.displayToastMessage(activity, message);
-				}
-				final TextView textView = (TextView) findViewById(R.id.buy_drink_error);
-				textView.setVisibility(View.VISIBLE);
-				gridView.setVisibility(View.GONE);
-				listView.setVisibility(View.GONE);
-			}
-		});
+			Utility.displayToastMessage(this, getResources().getString(R.string.error_user_not_found) + " " + message);
+		}
+		else
+		{
+			Utility.displayToastMessage(this, message);
+		}
+		final TextView textView = (TextView) findViewById(R.id.buy_drink_error);
+		textView.setVisibility(View.VISIBLE);
+		gridView.setVisibility(View.GONE);
+		listView.setVisibility(View.GONE);
 	}
 
 	@Override
@@ -243,111 +237,104 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 	{
 		if (json != null)
 		{
-			final BuyDrink buydrink = this;
-			runOnUiThread(new Runnable()
+			switch (task)
 			{
-				public void run()
+				// Parse user data
+				case GET_USER:
+				case UPDATE_USER:
 				{
-					switch (task)
+					user = UserController.parseUserFromJSON(json);
+					if (task == LongRunningIOTask.GET_USER)
 					{
-						// Parse user data
-						case GET_USER:
-						case UPDATE_USER:
+						final TextView label = (TextView) findViewById(R.id.username);
+						final ImageView icon = (ImageView) findViewById(R.id.icon);
+						label.setText(user.getName());
+						Utility.loadGravatarImage(this, icon, user);
+					}
+					final TextView balance = (TextView) findViewById(R.id.balance);
+					balance.setText(DECIMAL_FORMAT.format(user.getBalance()));
+					isBuying.set(false);
+					break;
+				}
+
+				// Parse drinks
+				case GET_DRINKS:
+				{
+					final List<BuyableItem> buyableItemList = DrinkController.parseAllDrinksFromJSON(json, hostname);
+					MoneyController.addMoney(buyableItemList);
+					Collections.sort(buyableItemList, new BuyableComparator());
+
+					final BuyableItemAdapter buyableItemAdapter = new BuyableItemAdapter(buyableItemList);
+					if (useGridView)
+					{
+						gridView.setAdapter(buyableItemAdapter);
+						gridView.setOnItemClickListener(this);
+						gridView.setVisibility(View.VISIBLE);
+					}
+					else
+					{
+						listView.setAdapter(buyableItemAdapter);
+						listView.setOnItemClickListener(this);
+						listView.setVisibility(View.VISIBLE);
+					}
+					break;
+				}
+
+				// Bought drink
+				case BUY_DRINK:
+				{
+					final BuyableItem buyableItem = buyingItem.get();
+					if (buyableItem != null)
+					{
+						buyingItem.set(null);
+						Utility.displayToastMessage(this,
+							String.format(
+										getResources().getString(R.string.buy_drink_bought_drink),
+										buyableItem.getName(),
+										DECIMAL_FORMAT.format(buyableItem.getDonationRecommendation())
+								)
+						);
+						// Adjust the displayed balance to give an immediate user feedback
+						if (user != null)
 						{
-							user = UserController.parseUserFromJSON(json);
-							if (task == LongRunningIOTask.GET_USER)
-							{
-								final TextView label = (TextView) findViewById(R.id.username);
-								final ImageView icon = (ImageView) findViewById(R.id.icon);
-								label.setText(user.getName());
-								Utility.loadGravatarImage(activity, icon, user);
-							}
 							final TextView balance = (TextView) findViewById(R.id.balance);
-							balance.setText(DECIMAL_FORMAT.format(user.getBalance()));
-							isBuying.set(false);
-							break;
+							balance.setText(DECIMAL_FORMAT.format(user.getBalance() - buyableItem.getDonationRecommendation()));
 						}
-
-						// Parse drinks
-						case GET_DRINKS:
+						if (multiUserMode)
 						{
-							final List<BuyableItem> buyableItemList = DrinkController.parseAllDrinksFromJSON(json, hostname);
-							MoneyController.addMoney(buyableItemList);
-							Collections.sort(buyableItemList, new BuyableComparator());
-
-							final BuyableItemAdapter buyableItemAdapter = new BuyableItemAdapter(buyableItemList);
-							if (useGridView)
-							{
-								gridView.setAdapter(buyableItemAdapter);
-								gridView.setOnItemClickListener(buydrink);
-								gridView.setVisibility(View.VISIBLE);
-							}
-							else
-							{
-								listView.setAdapter(buyableItemAdapter);
-								listView.setOnItemClickListener(buydrink);
-								listView.setVisibility(View.VISIBLE);
-							}
-							break;
-						}
-
-						// Bought drink
-						case BUY_DRINK:
-						{
-							final BuyableItem buyableItem = buyingItem.get();
-							if (buyableItem != null)
-							{
-								buyingItem.set(null);
-								Utility.displayToastMessage(activity,
-										String.format(
-												getResources().getString(R.string.buy_drink_bought_drink),
-												buyableItem.getName(),
-												DECIMAL_FORMAT.format(buyableItem.getDonationRecommendation())
-										)
-								);
-								// Adjust the displayed balance to give an immediate user feedback
-								if (user != null)
-								{
-									final TextView balance = (TextView) findViewById(R.id.balance);
-									balance.setText(DECIMAL_FORMAT.format(user.getBalance() - buyableItem.getDonationRecommendation()));
-								}
-								if (multiUserMode)
-								{
-									Utility.startActivity(activity, PickUsername.class);
-									break;
-								}
-							}
-							new LongRunningIOGet(buydrink, LongRunningIOTask.UPDATE_USER, hostname + "users/" + userID + ".json");
-							break;
-						}
-
-						// Added money
-						case ADD_MONEY:
-						{
-							final BuyableItem buyableItem = buyingItem.get();
-							if (buyableItem != null)
-							{
-								buyingItem.set(null);
-								Utility.displayToastMessage(activity,
-										String.format(
-												getResources().getString(R.string.buy_drink_added_money),
-												buyableItem.getName(),
-												DECIMAL_FORMAT.format(buyableItem.getDonationRecommendation())
-										)
-								);
-								// Adjust the displayed balance to give an immediate user feedback
-								if (user != null)
-								{
-									final TextView balance = (TextView) findViewById(R.id.balance);
-									balance.setText(DECIMAL_FORMAT.format(user.getBalance() - buyableItem.getDonationRecommendation()));
-								}
-							}
-							new LongRunningIOGet(buydrink, LongRunningIOTask.UPDATE_USER, hostname + "users/" + userID + ".json");
+							Utility.startActivity(this, PickUsername.class);
 							break;
 						}
 					}
+					new LongRunningIOGet(this, LongRunningIOTask.UPDATE_USER, hostname + "users/" + userID + ".json");
+					break;
 				}
-			});
+
+				// Added money
+				case ADD_MONEY:
+				{
+					final BuyableItem buyableItem = buyingItem.get();
+					if (buyableItem != null)
+					{
+						buyingItem.set(null);
+						Utility.displayToastMessage(this,
+								String.format(
+										getResources().getString(R.string.buy_drink_added_money),
+										buyableItem.getName(),
+										DECIMAL_FORMAT.format(buyableItem.getDonationRecommendation())
+								)
+						);
+						// Adjust the displayed balance to give an immediate user feedback
+						if (user != null)
+						{
+							final TextView balance = (TextView) findViewById(R.id.balance);
+							balance.setText(DECIMAL_FORMAT.format(user.getBalance() - buyableItem.getDonationRecommendation()));
+						}
+					}
+					new LongRunningIOGet(this, LongRunningIOTask.UPDATE_USER, hostname + "users/" + userID + ".json");
+					break;
+				}
+			}
 		}
 	}
 
@@ -356,7 +343,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 	{
 		if (index < 0 || isBuying.get())
 		{
-			Utility.displayToastMessage(activity, getResources().getString(R.string.buy_drink_pending));
+			Utility.displayToastMessage(this, getResources().getString(R.string.buy_drink_pending));
 			return;
 		}
 		if (isBuying.compareAndSet(false, true))

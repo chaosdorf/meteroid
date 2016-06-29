@@ -37,12 +37,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.jetbrains.annotations.NotNull;
@@ -74,6 +76,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 	private final AtomicReference<BuyableItem> buyingItem = new AtomicReference<BuyableItem>(null);
 
 	private Activity activity = null;
+	private ProgressBar progressBar = null;
 	private GridView gridView = null;
 	private ListView listView = null;
 	private String hostname = null;
@@ -89,8 +92,10 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 	{
 		super.onCreate(savedInstanceState);
 		activity = this;
+		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.activity_buy_drink);
 
+		progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 		gridView = (GridView) findViewById(R.id.grid_view);
 		listView = (ListView) findViewById(R.id.list_view);
 
@@ -230,6 +235,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		textView.setVisibility(View.VISIBLE);
 		gridView.setVisibility(View.GONE);
 		listView.setVisibility(View.GONE);
+		progressBar.setVisibility(View.GONE);
 	}
 
 	@Override
@@ -254,6 +260,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 					final TextView balance = (TextView) findViewById(R.id.balance);
 					balance.setText(DECIMAL_FORMAT.format(user.getBalance()));
 					isBuying.set(false);
+					setProgressBarIndeterminateVisibility(false);
 					break;
 				}
 
@@ -277,6 +284,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 						listView.setOnItemClickListener(this);
 						listView.setVisibility(View.VISIBLE);
 					}
+					progressBar.setVisibility(View.GONE);
 					break;
 				}
 
@@ -352,6 +360,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 			if (buyableItem != null)
 			{
 				buyingItem.set(buyableItem);
+				setProgressBarIndeterminateVisibility(true);
 				if(buyableItem.isDrink())
 				{
 					new LongRunningIOGet(this, LongRunningIOTask.BUY_DRINK, hostname + "users/" + userID + "/buy.json?drink=" + ((Drink)buyableItem).getId());

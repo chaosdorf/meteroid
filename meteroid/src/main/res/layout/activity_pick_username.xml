@@ -72,8 +72,16 @@
         </LinearLayout>
     </LinearLayout>
 
-    <GridView
+    <ProgressBar
         android:visibility="visible"
+        android:id="@+id/progress_bar"
+        android:layout_width="76dip"
+        android:layout_height="76dip"
+        android:layout_centerInParent="true"
+        style="@android:style/Widget.ProgressBar.Large"/>
+
+    <GridView
+        android:visibility="gone"
         android:id="@+id/grid_view"
         android:layout_alignParentTop="true"
         android:layout_width="fill_parent"

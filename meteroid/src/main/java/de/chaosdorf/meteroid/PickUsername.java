@@ -43,6 +43,7 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.jetbrains.annotations.NotNull;
@@ -63,6 +64,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 	private static final int NEW_USER_ID = -1;
 
 	private Activity activity = null;
+	private ProgressBar progressBar = null;
 	private GridView gridView = null;
 	private boolean multiUserMode = false;
 	private boolean editHostnameOnBackButton = false;
@@ -74,6 +76,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 		activity = this;
 		setContentView(R.layout.activity_pick_username);
 
+		progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 		gridView = (GridView) findViewById(R.id.grid_view);
 
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -173,6 +176,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 		linearLayout.setVisibility(View.VISIBLE);
 		gridView.setVisibility(View.GONE);
 		editHostnameOnBackButton = true;
+		progressBar.setVisibility(View.GONE);
 	}
 
 	@Override
@@ -190,6 +194,8 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 
 			gridView.setAdapter(userAdapter);
 			gridView.setOnItemClickListener(pickusername);
+			progressBar.setVisibility(View.GONE);
+			gridView.setVisibility(View.VISIBLE);
 		}
 	}
 

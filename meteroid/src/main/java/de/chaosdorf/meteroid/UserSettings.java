@@ -35,6 +35,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -69,6 +70,7 @@ public class UserSettings extends MeteroidNetworkActivity
 	{
 		super.onCreate(savedInstanceState);
 		activity = this;
+		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.activity_user_settings);
 
 		usernameText = (TextView) findViewById(R.id.username);
@@ -153,10 +155,12 @@ public class UserSettings extends MeteroidNetworkActivity
 		usernameText.setEnabled(false);
 		emailText.setEnabled(false);
 		balanceText.setEnabled(false);
+		setProgressBarIndeterminateVisibility(true);
 	}
 
 	private void makeWritable()
 	{
+		setProgressBarIndeterminateVisibility(false);
 		usernameText.setEnabled(true);
 		emailText.setEnabled(true);
 		balanceText.setEnabled(true);

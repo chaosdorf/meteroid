@@ -173,7 +173,7 @@ public class UserSettings extends MeteroidNetworkActivity
 		final CharSequence username = usernameText.getText();
 		if (username == null || username.length() == 0)
 		{
-			Utility.displayToastMessage(this, getResources().getString(R.string.add_user_empty_username));
+			Utility.displayToastMessage(this, getResources().getString(R.string.user_settings_empty_username));
 			return;
 		}
 

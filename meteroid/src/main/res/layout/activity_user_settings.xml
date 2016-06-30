@@ -80,7 +80,7 @@
             android:id="@+id/button_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/button_save"
+            android:src="@android:drawable/ic_menu_save"
             android:contentDescription="@string/button_save"/>
 
     </LinearLayout>

@@ -53,7 +53,6 @@ public class Utility
 	{
 		final Intent intent = new Intent(activity, classType);
 		activity.startActivity(intent);
-		activity.finish();
 	}
 
 	public static void resetUsername(final Activity activity)

@@ -42,7 +42,8 @@
 
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -52,7 +53,8 @@
         <activity
             android:name=".SetHostname"
             android:label="@string/set_hostname_label"
-            android:theme="@style/DialogWhenLarge"/>
+            android:theme="@style/DialogWhenLarge"
+            android:noHistory="true"/>
 
         <activity
             android:name=".PickUsername"
@@ -65,7 +67,8 @@
         <activity
             android:name=".UserSettings"
             android:label="@string/user_settings_label"
-            android:theme="@style/DialogWhenLarge"/>
+            android:theme="@style/DialogWhenLarge"
+            android:noHistory="true"/>
 
     </application>
 

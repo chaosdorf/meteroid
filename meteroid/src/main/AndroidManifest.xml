@@ -51,7 +51,8 @@
 
         <activity
             android:name=".SetHostname"
-            android:label="@string/set_hostname_label"/>
+            android:label="@string/set_hostname_label"
+            android:theme="@style/DialogWhenLarge"/>
 
         <activity
             android:name=".PickUsername"
@@ -63,7 +64,8 @@
 
         <activity
             android:name=".UserSettings"
-            android:label="@string/user_settings_label"/>
+            android:label="@string/user_settings_label"
+            android:theme="@style/DialogWhenLarge"/>
 
     </application>
 

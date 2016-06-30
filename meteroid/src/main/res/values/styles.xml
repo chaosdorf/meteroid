@@ -41,4 +41,9 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <!-- Show some activities as dialogs on large screens.
+    This only works on Honeycomb and above. -->
+    <style name="DialogWhenLarge" parent="AppTheme">
+    </style>
+
 </resources>

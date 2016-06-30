@@ -102,9 +102,12 @@ public class UserSettings extends MeteroidNetworkActivity
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
 		{
 			ActionBar actionBar = getActionBar();
-			actionBar.setDisplayHomeAsUpEnabled(true);
-			backButton.setVisibility(View.GONE);
-			saveButton.setVisibility(View.GONE);
+			if(actionBar != null)
+			{
+				actionBar.setDisplayHomeAsUpEnabled(true);
+				backButton.setVisibility(View.GONE);
+				saveButton.setVisibility(View.GONE);
+			}
 		}
 
 		if(userID != 0) //existing user

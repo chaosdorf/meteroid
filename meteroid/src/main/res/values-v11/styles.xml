@@ -32,4 +32,9 @@
         <!-- API 11 theme customizations can go here. -->
     </style>
 
+    <!-- Show some activities as dialogs on large screens.
+    This only works on Honeycomb and above. -->
+    <style name="DialogWhenLarge" parent="android:Theme.Holo.DialogWhenLarge">
+    </style>
+
 </resources>

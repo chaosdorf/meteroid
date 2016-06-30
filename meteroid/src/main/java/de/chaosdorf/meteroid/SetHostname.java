@@ -84,7 +84,10 @@ public class SetHostname extends Activity
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
 		{
 			ActionBar actionBar = getActionBar();
-			saveButton.setVisibility(View.GONE);
+			if(actionBar != null)
+			{
+				saveButton.setVisibility(View.GONE);
+			}
 		}
 	}
 

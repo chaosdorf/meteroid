@@ -36,6 +36,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Locale;
 
 import de.chaosdorf.meteroid.R;
 import de.chaosdorf.meteroid.imageloader.ImageLoaderSingleton;
@@ -89,7 +90,7 @@ public class Utility
 		}
 		if (email != null)
 		{
-			email = email.trim().toLowerCase();
+			email = email.trim().toLowerCase(Locale.US);
 		}
 		if (email != null && email.length() > 0)
 		{

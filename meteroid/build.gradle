@@ -53,5 +53,7 @@ android {
     signingConfigs {}
     lintOptions {
       abortOnError false
+      //ActionBar on Gingerbread
+      disable 'UnusedAttribute'
     }
 }

@@ -40,16 +40,13 @@
         android:hint="@string/user_settings_username"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
-        android:password="false"
-        android:phoneNumber="false"/>
+        android:inputType="text"/>
 
     <EditText
         android:id="@+id/email"
         android:hint="@string/user_settings_email"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
-        android:password="false"
-        android:phoneNumber="false"
         android:inputType="textEmailAddress"/>
 
     <EditText
@@ -57,9 +54,7 @@
         android:hint="@string/user_settings_balance"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
-        android:password="false"
-        android:phoneNumber="false"
-        android:numeric="decimal"/>
+        android:inputType="numberDecimal"/>
 
     <LinearLayout
         android:layout_height="wrap_content"

@@ -46,9 +46,7 @@
         android:id="@+id/hostname"
         android:text="@string/set_hostname_default_hostname"
         android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        android:password="false"
-        android:phoneNumber="false"/>
+        android:layout_width="fill_parent"/>
 
     <Button
         android:layout_width="wrap_content"

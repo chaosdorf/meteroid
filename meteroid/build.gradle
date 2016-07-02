@@ -50,10 +50,6 @@ gradle.projectsEvaluated {
 android {
     compileSdkVersion 23
     buildToolsVersion '23.0.3'
-    defaultConfig {
-        minSdkVersion 9
-        targetSdkVersion 23
-    }
     signingConfigs {}
     lintOptions {
       abortOnError false

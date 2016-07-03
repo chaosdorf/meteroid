@@ -55,8 +55,8 @@
     <!-- Buy drink -->
     <string name="buy_drink_label">Getränk kaufen</string>
     <string name="buy_drink_pending">Bitte warten bis aktueller Vorgang abgeschlossen ist…</string>
-    <string name="buy_drink_bought_drink" formatted="false">%s für %s gekauft</string>
-    <string name="buy_drink_added_money">Erfolgreich %s gebucht</string>
+    <string name="buy_drink_bought_drink">%1$s für %2$s gekauft</string>
+    <string name="buy_drink_added_money">Erfolgreich %1$s aufgeladen</string>
     <string name="buy_drink_error">Daten konnte nicht von mete geladen werden. Bitte Netzwerkverbindung überprüfen oder Hostname/Benutzername ändern um fortzufahren.</string>
     <string name="buy_drink_edit_user">Benutzer bearbeiten</string>
 

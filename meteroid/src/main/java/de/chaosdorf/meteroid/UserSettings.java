@@ -85,7 +85,7 @@ public class UserSettings extends MeteroidNetworkActivity
 		{
 			public void onClick(View view)
 			{
-				Utility.startActivity(activity, PickUsername.class);
+				goBack();
 			}
 		});
 
@@ -124,8 +124,7 @@ public class UserSettings extends MeteroidNetworkActivity
 		switch (item.getItemId())
 		{
 			case android.R.id.home:
-				Utility.resetUsername(this);
-				Utility.startActivity(this, PickUsername.class);
+				goBack();
 				break;
 			case R.id.action_save:
 				saveUser();
@@ -146,8 +145,7 @@ public class UserSettings extends MeteroidNetworkActivity
 	{
 		if (keyCode == KeyEvent.KEYCODE_BACK)
 		{
-			Utility.resetUsername(this);
-			Utility.startActivity(this, MainActivity.class);
+			goBack();
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
@@ -167,6 +165,18 @@ public class UserSettings extends MeteroidNetworkActivity
 		usernameText.setEnabled(true);
 		emailText.setEnabled(true);
 		balanceText.setEnabled(true);
+	}
+
+	private void goBack()
+	{
+		if(userID == 0) //new user
+		{
+			Utility.startActivity(this, PickUsername.class);
+		}
+		else
+		{
+			Utility.startActivity(this, BuyDrink.class);
+		}
 	}
 
 	private void saveUser()

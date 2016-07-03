@@ -29,9 +29,6 @@
     <string name="app_name">meteroid</string>
     <string name="error_user_not_found">Fehler beim Laden von Daten:</string>
 
-    <!-- Main activity -->
-    <string name="main_overview">Übersicht</string>
-
     <!-- Set hostname -->
     <string name="set_hostname_label">Hostname</string>
     <string name="set_hostname_default_hostname">http://mete</string>
@@ -64,7 +61,6 @@
     <string name="button_back">Zurück</string>
     <string name="button_reload">Neu laden</string>
     <string name="button_save">Speichern</string>
-    <string name="button_ok">OK</string>
 
     <!-- Menues -->
     <string name="menu_edit_hostname">Hostname ändern</string>

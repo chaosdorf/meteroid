@@ -177,6 +177,7 @@ public class UserSettings extends MeteroidNetworkActivity
 		if (username == null || username.length() == 0)
 		{
 			Utility.displayToastMessage(this, getResources().getString(R.string.user_settings_empty_username));
+			makeWritable();
 			return;
 		}
 
@@ -198,6 +199,7 @@ public class UserSettings extends MeteroidNetworkActivity
 			catch (NumberFormatException ignored)
 			{
 				Utility.displayToastMessage(this, getResources().getString(R.string.user_settings_balance_no_double));
+				makeWritable();
 				return;
 			}
 		}

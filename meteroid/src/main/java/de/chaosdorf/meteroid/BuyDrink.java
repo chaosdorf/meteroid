@@ -328,8 +328,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 						Utility.displayToastMessage(this,
 								String.format(
 										getResources().getString(R.string.buy_drink_added_money),
-										buyableItem.getName(),
-										DECIMAL_FORMAT.format(buyableItem.getDonationRecommendation())
+										DECIMAL_FORMAT.format(-buyableItem.getDonationRecommendation())
 								)
 						);
 						// Adjust the displayed balance to give an immediate user feedback

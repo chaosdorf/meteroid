@@ -29,9 +29,6 @@
     <string name="app_name">meteroid</string>
     <string name="error_user_not_found">Fehler beim Laden von Daten:</string>
 
-    <!-- Main activity -->
-    <string name="main_overview">Übersicht</string>
-
     <!-- Set hostname -->
     <string name="set_hostname_label">Hostname</string>
     <string name="set_hostname_default_hostname">http://mete</string>
@@ -55,8 +52,8 @@
     <!-- Buy drink -->
     <string name="buy_drink_label">Getränk kaufen</string>
     <string name="buy_drink_pending">Bitte warten bis aktueller Vorgang abgeschlossen ist…</string>
-    <string name="buy_drink_bought_drink" formatted="false">%s für %s gekauft</string>
-    <string name="buy_drink_added_money">Erfolgreich %s gebucht</string>
+    <string name="buy_drink_bought_drink">%1$s für %2$s gekauft</string>
+    <string name="buy_drink_added_money">Erfolgreich %1$s aufgeladen</string>
     <string name="buy_drink_error">Daten konnte nicht von mete geladen werden. Bitte Netzwerkverbindung überprüfen oder Hostname/Benutzername ändern um fortzufahren.</string>
     <string name="buy_drink_edit_user">Benutzer bearbeiten</string>
 
@@ -64,7 +61,6 @@
     <string name="button_back">Zurück</string>
     <string name="button_reload">Neu laden</string>
     <string name="button_save">Speichern</string>
-    <string name="button_ok">OK</string>
 
     <!-- Menues -->
     <string name="menu_edit_hostname">Hostname ändern</string>

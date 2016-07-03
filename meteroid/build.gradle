@@ -30,7 +30,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:2.1.0'
     }
 }
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 
 dependencies {
     repositories {
@@ -50,12 +50,10 @@ gradle.projectsEvaluated {
 android {
     compileSdkVersion 23
     buildToolsVersion '23.0.3'
-    defaultConfig {
-        minSdkVersion 9
-        targetSdkVersion 23
-    }
     signingConfigs {}
     lintOptions {
       abortOnError false
+      //ActionBar on Gingerbread
+      disable 'UnusedAttribute'
     }
 }

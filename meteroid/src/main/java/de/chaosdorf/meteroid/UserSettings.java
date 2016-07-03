@@ -42,6 +42,7 @@ import android.widget.TextView;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.Date;
 
 import de.chaosdorf.meteroid.controller.UserController;
@@ -204,9 +205,9 @@ public class UserSettings extends MeteroidNetworkActivity
 		{
 			try
 			{
-				balanceValue = Double.parseDouble(balance.toString());
+				balanceValue = ((Number)DECIMAL_FORMAT.parse(balance.toString())).doubleValue();
 			}
-			catch (NumberFormatException ignored)
+			catch(ParseException ignored)
 			{
 				Utility.displayToastMessage(this, getResources().getString(R.string.user_settings_balance_no_double));
 				makeWritable();

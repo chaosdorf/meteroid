@@ -33,6 +33,9 @@ public class MoneyController
 {
 	public static void addMoney(List<BuyableItem> itemList)
 	{
+		itemList.add(new Money("50 Cent", "euro_05", -0.5));
+		itemList.add(new Money("1 Euro", "euro_1", -1));
+		itemList.add(new Money("2 Euro", "euro_2", -2));
 		itemList.add(new Money("5 Euro", "euro_5", -5));
 		itemList.add(new Money("10 Euro", "euro_10", -10));
 		itemList.add(new Money("20 Euro", "euro_20", -20));

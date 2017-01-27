@@ -88,19 +88,4 @@ public class UserController
 			return null;
 		}
 	}
-
-	public static String userToJSONPostParams(final User user)
-	{
-		final JSONObject jo = new JSONObject();
-		try
-		{
-			JSONObject ujo = new JSONObject();
-			ujo.put("name", user.getName());
-			ujo.put("email", user.getEmail());
-			ujo.put("balance", String.valueOf(user.getBalance()));
-			jo.put("user", ujo);
-		}
-		catch (JSONException e){}
-		return jo.toString();
-	}
 }

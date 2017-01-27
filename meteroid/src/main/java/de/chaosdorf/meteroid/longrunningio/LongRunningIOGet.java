@@ -26,11 +26,7 @@ package de.chaosdorf.meteroid.longrunningio;
 
 import java.io.IOException;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Callback;
 import retrofit2.Call;
-import okhttp3.Response;
 
 import de.chaosdorf.meteroid.MeteroidNetworkActivity;
 
@@ -39,7 +35,6 @@ public class LongRunningIOGet extends LongRunningIOBase
 	public LongRunningIOGet(final MeteroidNetworkActivity callback, final LongRunningIOTask id, final Call call)
 	{
 		super();
-		Request req = call.request();
-		client.newCall(req).enqueue(newCallback(callback, id));
+		client.newCall(call.request()).enqueue(newCallback(callback, id));
 	}
 }

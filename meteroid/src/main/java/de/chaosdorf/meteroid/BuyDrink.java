@@ -64,6 +64,7 @@ import de.chaosdorf.meteroid.longrunningio.LongRunningIOTask;
 import de.chaosdorf.meteroid.model.BuyableItem;
 import de.chaosdorf.meteroid.model.User;
 import de.chaosdorf.meteroid.model.Drink;
+import de.chaosdorf.meteroid.util.API;
 import de.chaosdorf.meteroid.util.MenuUtility;
 import de.chaosdorf.meteroid.util.Utility;
 import de.chaosdorf.meteroid.MeteroidNetworkActivity;
@@ -86,6 +87,8 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 
 	private boolean useGridView;
 	private boolean multiUserMode;
+	
+	private API api;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState)
@@ -141,9 +144,11 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 			backButton.setVisibility(View.GONE);
 			editButton.setVisibility(View.GONE);
 		}
+		
+		api = Utility.initializeRetrofit(hostname);
 
-		new LongRunningIOGet(this, LongRunningIOTask.GET_USER, hostname + "users/" + userID + ".json");
-		new LongRunningIOGet(this, LongRunningIOTask.GET_DRINKS, hostname + "drinks.json");
+		new LongRunningIOGet(this, LongRunningIOTask.GET_USER, api.getUser(userID));
+		new LongRunningIOGet(this, LongRunningIOTask.GET_DRINKS, api.listDrinks());
 	}
 
 	@Override
@@ -314,7 +319,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 							break;
 						}
 					}
-					new LongRunningIOGet(this, LongRunningIOTask.UPDATE_USER, hostname + "users/" + userID + ".json");
+					new LongRunningIOGet(this, LongRunningIOTask.UPDATE_USER, api.getUser(userID));
 					break;
 				}
 
@@ -338,7 +343,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 							balance.setText(DECIMAL_FORMAT.format(user.getBalance() - buyableItem.getDonationRecommendation()));
 						}
 					}
-					new LongRunningIOGet(this, LongRunningIOTask.UPDATE_USER, hostname + "users/" + userID + ".json");
+					new LongRunningIOGet(this, LongRunningIOTask.UPDATE_USER, api.getUser(userID));
 					break;
 				}
 			}
@@ -362,11 +367,11 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 				setProgressBarIndeterminateVisibility(true);
 				if(buyableItem.isDrink())
 				{
-					new LongRunningIOGet(this, LongRunningIOTask.BUY_DRINK, hostname + "users/" + userID + "/buy.json?drink=" + ((Drink)buyableItem).getId());
+					new LongRunningIOGet(this, LongRunningIOTask.BUY_DRINK, api.buy(userID, ((Drink)buyableItem).getId()));
 				}
 				else
 				{
-					new LongRunningIOGet(this, LongRunningIOTask.ADD_MONEY, hostname + "users/" + userID + "/deposit.json?amount=" + (-buyableItem.getDonationRecommendation()));
+					new LongRunningIOGet(this, LongRunningIOTask.ADD_MONEY, api.deposit(userID, -buyableItem.getDonationRecommendation()));
 				}
 			}
 		}

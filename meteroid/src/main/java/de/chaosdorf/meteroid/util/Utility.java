@@ -43,6 +43,9 @@ import de.chaosdorf.meteroid.imageloader.ImageLoaderSingleton;
 import de.chaosdorf.meteroid.model.BuyableItem;
 import de.chaosdorf.meteroid.model.User;
 
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class Utility
 {
 	public static void displayToastMessage(final Activity activity, final String message)
@@ -151,5 +154,14 @@ public class Utility
 		{
 		}
 		return null;
+	}
+	
+	public static API initializeRetrofit(String url)
+	{
+		return new Retrofit.Builder()
+			.baseUrl(url)
+			.addConverterFactory(GsonConverterFactory.create())
+			.build()
+			.create(API.class);
 	}
 }

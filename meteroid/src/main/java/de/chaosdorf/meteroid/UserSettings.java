@@ -51,6 +51,7 @@ import de.chaosdorf.meteroid.longrunningio.LongRunningIOPatch;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOGet;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOTask;
 import de.chaosdorf.meteroid.model.User;
+import de.chaosdorf.meteroid.util.API;
 import de.chaosdorf.meteroid.util.Utility;
 import de.chaosdorf.meteroid.MeteroidNetworkActivity;
 
@@ -65,6 +66,8 @@ public class UserSettings extends MeteroidNetworkActivity
 	private SharedPreferences prefs;
 	private int userID;
 	private String hostname = null;
+	
+	private API api;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState)
@@ -110,11 +113,13 @@ public class UserSettings extends MeteroidNetworkActivity
 				saveButton.setVisibility(View.GONE);
 			}
 		}
+		
+		api = Utility.initializeRetrofit(hostname);
 
 		if(userID != 0) //existing user
 		{
 			makeReadOnly();
-			new LongRunningIOGet(this, LongRunningIOTask.GET_USER, hostname + "users/" + userID + ".json");
+			new LongRunningIOGet(this, LongRunningIOTask.GET_USER, api.getUser(userID));
 		}
 
 	}
@@ -230,8 +235,7 @@ public class UserSettings extends MeteroidNetworkActivity
 			new LongRunningIOPost(
 				this,
 				LongRunningIOTask.ADD_USER,
-				hostname + "users.json",
-				UserController.userToJSONPostParams(user)
+				api.createUser(user.getName(), user.getEmail(), user.getBalance(), null)
 			);
 		}
 		else
@@ -239,8 +243,7 @@ public class UserSettings extends MeteroidNetworkActivity
 			new LongRunningIOPatch(
 				this,
 				LongRunningIOTask.EDIT_USER,
-				hostname + "users/" + user.getId() + ".json",
-				UserController.userToJSONPostParams(user)
+				api.editUser(user.getId(), user.getName(), user.getEmail(), user.getBalance(), null)
 			);
 		}
 	}

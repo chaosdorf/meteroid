@@ -55,6 +55,7 @@ import de.chaosdorf.meteroid.controller.UserController;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOGet;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOTask;
 import de.chaosdorf.meteroid.model.User;
+import de.chaosdorf.meteroid.util.API;
 import de.chaosdorf.meteroid.util.MenuUtility;
 import de.chaosdorf.meteroid.util.Utility;
 import de.chaosdorf.meteroid.MeteroidNetworkActivity;
@@ -109,7 +110,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 			backButton.setVisibility(View.GONE);
 		}
 
-		new LongRunningIOGet(this, LongRunningIOTask.GET_USERS, hostname + "users.json");
+		new LongRunningIOGet(this, LongRunningIOTask.GET_USERS, Utility.initializeRetrofit(hostname).listUsers());
 	}
 
 	@Override

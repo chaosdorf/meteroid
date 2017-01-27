@@ -31,7 +31,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.Request;
 import okhttp3.Callback;
-import okhttp3.Call;
+import retrofit2.Call;
 import okhttp3.Response;
 
 import de.chaosdorf.meteroid.MeteroidNetworkActivity;
@@ -39,11 +39,10 @@ import de.chaosdorf.meteroid.MeteroidNetworkActivity;
 public class LongRunningIOPost extends LongRunningIOBase
 {
 	public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-	public LongRunningIOPost(final MeteroidNetworkActivity callback, final LongRunningIOTask id, final String url, final String postData)
+	public LongRunningIOPost(final MeteroidNetworkActivity callback, final LongRunningIOTask id, final Call call)
 	{
 		super();
-		RequestBody reqbody = RequestBody.create(JSON, postData);
-		Request req = new Request.Builder().url(url).post(reqbody).build();
+		Request req = call.request();
 		client.newCall(req).enqueue(newCallback(callback, id));
 	}
 }

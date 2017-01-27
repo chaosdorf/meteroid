@@ -29,17 +29,17 @@ import java.io.IOException;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Callback;
-import okhttp3.Call;
+import retrofit2.Call;
 import okhttp3.Response;
 
 import de.chaosdorf.meteroid.MeteroidNetworkActivity;
 
 public class LongRunningIOGet extends LongRunningIOBase
 {
-	public LongRunningIOGet(final MeteroidNetworkActivity callback, final LongRunningIOTask id, final String url)
+	public LongRunningIOGet(final MeteroidNetworkActivity callback, final LongRunningIOTask id, final Call call)
 	{
 		super();
-		Request req = new Request.Builder().url(url).build();
+		Request req = call.request();
 		client.newCall(req).enqueue(newCallback(callback, id));
 	}
 }

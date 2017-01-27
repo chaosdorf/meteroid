@@ -25,9 +25,7 @@
 package de.chaosdorf.meteroid;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Build;
 import android.preference.PreferenceManager;
@@ -55,7 +53,6 @@ import de.chaosdorf.meteroid.controller.UserController;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOGet;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOTask;
 import de.chaosdorf.meteroid.model.User;
-import de.chaosdorf.meteroid.util.API;
 import de.chaosdorf.meteroid.util.MenuUtility;
 import de.chaosdorf.meteroid.util.Utility;
 import de.chaosdorf.meteroid.MeteroidNetworkActivity;
@@ -64,7 +61,6 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 {
 	private static final int NEW_USER_ID = -1;
 
-	private Activity activity = null;
 	private ProgressBar progressBar = null;
 	private GridView gridView = null;
 	private boolean multiUserMode = false;
@@ -74,14 +70,11 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 	protected void onCreate(final Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		activity = this;
 		setContentView(R.layout.activity_pick_username);
 
 		progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 		gridView = (GridView) findViewById(R.id.grid_view);
 
-		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		final String hostname = prefs.getString("hostname", null);
 		multiUserMode = prefs.getBoolean("multi_user_mode", false);
 
 		final ImageButton backButton = (ImageButton) findViewById(R.id.button_back);
@@ -212,7 +205,6 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 			}
 			else
 			{
-				final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 				prefs.edit().putInt("userid", user.getId()).apply();
 				Utility.startActivity(this, BuyDrink.class);
 			}

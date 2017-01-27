@@ -25,12 +25,9 @@
 package de.chaosdorf.meteroid;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -49,7 +46,6 @@ import android.widget.TextView;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -64,37 +60,29 @@ import de.chaosdorf.meteroid.longrunningio.LongRunningIOTask;
 import de.chaosdorf.meteroid.model.BuyableItem;
 import de.chaosdorf.meteroid.model.User;
 import de.chaosdorf.meteroid.model.Drink;
-import de.chaosdorf.meteroid.util.API;
 import de.chaosdorf.meteroid.util.MenuUtility;
 import de.chaosdorf.meteroid.util.Utility;
 import de.chaosdorf.meteroid.MeteroidNetworkActivity;
 
 public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnItemClickListener
 {
-	private final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.00 '\u20AC'");
-
 	private final AtomicBoolean isBuying = new AtomicBoolean(true);
 	private final AtomicReference<BuyableItem> buyingItem = new AtomicReference<BuyableItem>(null);
 
-	private Activity activity = null;
 	private ProgressBar progressBar = null;
 	private GridView gridView = null;
 	private ListView listView = null;
-	private String hostname = null;
 
-	private int userID = 0;
 	private User user;
 
 	private boolean useGridView;
 	private boolean multiUserMode;
 	
-	private API api;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		activity = this;
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.activity_buy_drink);
 
@@ -102,9 +90,6 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		gridView = (GridView) findViewById(R.id.grid_view);
 		listView = (ListView) findViewById(R.id.list_view);
 
-		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		hostname = prefs.getString("hostname", null);
-		userID = prefs.getInt("userid", 0);
 		useGridView = prefs.getBoolean("use_grid_view", false);
 		multiUserMode = prefs.getBoolean("multi_user_mode", false);
 
@@ -145,8 +130,6 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 			editButton.setVisibility(View.GONE);
 		}
 		
-		api = Utility.initializeRetrofit(hostname);
-
 		new LongRunningIOGet(this, LongRunningIOTask.GET_USER, api.getUser(userID));
 		new LongRunningIOGet(this, LongRunningIOTask.GET_DRINKS, api.listDrinks());
 	}

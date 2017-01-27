@@ -25,9 +25,35 @@
 package de.chaosdorf.meteroid;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+
+import java.text.DecimalFormat;
 
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOCallback;
+import de.chaosdorf.meteroid.util.API;
+import de.chaosdorf.meteroid.util.Utility;
 
 
 public abstract class MeteroidNetworkActivity extends Activity implements LongRunningIOCallback
-{}
+{
+	protected DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.00 '\u20AC'");
+	
+	protected Activity activity;
+	protected API api;
+	protected String hostname;
+	protected int userID;
+	protected SharedPreferences prefs;
+
+	@Override
+	protected void onCreate(final Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		activity = this;
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		hostname = prefs.getString("hostname", null);
+		userID = prefs.getInt("userid", 0);
+		api = Utility.initializeRetrofit(hostname);
+	}
+}

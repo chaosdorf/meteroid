@@ -25,12 +25,9 @@
 package de.chaosdorf.meteroid;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Menu;
@@ -41,7 +38,6 @@ import android.widget.TextView;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.Date;
 
@@ -51,38 +47,25 @@ import de.chaosdorf.meteroid.longrunningio.LongRunningIOPatch;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOGet;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOTask;
 import de.chaosdorf.meteroid.model.User;
-import de.chaosdorf.meteroid.util.API;
 import de.chaosdorf.meteroid.util.Utility;
 import de.chaosdorf.meteroid.MeteroidNetworkActivity;
 
 public class UserSettings extends MeteroidNetworkActivity
 {
-	private final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.00");
-
-	private Activity activity = null;
 	private TextView usernameText;
 	private TextView emailText;
 	private TextView balanceText;
-	private SharedPreferences prefs;
-	private int userID;
-	private String hostname = null;
-	
-	private API api;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		activity = this;
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.activity_user_settings);
 
 		usernameText = (TextView) findViewById(R.id.username);
 		emailText = (TextView) findViewById(R.id.email);
 		balanceText = (TextView) findViewById(R.id.balance);
-		prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		userID = prefs.getInt("userid", 0);
-		hostname = prefs.getString("hostname", null);
 
 		final ImageButton backButton = (ImageButton) findViewById(R.id.button_back);
 		backButton.setOnClickListener(new View.OnClickListener()
@@ -114,8 +97,6 @@ public class UserSettings extends MeteroidNetworkActivity
 			}
 		}
 		
-		api = Utility.initializeRetrofit(hostname);
-
 		if(userID != 0) //existing user
 		{
 			makeReadOnly();
@@ -227,8 +208,6 @@ public class UserSettings extends MeteroidNetworkActivity
 				new Date(),
 				new Date()
 		);
-
-		final String hostname = prefs.getString("hostname", null);
 
 		if(userID == 0) //new user
 		{

@@ -50,7 +50,7 @@ import java.util.Date;
 import java.util.List;
 
 import de.chaosdorf.meteroid.controller.UserController;
-import de.chaosdorf.meteroid.longrunningio.LongRunningIOGet;
+import de.chaosdorf.meteroid.longrunningio.LongRunningIORequest;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOTask;
 import de.chaosdorf.meteroid.model.User;
 import de.chaosdorf.meteroid.util.MenuUtility;
@@ -103,7 +103,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 			backButton.setVisibility(View.GONE);
 		}
 
-		new LongRunningIOGet(this, LongRunningIOTask.GET_USERS, Utility.initializeRetrofit(hostname).listUsers());
+		new LongRunningIORequest(this, LongRunningIOTask.GET_USERS, Utility.initializeRetrofit(hostname).listUsers());
 	}
 
 	@Override

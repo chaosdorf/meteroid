@@ -42,9 +42,7 @@ import java.text.ParseException;
 import java.util.Date;
 
 import de.chaosdorf.meteroid.controller.UserController;
-import de.chaosdorf.meteroid.longrunningio.LongRunningIOPost;
-import de.chaosdorf.meteroid.longrunningio.LongRunningIOPatch;
-import de.chaosdorf.meteroid.longrunningio.LongRunningIOGet;
+import de.chaosdorf.meteroid.longrunningio.LongRunningIORequest;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOTask;
 import de.chaosdorf.meteroid.model.User;
 import de.chaosdorf.meteroid.util.Utility;
@@ -100,7 +98,7 @@ public class UserSettings extends MeteroidNetworkActivity
 		if(userID != 0) //existing user
 		{
 			makeReadOnly();
-			new LongRunningIOGet(this, LongRunningIOTask.GET_USER, api.getUser(userID));
+			new LongRunningIORequest(this, LongRunningIOTask.GET_USER, api.getUser(userID));
 		}
 
 	}
@@ -211,7 +209,7 @@ public class UserSettings extends MeteroidNetworkActivity
 
 		if(userID == 0) //new user
 		{
-			new LongRunningIOPost(
+			new LongRunningIORequest(
 				this,
 				LongRunningIOTask.ADD_USER,
 				api.createUser(user.getName(), user.getEmail(), user.getBalance(), null)
@@ -219,7 +217,7 @@ public class UserSettings extends MeteroidNetworkActivity
 		}
 		else
 		{
-			new LongRunningIOPatch(
+			new LongRunningIORequest(
 				this,
 				LongRunningIOTask.EDIT_USER,
 				api.editUser(user.getId(), user.getName(), user.getEmail(), user.getBalance(), null)

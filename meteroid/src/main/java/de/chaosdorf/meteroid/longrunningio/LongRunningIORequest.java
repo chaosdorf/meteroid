@@ -33,13 +33,12 @@ import okhttp3.Response;
 
 import de.chaosdorf.meteroid.MeteroidNetworkActivity;
 
-public class LongRunningIOBase
+public class LongRunningIORequest
 {
-	protected OkHttpClient client;
 
-	public LongRunningIOBase()
+	public LongRunningIORequest(final MeteroidNetworkActivity callback, final LongRunningIOTask id, final retrofit2.Call call)
 	{
-		client = new OkHttpClient();
+		new OkHttpClient().newCall(call.request()).enqueue(newCallback(callback, id));
 	}
 
 	protected Callback newCallback(final MeteroidNetworkActivity callback, final LongRunningIOTask id)

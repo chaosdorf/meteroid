@@ -55,7 +55,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import de.chaosdorf.meteroid.controller.DrinkController;
 import de.chaosdorf.meteroid.controller.MoneyController;
 import de.chaosdorf.meteroid.controller.UserController;
-import de.chaosdorf.meteroid.longrunningio.LongRunningIOGet;
+import de.chaosdorf.meteroid.longrunningio.LongRunningIORequest;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOTask;
 import de.chaosdorf.meteroid.model.BuyableItem;
 import de.chaosdorf.meteroid.model.User;
@@ -130,8 +130,8 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 			editButton.setVisibility(View.GONE);
 		}
 		
-		new LongRunningIOGet(this, LongRunningIOTask.GET_USER, api.getUser(userID));
-		new LongRunningIOGet(this, LongRunningIOTask.GET_DRINKS, api.listDrinks());
+		new LongRunningIORequest(this, LongRunningIOTask.GET_USER, api.getUser(userID));
+		new LongRunningIORequest(this, LongRunningIOTask.GET_DRINKS, api.listDrinks());
 	}
 
 	@Override
@@ -302,7 +302,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 							break;
 						}
 					}
-					new LongRunningIOGet(this, LongRunningIOTask.UPDATE_USER, api.getUser(userID));
+					new LongRunningIORequest(this, LongRunningIOTask.UPDATE_USER, api.getUser(userID));
 					break;
 				}
 
@@ -326,7 +326,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 							balance.setText(DECIMAL_FORMAT.format(user.getBalance() - buyableItem.getDonationRecommendation()));
 						}
 					}
-					new LongRunningIOGet(this, LongRunningIOTask.UPDATE_USER, api.getUser(userID));
+					new LongRunningIORequest(this, LongRunningIOTask.UPDATE_USER, api.getUser(userID));
 					break;
 				}
 			}
@@ -350,11 +350,11 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 				setProgressBarIndeterminateVisibility(true);
 				if(buyableItem.isDrink())
 				{
-					new LongRunningIOGet(this, LongRunningIOTask.BUY_DRINK, api.buy(userID, ((Drink)buyableItem).getId()));
+					new LongRunningIORequest(this, LongRunningIOTask.BUY_DRINK, api.buy(userID, ((Drink)buyableItem).getId()));
 				}
 				else
 				{
-					new LongRunningIOGet(this, LongRunningIOTask.ADD_MONEY, api.deposit(userID, -buyableItem.getDonationRecommendation()));
+					new LongRunningIORequest(this, LongRunningIOTask.ADD_MONEY, api.deposit(userID, -buyableItem.getDonationRecommendation()));
 				}
 			}
 		}

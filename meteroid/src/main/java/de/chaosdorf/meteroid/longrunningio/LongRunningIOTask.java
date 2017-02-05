@@ -33,5 +33,6 @@ public enum LongRunningIOTask
 	ADD_MONEY,
 	ADD_USER,
 	UPDATE_USER,
-	EDIT_USER
+	EDIT_USER,
+	DELETE_USER
 }

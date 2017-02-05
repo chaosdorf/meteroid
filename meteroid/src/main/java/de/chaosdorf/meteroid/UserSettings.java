@@ -25,6 +25,8 @@
 package de.chaosdorf.meteroid;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Build;
@@ -73,6 +75,16 @@ public class UserSettings extends MeteroidNetworkActivity
 				goBack();
 			}
 		});
+		
+		final ImageButton deleteButton = (ImageButton) findViewById(R.id.button_delete);
+		deleteButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View view)
+			{
+				deleteUser();
+			}
+		});
 
 		final ImageButton saveButton = (ImageButton) findViewById(R.id.button_save);
 		saveButton.setOnClickListener(new View.OnClickListener()
@@ -91,6 +103,7 @@ public class UserSettings extends MeteroidNetworkActivity
 			{
 				actionBar.setDisplayHomeAsUpEnabled(true);
 				backButton.setVisibility(View.GONE);
+				deleteButton.setVisibility(View.GONE);
 				saveButton.setVisibility(View.GONE);
 			}
 		}
@@ -129,6 +142,9 @@ public class UserSettings extends MeteroidNetworkActivity
 				break;
 			case R.id.action_save:
 				saveUser();
+				break;
+			case R.id.action_delete:
+				deleteUser();
 				break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -177,6 +193,51 @@ public class UserSettings extends MeteroidNetworkActivity
 		else
 		{
 			Utility.startActivity(this, BuyDrink.class);
+		}
+	}
+	
+	private void deleteUser()
+	{
+		if(userID == 0) //new user
+		{
+			new AlertDialog.Builder(this)
+				.setMessage(R.string.user_settings_cant_delete_non_existing_user)
+				.setPositiveButton(android.R.string.ok, null) // Do nothing on click.
+				.create().show();
+		}
+		else
+		{
+			final UserSettings userSettings = this;
+			new AlertDialog.Builder(this)
+				.setMessage(R.string.user_settings_confirm_delete_user)
+				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener()
+				{
+					@Override
+					public void onClick(DialogInterface dialog, int id)
+					{
+						// really delete the user
+						makeReadOnly();
+						new LongRunningIORequest<Void>(new LongRunningIOCallback<Void>() {
+								@Override
+								public void displayErrorMessage(LongRunningIOTask task, String message)
+								{
+									userSettings.displayErrorMessage(task, message);
+								}
+								
+								@Override
+								public void processIOResult(LongRunningIOTask task, Void result)
+								{
+									makeWritable();
+									Utility.displayToastMessage(userSettings, getResources().getString(R.string.user_settings_deleted_user));
+									Utility.startActivity(userSettings, PickUsername.class);
+								}
+							},
+							LongRunningIOTask.DELETE_USER,
+							api.deleteUser(userID));
+					}
+				})
+				.setNegativeButton(android.R.string.cancel, null) // Do nothing on click.
+				.create().show();
 		}
 	}
 

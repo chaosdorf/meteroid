@@ -48,6 +48,9 @@
     <string name="user_settings_balance">Guthaben</string>
     <string name="user_settings_empty_username">Bitte Benutzername eingeben</string>
     <string name="user_settings_balance_no_double">Bitte Guthaben als Zahl eingeben</string>
+    <string name="user_settings_cant_delete_non_existing_user">Kann keinen noch nicht erstellten Benutzer löschen.</string>
+    <string name="user_settings_confirm_delete_user">Diesen Benutzer wirklich löschen?</string>
+    <string name="user_settings_deleted_user">Benutzer gelöscht.</string>
 
     <!-- Buy drink -->
     <string name="buy_drink_label">Getränk kaufen</string>
@@ -60,6 +63,7 @@
     <!-- Buttons -->
     <string name="button_back">Zurück</string>
     <string name="button_reload">Neu laden</string>
+    <string name="button_delete">Löschen</string>
     <string name="button_save">Speichern</string>
 
     <!-- Menues -->

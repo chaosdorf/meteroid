@@ -48,6 +48,9 @@
     <string name="user_settings_balance">Balance</string>
     <string name="user_settings_empty_username">Please enter a username</string>
     <string name="user_settings_balance_no_double">Please enter a number as a balance</string>
+    <string name="user_settings_cant_delete_non_existing_user">Can\'t delete a not yet existing user.</string>
+    <string name="user_settings_confirm_delete_user">Delete this user?</string>
+    <string name="user_settings_deleted_user">Deleted the user.</string>
 
     <!-- Buy drink -->
     <string name="buy_drink_label">Buy drink</string>
@@ -60,6 +63,7 @@
     <!-- Buttons -->
     <string name="button_back">Back</string>
     <string name="button_reload">Reload</string>
+    <string name="button_delete">Delete</string>
     <string name="button_save">Save</string>
 
     <!-- Menues -->

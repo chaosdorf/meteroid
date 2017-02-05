@@ -36,13 +36,13 @@ public class LongRunningIORequest<T>
 {
 	private final static String TAG = "LongRunningIO";
 
-	public LongRunningIORequest(final LongRunningIOCallback callback, final LongRunningIOTask id, final Call<T> call)
+	public LongRunningIORequest(final LongRunningIOCallback<T> callback, final LongRunningIOTask id, final Call<T> call)
 	{
 		Log.d(TAG, "Initiating call: " + call.request());
 		call.enqueue(newCallback(callback, id));
 	}
 	
-	protected Callback<T> newCallback(final LongRunningIOCallback callback, final LongRunningIOTask id)
+	protected Callback<T> newCallback(final LongRunningIOCallback<T> callback, final LongRunningIOTask id)
 	{
 		return new Callback<T>()
 		{
@@ -61,8 +61,7 @@ public class LongRunningIORequest<T>
 				{
 					try
 					{
-						final T response = resp.body();
-						callback.processIOResult(id, response);
+						callback.processIOResult(id, resp.body());
 					}
 					catch(final Throwable t)
 					{

@@ -244,7 +244,15 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 
 			if (user.getId() == NEW_USER_ID)
 			{
-				icon.setImageDrawable(getResources().getDrawable(R.drawable.add_user));
+				if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+				{
+					icon.setImageDrawable(getDrawable(R.drawable.add_user));
+				}
+				else
+				{
+					// This is only called on KitKat and lower.
+					icon.setImageDrawable(getResources().getDrawable(R.drawable.add_user));
+				}
 			}
 
 			return view;

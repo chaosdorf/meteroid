@@ -233,14 +233,13 @@ public class UserSettings extends MeteroidNetworkActivity implements LongRunning
 	@Override
 	public void processIOResult(final LongRunningIOTask task, final Object result)
 	{
-		final UserSettings usersettings = this;
 		switch(task)
 		{
 			case ADD_USER:
-				Utility.startActivity(usersettings, PickUsername.class);
+				Utility.startActivity(this, PickUsername.class);
 				break;
 			case EDIT_USER:
-				Utility.startActivity(usersettings, BuyDrink.class);
+				Utility.startActivity(this, BuyDrink.class);
 				break;
 			case GET_USER:
 				User user = (User)result;

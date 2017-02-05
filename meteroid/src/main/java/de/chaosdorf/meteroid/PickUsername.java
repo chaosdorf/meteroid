@@ -176,7 +176,6 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 	@Override
 	public void processIOResult(final LongRunningIOTask task, final List<User> result)
 	{
-		final PickUsername pickusername = this;
 		if (task == LongRunningIOTask.GET_USERS)
 		{
 			final List<User> itemList = result;
@@ -187,7 +186,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 			final UserAdapter userAdapter = new UserAdapter(itemList);
 
 			gridView.setAdapter(userAdapter);
-			gridView.setOnItemClickListener(pickusername);
+			gridView.setOnItemClickListener(this);
 			progressBar.setVisibility(View.GONE);
 			gridView.setVisibility(View.VISIBLE);
 		}

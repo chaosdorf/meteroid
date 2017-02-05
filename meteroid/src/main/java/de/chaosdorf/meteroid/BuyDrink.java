@@ -229,106 +229,103 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 	@Override
 	public void processIOResult(final LongRunningIOTask task, final String json)
 	{
-		if (json != null)
+		switch (task)
 		{
-			switch (task)
+			// Parse user data
+			case GET_USER:
+			case UPDATE_USER:
 			{
-				// Parse user data
-				case GET_USER:
-				case UPDATE_USER:
+				user = UserController.parseUserFromJSON(json);
+				if (task == LongRunningIOTask.GET_USER)
 				{
-					user = UserController.parseUserFromJSON(json);
-					if (task == LongRunningIOTask.GET_USER)
-					{
-						final TextView label = (TextView) findViewById(R.id.username);
-						final ImageView icon = (ImageView) findViewById(R.id.icon);
-						label.setText(user.getName());
-						Utility.loadGravatarImage(this, icon, user);
-					}
-					final TextView balance = (TextView) findViewById(R.id.balance);
-					balance.setText(DECIMAL_FORMAT.format(user.getBalance()));
-					isBuying.set(false);
-					setProgressBarIndeterminateVisibility(false);
-					break;
+					final TextView label = (TextView) findViewById(R.id.username);
+					final ImageView icon = (ImageView) findViewById(R.id.icon);
+					label.setText(user.getName());
+					Utility.loadGravatarImage(this, icon, user);
 				}
-
-				// Parse drinks
-				case GET_DRINKS:
+				final TextView balance = (TextView) findViewById(R.id.balance);
+				balance.setText(DECIMAL_FORMAT.format(user.getBalance()));
+				isBuying.set(false);
+				setProgressBarIndeterminateVisibility(false);
+				break;
+			}
+		
+			// Parse drinks
+			case GET_DRINKS:
+			{
+				final List<BuyableItem> buyableItemList = DrinkController.parseAllDrinksFromJSON(json, hostname);
+				MoneyController.addMoney(buyableItemList);
+				Collections.sort(buyableItemList, new BuyableComparator());
+				
+				final BuyableItemAdapter buyableItemAdapter = new BuyableItemAdapter(buyableItemList);
+				if (useGridView)
 				{
-					final List<BuyableItem> buyableItemList = DrinkController.parseAllDrinksFromJSON(json, hostname);
-					MoneyController.addMoney(buyableItemList);
-					Collections.sort(buyableItemList, new BuyableComparator());
-
-					final BuyableItemAdapter buyableItemAdapter = new BuyableItemAdapter(buyableItemList);
-					if (useGridView)
-					{
-						gridView.setAdapter(buyableItemAdapter);
-						gridView.setOnItemClickListener(this);
-						gridView.setVisibility(View.VISIBLE);
-					}
-					else
-					{
-						listView.setAdapter(buyableItemAdapter);
-						listView.setOnItemClickListener(this);
-						listView.setVisibility(View.VISIBLE);
-					}
-					progressBar.setVisibility(View.GONE);
-					break;
+					gridView.setAdapter(buyableItemAdapter);
+					gridView.setOnItemClickListener(this);
+					gridView.setVisibility(View.VISIBLE);
 				}
-
-				// Bought drink
-				case BUY_DRINK:
+				else
 				{
-					final BuyableItem buyableItem = buyingItem.get();
-					if (buyableItem != null)
+					listView.setAdapter(buyableItemAdapter);
+					listView.setOnItemClickListener(this);
+					listView.setVisibility(View.VISIBLE);
+				}
+				progressBar.setVisibility(View.GONE);
+				break;
+			}
+			
+			// Bought drink
+			case BUY_DRINK:
+			{
+				final BuyableItem buyableItem = buyingItem.get();
+				if (buyableItem != null)
+				{
+					buyingItem.set(null);
+					Utility.displayToastMessage(this,
+						String.format(
+									getResources().getString(R.string.buy_drink_bought_drink),
+									buyableItem.getName(),
+									DECIMAL_FORMAT.format(buyableItem.getDonationRecommendation())
+							)
+					);
+					// Adjust the displayed balance to give an immediate user feedback
+					if (user != null)
 					{
-						buyingItem.set(null);
-						Utility.displayToastMessage(this,
+						final TextView balance = (TextView) findViewById(R.id.balance);
+						balance.setText(DECIMAL_FORMAT.format(user.getBalance() - buyableItem.getDonationRecommendation()));
+					}
+					if (multiUserMode)
+					{
+						Utility.startActivity(this, PickUsername.class);
+						break;
+					}
+				}
+				new LongRunningIORequest(this, LongRunningIOTask.UPDATE_USER, api.getUser(userID));
+				break;
+			}
+			
+			// Added money
+			case ADD_MONEY:
+			{
+				final BuyableItem buyableItem = buyingItem.get();
+				if (buyableItem != null)
+				{
+					buyingItem.set(null);
+					Utility.displayToastMessage(this,
 							String.format(
-										getResources().getString(R.string.buy_drink_bought_drink),
-										buyableItem.getName(),
-										DECIMAL_FORMAT.format(buyableItem.getDonationRecommendation())
-								)
-						);
-						// Adjust the displayed balance to give an immediate user feedback
-						if (user != null)
-						{
-							final TextView balance = (TextView) findViewById(R.id.balance);
-							balance.setText(DECIMAL_FORMAT.format(user.getBalance() - buyableItem.getDonationRecommendation()));
-						}
-						if (multiUserMode)
-						{
-							Utility.startActivity(this, PickUsername.class);
-							break;
-						}
-					}
-					new LongRunningIORequest(this, LongRunningIOTask.UPDATE_USER, api.getUser(userID));
-					break;
-				}
-
-				// Added money
-				case ADD_MONEY:
-				{
-					final BuyableItem buyableItem = buyingItem.get();
-					if (buyableItem != null)
+									getResources().getString(R.string.buy_drink_added_money),
+									DECIMAL_FORMAT.format(-buyableItem.getDonationRecommendation())
+							)
+					);
+					// Adjust the displayed balance to give an immediate user feedback
+					if (user != null)
 					{
-						buyingItem.set(null);
-						Utility.displayToastMessage(this,
-								String.format(
-										getResources().getString(R.string.buy_drink_added_money),
-										DECIMAL_FORMAT.format(-buyableItem.getDonationRecommendation())
-								)
-						);
-						// Adjust the displayed balance to give an immediate user feedback
-						if (user != null)
-						{
-							final TextView balance = (TextView) findViewById(R.id.balance);
-							balance.setText(DECIMAL_FORMAT.format(user.getBalance() - buyableItem.getDonationRecommendation()));
-						}
+						final TextView balance = (TextView) findViewById(R.id.balance);
+						balance.setText(DECIMAL_FORMAT.format(user.getBalance() - buyableItem.getDonationRecommendation()));
 					}
-					new LongRunningIORequest(this, LongRunningIOTask.UPDATE_USER, api.getUser(userID));
-					break;
 				}
+				new LongRunningIORequest(this, LongRunningIOTask.UPDATE_USER, api.getUser(userID));
+				break;
 			}
 		}
 	}

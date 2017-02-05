@@ -227,6 +227,7 @@ public class UserSettings extends MeteroidNetworkActivity
 								@Override
 								public void processIOResult(LongRunningIOTask task, Void result)
 								{
+									Utility.resetUsername(userSettings);
 									makeWritable();
 									Utility.displayToastMessage(userSettings, getResources().getString(R.string.user_settings_deleted_user));
 									Utility.startActivity(userSettings, PickUsername.class);

@@ -103,7 +103,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 			backButton.setVisibility(View.GONE);
 		}
 
-		new LongRunningIORequest(this, LongRunningIOTask.GET_USERS, Utility.initializeRetrofit(hostname).listUsers());
+		new LongRunningIORequest(this, LongRunningIOTask.GET_USERS, api.listUsers());
 	}
 
 	@Override

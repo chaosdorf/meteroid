@@ -24,9 +24,9 @@
 
 package de.chaosdorf.meteroid.longrunningio;
 
-public interface LongRunningIOCallback
+public interface LongRunningIOCallback<T>
 {
 	public void displayErrorMessage(final LongRunningIOTask task, final String message);
 
-	public void processIOResult(final LongRunningIOTask task, final Object response);
+	public void processIOResult(final LongRunningIOTask task, final T response);
 }

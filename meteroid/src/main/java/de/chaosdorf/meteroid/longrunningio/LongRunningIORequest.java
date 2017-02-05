@@ -52,14 +52,7 @@ public class LongRunningIORequest<T>
 			public void onFailure(final Call<T> call, final Throwable t)
 			{
 				Log.d(TAG, "Handling failure: " + call.request());
-				callback.runOnUiThread(new Runnable()
-				{
-					@Override
-					public void run()
-					{
-						callback.displayErrorMessage(id, t.getLocalizedMessage());
-					}
-				});
+				callback.displayErrorMessage(id, t.getLocalizedMessage());
 			}
 
 			@Override
@@ -71,37 +64,16 @@ public class LongRunningIORequest<T>
 					try
 					{
 						final T response = resp.body();
-						callback.runOnUiThread(new Runnable()
-						{
-							@Override
-							public void run()
-							{
-								callback.processIOResult(id, response);
-							}
-						});
+						callback.processIOResult(id, response);
 					}
 					catch(final Throwable t)
 					{
-						callback.runOnUiThread(new Runnable()
-						{
-							@Override
-							public void run()
-							{
-								callback.displayErrorMessage(id, t.getLocalizedMessage());
-							}
-						});
+						callback.displayErrorMessage(id, t.getLocalizedMessage());
 					}
 				}
 				else
 				{
-					callback.runOnUiThread(new Runnable()
-					{
-						@Override
-						public void run()
-						{
-							callback.displayErrorMessage(id, resp.message());
-						}
-					});
+					callback.displayErrorMessage(id, resp.message());
 				}
 			}
 		};

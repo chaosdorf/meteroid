@@ -57,7 +57,7 @@ import de.chaosdorf.meteroid.util.MenuUtility;
 import de.chaosdorf.meteroid.util.Utility;
 import de.chaosdorf.meteroid.MeteroidNetworkActivity;
 
-public class PickUsername extends MeteroidNetworkActivity implements AdapterView.OnItemClickListener, LongRunningIOCallback
+public class PickUsername extends MeteroidNetworkActivity implements AdapterView.OnItemClickListener, LongRunningIOCallback<List<User>>
 {
 	private static final int NEW_USER_ID = -1;
 
@@ -174,12 +174,12 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 	}
 
 	@Override
-	public void processIOResult(final LongRunningIOTask task, final Object result)
+	public void processIOResult(final LongRunningIOTask task, final List<User> result)
 	{
 		final PickUsername pickusername = this;
 		if (task == LongRunningIOTask.GET_USERS)
 		{
-			final List<User> itemList = (List<User>)result;
+			final List<User> itemList = result;
 			if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB)
 			{
 				itemList.add(new User(NEW_USER_ID, getResources().getString(R.string.pick_username_new_user), "", 0));

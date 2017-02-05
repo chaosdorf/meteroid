@@ -49,7 +49,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Date;
 import java.util.List;
 
-import de.chaosdorf.meteroid.controller.UserController;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIORequest;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOTask;
 import de.chaosdorf.meteroid.model.User;

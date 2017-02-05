@@ -52,9 +52,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-import de.chaosdorf.meteroid.controller.DrinkController;
 import de.chaosdorf.meteroid.controller.MoneyController;
-import de.chaosdorf.meteroid.controller.UserController;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIORequest;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOTask;
 import de.chaosdorf.meteroid.model.BuyableItem;

@@ -26,31 +26,30 @@ package de.chaosdorf.meteroid.longrunningio;
 
 import java.io.IOException;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Callback;
-import okhttp3.Call;
-import okhttp3.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import android.util.Log;
 
 import de.chaosdorf.meteroid.MeteroidNetworkActivity;
 
-public class LongRunningIORequest
+public class LongRunningIORequest<T>
 {
 	private final static String TAG = "LongRunningIO";
 
-	public LongRunningIORequest(final MeteroidNetworkActivity callback, final LongRunningIOTask id, final retrofit2.Call call)
+	public LongRunningIORequest(final MeteroidNetworkActivity callback, final LongRunningIOTask id, final Call<T> call)
 	{
 		Log.d(TAG, "Initiating call: " + call.request());
-		new OkHttpClient().newCall(call.request()).enqueue(newCallback(callback, id));
+		call.enqueue(newCallback(callback, id));
 	}
-
-	protected Callback newCallback(final MeteroidNetworkActivity callback, final LongRunningIOTask id)
+	
+	protected Callback<T> newCallback(final MeteroidNetworkActivity callback, final LongRunningIOTask id)
 	{
-		return new Callback()
+		return new Callback<T>()
 		{
 			@Override
-			public void onFailure(final Call call, final IOException e)
+			public void onFailure(final Call<T> call, final Throwable t)
 			{
 				Log.d(TAG, "Handling failure: " + call.request());
 				callback.runOnUiThread(new Runnable()
@@ -58,20 +57,20 @@ public class LongRunningIORequest
 					@Override
 					public void run()
 					{
-						callback.displayErrorMessage(id, e.getLocalizedMessage());
+						callback.displayErrorMessage(id, t.getLocalizedMessage());
 					}
 				});
 			}
 
 			@Override
-			public void onResponse(final Call call, final Response resp)
+			public void onResponse(final Call<T> call, final Response<T> resp)
 			{
 				Log.d(TAG, "Handling response: " + call.request());
 				if(resp.isSuccessful())
 				{
 					try
 					{
-						final String response = resp.body().string();
+						final T response = resp.body();
 						callback.runOnUiThread(new Runnable()
 						{
 							@Override
@@ -81,14 +80,14 @@ public class LongRunningIORequest
 							}
 						});
 					}
-					catch(final IOException e)
+					catch(final Throwable t)
 					{
 						callback.runOnUiThread(new Runnable()
 						{
 							@Override
 							public void run()
 							{
-								callback.displayErrorMessage(id, e.getLocalizedMessage());
+								callback.displayErrorMessage(id, t.getLocalizedMessage());
 							}
 						});
 					}

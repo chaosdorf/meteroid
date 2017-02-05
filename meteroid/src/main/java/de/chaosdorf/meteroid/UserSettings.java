@@ -231,7 +231,7 @@ public class UserSettings extends MeteroidNetworkActivity
 	}
 
 	@Override
-	public void processIOResult(final LongRunningIOTask task, final String json)
+	public void processIOResult(final LongRunningIOTask task, final Object result)
 	{
 		final UserSettings usersettings = this;
 		switch(task)
@@ -243,7 +243,7 @@ public class UserSettings extends MeteroidNetworkActivity
 				Utility.startActivity(usersettings, BuyDrink.class);
 				break;
 			case GET_USER:
-				User user = UserController.parseUserFromJSON(json);
+				User user = (User)result;
 				usernameText.setText(user.getName());
 				emailText.setText(user.getEmail());
 				balanceText.setText(DECIMAL_FORMAT.format(user.getBalance()));

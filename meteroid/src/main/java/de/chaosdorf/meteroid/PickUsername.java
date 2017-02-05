@@ -174,12 +174,12 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 	}
 
 	@Override
-	public void processIOResult(final LongRunningIOTask task, final String json)
+	public void processIOResult(final LongRunningIOTask task, final Object result)
 	{
 		final PickUsername pickusername = this;
 		if (task == LongRunningIOTask.GET_USERS)
 		{
-			final List<User> itemList = UserController.parseAllUsersFromJSON(json);
+			final List<User> itemList = (List<User>)result;
 			if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB)
 			{
 				itemList.add(new User(NEW_USER_ID, getResources().getString(R.string.pick_username_new_user), "", 0));

@@ -227,7 +227,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 	}
 
 	@Override
-	public void processIOResult(final LongRunningIOTask task, final String json)
+	public void processIOResult(final LongRunningIOTask task, final Object result)
 	{
 		switch (task)
 		{
@@ -235,7 +235,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 			case GET_USER:
 			case UPDATE_USER:
 			{
-				user = UserController.parseUserFromJSON(json);
+				user = (User)result;
 				if (task == LongRunningIOTask.GET_USER)
 				{
 					final TextView label = (TextView) findViewById(R.id.username);
@@ -253,10 +253,10 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 			// Parse drinks
 			case GET_DRINKS:
 			{
-				final List<BuyableItem> buyableItemList = DrinkController.parseAllDrinksFromJSON(json);
+				final List<BuyableItem> buyableItemList = (List<BuyableItem>)result;
 				MoneyController.addMoney(buyableItemList);
 				Collections.sort(buyableItemList, new BuyableComparator());
-				
+
 				final BuyableItemAdapter buyableItemAdapter = new BuyableItemAdapter(buyableItemList);
 				if (useGridView)
 				{

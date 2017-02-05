@@ -182,7 +182,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 			final List<User> itemList = UserController.parseAllUsersFromJSON(json);
 			if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB)
 			{
-				itemList.add(new User(NEW_USER_ID, getResources().getString(R.string.pick_username_new_user), "", 0, new Date(), new Date()));
+				itemList.add(new User(NEW_USER_ID, getResources().getString(R.string.pick_username_new_user), "", 0));
 			}
 			final UserAdapter userAdapter = new UserAdapter(itemList);
 

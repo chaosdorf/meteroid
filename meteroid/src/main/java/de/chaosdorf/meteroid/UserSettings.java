@@ -202,9 +202,7 @@ public class UserSettings extends MeteroidNetworkActivity
 		final User user = new User(userID,
 				username.toString(),
 				emailValue,
-				balanceValue,
-				new Date(),
-				new Date()
+				balanceValue
 		);
 
 		if(userID == 0) //new user

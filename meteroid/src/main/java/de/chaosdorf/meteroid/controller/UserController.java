@@ -29,7 +29,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import de.chaosdorf.meteroid.model.User;
@@ -78,9 +77,7 @@ public class UserController
 					jsonObject.getInt("id"),
 					jsonObject.getString("name"),
 					jsonObject.getString("email"),
-					jsonObject.getDouble("balance"),
-					new Date(),
-					new Date()
+					jsonObject.getDouble("balance")
 			);
 		}
 		catch (JSONException ignored)

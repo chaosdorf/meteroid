@@ -32,19 +32,17 @@ import retrofit2.Response;
 
 import android.util.Log;
 
-import de.chaosdorf.meteroid.MeteroidNetworkActivity;
-
 public class LongRunningIORequest<T>
 {
 	private final static String TAG = "LongRunningIO";
 
-	public LongRunningIORequest(final MeteroidNetworkActivity callback, final LongRunningIOTask id, final Call<T> call)
+	public LongRunningIORequest(final LongRunningIOCallback callback, final LongRunningIOTask id, final Call<T> call)
 	{
 		Log.d(TAG, "Initiating call: " + call.request());
 		call.enqueue(newCallback(callback, id));
 	}
 	
-	protected Callback<T> newCallback(final MeteroidNetworkActivity callback, final LongRunningIOTask id)
+	protected Callback<T> newCallback(final LongRunningIOCallback callback, final LongRunningIOTask id)
 	{
 		return new Callback<T>()
 		{

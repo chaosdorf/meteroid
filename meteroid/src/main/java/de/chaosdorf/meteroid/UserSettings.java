@@ -41,13 +41,14 @@ import org.jetbrains.annotations.NotNull;
 import java.text.ParseException;
 import java.util.Date;
 
+import de.chaosdorf.meteroid.longrunningio.LongRunningIOCallback;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIORequest;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOTask;
 import de.chaosdorf.meteroid.model.User;
 import de.chaosdorf.meteroid.util.Utility;
 import de.chaosdorf.meteroid.MeteroidNetworkActivity;
 
-public class UserSettings extends MeteroidNetworkActivity
+public class UserSettings extends MeteroidNetworkActivity implements LongRunningIOCallback
 {
 	private TextView usernameText;
 	private TextView emailText;

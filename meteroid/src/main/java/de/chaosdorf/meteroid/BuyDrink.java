@@ -53,6 +53,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import de.chaosdorf.meteroid.controller.MoneyController;
+import de.chaosdorf.meteroid.longrunningio.LongRunningIOCallback;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIORequest;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOTask;
 import de.chaosdorf.meteroid.model.BuyableItem;
@@ -62,7 +63,7 @@ import de.chaosdorf.meteroid.util.MenuUtility;
 import de.chaosdorf.meteroid.util.Utility;
 import de.chaosdorf.meteroid.MeteroidNetworkActivity;
 
-public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnItemClickListener
+public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnItemClickListener, LongRunningIOCallback
 {
 	private final AtomicBoolean isBuying = new AtomicBoolean(true);
 	private final AtomicReference<BuyableItem> buyingItem = new AtomicReference<BuyableItem>(null);

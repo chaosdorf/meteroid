@@ -34,12 +34,11 @@ import java.text.DecimalFormat;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import de.chaosdorf.meteroid.longrunningio.LongRunningIOCallback;
 import de.chaosdorf.meteroid.util.API;
 import de.chaosdorf.meteroid.util.Utility;
 
 
-public abstract class MeteroidNetworkActivity extends Activity implements LongRunningIOCallback
+public abstract class MeteroidNetworkActivity extends Activity
 {
 	protected DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.00 '\u20AC'");
 	

@@ -31,6 +31,9 @@ import android.preference.PreferenceManager;
 
 import java.text.DecimalFormat;
 
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOCallback;
 import de.chaosdorf.meteroid.util.API;
 import de.chaosdorf.meteroid.util.Utility;
@@ -54,6 +57,15 @@ public abstract class MeteroidNetworkActivity extends Activity implements LongRu
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		hostname = prefs.getString("hostname", null);
 		userID = prefs.getInt("userid", 0);
-		api = Utility.initializeRetrofit(hostname);
+		api = initializeRetrofit(hostname);
+	}
+	
+	private API initializeRetrofit(String url)
+	{
+		return new Retrofit.Builder()
+			.baseUrl(url)
+			.addConverterFactory(GsonConverterFactory.create())
+			.build()
+			.create(API.class);
 	}
 }

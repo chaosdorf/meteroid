@@ -31,13 +31,17 @@ import okhttp3.Callback;
 import okhttp3.Call;
 import okhttp3.Response;
 
+import android.util.Log;
+
 import de.chaosdorf.meteroid.MeteroidNetworkActivity;
 
 public class LongRunningIORequest
 {
+	private final static String TAG = "LongRunningIO";
 
 	public LongRunningIORequest(final MeteroidNetworkActivity callback, final LongRunningIOTask id, final retrofit2.Call call)
 	{
+		Log.d(TAG, "Initiating call: " + call.request());
 		new OkHttpClient().newCall(call.request()).enqueue(newCallback(callback, id));
 	}
 
@@ -48,6 +52,7 @@ public class LongRunningIORequest
 			@Override
 			public void onFailure(final Call call, final IOException e)
 			{
+				Log.d(TAG, "Handling failure: " + call.request());
 				callback.runOnUiThread(new Runnable()
 				{
 					@Override
@@ -61,6 +66,7 @@ public class LongRunningIORequest
 			@Override
 			public void onResponse(final Call call, final Response resp)
 			{
+				Log.d(TAG, "Handling response: " + call.request());
 				if(resp.isSuccessful())
 				{
 					try

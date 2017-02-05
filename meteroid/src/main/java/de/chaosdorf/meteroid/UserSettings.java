@@ -48,7 +48,7 @@ import de.chaosdorf.meteroid.model.User;
 import de.chaosdorf.meteroid.util.Utility;
 import de.chaosdorf.meteroid.MeteroidNetworkActivity;
 
-public class UserSettings extends MeteroidNetworkActivity implements LongRunningIOCallback
+public class UserSettings extends MeteroidNetworkActivity
 {
 	private TextView usernameText;
 	private TextView emailText;
@@ -98,7 +98,23 @@ public class UserSettings extends MeteroidNetworkActivity implements LongRunning
 		if(userID != 0) //existing user
 		{
 			makeReadOnly();
-			new LongRunningIORequest<User>(this, LongRunningIOTask.GET_USER, api.getUser(userID));
+			final UserSettings userSettings = this;
+			new LongRunningIORequest<User>(new LongRunningIOCallback<User>() {
+				@Override
+				public void displayErrorMessage(LongRunningIOTask task, String message)
+				{
+					userSettings.displayErrorMessage(task, message);
+				}
+				
+				@Override
+				public void processIOResult(LongRunningIOTask task, User user)
+				{
+					usernameText.setText(user.getName());
+					emailText.setText(user.getEmail());
+					balanceText.setText(DECIMAL_FORMAT.format(user.getBalance()));
+					makeWritable();
+				}
+			}, LongRunningIOTask.GET_USER, api.getUser(userID));
 		}
 
 	}
@@ -205,49 +221,50 @@ public class UserSettings extends MeteroidNetworkActivity implements LongRunning
 				balanceValue
 		);
 
+		final UserSettings userSettings = this;
 		if(userID == 0) //new user
 		{
-			new LongRunningIORequest<User>(
-				this,
+			new LongRunningIORequest<User>(new LongRunningIOCallback<User>() {
+					@Override
+					public void displayErrorMessage(LongRunningIOTask task, String message)
+					{
+						userSettings.displayErrorMessage(task, message);
+					}
+					
+					@Override
+					public void processIOResult(LongRunningIOTask task, User result)
+					{
+						Utility.startActivity(userSettings, PickUsername.class);
+					}
+				},
 				LongRunningIOTask.ADD_USER,
 				api.createUser(user.getName(), user.getEmail(), user.getBalance(), null)
 			);
 		}
 		else
 		{
-			new LongRunningIORequest<Void>(
-				this,
+			new LongRunningIORequest<Void>(new LongRunningIOCallback<Void>() {
+					@Override
+					public void displayErrorMessage(LongRunningIOTask task, String message)
+					{
+						userSettings.displayErrorMessage(task, message);
+					}
+					
+					@Override
+					public void processIOResult(LongRunningIOTask task, Void result)
+					{
+						Utility.startActivity(userSettings, BuyDrink.class);
+					}
+				},
 				LongRunningIOTask.EDIT_USER,
 				api.editUser(user.getId(), user.getName(), user.getEmail(), user.getBalance(), null)
 			);
 		}
 	}
 
-	@Override
 	public void displayErrorMessage(final LongRunningIOTask task, final String message)
 	{
 		makeWritable();
 		Utility.displayToastMessage(this, message);
-	}
-
-	@Override
-	public void processIOResult(final LongRunningIOTask task, final Object result)
-	{
-		switch(task)
-		{
-			case ADD_USER:
-				Utility.startActivity(this, PickUsername.class);
-				break;
-			case EDIT_USER:
-				Utility.startActivity(this, BuyDrink.class);
-				break;
-			case GET_USER:
-				User user = (User)result;
-				usernameText.setText(user.getName());
-				emailText.setText(user.getEmail());
-				balanceText.setText(DECIMAL_FORMAT.format(user.getBalance()));
-				makeWritable();
-				break;
-		}
 	}
 }

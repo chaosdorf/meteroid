@@ -45,7 +45,7 @@ public class Money implements BuyableItem
 	}
 
 	@Override
-	public String getLogoUrl()
+	public String getLogoUrl(String hostname)
 	{
 		return logoUrl;
 	}

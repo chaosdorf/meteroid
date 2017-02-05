@@ -28,10 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import de.chaosdorf.meteroid.model.BuyableItem;
@@ -39,16 +36,15 @@ import de.chaosdorf.meteroid.model.Drink;
 
 public class DrinkController
 {
-	public static List<BuyableItem> parseAllDrinksFromJSON(final String json, final String hostname)
+	public static List<BuyableItem> parseAllDrinksFromJSON(final String json)
 	{
 		final List<BuyableItem> list = new ArrayList<BuyableItem>();
 		try
 		{
-			final URL baseUrl = new URL(hostname);
 			final JSONArray jsonArray = new JSONArray(json);
 			for (int i = 0; i < jsonArray.length(); i++)
 			{
-				final Drink drink = parseDrinkFromJSONObject(jsonArray.getJSONObject(i), baseUrl);
+				final Drink drink = parseDrinkFromJSONObject(jsonArray.getJSONObject(i));
 				if (drink != null)
 				{
 					list.add(drink);
@@ -60,13 +56,9 @@ public class DrinkController
 		{
 			return null;
 		}
-		catch (MalformedURLException ignored)
-		{
-			return null;
-		}
 	}
 
-	private static Drink parseDrinkFromJSONObject(final JSONObject jsonObject, final URL baseURL)
+	private static Drink parseDrinkFromJSONObject(final JSONObject jsonObject)
 	{
 		try
 		{
@@ -76,11 +68,8 @@ public class DrinkController
 					jsonObject.getString("logo_url"),
 					jsonObject.getDouble("bottle_size"),
 					jsonObject.getString("caffeine"),
-					jsonObject.getDouble("donation_recommendation"),
-					new Date(),
-					new Date(),
-					baseURL
-			);
+					jsonObject.getDouble("donation_recommendation")
+		);
 		}
 		catch (JSONException ignored)
 		{

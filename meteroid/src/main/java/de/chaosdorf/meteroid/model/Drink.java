@@ -32,25 +32,20 @@ public class Drink implements BuyableItem
 {
 	private final int id;
 	private final String name;
-	private final String logoUrl;
+	private final String logo_url;
 
-	private final double bottleSize;
+	private final double bottle_size;
 	private final String caffeine;
-	private final double donationRecommendation;
+	private final double donation_recommendation;
 
-	private final Date createdAt;
-	private final Date updatedAt;
-
-	public Drink(final int id, final String name, final String logoUrl, final double bottleSize, final String caffeine, final double donationRecommendation, final Date created_at, final Date updated_at, final URL baseURL)
+	public Drink(final int id, final String name, final String logo_url, final double bottle_size, final String caffeine, final double donation_recommendation)
 	{
 		this.id = id;
 		this.name = name;
-		this.logoUrl = createLogoURL(logoUrl, baseURL);
-		this.bottleSize = bottleSize;
+		this.logo_url = logo_url;
+		this.bottle_size = bottle_size;
 		this.caffeine = caffeine;
-		this.donationRecommendation = donationRecommendation;
-		this.createdAt = created_at;
-		this.updatedAt = updated_at;
+		this.donation_recommendation = donation_recommendation;
 	}
 
 	public int getId()
@@ -63,14 +58,21 @@ public class Drink implements BuyableItem
 		return name;
 	}
 
-	public String getLogoUrl()
+	public String getLogoUrl(String hostname)
 	{
-		return logoUrl;
+		try
+		{
+			return createLogoURL(logo_url, new URL(hostname));
+		}
+		catch (MalformedURLException ignored)
+		{
+			return null;
+		}
 	}
 
 	public double getBottleSize()
 	{
-		return bottleSize;
+		return bottle_size;
 	}
 
 	public String getCaffeine()
@@ -80,17 +82,7 @@ public class Drink implements BuyableItem
 
 	public double getDonationRecommendation()
 	{
-		return donationRecommendation;
-	}
-
-	public Date getCreatedAt()
-	{
-		return createdAt;
-	}
-
-	public Date getUpdatedAt()
-	{
-		return updatedAt;
+		return donation_recommendation;
 	}
 
 	public boolean isDrink()
@@ -98,19 +90,12 @@ public class Drink implements BuyableItem
 		return true;
 	}
 
-	private String createLogoURL(final String logoUrl, final URL baseURL)
+	private String createLogoURL(final String logoUrl, final URL baseURL) throws MalformedURLException
 	{
 		if (logoUrl.isEmpty())
 		{
 			return null;
 		}
-		try
-		{
-			return new URL(baseURL, logoUrl).toString();
-		}
-		catch (MalformedURLException ignored)
-		{
-		}
-		return null;
+		return new URL(baseURL, logoUrl).toString();
 	}
 }

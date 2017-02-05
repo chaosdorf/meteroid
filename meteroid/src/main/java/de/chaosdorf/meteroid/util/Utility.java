@@ -110,7 +110,7 @@ public class Utility
 		icon.setImageBitmap(ImageLoaderSingleton.getUserDefaultImage());
 	}
 
-	public static void loadBuyableItemImage(final Activity activity, final ImageView icon, final BuyableItem buyableItem)
+	public static void loadBuyableItemImage(final Activity activity, final ImageView icon, final BuyableItem buyableItem, final String hostname)
 	{
 		icon.setContentDescription(buyableItem.getName());
 		if (buyableItem.isDrink())
@@ -118,7 +118,7 @@ public class Utility
 			final URL url;
 			try
 			{
-				url = new URL(buyableItem.getLogoUrl());
+				url = new URL(buyableItem.getLogoUrl(hostname));
 				ImageLoaderSingleton.getInstance(activity).displayImage(url, icon, ImageLoaderSingleton.getDrinkDefaultImage());
 			}
 			catch (MalformedURLException ignored)
@@ -127,7 +127,7 @@ public class Utility
 			}
 			return;
 		}
-		final int iconID = activity.getResources().getIdentifier(buyableItem.getLogoUrl(), "drawable", activity.getPackageName());
+		final int iconID = activity.getResources().getIdentifier(buyableItem.getLogoUrl(hostname), "drawable", activity.getPackageName());
 		icon.setImageResource(iconID > 0 ? iconID : R.drawable.euro_5);
 	}
 

@@ -28,7 +28,7 @@ public interface BuyableItem
 {
 	public String getName();
 
-	public String getLogoUrl();
+	public String getLogoUrl(String hostname);
 
 	public double getDonationRecommendation();
 

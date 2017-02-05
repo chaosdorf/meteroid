@@ -253,7 +253,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 			// Parse drinks
 			case GET_DRINKS:
 			{
-				final List<BuyableItem> buyableItemList = DrinkController.parseAllDrinksFromJSON(json, hostname);
+				final List<BuyableItem> buyableItemList = DrinkController.parseAllDrinksFromJSON(json);
 				MoneyController.addMoney(buyableItemList);
 				Collections.sort(buyableItemList, new BuyableComparator());
 				
@@ -384,7 +384,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 			final BuyableItem buyableItem = drinkList.get(position);
 
 			final ImageView icon = (ImageView) view.findViewById(R.id.icon);
-			Utility.loadBuyableItemImage(activity, icon, buyableItem);
+			Utility.loadBuyableItemImage(activity, icon, buyableItem, hostname);
 
 			final TextView label = (TextView) view.findViewById(R.id.label);
 			label.setText(createLabel(buyableItem, useGridView));

@@ -97,7 +97,7 @@ public class UserSettings extends MeteroidNetworkActivity
 		if(userID != 0) //existing user
 		{
 			makeReadOnly();
-			new LongRunningIORequest(this, LongRunningIOTask.GET_USER, api.getUser(userID));
+			new LongRunningIORequest<User>(this, LongRunningIOTask.GET_USER, api.getUser(userID));
 		}
 
 	}
@@ -206,7 +206,7 @@ public class UserSettings extends MeteroidNetworkActivity
 
 		if(userID == 0) //new user
 		{
-			new LongRunningIORequest(
+			new LongRunningIORequest<User>(
 				this,
 				LongRunningIOTask.ADD_USER,
 				api.createUser(user.getName(), user.getEmail(), user.getBalance(), null)
@@ -214,7 +214,7 @@ public class UserSettings extends MeteroidNetworkActivity
 		}
 		else
 		{
-			new LongRunningIORequest(
+			new LongRunningIORequest<Void>(
 				this,
 				LongRunningIOTask.EDIT_USER,
 				api.editUser(user.getId(), user.getName(), user.getEmail(), user.getBalance(), null)

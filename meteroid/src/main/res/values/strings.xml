@@ -46,6 +46,7 @@
     <string name="user_settings_username">Username</string>
     <string name="user_settings_email">Email</string>
     <string name="user_settings_balance">Balance</string>
+    <string name="user_settings_active">Active?</string>
     <string name="user_settings_empty_username">Please enter a username</string>
     <string name="user_settings_balance_no_double">Please enter a number as a balance</string>
     <string name="user_settings_cant_delete_non_existing_user">Can\'t delete a not yet existing user.</string>

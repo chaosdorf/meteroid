@@ -181,7 +181,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 			final List<User> itemList = result;
 			if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB)
 			{
-				itemList.add(new User(NEW_USER_ID, getResources().getString(R.string.pick_username_new_user), "", 0));
+				itemList.add(new User(NEW_USER_ID, getResources().getString(R.string.pick_username_new_user), "", 0, true));
 			}
 			final UserAdapter userAdapter = new UserAdapter(itemList);
 
@@ -238,7 +238,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 			final ImageView icon = (ImageView) view.findViewById(R.id.icon);
 			final TextView label = (TextView) view.findViewById(R.id.label);
 
-			Utility.loadGravatarImage(activity, icon, user);
+			Utility.loadUserImage(activity, icon, user);
 			icon.setContentDescription(user.getName());
 			label.setText(user.getName());
 

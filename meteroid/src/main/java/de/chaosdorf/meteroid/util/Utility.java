@@ -27,6 +27,8 @@ package de.chaosdorf.meteroid.util;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.preference.PreferenceManager;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -80,8 +82,17 @@ public class Utility
 		displayToastMessage(activity, activity.getResources().getString(newState ? enabledMessageID : disabledMessageID));
 		return newState;
 	}
+	
+	public static void loadUserImage(final Activity activity, final ImageView icon, final User user)
+	{
+		loadGravatarImage(activity, icon, user);
+		if(!user.getActive())
+		{
+			icon.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+		}
+	}
 
-	public static void loadGravatarImage(final Activity activity, final ImageView icon, final User user)
+	private static void loadGravatarImage(final Activity activity, final ImageView icon, final User user)
 	{
 		String email = null;
 		if (user != null)

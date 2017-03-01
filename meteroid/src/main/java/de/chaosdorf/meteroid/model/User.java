@@ -30,13 +30,15 @@ public class User
 	private final String name;
 	private final String email;
 	private final double balance;
+	private final boolean active;
 
-	public User(final int id, final String name, final String email, final double balance)
+	public User(final int id, final String name, final String email, final double balance, final boolean active)
 	{
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.balance = balance;
+		this.active = active;
 	}
 
 	public int getId()
@@ -57,5 +59,10 @@ public class User
 	public double getBalance()
 	{
 		return balance;
+	}
+	
+	public boolean getActive()
+	{
+		return active;
 	}
 }

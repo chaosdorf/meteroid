@@ -240,7 +240,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 					final TextView label = (TextView) findViewById(R.id.username);
 					final ImageView icon = (ImageView) findViewById(R.id.icon);
 					label.setText(user.getName());
-					Utility.loadGravatarImage(this, icon, user);
+					Utility.loadUserImage(this, icon, user);
 				}
 				final TextView balance = (TextView) findViewById(R.id.balance);
 				balance.setText(DECIMAL_FORMAT.format(user.getBalance()));

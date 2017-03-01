@@ -35,6 +35,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -55,6 +56,7 @@ public class UserSettings extends MeteroidNetworkActivity
 	private TextView usernameText;
 	private TextView emailText;
 	private TextView balanceText;
+	private CheckBox activeCheck;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState)
@@ -66,6 +68,7 @@ public class UserSettings extends MeteroidNetworkActivity
 		usernameText = (TextView) findViewById(R.id.username);
 		emailText = (TextView) findViewById(R.id.email);
 		balanceText = (TextView) findViewById(R.id.balance);
+		activeCheck = (CheckBox) findViewById(R.id.active);
 
 		final ImageButton backButton = (ImageButton) findViewById(R.id.button_back);
 		backButton.setOnClickListener(new View.OnClickListener()
@@ -125,9 +128,14 @@ public class UserSettings extends MeteroidNetworkActivity
 					usernameText.setText(user.getName());
 					emailText.setText(user.getEmail());
 					balanceText.setText(DECIMAL_FORMAT.format(user.getBalance()));
+					activeCheck.setChecked(user.getActive());
 					makeWritable();
 				}
 			}, LongRunningIOTask.GET_USER, api.getUser(userID));
+		}
+		else
+		{
+			activeCheck.setChecked(true);
 		}
 
 	}
@@ -276,11 +284,14 @@ public class UserSettings extends MeteroidNetworkActivity
 				return;
 			}
 		}
+		
+		boolean activeValue = activeCheck.isChecked();
 
 		final User user = new User(userID,
 				username.toString(),
 				emailValue,
-				balanceValue
+				balanceValue,
+				activeValue
 		);
 
 		final UserSettings userSettings = this;
@@ -300,7 +311,7 @@ public class UserSettings extends MeteroidNetworkActivity
 					}
 				},
 				LongRunningIOTask.ADD_USER,
-				api.createUser(user.getName(), user.getEmail(), user.getBalance(), null)
+				api.createUser(user.getName(), user.getEmail(), user.getBalance(), activeValue)
 			);
 		}
 		else
@@ -319,7 +330,7 @@ public class UserSettings extends MeteroidNetworkActivity
 					}
 				},
 				LongRunningIOTask.EDIT_USER,
-				api.editUser(user.getId(), user.getName(), user.getEmail(), user.getBalance(), null)
+				api.editUser(user.getId(), user.getName(), user.getEmail(), user.getBalance(), activeValue)
 			);
 		}
 	}

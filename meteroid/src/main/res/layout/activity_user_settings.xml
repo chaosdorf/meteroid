@@ -55,6 +55,12 @@
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
         android:inputType="numberDecimal"/>
+        
+    <CheckBox
+        android:id="@+id/active"
+        android:text="@string/user_settings_active"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"/>
 
     <LinearLayout
         android:layout_height="wrap_content"

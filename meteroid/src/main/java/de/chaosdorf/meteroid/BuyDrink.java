@@ -284,14 +284,14 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 						String.format(
 									getResources().getString(R.string.buy_drink_bought_drink),
 									buyableItem.getName(),
-									DECIMAL_FORMAT.format(buyableItem.getDonationRecommendation())
+									DECIMAL_FORMAT.format(buyableItem.getPrice())
 							)
 					);
 					// Adjust the displayed balance to give an immediate user feedback
 					if (user != null)
 					{
 						final TextView balance = (TextView) findViewById(R.id.balance);
-						balance.setText(DECIMAL_FORMAT.format(user.getBalance() - buyableItem.getDonationRecommendation()));
+						balance.setText(DECIMAL_FORMAT.format(user.getBalance() - buyableItem.getPrice()));
 					}
 					if (multiUserMode)
 					{
@@ -313,14 +313,14 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 					Utility.displayToastMessage(this,
 							String.format(
 									getResources().getString(R.string.buy_drink_added_money),
-									DECIMAL_FORMAT.format(-buyableItem.getDonationRecommendation())
+									DECIMAL_FORMAT.format(-buyableItem.getPrice())
 							)
 					);
 					// Adjust the displayed balance to give an immediate user feedback
 					if (user != null)
 					{
 						final TextView balance = (TextView) findViewById(R.id.balance);
-						balance.setText(DECIMAL_FORMAT.format(user.getBalance() - buyableItem.getDonationRecommendation()));
+						balance.setText(DECIMAL_FORMAT.format(user.getBalance() - buyableItem.getPrice()));
 					}
 				}
 				new LongRunningIORequest<User>(this, LongRunningIOTask.UPDATE_USER, api.getUser(userID));
@@ -350,7 +350,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 				}
 				else
 				{
-					new LongRunningIORequest<Void>(this, LongRunningIOTask.ADD_MONEY, api.deposit(userID, -buyableItem.getDonationRecommendation()));
+					new LongRunningIORequest<Void>(this, LongRunningIOTask.ADD_MONEY, api.deposit(userID, -buyableItem.getPrice()));
 				}
 			}
 		}
@@ -398,7 +398,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 			{
 				label.append("+");
 			}
-			label.append(DECIMAL_FORMAT.format(-buyableItem.getDonationRecommendation()));
+			label.append(DECIMAL_FORMAT.format(-buyableItem.getPrice()));
 			if (buyableItem.isDrink())
 			{
 				if (useGridView)
@@ -416,7 +416,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		@Override
 		public int compare(final BuyableItem buyableItem, final BuyableItem buyableItem2)
 		{
-			return (int) Math.round(buyableItem2.getDonationRecommendation() * 100 - buyableItem.getDonationRecommendation() * 100);
+			return (int) Math.round(buyableItem2.getPrice() * 100 - buyableItem.getPrice() * 100);
 		}
 	}
 }

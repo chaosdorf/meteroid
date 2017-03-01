@@ -36,16 +36,16 @@ public class Drink implements BuyableItem
 
 	private final double bottle_size;
 	private final String caffeine;
-	private final double donation_recommendation;
+	private final double price;
 
-	public Drink(final int id, final String name, final String logo_url, final double bottle_size, final String caffeine, final double donation_recommendation)
+	public Drink(final int id, final String name, final String logo_url, final double bottle_size, final String caffeine, final double price)
 	{
 		this.id = id;
 		this.name = name;
 		this.logo_url = logo_url;
 		this.bottle_size = bottle_size;
 		this.caffeine = caffeine;
-		this.donation_recommendation = donation_recommendation;
+		this.price = price;
 	}
 
 	public int getId()
@@ -80,9 +80,9 @@ public class Drink implements BuyableItem
 		return caffeine;
 	}
 
-	public double getDonationRecommendation()
+	public double getPrice()
 	{
-		return donation_recommendation;
+		return price;
 	}
 
 	public boolean isDrink()

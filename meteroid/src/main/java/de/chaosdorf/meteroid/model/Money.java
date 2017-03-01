@@ -29,13 +29,13 @@ public class Money implements BuyableItem
 	private final String name;
 	private final String logoUrl;
 
-	private final double donationRecommendation;
+	private final double price;
 
-	public Money(String name, String logoUrl, double donationRecommendation)
+	public Money(String name, String logoUrl, double price)
 	{
 		this.name = name;
 		this.logoUrl = logoUrl;
-		this.donationRecommendation = donationRecommendation;
+		this.price = price;
 	}
 
 	@Override
@@ -51,9 +51,9 @@ public class Money implements BuyableItem
 	}
 
 	@Override
-	public double getDonationRecommendation()
+	public double getPrice()
 	{
-		return donationRecommendation;
+		return price;
 	}
 
 	@Override

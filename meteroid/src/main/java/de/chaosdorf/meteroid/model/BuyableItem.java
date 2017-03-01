@@ -30,7 +30,7 @@ public interface BuyableItem
 
 	public String getLogoUrl(String hostname);
 
-	public double getDonationRecommendation();
+	public double getPrice();
 
 	public boolean isDrink();
 }

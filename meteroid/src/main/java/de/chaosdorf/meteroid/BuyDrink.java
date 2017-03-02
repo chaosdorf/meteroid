@@ -300,6 +300,10 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 					}
 				}
 				new LongRunningIORequest<User>(this, LongRunningIOTask.UPDATE_USER, api.getUser(userID));
+				if(!buyableItem.getActive())
+				{
+					new LongRunningIORequest<List<Drink>>(this, LongRunningIOTask.GET_DRINKS, api.listDrinks());
+				}
 				break;
 			}
 			

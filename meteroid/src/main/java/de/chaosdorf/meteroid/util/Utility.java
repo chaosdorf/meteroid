@@ -120,6 +120,15 @@ public class Utility
 
 	public static void loadBuyableItemImage(final Activity activity, final ImageView icon, final BuyableItem buyableItem, final String hostname)
 	{
+		loadBuyableItemImage_(activity, icon, buyableItem, hostname);
+		if(!buyableItem.getActive())
+		{
+			icon.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+		}
+	}
+
+	private static void loadBuyableItemImage_(final Activity activity, final ImageView icon, final BuyableItem buyableItem, final String hostname)
+	{
 		icon.setContentDescription(buyableItem.getName());
 		if (buyableItem.isDrink())
 		{

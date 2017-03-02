@@ -61,4 +61,10 @@ public class Money implements BuyableItem
 	{
 		return false;
 	}
+	
+	@Override
+	public boolean getActive()
+	{
+		return true;
+	}
 }

@@ -33,4 +33,6 @@ public interface BuyableItem
 	public double getPrice();
 
 	public boolean isDrink();
+	
+	public boolean getActive();
 }

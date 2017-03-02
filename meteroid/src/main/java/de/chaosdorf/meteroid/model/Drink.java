@@ -37,8 +37,9 @@ public class Drink implements BuyableItem
 	private final double bottle_size;
 	private final String caffeine;
 	private final double price;
+	private final boolean active;
 
-	public Drink(final int id, final String name, final String logo_url, final double bottle_size, final String caffeine, final double price)
+	public Drink(final int id, final String name, final String logo_url, final double bottle_size, final String caffeine, final double price, final boolean active)
 	{
 		this.id = id;
 		this.name = name;
@@ -46,6 +47,7 @@ public class Drink implements BuyableItem
 		this.bottle_size = bottle_size;
 		this.caffeine = caffeine;
 		this.price = price;
+		this.active = active;
 	}
 
 	public int getId()
@@ -88,6 +90,11 @@ public class Drink implements BuyableItem
 	public boolean isDrink()
 	{
 		return true;
+	}
+	
+	public boolean getActive()
+	{
+		return active;
 	}
 
 	private String createLogoURL(final String logoUrl, final URL baseURL) throws MalformedURLException

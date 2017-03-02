@@ -30,7 +30,7 @@ public class User
 	private final String name;
 	private final String email;
 	private final double balance;
-	private final boolean active;
+	private boolean active = true;
 
 	public User(final int id, final String name, final String email, final double balance, final boolean active)
 	{

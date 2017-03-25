@@ -39,6 +39,7 @@ dependencies {
     compile 'org.jetbrains:annotations:13.0'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.google.zxing:android-integration:3.3.0'
 }
 
 //see https://stackoverflow.com/a/22183825/2192464

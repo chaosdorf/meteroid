@@ -88,6 +88,14 @@
               android:layout_gravity="right"
               android:src="@drawable/button_back"
               android:contentDescription="@string/button_back"/>
+          
+          <ImageButton
+              android:id="@+id/button_barcode"
+              android:layout_width="50dp"
+              android:layout_height="50dp"
+              android:layout_gravity="right"
+              android:src="@drawable/button_barcode"
+              android:contentDescription="@string/button_barcode"/>
 
           <ImageButton
               android:id="@+id/button_reload"

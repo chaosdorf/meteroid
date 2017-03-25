@@ -66,6 +66,7 @@
     <string name="button_reload">Reload</string>
     <string name="button_delete">Delete</string>
     <string name="button_save">Save</string>
+    <string name="button_barcode">Scan a barcode</string>
 
     <!-- Menues -->
     <string name="menu_edit_hostname">Edit hostname</string>

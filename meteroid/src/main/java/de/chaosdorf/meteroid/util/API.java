@@ -111,6 +111,13 @@ public interface API
 		@Query("drink") int did
 	);
 	
+	// buys a drink by barcode
+	@POST("users/{uid}/buy_barcode.json")
+	Call<Void> buy_barcode(
+		@Path("uid") int uid,
+		@Query("barcode") String barcode
+	);
+	
 	/*// retrieves various statistics
 	@GET("users/stats.json")
 	Call<UsersStats> getUsersStats();*/

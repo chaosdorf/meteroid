@@ -26,6 +26,7 @@ package de.chaosdorf.meteroid;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Build;
 import android.view.KeyEvent;
@@ -51,6 +52,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import de.chaosdorf.meteroid.controller.MoneyController;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOCallback;
@@ -77,6 +80,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 	private boolean useGridView;
 	private boolean multiUserMode;
 	
+	private IntentIntegrator barcodeIntegrator;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState)
@@ -84,6 +88,8 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.activity_buy_drink);
+
+		barcodeIntegrator = new IntentIntegrator(this);
 
 		progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 		gridView = (GridView) findViewById(R.id.grid_view);
@@ -119,6 +125,15 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 				Utility.startActivity(activity, UserSettings.class);
 			}
 		});
+		
+		final ImageButton barcodeButton = (ImageButton) findViewById(R.id.button_barcode);
+		barcodeButton.setOnClickListener(new View.OnClickListener()
+		{
+			public void onClick(View view)
+			{
+				barcodeIntegrator.initiateScan();
+			}
+		});
 
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
 		{
@@ -127,6 +142,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 			reloadButton.setVisibility(View.GONE);
 			backButton.setVisibility(View.GONE);
 			editButton.setVisibility(View.GONE);
+			barcodeButton.setVisibility(View.GONE);
 		}
 		
 		new LongRunningIORequest<User>(this, LongRunningIOTask.GET_USER, api.getUser(userID));
@@ -156,6 +172,9 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 				break;
 			case R.id.action_edit:
 				Utility.startActivity(this, UserSettings.class);
+				break;
+			case R.id.action_barcode:
+				barcodeIntegrator.initiateScan();
 				break;
 			case R.id.edit_hostname:
 				Utility.startActivity(this, SetHostname.class);
@@ -412,6 +431,20 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 				label.append(" (").append(buyableItem.getName()).append(")");
 			}
 			return label.toString();
+		}
+	}
+	
+	// the barcode scan result
+	public void onActivityResult(int requestCode, int resultCode, Intent intent)
+	{
+		IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+		if(scanResult != null)
+		{
+			if(scanResult.getContents() != null)
+			{
+				System.err.println("Scanned barcode: " + scanResult.toString());
+				new LongRunningIORequest<Void>(this, LongRunningIOTask.BUY_DRINK, api.buy_barcode(userID, scanResult.getContents()));
+			}
 		}
 	}
 

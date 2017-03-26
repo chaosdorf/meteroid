@@ -27,6 +27,7 @@ package de.chaosdorf.meteroid;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Build;
 import android.view.KeyEvent;
@@ -261,8 +262,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 					label.setText(user.getName());
 					Utility.loadUserImage(this, icon, user);
 				}
-				final TextView balance = (TextView) findViewById(R.id.balance);
-				balance.setText(DECIMAL_FORMAT.format(user.getBalance()));
+				updateBalance(user.getBalance());
 				isBuying.set(false);
 				setProgressBarIndeterminateVisibility(false);
 				break;
@@ -309,8 +309,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 					// Adjust the displayed balance to give an immediate user feedback
 					if (user != null)
 					{
-						final TextView balance = (TextView) findViewById(R.id.balance);
-						balance.setText(DECIMAL_FORMAT.format(user.getBalance() - buyableItem.getPrice()));
+						updateBalance(user.getBalance() - buyableItem.getPrice());
 					}
 					if (multiUserMode)
 					{
@@ -342,8 +341,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 					// Adjust the displayed balance to give an immediate user feedback
 					if (user != null)
 					{
-						final TextView balance = (TextView) findViewById(R.id.balance);
-						balance.setText(DECIMAL_FORMAT.format(user.getBalance() - buyableItem.getPrice()));
+						updateBalance(user.getBalance() - buyableItem.getPrice());
 					}
 				}
 				new LongRunningIORequest<User>(this, LongRunningIOTask.UPDATE_USER, api.getUser(userID));
@@ -446,6 +444,13 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 				new LongRunningIORequest<Void>(this, LongRunningIOTask.BUY_DRINK, api.buy_barcode(userID, scanResult.getContents()));
 			}
 		}
+	}
+	
+	private void updateBalance(double amount)
+	{
+		final TextView balance = (TextView) findViewById(R.id.balance);
+		balance.setText(DECIMAL_FORMAT.format(amount));
+		balance.setTextColor(amount >= 0 ? Color.LTGRAY : Color.RED);
 	}
 
 	private class BuyableComparator implements Comparator<BuyableItem>

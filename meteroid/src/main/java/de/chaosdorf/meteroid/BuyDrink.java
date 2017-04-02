@@ -46,6 +46,8 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.melnykov.fab.FloatingActionButton;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -75,6 +77,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 	private ProgressBar progressBar = null;
 	private GridView gridView = null;
 	private ListView listView = null;
+	private FloatingActionButton fab = null;
 
 	private User user;
 
@@ -144,6 +147,20 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 			backButton.setVisibility(View.GONE);
 			editButton.setVisibility(View.GONE);
 			barcodeButton.setVisibility(View.GONE);
+		}
+		
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+		{
+			fab = (FloatingActionButton) findViewById(R.id.fab);
+			fab.hide(false);
+			fab.setOnClickListener(new View.OnClickListener()
+			{
+				public void onClick(View view)
+				{
+					barcodeIntegrator.initiateScan();
+				}
+			});
+			fab.setVisibility(View.VISIBLE);
 		}
 		
 		new LongRunningIORequest<User>(this, LongRunningIOTask.GET_USER, api.getUser(userID));
@@ -289,6 +306,11 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 					listView.setVisibility(View.VISIBLE);
 				}
 				progressBar.setVisibility(View.GONE);
+				if(fab != null)
+				{
+					fab.attachToListView(useGridView? gridView : listView);
+					fab.show();
+				}
 				break;
 			}
 			

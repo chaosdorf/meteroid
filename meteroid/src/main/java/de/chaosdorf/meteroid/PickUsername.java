@@ -44,6 +44,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.melnykov.fab.FloatingActionButton;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
@@ -101,6 +103,22 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 			actionBar.setDisplayHomeAsUpEnabled(true);
 			reloadButton.setVisibility(View.GONE);
 			backButton.setVisibility(View.GONE);
+		}
+		
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+		{
+			FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+			fab.hide(false);
+			fab.attachToListView(gridView);
+			fab.setOnClickListener(new View.OnClickListener()
+			{
+				public void onClick(View view)
+				{
+					Utility.startActivity(activity, UserSettings.class);
+				}
+			});
+			fab.setVisibility(View.VISIBLE);
+			fab.show();
 		}
 
 		new LongRunningIORequest<List<User>>(this, LongRunningIOTask.GET_USERS, api.listUsers());

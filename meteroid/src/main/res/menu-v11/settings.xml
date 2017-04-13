@@ -24,27 +24,14 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/edit_hostname"
-        android:title="@string/menu_edit_hostname"
-        android:orderInCategory="100"
-        android:showAsAction="never"/>
+      android:id="@+id/action_delete"
+      android:icon="@android:drawable/ic_delete"
+      android:title="@string/button_delete"
+      android:showAsAction="ifRoom"/>
+    
     <item
-        android:id="@+id/reset_username"
-        android:title="@string/menu_reset_username"
-        android:orderInCategory="100"
-        android:showAsAction="never"/>
-    <item
-        android:id="@+id/use_grid_view"
-        android:title="@string/menu_use_grid_view"
-        android:checkable="true"
-        android:checked="false"
-        android:orderInCategory="100"
-        android:showAsAction="never"/>
-    <item
-        android:id="@+id/multi_user_mode"
-        android:title="@string/menu_multi_user_mode"
-        android:checkable="true"
-        android:checked="false"
-        android:orderInCategory="100"
-        android:showAsAction="never"/>
+        android:id="@+id/action_save"
+        android:icon="@android:drawable/ic_menu_save"
+        android:title="@string/button_save"
+        android:showAsAction="ifRoom"/>
 </menu>

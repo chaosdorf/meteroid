@@ -117,7 +117,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		{
 			public void onClick(View view)
 			{
-				Utility.startActivity(activity, BuyDrink.class);
+				reload();
 			}
 		});
 
@@ -163,6 +163,14 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 			fab.setVisibility(View.VISIBLE);
 		}
 		
+		reload();
+	}
+	
+	public void reload()
+	{
+		gridView.setVisibility(View.GONE);
+		listView.setVisibility(View.GONE);
+		progressBar.setVisibility(View.VISIBLE);
 		new LongRunningIORequest<User>(this, LongRunningIOTask.GET_USER, api.getUser(userID));
 		new LongRunningIORequest<List<Drink>>(this, LongRunningIOTask.GET_DRINKS, api.listDrinks());
 	}
@@ -186,7 +194,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 				Utility.startActivity(this, PickUsername.class);
 				break;
 			case R.id.action_reload:
-				Utility.startActivity(this, BuyDrink.class);
+				reload();
 				break;
 			case R.id.action_edit:
 				Utility.startActivity(this, UserSettings.class);

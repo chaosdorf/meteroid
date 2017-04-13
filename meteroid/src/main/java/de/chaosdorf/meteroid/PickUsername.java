@@ -93,7 +93,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 		{
 			public void onClick(View view)
 			{
-				Utility.startActivity(activity, PickUsername.class);
+				reload();
 			}
 		});
 
@@ -121,6 +121,13 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 			fab.show();
 		}
 
+		reload();
+	}
+	
+	public void reload()
+	{
+		gridView.setVisibility(View.GONE);
+		progressBar.setVisibility(View.VISIBLE);
 		new LongRunningIORequest<List<User>>(this, LongRunningIOTask.GET_USERS, api.listUsers());
 	}
 
@@ -141,7 +148,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 				Utility.startActivity(this, SetHostname.class);
 				break;
 			case R.id.action_reload:
-				Utility.startActivity(this, PickUsername.class);
+				reload();
 				break;
 			case R.id.action_add:
 				Utility.startActivity(this, UserSettings.class);

@@ -27,7 +27,7 @@
         android:id="@+id/action_reload"
         android:icon="@drawable/button_reload"
         android:title="@string/button_reload"
-        android:showAsAction="ifRoom"/>
+        android:showAsAction="never"/>
     <item
         android:id="@+id/edit_hostname"
         android:title="@string/menu_edit_hostname"

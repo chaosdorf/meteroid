@@ -44,6 +44,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import android.support.v4.widget.SwipeRefreshLayout;
+
 import com.melnykov.fab.FloatingActionButton;
 
 import org.jetbrains.annotations.NotNull;
@@ -67,6 +69,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 	private GridView gridView = null;
 	private boolean multiUserMode = false;
 	private boolean editHostnameOnBackButton = false;
+	private SwipeRefreshLayout swipeRefreshLayout = null;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState)
@@ -107,6 +110,16 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 		
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 		{
+			swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
+			swipeRefreshLayout.setEnabled(true);
+			swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+			{
+				@Override
+				public void onRefresh()
+				{
+					reload();
+				}
+			});
 			FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 			fab.hide(false);
 			fab.attachToListView(gridView);
@@ -128,6 +141,10 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 	{
 		gridView.setVisibility(View.GONE);
 		progressBar.setVisibility(View.VISIBLE);
+		if(swipeRefreshLayout != null)
+		{
+			swipeRefreshLayout.setRefreshing(true);
+		}
 		new LongRunningIORequest<List<User>>(this, LongRunningIOTask.GET_USERS, api.listUsers());
 	}
 
@@ -196,6 +213,10 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 		gridView.setVisibility(View.GONE);
 		editHostnameOnBackButton = true;
 		progressBar.setVisibility(View.GONE);
+		if(swipeRefreshLayout != null)
+		{
+			swipeRefreshLayout.setRefreshing(false);
+		}
 	}
 
 	@Override
@@ -214,6 +235,10 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 			gridView.setOnItemClickListener(this);
 			progressBar.setVisibility(View.GONE);
 			gridView.setVisibility(View.VISIBLE);
+			if(swipeRefreshLayout != null)
+			{
+				swipeRefreshLayout.setRefreshing(false);
+			}
 		}
 	}
 

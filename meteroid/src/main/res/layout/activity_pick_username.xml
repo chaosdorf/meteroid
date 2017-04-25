@@ -81,18 +81,27 @@
         android:layout_centerInParent="true"
         style="@android:style/Widget.ProgressBar.Large"/>
 
-    <GridView
-        android:visibility="gone"
-        android:id="@+id/grid_view"
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swiperefresh"
         android:layout_alignParentTop="true"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:columnWidth="100dp"
-        android:numColumns="auto_fit"
-        android:verticalSpacing="12dp"
-        android:horizontalSpacing="5dp"
-        android:stretchMode="columnWidth"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:enabled="false">
+        
+        <GridView
+          android:visibility="gone"
+          android:id="@+id/grid_view"
+          android:columnWidth="100dp"
+          android:numColumns="auto_fit"
+          android:verticalSpacing="12dp"
+          android:horizontalSpacing="5dp"
+          android:stretchMode="columnWidth"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"/>
+          
+    </android.support.v4.widget.SwipeRefreshLayout>
     
     <com.melnykov.fab.FloatingActionButton
         android:visibility="gone"

@@ -139,6 +139,8 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 	
 	public void reload()
 	{
+		final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.pick_username_error);
+		linearLayout.setVisibility(View.GONE);
 		gridView.setVisibility(View.GONE);
 		progressBar.setVisibility(View.VISIBLE);
 		if(swipeRefreshLayout != null)

@@ -54,9 +54,9 @@
     <string name="user_settings_deleted_user">Deleted the user.</string>
 
     <!-- Buy drink -->
-    <string name="buy_drink_label">Buy drink</string>
+    <string name="buy_drink_label">Donate for a drink</string>
     <string name="buy_drink_pending">Please wait for current transaction…</string>
-    <string name="buy_drink_bought_drink">Bought %1$s for %2$s</string>
+    <string name="buy_drink_bought_drink">Donated %2$s for %1$s</string>
     <string name="buy_drink_added_money">Successfully added %1$s</string>
     <string name="buy_drink_error">Well, this didn\'t succeed. Please check your inputs and network connection and try again or reset hostname/username to proceed.</string>
     <string name="buy_drink_edit_user">Edit user</string>

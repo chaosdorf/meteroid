@@ -54,9 +54,9 @@
     <string name="user_settings_deleted_user">Benutzer gelöscht.</string>
 
     <!-- Buy drink -->
-    <string name="buy_drink_label">Getränk kaufen</string>
+    <string name="buy_drink_label">F\303\274r Getränk spenden</string>
     <string name="buy_drink_pending">Bitte warten bis aktueller Vorgang abgeschlossen ist…</string>
-    <string name="buy_drink_bought_drink">%1$s für %2$s gekauft</string>
+    <string name="buy_drink_bought_drink">%2$s für %1$s gespendet</string>
     <string name="buy_drink_added_money">Erfolgreich %1$s aufgeladen</string>
     <string name="buy_drink_error">Ups, das hat nicht geklappt. Bitte Eingaben und Netzwerkverbindung überprüfen und erneut versuchen oder Hostname/Benutzername ändern um fortzufahren.</string>
     <string name="buy_drink_edit_user">Benutzer bearbeiten</string>

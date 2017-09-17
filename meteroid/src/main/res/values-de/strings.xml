@@ -54,7 +54,7 @@
     <string name="user_settings_deleted_user">Benutzer gelöscht.</string>
 
     <!-- Buy drink -->
-    <string name="buy_drink_label">F\303\274r Getränk spenden</string>
+    <string name="buy_drink_label">Für Getränk spenden</string>
     <string name="buy_drink_pending">Bitte warten bis aktueller Vorgang abgeschlossen ist…</string>
     <string name="buy_drink_bought_drink">%2$s für %1$s gespendet</string>
     <string name="buy_drink_added_money">Erfolgreich %1$s aufgeladen</string>

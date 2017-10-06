@@ -53,8 +53,8 @@ gradle.projectsEvaluated {
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '23.0.3'
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
     signingConfigs {}
     lintOptions {
       abortOnError false

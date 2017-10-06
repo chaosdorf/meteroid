@@ -111,33 +111,25 @@ public class UserSettings extends MeteroidNetworkActivity
 			}
 		}
 		
-		if(userID != 0) //existing user
-		{
-			makeReadOnly();
-			final UserSettings userSettings = this;
-			new LongRunningIORequest<User>(new LongRunningIOCallback<User>() {
-				@Override
-				public void displayErrorMessage(LongRunningIOTask task, String message)
-				{
-					userSettings.displayErrorMessage(task, message);
-				}
-				
-				@Override
-				public void processIOResult(LongRunningIOTask task, User user)
-				{
-					usernameText.setText(user.getName());
-					emailText.setText(user.getEmail());
-					balanceText.setText(DECIMAL_FORMAT.format(user.getBalance()));
-					activeCheck.setChecked(user.getActive());
-					makeWritable();
-				}
-			}, LongRunningIOTask.GET_USER, api.getUser(userID));
-		}
-		else
-		{
-			activeCheck.setChecked(true);
-		}
-
+		makeReadOnly();
+		final UserSettings userSettings = this;
+		new LongRunningIORequest<User>(new LongRunningIOCallback<User>() {
+			@Override
+			public void displayErrorMessage(LongRunningIOTask task, String message)
+			{
+				userSettings.displayErrorMessage(task, message);
+			}
+			
+			@Override
+			public void processIOResult(LongRunningIOTask task, User user)
+			{
+				usernameText.setText(user.getName());
+				emailText.setText(user.getEmail());
+				balanceText.setText(DECIMAL_FORMAT.format(user.getBalance()));
+				activeCheck.setChecked(user.getActive());
+				makeWritable();
+			}
+		}, LongRunningIOTask.GET_USER, (userID != 0)? api.getUser(userID): api.getUserDefaults());
 	}
 
 	@Override

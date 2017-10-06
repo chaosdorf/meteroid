@@ -67,6 +67,10 @@ public interface API
 	@GET("users/{uid}.json")
 	Call<User> getUser(@Path("uid") int uid);
 	
+	// returns the defaults for creating new users
+	@GET("users/new.json")
+	Call<User> getUserDefaults();
+	
 	// creates a new user
 	@POST("users.json")
 	Call<User> createUser(

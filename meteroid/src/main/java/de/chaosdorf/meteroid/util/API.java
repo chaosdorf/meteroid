@@ -72,22 +72,24 @@ public interface API
 	Call<User> getUserDefaults();
 	
 	// creates a new user
+	@FormUrlEncoded
 	@POST("users.json")
 	Call<User> createUser(
-		@Query("user[name]") String name,
-		@Query("user[email]") String email,
-		@Query("user[balance]") Double balance,
-		@Query("user[active]") Boolean active
+		@Field("user[name]") String name,
+		@Field("user[email]") String email,
+		@Field("user[balance]") Double balance,
+		@Field("user[active]") Boolean active
 	);
 	
 	// modifys an existing user
+	@FormUrlEncoded
 	@PATCH("users/{uid}.json")
 	Call<Void> editUser(
 		@Path("uid") int uid,
-		@Query("user[name]") String name,
-		@Query("user[email]") String email,
-		@Query("user[balance]") Double balance,
-		@Query("user[active]") Boolean active
+		@Field("user[name]") String name,
+		@Field("user[email]") String email,
+		@Field("user[balance]") Double balance,
+		@Field("user[active]") Boolean active
 	);
 	
 	// deletes an existing user
@@ -116,10 +118,11 @@ public interface API
 	);
 	
 	// buys a drink by barcode
+	@FormUrlEncoded
 	@POST("users/{uid}/buy_barcode.json")
 	Call<Void> buy_barcode(
 		@Path("uid") int uid,
-		@Query("barcode") String barcode
+		@Field("barcode") String barcode
 	);
 	
 	/*// retrieves various statistics

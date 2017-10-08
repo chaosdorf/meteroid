@@ -39,6 +39,7 @@ public class Config
     public boolean multiUserMode = false;
     public boolean useGridView = false;
     public int userID = NO_USER_ID;
+    private int version = 0;
     
     public Config(Activity activity)
     {
@@ -47,6 +48,8 @@ public class Config
         multiUserMode = prefs.getBoolean("multi_user_mode", multiUserMode);
         useGridView = prefs.getBoolean("use_grid_view", useGridView);
         userID = prefs.getInt("userid", userID);
+        version = prefs.getInt("config_version", version);
+        migrate();
     }
     
     public void save()
@@ -57,6 +60,17 @@ public class Config
         edit.putBoolean("multi_user_mode", this.multiUserMode);
         edit.putBoolean("use_grid_view", this.useGridView);
         edit.putInt("userid", this.userID);
+        edit.putInt("config_version", this.version);
         edit.apply();
+    }
+    
+    private void migrate()
+    {
+        if(version == 0)
+        {
+            Log.d(TAG, "Migrating config from v0 to v1: Adding version.");
+            version = 1;
+            save();
+        }
     }
 }

@@ -31,18 +31,18 @@ import android.preference.PreferenceManager;
 public class Config
 {
     private SharedPreferences prefs;
-    public String hostname;
-    public boolean multiUserMode;
-    public boolean useGridView;
-    public int userID;
+    public String hostname = null;
+    public boolean multiUserMode = false;
+    public boolean useGridView = false;
+    public int userID = 0;
     
     public Config(Activity activity)
     {
         prefs = PreferenceManager.getDefaultSharedPreferences(activity);
-        hostname = prefs.getString("hostname", null);
-        multiUserMode = prefs.getBoolean("multi_user_mode", false);
-        useGridView = prefs.getBoolean("use_grid_view", false);
-        userID = prefs.getInt("userid", 0);
+        hostname = prefs.getString("hostname", hostname);
+        multiUserMode = prefs.getBoolean("multi_user_mode", multiUserMode);
+        useGridView = prefs.getBoolean("use_grid_view", useGridView);
+        userID = prefs.getInt("userid", userID);
     }
     
     public void save()

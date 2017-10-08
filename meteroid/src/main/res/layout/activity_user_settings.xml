@@ -24,85 +24,113 @@
   ~ THE SOFTWARE.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:orientation="vertical"
-              android:paddingLeft="@dimen/activity_horizontal_margin"
-              android:paddingRight="@dimen/activity_horizontal_margin"
-              android:paddingTop="@dimen/activity_vertical_margin"
-              android:paddingBottom="@dimen/activity_vertical_margin"
-              tools:context=".AddUserActivity">
+<layout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  >
+  
+  <data>
+    <variable
+      name="user"
+      type="de.chaosdorf.meteroid.model.User"
+    />
+    <variable
+      name="DECIMAL_FORMAT"
+      type="java.text.DecimalFormat"
+    />
+  </data>
+  
+  <LinearLayout android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                tools:context=".UserSettings">
 
-    <EditText
-        android:id="@+id/username"
-        android:hint="@string/user_settings_username"
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        android:inputType="text"/>
-
-    <EditText
-        android:id="@+id/email"
-        android:hint="@string/user_settings_email"
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        android:inputType="textEmailAddress"/>
-
-    <EditText
-        android:id="@+id/balance"
-        android:hint="@string/user_settings_balance"
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        android:inputType="numberDecimal"/>
-        
-    <CheckBox
-        android:id="@+id/active"
-        android:text="@string/user_settings_active"
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"/>
-        
-    <CheckBox
-        android:id="@+id/audit"
-        android:text="@string/user_settings_audit"
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"/>
-        
-    <CheckBox
-        android:id="@+id/redirect"
-        android:text="@string/user_settings_redirect"
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"/>
-
-    <LinearLayout
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="right"
-        >
-
-        <ImageButton
-            android:id="@+id/button_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:src="@drawable/button_back"
-            android:contentDescription="@string/button_back"/>
-        
-        <ImageButton
-          android:id="@+id/button_delete"
-          android:layout_width="wrap_content"
+      <EditText
+          android:id="@+id/username"
+          android:hint="@string/user_settings_username"
           android:layout_height="wrap_content"
-          android:src="@android:drawable/ic_delete"
-          android:contentDescription="@string/button_delete"/>
+          android:layout_width="fill_parent"
+          android:inputType="text"
+          android:text="@={user.name}"
+          />
 
-        <ImageButton
-            android:id="@+id/button_save"
+      <EditText
+          android:id="@+id/email"
+          android:hint="@string/user_settings_email"
+          android:layout_height="wrap_content"
+          android:layout_width="fill_parent"
+          android:inputType="textEmailAddress"
+          android:text="@={user.email}"
+          />
+
+      <EditText
+          android:id="@+id/balance"
+          android:hint="@string/user_settings_balance"
+          android:layout_height="wrap_content"
+          android:layout_width="fill_parent"
+          android:inputType="numberDecimal"
+          android:text="@{DECIMAL_FORMAT.format(user.balance)}"
+          />
+          
+      <CheckBox
+          android:id="@+id/active"
+          android:text="@string/user_settings_active"
+          android:layout_height="wrap_content"
+          android:layout_width="fill_parent"
+          android:checked="@={user.active}"
+          />
+          
+      <CheckBox
+          android:id="@+id/audit"
+          android:text="@string/user_settings_audit"
+          android:layout_height="wrap_content"
+          android:layout_width="fill_parent"
+          android:checked="@={user.audit}"
+          />
+          
+      <CheckBox
+          android:id="@+id/redirect"
+          android:text="@string/user_settings_redirect"
+          android:layout_height="wrap_content"
+          android:layout_width="fill_parent"
+          android:checked="@={user.redirect}"
+          />
+
+      <LinearLayout
+          android:layout_height="wrap_content"
+          android:layout_width="wrap_content"
+          android:orientation="horizontal"
+          android:layout_gravity="right"
+          >
+
+          <ImageButton
+              android:id="@+id/button_back"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="right"
+              android:src="@drawable/button_back"
+              android:contentDescription="@string/button_back"/>
+          
+          <ImageButton
+            android:id="@+id/button_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_save"
-            android:contentDescription="@string/button_save"/>
+            android:src="@android:drawable/ic_delete"
+            android:contentDescription="@string/button_delete"/>
 
-    </LinearLayout>
+          <ImageButton
+              android:id="@+id/button_save"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:src="@android:drawable/ic_menu_save"
+              android:contentDescription="@string/button_save"/>
 
-</LinearLayout>
+      </LinearLayout>
+
+  </LinearLayout>
+</layout>

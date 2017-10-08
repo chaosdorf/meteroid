@@ -61,4 +61,7 @@ android {
       //ActionBar on Gingerbread
       disable 'UnusedAttribute'
     }
+    dataBinding {
+        enabled = true
+    }
 }

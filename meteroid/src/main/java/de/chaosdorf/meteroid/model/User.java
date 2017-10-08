@@ -27,12 +27,12 @@ package de.chaosdorf.meteroid.model;
 public class User
 {
 	private final int id;
-	private final String name;
-	private final String email;
-	private final double balance;
-	private final boolean active;
-	private final boolean audit;
-	private final boolean redirect;
+	private String name;
+	private String email;
+	private double balance;
+	private boolean active;
+	private boolean audit;
+	private boolean redirect;
 
 	public User(final int id, final String name, final String email, final double balance, final boolean active, final boolean audit, final boolean redirect)
 	{
@@ -54,10 +54,20 @@ public class User
 	{
 		return name;
 	}
+	
+	public void setName(String name)
+	{
+		this.name = name;
+	}
 
 	public String getEmail()
 	{
 		return email;
+	}
+	
+	public void setEmail(String email)
+	{
+		this.email = email;
 	}
 
 	public double getBalance()
@@ -65,9 +75,19 @@ public class User
 		return balance;
 	}
 	
+	public void setBalance(double balance)
+	{
+		this.balance = balance;
+	}
+	
 	public boolean getActive()
 	{
 		return active;
+	}
+	
+	public void setActive(boolean active)
+	{
+		this.active = active;
 	}
 	
 	public boolean getAudit()
@@ -75,8 +95,18 @@ public class User
 		return audit;
 	}
 	
+	public void setAudit(boolean audit)
+	{
+		this.audit = audit;
+	}
+	
 	public boolean getRedirect()
 	{
 		return redirect;
+	}
+	
+	public void setRedirect(boolean redirect)
+	{
+		this.redirect = redirect;
 	}
 }

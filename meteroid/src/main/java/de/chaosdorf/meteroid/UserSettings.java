@@ -26,6 +26,7 @@ package de.chaosdorf.meteroid;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.databinding.DataBindingUtil;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -44,6 +45,7 @@ import org.jetbrains.annotations.NotNull;
 import java.text.ParseException;
 import java.util.Date;
 
+import de.chaosdorf.meteroid.databinding.ActivityUserSettingsBinding;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOCallback;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIORequest;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOTask;
@@ -53,29 +55,19 @@ import de.chaosdorf.meteroid.MeteroidNetworkActivity;
 
 public class UserSettings extends MeteroidNetworkActivity
 {
-	private TextView usernameText;
-	private TextView emailText;
-	private TextView balanceText;
-	private CheckBox activeCheck;
-	private CheckBox auditCheck;
-	private CheckBox redirectCheck;
+	private User user;
+	private ActivityUserSettingsBinding binding;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-		setContentView(R.layout.activity_user_settings);
+		binding = DataBindingUtil.setContentView(this, R.layout.activity_user_settings);
+		binding.setUser(user);
+		binding.setDECIMALFORMAT(DECIMAL_FORMAT);
 
-		usernameText = (TextView) findViewById(R.id.username);
-		emailText = (TextView) findViewById(R.id.email);
-		balanceText = (TextView) findViewById(R.id.balance);
-		activeCheck = (CheckBox) findViewById(R.id.active);
-		auditCheck = (CheckBox) findViewById(R.id.audit);
-		redirectCheck = (CheckBox) findViewById(R.id.redirect);
-
-		final ImageButton backButton = (ImageButton) findViewById(R.id.button_back);
-		backButton.setOnClickListener(new View.OnClickListener()
+		binding.buttonBack.setOnClickListener(new View.OnClickListener()
 		{
 			public void onClick(View view)
 			{
@@ -83,8 +75,7 @@ public class UserSettings extends MeteroidNetworkActivity
 			}
 		});
 		
-		final ImageButton deleteButton = (ImageButton) findViewById(R.id.button_delete);
-		deleteButton.setOnClickListener(new View.OnClickListener()
+		binding.buttonDelete.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View view)
@@ -93,8 +84,7 @@ public class UserSettings extends MeteroidNetworkActivity
 			}
 		});
 
-		final ImageButton saveButton = (ImageButton) findViewById(R.id.button_save);
-		saveButton.setOnClickListener(new View.OnClickListener()
+		binding.buttonSave.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View view)
@@ -109,9 +99,9 @@ public class UserSettings extends MeteroidNetworkActivity
 			if(actionBar != null)
 			{
 				actionBar.setDisplayHomeAsUpEnabled(true);
-				backButton.setVisibility(View.GONE);
-				deleteButton.setVisibility(View.GONE);
-				saveButton.setVisibility(View.GONE);
+				binding.buttonBack.setVisibility(View.GONE);
+				binding.buttonDelete.setVisibility(View.GONE);
+				binding.buttonSave.setVisibility(View.GONE);
 			}
 		}
 		
@@ -127,12 +117,8 @@ public class UserSettings extends MeteroidNetworkActivity
 			@Override
 			public void processIOResult(LongRunningIOTask task, User user)
 			{
-				usernameText.setText(user.getName());
-				emailText.setText(user.getEmail());
-				balanceText.setText(DECIMAL_FORMAT.format(user.getBalance()));
-				activeCheck.setChecked(user.getActive());
-				auditCheck.setChecked(user.getAudit());
-				redirectCheck.setChecked(user.getRedirect());
+				userSettings.user = user;
+				binding.setUser(user);
 				makeWritable();
 			}
 		}, LongRunningIOTask.GET_USER, (userID != 0)? api.getUser(userID): api.getUserDefaults());
@@ -176,24 +162,24 @@ public class UserSettings extends MeteroidNetworkActivity
 
 	private void makeReadOnly()
 	{
-		usernameText.setEnabled(false);
-		emailText.setEnabled(false);
-		balanceText.setEnabled(false);
-		activeCheck.setEnabled(false);
-		auditCheck.setEnabled(false);
-		redirectCheck.setEnabled(false);
+		binding.username.setEnabled(false);
+		binding.email.setEnabled(false);
+		binding.balance.setEnabled(false);
+		binding.active.setEnabled(false);
+		binding.audit.setEnabled(false);
+		binding.redirect.setEnabled(false);
 		setProgressBarIndeterminateVisibility(true);
 	}
 
 	private void makeWritable()
 	{
 		setProgressBarIndeterminateVisibility(false);
-		usernameText.setEnabled(true);
-		emailText.setEnabled(true);
-		balanceText.setEnabled(true);
-		activeCheck.setEnabled(true);
-		auditCheck.setEnabled(true);
-		redirectCheck.setEnabled(true);
+		binding.username.setEnabled(true);
+		binding.email.setEnabled(true);
+		binding.balance.setEnabled(true);
+		binding.active.setEnabled(true);
+		binding.audit.setEnabled(true);
+		binding.redirect.setEnabled(true);
 	}
 
 	private void goBack()
@@ -258,7 +244,7 @@ public class UserSettings extends MeteroidNetworkActivity
 	{
 		makeReadOnly();
 
-		final CharSequence username = usernameText.getText();
+		final CharSequence username = binding.username.getText();
 		if (username == null || username.length() == 0)
 		{
 			Utility.displayToastMessage(this, getResources().getString(R.string.user_settings_empty_username));
@@ -266,16 +252,9 @@ public class UserSettings extends MeteroidNetworkActivity
 			return;
 		}
 
-		final CharSequence email = emailText.getText();
-		String emailValue = "";
-		if (email != null && email.length() > 0)
-		{
-			emailValue = email.toString();
-		}
-
 		double balanceValue = 0;
-		final CharSequence balance = balanceText.getText();
-		if (balance != null && balance.length() > 0)
+		final CharSequence balance = binding.balance.getText();
+		if (balance != null)
 		{
 			try
 			{
@@ -289,18 +268,7 @@ public class UserSettings extends MeteroidNetworkActivity
 			}
 		}
 		
-		boolean activeValue = activeCheck.isChecked();
-		boolean auditValue = auditCheck.isChecked();
-		boolean redirectValue = redirectCheck.isChecked();
-
-		final User user = new User(userID,
-				username.toString(),
-				emailValue,
-				balanceValue,
-				activeValue,
-				auditValue,
-				redirectValue
-		);
+		user.setBalance(balanceValue);
 
 		final UserSettings userSettings = this;
 		if(userID == 0) //new user

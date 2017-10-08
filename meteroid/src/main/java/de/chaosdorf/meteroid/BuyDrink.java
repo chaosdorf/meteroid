@@ -27,6 +27,7 @@ package de.chaosdorf.meteroid;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Build;
@@ -39,11 +40,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.melnykov.fab.FloatingActionButton;
@@ -59,6 +56,7 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import de.chaosdorf.meteroid.controller.MoneyController;
+import de.chaosdorf.meteroid.databinding.ActivityBuyDrinkBinding;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOCallback;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIORequest;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOTask;
@@ -74,12 +72,8 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 	private final AtomicBoolean isBuying = new AtomicBoolean(true);
 	private final AtomicReference<BuyableItem> buyingItem = new AtomicReference<BuyableItem>(null);
 
-	private ProgressBar progressBar = null;
-	private GridView gridView = null;
-	private ListView listView = null;
-	private FloatingActionButton fab = null;
-
 	private User user;
+	private ActivityBuyDrinkBinding binding;
 
 	private boolean useGridView;
 	private boolean multiUserMode;
@@ -91,19 +85,16 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 	{
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-		setContentView(R.layout.activity_buy_drink);
+		binding = DataBindingUtil.setContentView(this, R.layout.activity_buy_drink);
+		binding.setUser(user);
+		binding.setDECIMALFORMAT(DECIMAL_FORMAT);
 
 		barcodeIntegrator = new IntentIntegrator(this);
-
-		progressBar = (ProgressBar) findViewById(R.id.progress_bar);
-		gridView = (GridView) findViewById(R.id.grid_view);
-		listView = (ListView) findViewById(R.id.list_view);
 
 		useGridView = prefs.getBoolean("use_grid_view", false);
 		multiUserMode = prefs.getBoolean("multi_user_mode", false);
 
-		final ImageButton backButton = (ImageButton) findViewById(R.id.button_back);
-		backButton.setOnClickListener(new View.OnClickListener()
+		binding.buttonBack.setOnClickListener(new View.OnClickListener()
 		{
 			public void onClick(View view)
 			{
@@ -112,8 +103,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 			}
 		});
 
-		final ImageButton reloadButton = (ImageButton) findViewById(R.id.button_reload);
-		reloadButton.setOnClickListener(new View.OnClickListener()
+		binding.buttonReload.setOnClickListener(new View.OnClickListener()
 		{
 			public void onClick(View view)
 			{
@@ -121,8 +111,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 			}
 		});
 
-		final ImageButton editButton = (ImageButton) findViewById(R.id.button_edit);
-		editButton.setOnClickListener(new View.OnClickListener()
+		binding.buttonEdit.setOnClickListener(new View.OnClickListener()
 		{
 			public void onClick(View view)
 			{
@@ -130,8 +119,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 			}
 		});
 		
-		final ImageButton barcodeButton = (ImageButton) findViewById(R.id.button_barcode);
-		barcodeButton.setOnClickListener(new View.OnClickListener()
+		binding.buttonBarcode.setOnClickListener(new View.OnClickListener()
 		{
 			public void onClick(View view)
 			{
@@ -143,24 +131,23 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		{
 			ActionBar actionBar = getActionBar();
 			actionBar.setDisplayHomeAsUpEnabled(true);
-			reloadButton.setVisibility(View.GONE);
-			backButton.setVisibility(View.GONE);
-			editButton.setVisibility(View.GONE);
-			barcodeButton.setVisibility(View.GONE);
+			binding.buttonReload.setVisibility(View.GONE);
+			binding.buttonBack.setVisibility(View.GONE);
+			binding.buttonEdit.setVisibility(View.GONE);
+			binding.buttonBarcode.setVisibility(View.GONE);
 		}
 		
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 		{
-			fab = (FloatingActionButton) findViewById(R.id.fab);
-			fab.hide(false);
-			fab.setOnClickListener(new View.OnClickListener()
+			binding.fab.hide(false);
+			binding.fab.setOnClickListener(new View.OnClickListener()
 			{
 				public void onClick(View view)
 				{
 					barcodeIntegrator.initiateScan();
 				}
 			});
-			fab.setVisibility(View.VISIBLE);
+			binding.fab.setVisibility(View.VISIBLE);
 		}
 		
 		reload();
@@ -168,9 +155,9 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 	
 	public void reload()
 	{
-		gridView.setVisibility(View.GONE);
-		listView.setVisibility(View.GONE);
-		progressBar.setVisibility(View.VISIBLE);
+		binding.gridView.setVisibility(View.GONE);
+		binding.listView.setVisibility(View.GONE);
+		binding.progressBar.setVisibility(View.VISIBLE);
 		new LongRunningIORequest<User>(this, LongRunningIOTask.GET_USER, api.getUser(userID));
 		new LongRunningIORequest<List<Drink>>(this, LongRunningIOTask.GET_DRINKS, api.listDrinks());
 	}
@@ -240,13 +227,13 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 	public void onDestroy()
 	{
 		buyingItem.set(null);
-		if (gridView != null)
+		if (binding.gridView != null)
 		{
-			gridView.setAdapter(null);
+			binding.gridView.setAdapter(null);
 		}
-		if (listView != null)
+		if (binding.listView != null)
 		{
-			listView.setAdapter(null);
+			binding.listView.setAdapter(null);
 		}
 		super.onDestroy();
 	}
@@ -263,11 +250,10 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		{
 			Utility.displayToastMessage(this, message);
 		}
-		final TextView textView = (TextView) findViewById(R.id.buy_drink_error);
-		textView.setVisibility(View.VISIBLE);
-		gridView.setVisibility(View.GONE);
-		listView.setVisibility(View.GONE);
-		progressBar.setVisibility(View.GONE);
+		binding.buyDrinkError.setVisibility(View.VISIBLE);
+		binding.gridView.setVisibility(View.GONE);
+		binding.listView.setVisibility(View.GONE);
+		binding.progressBar.setVisibility(View.GONE);
 	}
 
 	@Override
@@ -280,14 +266,12 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 			case UPDATE_USER:
 			{
 				user = (User)result;
+				binding.setUser(user);
+				((BuyDrink)activity).user = user;
 				if (task == LongRunningIOTask.GET_USER)
 				{
-					final TextView label = (TextView) findViewById(R.id.username);
-					final ImageView icon = (ImageView) findViewById(R.id.icon);
-					label.setText(user.getName());
-					Utility.loadUserImage(this, icon, user);
+					Utility.loadUserImage(this, binding.icon, user);
 				}
-				updateBalance(user.getBalance());
 				isBuying.set(false);
 				setProgressBarIndeterminateVisibility(false);
 				break;
@@ -303,21 +287,21 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 				final BuyableItemAdapter buyableItemAdapter = new BuyableItemAdapter(buyableItemList);
 				if (useGridView)
 				{
-					gridView.setAdapter(buyableItemAdapter);
-					gridView.setOnItemClickListener(this);
-					gridView.setVisibility(View.VISIBLE);
+					binding.gridView.setAdapter(buyableItemAdapter);
+					binding.gridView.setOnItemClickListener(this);
+					binding.gridView.setVisibility(View.VISIBLE);
 				}
 				else
 				{
-					listView.setAdapter(buyableItemAdapter);
-					listView.setOnItemClickListener(this);
-					listView.setVisibility(View.VISIBLE);
+					binding.listView.setAdapter(buyableItemAdapter);
+					binding.listView.setOnItemClickListener(this);
+					binding.listView.setVisibility(View.VISIBLE);
 				}
-				progressBar.setVisibility(View.GONE);
-				if(fab != null)
+				binding.progressBar.setVisibility(View.GONE);
+				if(binding.fab != null)
 				{
-					fab.attachToListView(useGridView? gridView : listView);
-					fab.show();
+					binding.fab.attachToListView(useGridView? binding.gridView : binding.listView);
+					binding.fab.show();
 				}
 				break;
 			}
@@ -339,7 +323,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 					// Adjust the displayed balance to give an immediate user feedback
 					if (user != null)
 					{
-						updateBalance(user.getBalance() - buyableItem.getPrice());
+						user.setBalance(user.getBalance() - buyableItem.getPrice());
 					}
 					if (multiUserMode)
 					{
@@ -371,7 +355,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 					// Adjust the displayed balance to give an immediate user feedback
 					if (user != null)
 					{
-						updateBalance(user.getBalance() - buyableItem.getPrice());
+						user.setBalance(user.getBalance() - buyableItem.getPrice());
 					}
 				}
 				new LongRunningIORequest<User>(this, LongRunningIOTask.UPDATE_USER, api.getUser(userID));
@@ -390,7 +374,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		}
 		if (isBuying.compareAndSet(false, true))
 		{
-			final BuyableItem buyableItem = (BuyableItem) (useGridView ? gridView.getItemAtPosition(index) : listView.getAdapter().getItem(index));
+			final BuyableItem buyableItem = (BuyableItem) (useGridView ? binding.gridView.getItemAtPosition(index) : binding.listView.getAdapter().getItem(index));
 			if (buyableItem != null)
 			{
 				buyingItem.set(buyableItem);
@@ -474,13 +458,6 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 				new LongRunningIORequest<Void>(this, LongRunningIOTask.BUY_DRINK, api.buy_barcode(userID, scanResult.getContents()));
 			}
 		}
-	}
-	
-	private void updateBalance(double amount)
-	{
-		final TextView balance = (TextView) findViewById(R.id.balance);
-		balance.setText(DECIMAL_FORMAT.format(amount));
-		balance.setTextColor(amount >= 0 ? Color.LTGRAY : Color.RED);
 	}
 
 	private class BuyableComparator implements Comparator<BuyableItem>

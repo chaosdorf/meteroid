@@ -24,142 +24,161 @@
   ~ THE SOFTWARE.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:fab="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:paddingLeft="@dimen/activity_horizontal_margin"
-              android:paddingRight="@dimen/activity_horizontal_margin"
-              android:paddingTop="@dimen/activity_vertical_margin"
-              android:paddingBottom="@dimen/activity_vertical_margin"
-              tools:context=".BuyDrink">
+<layout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:fab="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  >
+  
+  <data>
+    <variable
+      name="user"
+      type="de.chaosdorf.meteroid.model.User"
+    />
+    <variable
+      name="DECIMAL_FORMAT"
+      type="java.text.DecimalFormat"
+    />
+    <import type="android.graphics.Color" />
+  </data>
 
-    <ProgressBar
-        android:visibility="visible"
-        android:id="@+id/progress_bar"
-        android:layout_width="76dip"
-        android:layout_height="76dip"
-        android:layout_centerInParent="true"
-        style="@android:style/Widget.ProgressBar.Large"/>
+  <RelativeLayout android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                tools:context=".BuyDrink">
 
-    <LinearLayout
-      android:orientation="vertical"
-      android:layout_width="fill_parent"
-      android:layout_height="fill_parent">
-      
-      <!-- Buttons for old Android versions -->
+      <ProgressBar
+          android:visibility="visible"
+          android:id="@+id/progress_bar"
+          android:layout_width="76dip"
+          android:layout_height="76dip"
+          android:layout_centerInParent="true"
+          style="@android:style/Widget.ProgressBar.Large"/>
+
       <LinearLayout
-          android:orientation="horizontal"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        
+        <!-- Buttons for old Android versions -->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right">
+          
+            <ImageButton
+                android:id="@+id/button_back"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/button_back"
+                android:contentDescription="@string/button_back"/>
+
+            <ImageButton
+                android:id="@+id/button_barcode"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/button_barcode"
+                android:contentDescription="@string/button_barcode"/>
+
+            <ImageButton
+                android:id="@+id/button_reload"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/button_reload"
+                android:contentDescription="@string/button_reload"/>
+
+            <ImageButton
+                android:id="@+id/button_edit"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@android:drawable/ic_menu_edit"
+                android:contentDescription="@string/buy_drink_edit_user"/>
+            
+        </LinearLayout>
+
+        <!-- Display user data -->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="75dip"
+                android:layout_height="75dip"
+                android:contentDescription="@string/app_name"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/username"
+                    android:text="@{user.name}"
+                    android:layout_width="200dp"
+                    android:paddingLeft="9dip"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:id="@+id/balance"
+                    android:text="@{DECIMAL_FORMAT.format(user.balance)}"
+                    android:textColor="@{user.balance >= 0 ? Color.LTGRAY : Color.RED}"
+                    android:layout_width="200dp"
+                    android:paddingLeft="9dip"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/buy_drink_error"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:textSize="16sp"
+            android:visibility="gone"
+            android:text="@string/buy_drink_error"/>
+
+        <!-- Display drinks -->
+        <GridView
+            android:id="@+id/grid_view"
+            android:visibility="gone"
+            android:paddingTop="15dp"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:columnWidth="100dp"
+            android:numColumns="auto_fit"
+            android:verticalSpacing="15dp"
+            android:horizontalSpacing="5dp"
+            android:stretchMode="columnWidth"
+            android:gravity="center"/>
+
+        <ListView
+            android:id="@+id/list_view"
+            android:visibility="gone"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:drawSelectorOnTop="false"/>
+      </LinearLayout>
+      
+      <com.melnykov.fab.FloatingActionButton
+          android:visibility="gone"
+          android:id="@+id/fab"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:layout_gravity="right">
-        
-          <ImageButton
-              android:id="@+id/button_back"
-              android:layout_width="50dp"
-              android:layout_height="50dp"
-              android:src="@drawable/button_back"
-              android:contentDescription="@string/button_back"/>
-
-          <ImageButton
-              android:id="@+id/button_barcode"
-              android:layout_width="50dp"
-              android:layout_height="50dp"
-              android:src="@drawable/button_barcode"
-              android:contentDescription="@string/button_barcode"/>
-
-          <ImageButton
-              android:id="@+id/button_reload"
-              android:layout_width="50dp"
-              android:layout_height="50dp"
-              android:src="@drawable/button_reload"
-              android:contentDescription="@string/button_reload"/>
-
-          <ImageButton
-              android:id="@+id/button_edit"
-              android:layout_width="50dp"
-              android:layout_height="50dp"
-              android:src="@android:drawable/ic_menu_edit"
-              android:contentDescription="@string/buy_drink_edit_user"/>
-          
-      </LinearLayout>
-
-      <!-- Display user data -->
-      <LinearLayout
-          android:orientation="horizontal"
-          android:layout_width="fill_parent"
-          android:layout_height="wrap_content">
-
-          <ImageView
-              android:id="@+id/icon"
-              android:layout_width="75dip"
-              android:layout_height="75dip"
-              android:contentDescription="@string/app_name"/>
-
-          <LinearLayout
-              android:orientation="vertical"
-              android:layout_width="0dp"
-              android:layout_height="fill_parent"
-              android:layout_weight="1">
-
-              <TextView
-                  android:id="@+id/username"
-                  android:layout_width="200dp"
-                  android:paddingLeft="9dip"
-                  android:layout_height="wrap_content"
-                  android:textSize="16sp"/>
-
-              <TextView
-                  android:id="@+id/balance"
-                  android:layout_width="200dp"
-                  android:paddingLeft="9dip"
-                  android:layout_height="wrap_content"
-                  android:textSize="16sp"/>
-
-          </LinearLayout>
-
-      </LinearLayout>
-
-      <TextView
-          android:id="@+id/buy_drink_error"
-          android:layout_width="fill_parent"
-          android:layout_height="fill_parent"
-          android:textSize="16sp"
-          android:visibility="gone"
-          android:text="@string/buy_drink_error"/>
-
-      <!-- Display drinks -->
-      <GridView
-          android:id="@+id/grid_view"
-          android:visibility="gone"
-          android:paddingTop="15dp"
-          android:layout_width="fill_parent"
-          android:layout_height="fill_parent"
-          android:columnWidth="100dp"
-          android:numColumns="auto_fit"
-          android:verticalSpacing="15dp"
-          android:horizontalSpacing="5dp"
-          android:stretchMode="columnWidth"
-          android:gravity="center"/>
-
-      <ListView
-          android:id="@+id/list_view"
-          android:visibility="gone"
-          android:layout_width="fill_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginTop="@dimen/activity_vertical_margin"
-          android:drawSelectorOnTop="false"/>
-    </LinearLayout>
-    
-    <com.melnykov.fab.FloatingActionButton
-        android:visibility="gone"
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="16dip"
-        android:src="@drawable/button_barcode" />
-    
-</RelativeLayout>
+          android:layout_alignParentBottom="true"
+          android:layout_alignParentRight="true"
+          android:layout_margin="16dip"
+          android:src="@drawable/button_barcode" />
+      
+  </RelativeLayout>
+</layout>

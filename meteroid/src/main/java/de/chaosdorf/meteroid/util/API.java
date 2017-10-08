@@ -72,28 +72,16 @@ public interface API
 	Call<User> getUserDefaults();
 	
 	// creates a new user
-	@FormUrlEncoded
 	@POST("users.json")
 	Call<User> createUser(
-		@Field("user[name]") String name,
-		@Field("user[email]") String email,
-		@Field("user[balance]") Double balance,
-		@Field("user[active]") Boolean active,
-		@Field("user[audit]") Boolean audit,
-		@Field("user[redirect]") Boolean redirect
+		@Body User user
 	);
 	
 	// modifys an existing user
-	@FormUrlEncoded
 	@PATCH("users/{uid}.json")
 	Call<Void> editUser(
 		@Path("uid") int uid,
-		@Field("user[name]") String name,
-		@Field("user[email]") String email,
-		@Field("user[balance]") Double balance,
-		@Field("user[active]") Boolean active,
-		@Field("user[audit]") Boolean audit,
-		@Field("user[redirect]") Boolean redirect
+		@Body User user
 	);
 	
 	// deletes an existing user

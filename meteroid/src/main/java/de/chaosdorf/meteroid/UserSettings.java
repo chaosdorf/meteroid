@@ -319,7 +319,7 @@ public class UserSettings extends MeteroidNetworkActivity
 					}
 				},
 				LongRunningIOTask.ADD_USER,
-				api.createUser(user.getName(), user.getEmail(), user.getBalance(), user.getActive(), user.getAudit(), user.getRedirect())
+				api.createUser(user)
 			);
 		}
 		else
@@ -338,7 +338,7 @@ public class UserSettings extends MeteroidNetworkActivity
 					}
 				},
 				LongRunningIOTask.EDIT_USER,
-				api.editUser(user.getId(), user.getName(), user.getEmail(), user.getBalance(), user.getActive(), user.getAudit(), user.getRedirect())
+				api.editUser(user.getId(), user)
 			);
 		}
 	}

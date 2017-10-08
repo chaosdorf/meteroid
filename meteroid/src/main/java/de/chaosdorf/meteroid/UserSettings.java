@@ -162,24 +162,14 @@ public class UserSettings extends MeteroidNetworkActivity
 
 	private void makeReadOnly()
 	{
-		binding.username.setEnabled(false);
-		binding.email.setEnabled(false);
-		binding.balance.setEnabled(false);
-		binding.active.setEnabled(false);
-		binding.audit.setEnabled(false);
-		binding.redirect.setEnabled(false);
+		binding.setWritable(false);
 		setProgressBarIndeterminateVisibility(true);
 	}
 
 	private void makeWritable()
 	{
 		setProgressBarIndeterminateVisibility(false);
-		binding.username.setEnabled(true);
-		binding.email.setEnabled(true);
-		binding.balance.setEnabled(true);
-		binding.active.setEnabled(true);
-		binding.audit.setEnabled(true);
-		binding.redirect.setEnabled(true);
+		binding.setWritable(true);
 	}
 
 	private void goBack()

@@ -39,6 +39,10 @@
       name="DECIMAL_FORMAT"
       type="java.text.DecimalFormat"
     />
+    <variable
+      name="writable"
+      type="boolean"
+    />
   </data>
   
   <LinearLayout android:layout_width="fill_parent"
@@ -57,6 +61,7 @@
           android:layout_width="fill_parent"
           android:inputType="text"
           android:text="@={user.name}"
+          android:enabled="@{writable}"
           />
 
       <EditText
@@ -66,6 +71,7 @@
           android:layout_width="fill_parent"
           android:inputType="textEmailAddress"
           android:text="@={user.email}"
+          android:enabled="@{writable}"
           />
 
       <EditText
@@ -75,6 +81,7 @@
           android:layout_width="fill_parent"
           android:inputType="numberDecimal"
           android:text="@{DECIMAL_FORMAT.format(user.balance)}"
+          android:enabled="@{writable}"
           />
           
       <CheckBox
@@ -83,6 +90,7 @@
           android:layout_height="wrap_content"
           android:layout_width="fill_parent"
           android:checked="@={user.active}"
+          android:enabled="@{writable}"
           />
           
       <CheckBox
@@ -91,6 +99,7 @@
           android:layout_height="wrap_content"
           android:layout_width="fill_parent"
           android:checked="@={user.audit}"
+          android:enabled="@{writable}"
           />
           
       <CheckBox
@@ -99,6 +108,7 @@
           android:layout_height="wrap_content"
           android:layout_width="fill_parent"
           android:checked="@={user.redirect}"
+          android:enabled="@{writable}"
           />
 
       <LinearLayout
@@ -114,6 +124,7 @@
               android:layout_height="wrap_content"
               android:layout_gravity="right"
               android:src="@drawable/button_back"
+              android:enabled="@{writable}"
               android:contentDescription="@string/button_back"/>
           
           <ImageButton
@@ -121,6 +132,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_delete"
+            android:enabled="@{writable}"
             android:contentDescription="@string/button_delete"/>
 
           <ImageButton
@@ -128,6 +140,7 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:src="@android:drawable/ic_menu_save"
+              android:enabled="@{writable}"
               android:contentDescription="@string/button_save"/>
 
       </LinearLayout>

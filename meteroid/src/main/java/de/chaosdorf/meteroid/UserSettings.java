@@ -57,6 +57,8 @@ public class UserSettings extends MeteroidNetworkActivity
 	private TextView emailText;
 	private TextView balanceText;
 	private CheckBox activeCheck;
+	private CheckBox auditCheck;
+	private CheckBox redirectCheck;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState)
@@ -69,6 +71,8 @@ public class UserSettings extends MeteroidNetworkActivity
 		emailText = (TextView) findViewById(R.id.email);
 		balanceText = (TextView) findViewById(R.id.balance);
 		activeCheck = (CheckBox) findViewById(R.id.active);
+		auditCheck = (CheckBox) findViewById(R.id.audit);
+		redirectCheck = (CheckBox) findViewById(R.id.redirect);
 
 		final ImageButton backButton = (ImageButton) findViewById(R.id.button_back);
 		backButton.setOnClickListener(new View.OnClickListener()
@@ -127,6 +131,8 @@ public class UserSettings extends MeteroidNetworkActivity
 				emailText.setText(user.getEmail());
 				balanceText.setText(DECIMAL_FORMAT.format(user.getBalance()));
 				activeCheck.setChecked(user.getActive());
+				auditCheck.setChecked(user.getAudit());
+				redirectCheck.setChecked(user.getRedirect());
 				makeWritable();
 			}
 		}, LongRunningIOTask.GET_USER, (userID != 0)? api.getUser(userID): api.getUserDefaults());
@@ -173,6 +179,9 @@ public class UserSettings extends MeteroidNetworkActivity
 		usernameText.setEnabled(false);
 		emailText.setEnabled(false);
 		balanceText.setEnabled(false);
+		activeCheck.setEnabled(false);
+		auditCheck.setEnabled(false);
+		redirectCheck.setEnabled(false);
 		setProgressBarIndeterminateVisibility(true);
 	}
 
@@ -182,6 +191,9 @@ public class UserSettings extends MeteroidNetworkActivity
 		usernameText.setEnabled(true);
 		emailText.setEnabled(true);
 		balanceText.setEnabled(true);
+		activeCheck.setEnabled(true);
+		auditCheck.setEnabled(true);
+		redirectCheck.setEnabled(true);
 	}
 
 	private void goBack()
@@ -278,12 +290,16 @@ public class UserSettings extends MeteroidNetworkActivity
 		}
 		
 		boolean activeValue = activeCheck.isChecked();
+		boolean auditValue = auditCheck.isChecked();
+		boolean redirectValue = redirectCheck.isChecked();
 
 		final User user = new User(userID,
 				username.toString(),
 				emailValue,
 				balanceValue,
-				activeValue
+				activeValue,
+				auditValue,
+				redirectValue
 		);
 
 		final UserSettings userSettings = this;
@@ -303,7 +319,7 @@ public class UserSettings extends MeteroidNetworkActivity
 					}
 				},
 				LongRunningIOTask.ADD_USER,
-				api.createUser(user.getName(), user.getEmail(), user.getBalance(), activeValue)
+				api.createUser(user.getName(), user.getEmail(), user.getBalance(), user.getActive(), user.getAudit(), user.getRedirect())
 			);
 		}
 		else
@@ -322,7 +338,7 @@ public class UserSettings extends MeteroidNetworkActivity
 					}
 				},
 				LongRunningIOTask.EDIT_USER,
-				api.editUser(user.getId(), user.getName(), user.getEmail(), user.getBalance(), activeValue)
+				api.editUser(user.getId(), user.getName(), user.getEmail(), user.getBalance(), user.getActive(), user.getAudit(), user.getRedirect())
 			);
 		}
 	}

@@ -47,6 +47,8 @@
     <string name="user_settings_email">Email</string>
     <string name="user_settings_balance">Guthaben</string>
     <string name="user_settings_active">Aktiv?</string>
+    <string name="user_settings_audit">Transaktionen loggen?</string>
+    <string name="user_settings_redirect">Umleiten nach einer Transaktion?</string>
     <string name="user_settings_empty_username">Bitte Benutzername eingeben</string>
     <string name="user_settings_balance_no_double">Bitte Guthaben als Zahl eingeben</string>
     <string name="user_settings_cant_delete_non_existing_user">Kann keinen noch nicht erstellten Benutzer löschen.</string>

@@ -31,14 +31,18 @@ public class User
 	private final String email;
 	private final double balance;
 	private final boolean active;
+	private final boolean audit;
+	private final boolean redirect;
 
-	public User(final int id, final String name, final String email, final double balance, final boolean active)
+	public User(final int id, final String name, final String email, final double balance, final boolean active, final boolean audit, final boolean redirect)
 	{
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.balance = balance;
 		this.active = active;
+		this.audit = audit;
+		this.redirect = redirect;
 	}
 
 	public int getId()
@@ -64,5 +68,15 @@ public class User
 	public boolean getActive()
 	{
 		return active;
+	}
+	
+	public boolean getAudit()
+	{
+		return audit;
+	}
+	
+	public boolean getRedirect()
+	{
+		return redirect;
 	}
 }

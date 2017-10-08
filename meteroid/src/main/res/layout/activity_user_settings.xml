@@ -61,6 +61,18 @@
         android:text="@string/user_settings_active"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"/>
+        
+    <CheckBox
+        android:id="@+id/audit"
+        android:text="@string/user_settings_audit"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"/>
+        
+    <CheckBox
+        android:id="@+id/redirect"
+        android:text="@string/user_settings_redirect"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"/>
 
     <LinearLayout
         android:layout_height="wrap_content"

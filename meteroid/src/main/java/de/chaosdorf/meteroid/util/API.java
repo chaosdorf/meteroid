@@ -78,7 +78,9 @@ public interface API
 		@Field("user[name]") String name,
 		@Field("user[email]") String email,
 		@Field("user[balance]") Double balance,
-		@Field("user[active]") Boolean active
+		@Field("user[active]") Boolean active,
+		@Field("user[audit]") Boolean audit,
+		@Field("user[redirect]") Boolean redirect
 	);
 	
 	// modifys an existing user
@@ -89,7 +91,9 @@ public interface API
 		@Field("user[name]") String name,
 		@Field("user[email]") String email,
 		@Field("user[balance]") Double balance,
-		@Field("user[active]") Boolean active
+		@Field("user[active]") Boolean active,
+		@Field("user[audit]") Boolean audit,
+		@Field("user[redirect]") Boolean redirect
 	);
 	
 	// deletes an existing user

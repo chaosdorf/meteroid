@@ -22,37 +22,36 @@
  * THE SOFTWARE.
  ******************************************************************************/
 
-package de.chaosdorf.meteroid;
+package de.chaosdorf.meteroid.util;
 
 import android.app.Activity;
-import android.os.Bundle;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
-import de.chaosdorf.meteroid.util.Config;
-import de.chaosdorf.meteroid.util.Utility;
-
-public class MainActivity extends Activity
+public class Config
 {
-	@Override
-	protected void onCreate(final Bundle savedInstanceState)
-	{
-		super.onCreate(savedInstanceState);
-
-		final Config config = new Config(this);
-
-		if (config.hostname == null)
-		{
-			// Set hostname if not done yet
-			Utility.startActivity(this, SetHostname.class);
-		}
-		else if (config.userID == 0)
-		{
-			// Pick username if not done yet
-			Utility.startActivity(this, PickUsername.class);
-		}
-		else
-		{
-			// Ready to buy some drinks
-			Utility.startActivity(this, BuyDrink.class);
-		}
-	}
+    private SharedPreferences prefs;
+    public String hostname;
+    public boolean multiUserMode;
+    public boolean useGridView;
+    public int userID;
+    
+    public Config(Activity activity)
+    {
+        prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+        hostname = prefs.getString("hostname", null);
+        multiUserMode = prefs.getBoolean("multi_user_mode", false);
+        useGridView = prefs.getBoolean("use_grid_view", false);
+        userID = prefs.getInt("userid", 0);
+    }
+    
+    public void save()
+    {
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putString("hostname", this.hostname);
+        edit.putBoolean("multi_user_mode", this.multiUserMode);
+        edit.putBoolean("use_grid_view", this.useGridView);
+        edit.putInt("userid", this.userID);
+        edit.apply();
+    }
 }

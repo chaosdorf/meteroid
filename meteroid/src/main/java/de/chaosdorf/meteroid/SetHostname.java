@@ -26,10 +26,8 @@ package de.chaosdorf.meteroid;
 
 import android.app.Activity;
 import android.app.ActionBar;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.Selection;
 import android.view.View;
@@ -39,12 +37,13 @@ import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.EditText;
 
+import de.chaosdorf.meteroid.util.Config;
 import de.chaosdorf.meteroid.util.Utility;
 
 public class SetHostname extends Activity
 {
 	private Activity activity = null;
-	private SharedPreferences prefs;
+	private Config config;
 	private EditText editText;
 	private Button saveButton;
 
@@ -55,15 +54,14 @@ public class SetHostname extends Activity
 		activity = this;
 		setContentView(R.layout.activity_set_hostname);
 
-		prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		final String hostname = prefs.getString("hostname", null);
+		config = new Config(this);
 
 		editText = (EditText) findViewById(R.id.hostname);
 		if (editText != null)
 		{
-			if (hostname != null)
+			if (config.hostname != null)
 			{
-				editText.setText(hostname);
+				editText.setText(config.hostname);
 			}
 			final Editable editTextHostname = editText.getText();
 			if (editTextHostname != null)
@@ -138,7 +136,8 @@ public class SetHostname extends Activity
 			Utility.displayToastMessage(activity, getResources().getString(R.string.set_hostname_invalid));
 			return;
 		}
-		prefs.edit().putString("hostname", newHostname).apply();
+		config.hostname = newHostname;
+		config.save();
 		Utility.startActivity(activity, PickUsername.class);
 	}
 }

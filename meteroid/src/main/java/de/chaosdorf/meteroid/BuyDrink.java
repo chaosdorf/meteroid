@@ -75,9 +75,6 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 	private User user;
 	private ActivityBuyDrinkBinding binding;
 
-	private boolean useGridView;
-	private boolean multiUserMode;
-	
 	private IntentIntegrator barcodeIntegrator;
 
 	@Override
@@ -91,14 +88,12 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 
 		barcodeIntegrator = new IntentIntegrator(this);
 
-		useGridView = prefs.getBoolean("use_grid_view", false);
-		multiUserMode = prefs.getBoolean("multi_user_mode", false);
-
 		binding.buttonBack.setOnClickListener(new View.OnClickListener()
 		{
 			public void onClick(View view)
 			{
-				Utility.resetUsername(activity);
+				config.userID = 0;
+				config.save();
 				Utility.startActivity(activity, PickUsername.class);
 			}
 		});
@@ -158,7 +153,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		binding.gridView.setVisibility(View.GONE);
 		binding.listView.setVisibility(View.GONE);
 		binding.progressBar.setVisibility(View.VISIBLE);
-		new LongRunningIORequest<User>(this, LongRunningIOTask.GET_USER, api.getUser(userID));
+		new LongRunningIORequest<User>(this, LongRunningIOTask.GET_USER, api.getUser(config.userID));
 		new LongRunningIORequest<List<Drink>>(this, LongRunningIOTask.GET_DRINKS, api.listDrinks());
 	}
 
@@ -166,8 +161,8 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 	public boolean onCreateOptionsMenu(final Menu menu)
 	{
 		getMenuInflater().inflate(R.menu.buydrink, menu);
-		MenuUtility.setChecked(menu, R.id.use_grid_view, useGridView);
-		MenuUtility.setChecked(menu, R.id.multi_user_mode, multiUserMode);
+		MenuUtility.setChecked(menu, R.id.use_grid_view, config.useGridView);
+		MenuUtility.setChecked(menu, R.id.multi_user_mode, config.multiUserMode);
 		return true;
 	}
 
@@ -177,7 +172,8 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		switch (item.getItemId())
 		{
 			case android.R.id.home:
-				Utility.resetUsername(this);
+				config.userID = 0;
+				config.save();
 				Utility.startActivity(this, PickUsername.class);
 				break;
 			case R.id.action_reload:
@@ -193,16 +189,17 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 				Utility.startActivity(this, SetHostname.class);
 				break;
 			case R.id.reset_username:
-				Utility.resetUsername(this);
+				config.userID = 0;
+				config.save();
 				Utility.startActivity(this, PickUsername.class);
 				break;
 			case R.id.use_grid_view:
-				useGridView = Utility.toggleUseGridView(this);
-				item.setChecked(useGridView);
+				config.useGridView = Utility.toggleUseGridView(this);
+				item.setChecked(config.useGridView);
 				Utility.startActivity(this, BuyDrink.class);
 				break;
 			case R.id.multi_user_mode:
-				multiUserMode = MenuUtility.onClickMultiUserMode(this, item);
+				config.multiUserMode = MenuUtility.onClickMultiUserMode(this, item);
 				break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -213,9 +210,10 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 	{
 		if (keyCode == KeyEvent.KEYCODE_BACK)
 		{
-			if (multiUserMode)
+			if (config.multiUserMode)
 			{
-				Utility.resetUsername(this);
+				config.userID = 0;
+				config.save();
 				Utility.startActivity(this, MainActivity.class);
 				return true;
 			}
@@ -285,7 +283,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 				Collections.sort(buyableItemList, new BuyableComparator());
 
 				final BuyableItemAdapter buyableItemAdapter = new BuyableItemAdapter(buyableItemList);
-				if (useGridView)
+				if (config.useGridView)
 				{
 					binding.gridView.setAdapter(buyableItemAdapter);
 					binding.gridView.setOnItemClickListener(this);
@@ -300,7 +298,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 				binding.progressBar.setVisibility(View.GONE);
 				if(binding.fab != null)
 				{
-					binding.fab.attachToListView(useGridView? binding.gridView : binding.listView);
+					binding.fab.attachToListView(config.useGridView? binding.gridView : binding.listView);
 					binding.fab.show();
 				}
 				break;
@@ -325,13 +323,13 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 					{
 						user.setBalance(user.getBalance() - buyableItem.getPrice());
 					}
-					if (multiUserMode)
+					if (config.multiUserMode)
 					{
 						Utility.startActivity(this, PickUsername.class);
 						break;
 					}
 				}
-				new LongRunningIORequest<User>(this, LongRunningIOTask.UPDATE_USER, api.getUser(userID));
+				new LongRunningIORequest<User>(this, LongRunningIOTask.UPDATE_USER, api.getUser(config.userID));
 				if(!buyableItem.getActive())
 				{
 					new LongRunningIORequest<List<Drink>>(this, LongRunningIOTask.GET_DRINKS, api.listDrinks());
@@ -358,7 +356,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 						user.setBalance(user.getBalance() - buyableItem.getPrice());
 					}
 				}
-				new LongRunningIORequest<User>(this, LongRunningIOTask.UPDATE_USER, api.getUser(userID));
+				new LongRunningIORequest<User>(this, LongRunningIOTask.UPDATE_USER, api.getUser(config.userID));
 				break;
 			}
 		}
@@ -374,18 +372,18 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		}
 		if (isBuying.compareAndSet(false, true))
 		{
-			final BuyableItem buyableItem = (BuyableItem) (useGridView ? binding.gridView.getItemAtPosition(index) : binding.listView.getAdapter().getItem(index));
+			final BuyableItem buyableItem = (BuyableItem) (config.useGridView ? binding.gridView.getItemAtPosition(index) : binding.listView.getAdapter().getItem(index));
 			if (buyableItem != null)
 			{
 				buyingItem.set(buyableItem);
 				setProgressBarIndeterminateVisibility(true);
 				if(buyableItem.isDrink())
 				{
-					new LongRunningIORequest<Void>(this, LongRunningIOTask.BUY_DRINK, api.buy(userID, ((Drink)buyableItem).getId()));
+					new LongRunningIORequest<Void>(this, LongRunningIOTask.BUY_DRINK, api.buy(config.userID, ((Drink)buyableItem).getId()));
 				}
 				else
 				{
-					new LongRunningIORequest<Void>(this, LongRunningIOTask.ADD_MONEY, api.deposit(userID, -buyableItem.getPrice()));
+					new LongRunningIORequest<Void>(this, LongRunningIOTask.ADD_MONEY, api.deposit(config.userID, -buyableItem.getPrice()));
 				}
 			}
 		}
@@ -408,7 +406,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 			View view = convertView;
 			if (view == null)
 			{
-				view = inflater.inflate(useGridView ? R.layout.activity_buy_drink_item_gridview : R.layout.activity_buy_drink_item, parent, false);
+				view = inflater.inflate(config.useGridView ? R.layout.activity_buy_drink_item_gridview : R.layout.activity_buy_drink_item, parent, false);
 			}
 			if (view == null)
 			{
@@ -418,10 +416,10 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 			final BuyableItem buyableItem = drinkList.get(position);
 
 			final ImageView icon = (ImageView) view.findViewById(R.id.icon);
-			Utility.loadBuyableItemImage(activity, icon, buyableItem, hostname);
+			Utility.loadBuyableItemImage(activity, icon, buyableItem, config.hostname);
 
 			final TextView label = (TextView) view.findViewById(R.id.label);
-			label.setText(createLabel(buyableItem, useGridView));
+			label.setText(createLabel(buyableItem, config.useGridView));
 
 			return view;
 		}
@@ -455,7 +453,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 			if(scanResult.getContents() != null)
 			{
 				System.err.println("Scanned barcode: " + scanResult.toString());
-				new LongRunningIORequest<Void>(this, LongRunningIOTask.BUY_DRINK, api.buy_barcode(userID, scanResult.getContents()));
+				new LongRunningIORequest<Void>(this, LongRunningIOTask.BUY_DRINK, api.buy_barcode(config.userID, scanResult.getContents()));
 			}
 		}
 	}

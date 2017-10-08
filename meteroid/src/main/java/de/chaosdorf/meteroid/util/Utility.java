@@ -58,12 +58,6 @@ public class Utility
 		activity.startActivity(intent);
 	}
 
-	public static void resetUsername(final Activity activity)
-	{
-		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
-		prefs.edit().remove("userid").apply();
-	}
-
 	public static boolean toggleUseGridView(final Activity activity)
 	{
 		return Utility.toogleBooleanSharedPreference(activity, "use_grid_view", false, R.string.menu_use_grid_view_enabled, R.string.menu_use_grid_view_disabled);

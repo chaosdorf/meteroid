@@ -118,7 +118,7 @@ public class UserSettings extends MeteroidNetworkActivity
 				binding.setUser(user);
 				makeWritable();
 			}
-		}, LongRunningIOTask.GET_USER, (userID != 0)? api.getUser(userID): api.getUserDefaults());
+		}, LongRunningIOTask.GET_USER, (config.userID != 0)? api.getUser(config.userID): api.getUserDefaults());
 	}
 
 	@Override
@@ -171,7 +171,7 @@ public class UserSettings extends MeteroidNetworkActivity
 
 	private void goBack()
 	{
-		if(userID == 0) //new user
+		if(config.userID == 0) //new user
 		{
 			Utility.startActivity(this, PickUsername.class);
 		}
@@ -183,7 +183,7 @@ public class UserSettings extends MeteroidNetworkActivity
 	
 	private void deleteUser()
 	{
-		if(userID == 0) //new user
+		if(config.userID == 0) //new user
 		{
 			new AlertDialog.Builder(this)
 				.setMessage(R.string.user_settings_cant_delete_non_existing_user)
@@ -212,14 +212,15 @@ public class UserSettings extends MeteroidNetworkActivity
 								@Override
 								public void processIOResult(LongRunningIOTask task, Void result)
 								{
-									Utility.resetUsername(userSettings);
+									config.userID = 0;
+									config.save();
 									makeWritable();
 									Utility.displayToastMessage(userSettings, getResources().getString(R.string.user_settings_deleted_user));
 									Utility.startActivity(userSettings, PickUsername.class);
 								}
 							},
 							LongRunningIOTask.DELETE_USER,
-							api.deleteUser(userID));
+							api.deleteUser(config.userID));
 					}
 				})
 				.setNegativeButton(android.R.string.cancel, null) // Do nothing on click.
@@ -258,7 +259,7 @@ public class UserSettings extends MeteroidNetworkActivity
 		user.setBalance(balanceValue);
 
 		final UserSettings userSettings = this;
-		if(userID == 0) //new user
+		if(config.userID == 0) //new user
 		{
 			new LongRunningIORequest<User>(new LongRunningIOCallback<User>() {
 					@Override

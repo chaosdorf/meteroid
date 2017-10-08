@@ -45,7 +45,9 @@ public class MenuUtility
 		item.setChecked(multiUserMode);
 		if (multiUserMode)
 		{
-			Utility.resetUsername(activity);
+			Config config = new Config(activity);
+			config.userID = 0;
+			config.save();
 		}
 		return multiUserMode;
 	}

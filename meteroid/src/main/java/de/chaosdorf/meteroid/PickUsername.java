@@ -28,7 +28,6 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -80,7 +79,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 		progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 		gridView = (GridView) findViewById(R.id.grid_view);
 
-		multiUserMode = prefs.getBoolean("multi_user_mode", false);
+		multiUserMode = config.multiUserMode;
 
 		final ImageButton backButton = (ImageButton) findViewById(R.id.button_back);
 		backButton.setOnClickListener(new View.OnClickListener()
@@ -256,7 +255,8 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 			}
 			else
 			{
-				prefs.edit().putInt("userid", user.getId()).apply();
+				config.userID = user.getId();
+				config.save();
 				Utility.startActivity(this, BuyDrink.class);
 			}
 		}

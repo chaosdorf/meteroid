@@ -25,9 +25,7 @@
 package de.chaosdorf.meteroid;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 
 import java.text.DecimalFormat;
 
@@ -35,6 +33,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import de.chaosdorf.meteroid.util.API;
+import de.chaosdorf.meteroid.util.Config;
 import de.chaosdorf.meteroid.util.Utility;
 
 
@@ -44,19 +43,15 @@ public abstract class MeteroidNetworkActivity extends Activity
 	
 	protected Activity activity;
 	protected API api;
-	protected String hostname;
-	protected int userID;
-	protected SharedPreferences prefs;
+	protected Config config;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		activity = this;
-		prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		hostname = prefs.getString("hostname", null);
-		userID = prefs.getInt("userid", 0);
-		api = initializeRetrofit(hostname);
+		config = new Config(this);
+		api = initializeRetrofit(config.hostname);
 	}
 	
 	private API initializeRetrofit(String url)

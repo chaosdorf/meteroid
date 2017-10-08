@@ -30,11 +30,13 @@ import android.preference.PreferenceManager;
 
 public class Config
 {
+    public static final int NO_USER_ID = 0;
+    
     private SharedPreferences prefs;
     public String hostname = null;
     public boolean multiUserMode = false;
     public boolean useGridView = false;
-    public int userID = 0;
+    public int userID = NO_USER_ID;
     
     public Config(Activity activity)
     {

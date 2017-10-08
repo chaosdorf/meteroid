@@ -46,7 +46,7 @@ public class MenuUtility
 		if (multiUserMode)
 		{
 			Config config = new Config(activity);
-			config.userID = 0;
+			config.userID = config.NO_USER_ID;
 			config.save();
 		}
 		return multiUserMode;

@@ -92,7 +92,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		{
 			public void onClick(View view)
 			{
-				config.userID = 0;
+				config.userID = config.NO_USER_ID;
 				config.save();
 				Utility.startActivity(activity, PickUsername.class);
 			}
@@ -172,7 +172,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		switch (item.getItemId())
 		{
 			case android.R.id.home:
-				config.userID = 0;
+				config.userID = config.NO_USER_ID;
 				config.save();
 				Utility.startActivity(this, PickUsername.class);
 				break;
@@ -189,7 +189,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 				Utility.startActivity(this, SetHostname.class);
 				break;
 			case R.id.reset_username:
-				config.userID = 0;
+				config.userID = config.NO_USER_ID;
 				config.save();
 				Utility.startActivity(this, PickUsername.class);
 				break;
@@ -212,7 +212,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		{
 			if (config.multiUserMode)
 			{
-				config.userID = 0;
+				config.userID = config.NO_USER_ID;
 				config.save();
 				Utility.startActivity(this, MainActivity.class);
 				return true;

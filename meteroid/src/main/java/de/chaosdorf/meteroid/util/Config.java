@@ -27,10 +27,12 @@ package de.chaosdorf.meteroid.util;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 public class Config
 {
     public static final int NO_USER_ID = 0;
+    private static final String TAG = "Config";
     
     private SharedPreferences prefs;
     public String hostname = null;
@@ -49,6 +51,7 @@ public class Config
     
     public void save()
     {
+        Log.d(TAG, "Saving config.");
         SharedPreferences.Editor edit = prefs.edit();
         edit.putString("hostname", this.hostname);
         edit.putBoolean("multi_user_mode", this.multiUserMode);

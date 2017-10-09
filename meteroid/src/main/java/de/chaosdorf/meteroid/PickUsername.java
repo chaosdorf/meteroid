@@ -61,8 +61,6 @@ import de.chaosdorf.meteroid.MeteroidNetworkActivity;
 
 public class PickUsername extends MeteroidNetworkActivity implements AdapterView.OnItemClickListener, LongRunningIOCallback<List<User>>
 {
-	private static final int NEW_USER_ID = -1;
-
 	private boolean editHostnameOnBackButton = false;
 	private ActivityPickUsernameBinding binding;
 
@@ -213,7 +211,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 			final List<User> itemList = result;
 			if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB)
 			{
-				itemList.add(new User(NEW_USER_ID, getResources().getString(R.string.pick_username_new_user), "", 0, true, false, true));
+				itemList.add(new User(config.NO_USER_ID, getResources().getString(R.string.pick_username_new_user), "", 0, true, false, true));
 			}
 			final UserAdapter userAdapter = new UserAdapter(itemList);
 
@@ -234,7 +232,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 		final User user = (User) binding.gridView.getItemAtPosition(index);
 		if (user != null && user.getName() != null)
 		{
-			if (user.getId() == NEW_USER_ID)
+			if (user.getId() == config.NO_USER_ID)
 			{
 				Utility.startActivity(this, UserSettings.class);
 			}
@@ -279,7 +277,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 			icon.setContentDescription(user.getName());
 			label.setText(user.getName());
 
-			if (user.getId() == NEW_USER_ID)
+			if (user.getId() == config.NO_USER_ID)
 			{
 				if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 				{

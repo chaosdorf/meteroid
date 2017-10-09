@@ -47,6 +47,18 @@ import de.chaosdorf.meteroid.model.User;
 
 public class Utility
 {
+	public static String guessApiVersion(final String hostname)
+	{
+		if(hostname.contains("api/v1"))
+		{
+			return "v1";
+		}
+		else
+		{
+			return "legacy";
+		}
+	}
+	
 	public static void displayToastMessage(final Activity activity, final String message)
 	{
 		Toast.makeText(activity, message, Toast.LENGTH_LONG).show();

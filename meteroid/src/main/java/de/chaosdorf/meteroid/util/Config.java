@@ -36,6 +36,7 @@ public class Config
     
     private SharedPreferences prefs;
     public String hostname = null;
+    public String apiVersion = null;
     public boolean multiUserMode = false;
     public boolean useGridView = false;
     public int userID = NO_USER_ID;
@@ -45,6 +46,7 @@ public class Config
     {
         prefs = PreferenceManager.getDefaultSharedPreferences(activity);
         hostname = prefs.getString("hostname", hostname);
+        apiVersion = prefs.getString("api_version", apiVersion);
         multiUserMode = prefs.getBoolean("multi_user_mode", multiUserMode);
         useGridView = prefs.getBoolean("use_grid_view", useGridView);
         userID = prefs.getInt("userid", userID);
@@ -57,6 +59,7 @@ public class Config
         Log.d(TAG, "Saving config.");
         SharedPreferences.Editor edit = prefs.edit();
         edit.putString("hostname", this.hostname);
+        edit.putString("api_version", this.apiVersion);
         edit.putBoolean("multi_user_mode", this.multiUserMode);
         edit.putBoolean("use_grid_view", this.useGridView);
         edit.putInt("userid", this.userID);
@@ -81,6 +84,18 @@ public class Config
             }
             version = 2;
             save();
+        }
+        if(version == 2)
+        {
+            Log.d(TAG, "Migrating config from v2 to v3: Guessing apiVersion, if none was set.");
+            if(hostname != null)
+            {
+                if(apiVersion == null)
+                {
+                    apiVersion = Utility.guessApiVersion(hostname);
+                    save();
+                }
+            }
         }
     }
 }

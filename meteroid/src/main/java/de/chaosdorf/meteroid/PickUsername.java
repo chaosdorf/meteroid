@@ -25,6 +25,7 @@
 package de.chaosdorf.meteroid;
 
 import android.app.ActionBar;
+import android.databinding.DataBindingUtil;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Build;
@@ -36,11 +37,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -52,6 +50,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Date;
 import java.util.List;
 
+import de.chaosdorf.meteroid.databinding.ActivityPickUsernameBinding;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOCallback;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIORequest;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOTask;
@@ -64,25 +63,19 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 {
 	private static final int NEW_USER_ID = -1;
 
-	private ProgressBar progressBar = null;
-	private GridView gridView = null;
 	private boolean multiUserMode = false;
 	private boolean editHostnameOnBackButton = false;
-	private SwipeRefreshLayout swipeRefreshLayout = null;
+	private ActivityPickUsernameBinding binding;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_pick_username);
-
-		progressBar = (ProgressBar) findViewById(R.id.progress_bar);
-		gridView = (GridView) findViewById(R.id.grid_view);
+		binding = DataBindingUtil.setContentView(this, R.layout.activity_pick_username);
 
 		multiUserMode = config.multiUserMode;
 
-		final ImageButton backButton = (ImageButton) findViewById(R.id.button_back);
-		backButton.setOnClickListener(new View.OnClickListener()
+		binding.buttonBack.setOnClickListener(new View.OnClickListener()
 		{
 			public void onClick(View view)
 			{
@@ -90,8 +83,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 			}
 		});
 
-		final ImageButton reloadButton = (ImageButton) findViewById(R.id.button_reload);
-		reloadButton.setOnClickListener(new View.OnClickListener()
+		binding.buttonReload.setOnClickListener(new View.OnClickListener()
 		{
 			public void onClick(View view)
 			{
@@ -103,15 +95,14 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 		{
 			ActionBar actionBar = getActionBar();
 			actionBar.setDisplayHomeAsUpEnabled(true);
-			reloadButton.setVisibility(View.GONE);
-			backButton.setVisibility(View.GONE);
+			binding.buttonReload.setVisibility(View.GONE);
+			binding.buttonBack.setVisibility(View.GONE);
 		}
 		
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 		{
-			swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
-			swipeRefreshLayout.setEnabled(true);
-			swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+			binding.swiperefresh.setEnabled(true);
+			binding.swiperefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
 			{
 				@Override
 				public void onRefresh()
@@ -119,18 +110,17 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 					reload();
 				}
 			});
-			FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-			fab.hide(false);
-			fab.attachToListView(gridView);
-			fab.setOnClickListener(new View.OnClickListener()
+			binding.fab.hide(false);
+			binding.fab.attachToListView(binding.gridView);
+			binding.fab.setOnClickListener(new View.OnClickListener()
 			{
 				public void onClick(View view)
 				{
 					Utility.startActivity(activity, UserSettings.class);
 				}
 			});
-			fab.setVisibility(View.VISIBLE);
-			fab.show();
+			binding.fab.setVisibility(View.VISIBLE);
+			binding.fab.show();
 		}
 
 		reload();
@@ -138,13 +128,12 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 	
 	public void reload()
 	{
-		final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.pick_username_error);
-		linearLayout.setVisibility(View.GONE);
-		gridView.setVisibility(View.GONE);
-		progressBar.setVisibility(View.VISIBLE);
-		if(swipeRefreshLayout != null)
+		binding.pickUsernameError.setVisibility(View.GONE);
+		binding.gridView.setVisibility(View.GONE);
+		binding.progressBar.setVisibility(View.VISIBLE);
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 		{
-			swipeRefreshLayout.setRefreshing(true);
+			binding.swiperefresh.setRefreshing(true);
 		}
 		new LongRunningIORequest<List<User>>(this, LongRunningIOTask.GET_USERS, api.listUsers());
 	}
@@ -198,9 +187,9 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 	@Override
 	public void onDestroy()
 	{
-		if (gridView != null)
+		if (binding.gridView != null)
 		{
-			gridView.setAdapter(null);
+			binding.gridView.setAdapter(null);
 		}
 		super.onDestroy();
 	}
@@ -209,14 +198,13 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 	public void displayErrorMessage(final LongRunningIOTask task, final String message)
 	{
 		Utility.displayToastMessage(this, message);
-		final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.pick_username_error);
-		linearLayout.setVisibility(View.VISIBLE);
-		gridView.setVisibility(View.GONE);
+		binding.pickUsernameError.setVisibility(View.VISIBLE);
+		binding.gridView.setVisibility(View.GONE);
 		editHostnameOnBackButton = true;
-		progressBar.setVisibility(View.GONE);
-		if(swipeRefreshLayout != null)
+		binding.progressBar.setVisibility(View.GONE);
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 		{
-			swipeRefreshLayout.setRefreshing(false);
+			binding.swiperefresh.setRefreshing(false);
 		}
 	}
 
@@ -232,13 +220,13 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 			}
 			final UserAdapter userAdapter = new UserAdapter(itemList);
 
-			gridView.setAdapter(userAdapter);
-			gridView.setOnItemClickListener(this);
-			progressBar.setVisibility(View.GONE);
-			gridView.setVisibility(View.VISIBLE);
-			if(swipeRefreshLayout != null)
+			binding.gridView.setAdapter(userAdapter);
+			binding.gridView.setOnItemClickListener(this);
+			binding.progressBar.setVisibility(View.GONE);
+			binding.gridView.setVisibility(View.VISIBLE);
+			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 			{
-				swipeRefreshLayout.setRefreshing(false);
+				binding.swiperefresh.setRefreshing(false);
 			}
 		}
 	}
@@ -246,7 +234,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 	@Override
 	public void onItemClick(final AdapterView<?> adapterView, final View view, final int index, final long l)
 	{
-		final User user = (User) gridView.getItemAtPosition(index);
+		final User user = (User) binding.gridView.getItemAtPosition(index);
 		if (user != null && user.getName() != null)
 		{
 			if (user.getId() == NEW_USER_ID)

@@ -24,35 +24,39 @@
   ~ THE SOFTWARE.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:orientation="vertical"
-              android:paddingLeft="@dimen/activity_horizontal_margin"
-              android:paddingRight="@dimen/activity_horizontal_margin"
-              android:paddingTop="@dimen/activity_vertical_margin"
-              android:paddingBottom="@dimen/activity_vertical_margin"
-              tools:context=".SetHostname">
+<layout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  >
 
-    <TextView
-        android:id="@+id/text"
-        android:text="@string/set_hostname"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"/>
+  <LinearLayout android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                tools:context=".SetHostname">
 
-    <EditText
-        android:inputType="textUri"
-        android:id="@+id/hostname"
-        android:text="@string/set_hostname_default_hostname"
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"/>
+      <TextView
+          android:id="@+id/text"
+          android:text="@string/set_hostname"
+          android:layout_height="wrap_content"
+          android:layout_width="wrap_content"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/button_save"
-        android:id="@+id/button_save"
-        android:layout_gravity="center"/>
+      <EditText
+          android:inputType="textUri"
+          android:id="@+id/hostname"
+          android:text="@string/set_hostname_default_hostname"
+          android:layout_height="wrap_content"
+          android:layout_width="fill_parent"/>
 
-</LinearLayout>
+      <Button
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/button_save"
+          android:id="@+id/button_save"
+          android:layout_gravity="center"/>
+
+  </LinearLayout>
+</layout>

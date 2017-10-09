@@ -63,7 +63,6 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 {
 	private static final int NEW_USER_ID = -1;
 
-	private boolean multiUserMode = false;
 	private boolean editHostnameOnBackButton = false;
 	private ActivityPickUsernameBinding binding;
 
@@ -72,8 +71,6 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 	{
 		super.onCreate(savedInstanceState);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_pick_username);
-
-		multiUserMode = config.multiUserMode;
 
 		binding.buttonBack.setOnClickListener(new View.OnClickListener()
 		{
@@ -142,7 +139,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 	public boolean onCreateOptionsMenu(final Menu menu)
 	{
 		getMenuInflater().inflate(R.menu.pickusername, menu);
-		MenuUtility.setChecked(menu, R.id.multi_user_mode, multiUserMode);
+		MenuUtility.setChecked(menu, R.id.multi_user_mode, config.multiUserMode);
 		return true;
 	}
 
@@ -164,7 +161,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 				Utility.startActivity(this, SetHostname.class);
 				break;
 			case R.id.multi_user_mode:
-				multiUserMode = MenuUtility.onClickMultiUserMode(this, item);
+				config.multiUserMode = MenuUtility.onClickMultiUserMode(this, item);
 				break;
 		}
 		return super.onOptionsItemSelected(item);

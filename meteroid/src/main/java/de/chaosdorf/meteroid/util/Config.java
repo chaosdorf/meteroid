@@ -31,7 +31,7 @@ import android.util.Log;
 
 public class Config
 {
-    public static final int NO_USER_ID = 0;
+    public static final int NO_USER_ID = -1;
     private static final String TAG = "Config";
     
     private SharedPreferences prefs;
@@ -70,6 +70,16 @@ public class Config
         {
             Log.d(TAG, "Migrating config from v0 to v1: Adding version.");
             version = 1;
+            save();
+        }
+        if(version == 1)
+        {
+            Log.d(TAG, "Migrating config from v1 to v2: Setting userID to -1, if none was set.");
+            if(userID == 0)
+            {
+                userID = -1;
+            }
+            version = 2;
             save();
         }
     }

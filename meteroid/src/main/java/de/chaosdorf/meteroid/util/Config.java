@@ -93,9 +93,10 @@ public class Config
                 if(apiVersion == null)
                 {
                     apiVersion = Utility.guessApiVersion(hostname);
-                    save();
                 }
             }
+            version = 3;
+            save();
         }
     }
 }

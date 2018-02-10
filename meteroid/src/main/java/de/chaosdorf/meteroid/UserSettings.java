@@ -118,7 +118,7 @@ public class UserSettings extends MeteroidNetworkActivity
 				binding.setUser(user);
 				makeWritable();
 			}
-		}, LongRunningIOTask.GET_USER, (config.userID != 0)? api.getUser(config.userID): api.getUserDefaults());
+		}, LongRunningIOTask.GET_USER, (config.userID != 0)? connection.getAPI().getUser(config.userID): connection.getAPI().getUserDefaults());
 	}
 
 	@Override
@@ -220,7 +220,7 @@ public class UserSettings extends MeteroidNetworkActivity
 								}
 							},
 							LongRunningIOTask.DELETE_USER,
-							api.deleteUser(config.userID));
+							connection.getAPI().deleteUser(config.userID));
 					}
 				})
 				.setNegativeButton(android.R.string.cancel, null) // Do nothing on click.
@@ -275,7 +275,7 @@ public class UserSettings extends MeteroidNetworkActivity
 					}
 				},
 				LongRunningIOTask.ADD_USER,
-				api.createUser(user)
+				connection.getAPI().createUser(user)
 			);
 		}
 		else
@@ -294,7 +294,7 @@ public class UserSettings extends MeteroidNetworkActivity
 					}
 				},
 				LongRunningIOTask.EDIT_USER,
-				api.editUser(user.getId(), user)
+				connection.getAPI().editUser(user.getId(), user)
 			);
 		}
 	}

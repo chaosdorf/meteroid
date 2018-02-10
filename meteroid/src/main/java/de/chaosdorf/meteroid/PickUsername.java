@@ -130,7 +130,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 		{
 			binding.swiperefresh.setRefreshing(true);
 		}
-		new LongRunningIORequest<List<User>>(this, LongRunningIOTask.GET_USERS, api.listUsers());
+		new LongRunningIORequest<List<User>>(this, LongRunningIOTask.GET_USERS, connection.getAPI().listUsers());
 	}
 
 	@Override

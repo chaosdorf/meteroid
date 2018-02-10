@@ -54,6 +54,7 @@ public class Connection
     
     public void reset()
     {
+        Log.d(TAG, "Resetting connection...");
         api = initializeRetrofit(config.hostname);
     }
     

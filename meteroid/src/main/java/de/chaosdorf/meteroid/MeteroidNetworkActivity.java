@@ -29,7 +29,6 @@ import android.os.Bundle;
 
 import java.text.DecimalFormat;
 
-import de.chaosdorf.meteroid.util.API;
 import de.chaosdorf.meteroid.util.Config;
 import de.chaosdorf.meteroid.util.Connection;
 import de.chaosdorf.meteroid.util.Utility;
@@ -40,8 +39,8 @@ public abstract class MeteroidNetworkActivity extends Activity
 	protected DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.00 '\u20AC'");
 	
 	protected Activity activity;
-	protected API api;
 	protected Config config;
+	protected Connection connection;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState)
@@ -49,6 +48,6 @@ public abstract class MeteroidNetworkActivity extends Activity
 		super.onCreate(savedInstanceState);
 		activity = this;
 		config = Config.getInstance(getApplicationContext());
-		api = Connection.getInstance(config).getAPI();
+		connection = Connection.getInstance(config);
 	}
 }

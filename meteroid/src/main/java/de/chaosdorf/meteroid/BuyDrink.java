@@ -153,8 +153,8 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		binding.gridView.setVisibility(View.GONE);
 		binding.listView.setVisibility(View.GONE);
 		binding.progressBar.setVisibility(View.VISIBLE);
-		new LongRunningIORequest<User>(this, LongRunningIOTask.GET_USER, api.getUser(config.userID));
-		new LongRunningIORequest<List<Drink>>(this, LongRunningIOTask.GET_DRINKS, api.listDrinks());
+		new LongRunningIORequest<User>(this, LongRunningIOTask.GET_USER, connection.getAPI().getUser(config.userID));
+		new LongRunningIORequest<List<Drink>>(this, LongRunningIOTask.GET_DRINKS, connection.getAPI().listDrinks());
 	}
 
 	@Override
@@ -329,10 +329,10 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 						break;
 					}
 				}
-				new LongRunningIORequest<User>(this, LongRunningIOTask.UPDATE_USER, api.getUser(config.userID));
+				new LongRunningIORequest<User>(this, LongRunningIOTask.UPDATE_USER, connection.getAPI().getUser(config.userID));
 				if(!buyableItem.getActive())
 				{
-					new LongRunningIORequest<List<Drink>>(this, LongRunningIOTask.GET_DRINKS, api.listDrinks());
+					new LongRunningIORequest<List<Drink>>(this, LongRunningIOTask.GET_DRINKS, connection.getAPI().listDrinks());
 				}
 				break;
 			}
@@ -356,7 +356,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 						user.setBalance(user.getBalance() - buyableItem.getPrice());
 					}
 				}
-				new LongRunningIORequest<User>(this, LongRunningIOTask.UPDATE_USER, api.getUser(config.userID));
+				new LongRunningIORequest<User>(this, LongRunningIOTask.UPDATE_USER, connection.getAPI().getUser(config.userID));
 				break;
 			}
 		}
@@ -379,11 +379,11 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 				setProgressBarIndeterminateVisibility(true);
 				if(buyableItem.isDrink())
 				{
-					new LongRunningIORequest<Void>(this, LongRunningIOTask.BUY_DRINK, api.buy(config.userID, ((Drink)buyableItem).getId()));
+					new LongRunningIORequest<Void>(this, LongRunningIOTask.BUY_DRINK, connection.getAPI().buy(config.userID, ((Drink)buyableItem).getId()));
 				}
 				else
 				{
-					new LongRunningIORequest<Void>(this, LongRunningIOTask.ADD_MONEY, api.deposit(config.userID, -buyableItem.getPrice()));
+					new LongRunningIORequest<Void>(this, LongRunningIOTask.ADD_MONEY, connection.getAPI().deposit(config.userID, -buyableItem.getPrice()));
 				}
 			}
 		}
@@ -453,7 +453,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 			if(scanResult.getContents() != null)
 			{
 				System.err.println("Scanned barcode: " + scanResult.toString());
-				new LongRunningIORequest<Void>(this, LongRunningIOTask.BUY_DRINK, api.buy_barcode(config.userID, scanResult.getContents()));
+				new LongRunningIORequest<Void>(this, LongRunningIOTask.BUY_DRINK, connection.getAPI().buy_barcode(config.userID, scanResult.getContents()));
 			}
 		}
 	}

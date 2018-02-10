@@ -118,7 +118,7 @@ public class UserSettings extends MeteroidNetworkActivity
 				binding.setUser(user);
 				makeWritable();
 			}
-		}, LongRunningIOTask.GET_USER, (config.userID != 0)? connection.getAPI().getUser(config.userID): connection.getAPI().getUserDefaults());
+		}, LongRunningIOTask.GET_USER, (config.userID != config.NO_USER_ID)? connection.getAPI().getUser(config.userID): connection.getAPI().getUserDefaults());
 	}
 
 	@Override

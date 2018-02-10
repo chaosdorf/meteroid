@@ -35,9 +35,25 @@ public class Connection
     private Config config;
     private API api;
     
-    public Connection(Config config)
+    private static Connection instance;
+    
+    private Connection(Config config)
     {
         this.config = config;
+        api = initializeRetrofit(config.hostname);
+    }
+    
+    public static Connection getInstance(Config config)
+    {
+        if(instance == null)
+        {
+            instance = new Connection(config);
+        }
+        return instance;
+    }
+    
+    public void reset()
+    {
         api = initializeRetrofit(config.hostname);
     }
     

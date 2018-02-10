@@ -38,12 +38,14 @@ import android.webkit.URLUtil;
 
 import de.chaosdorf.meteroid.databinding.ActivitySetHostnameBinding;
 import de.chaosdorf.meteroid.util.Config;
+import de.chaosdorf.meteroid.util.Connection;
 import de.chaosdorf.meteroid.util.Utility;
 
 public class SetHostname extends Activity
 {
 	private Activity activity = null;
 	private Config config;
+	private Connection connection;
 	private ActivitySetHostnameBinding binding;
 
 	@Override
@@ -54,6 +56,7 @@ public class SetHostname extends Activity
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_set_hostname);
 
 		config = Config.getInstance(getApplicationContext());
+		connection = Connection.getInstance(config);
 
 		if (binding.hostname != null)
 		{
@@ -130,6 +133,7 @@ public class SetHostname extends Activity
 		}
 		config.hostname = newHostname;
 		config.save();
+		connection.reset();
 		Utility.startActivity(activity, PickUsername.class);
 	}
 }

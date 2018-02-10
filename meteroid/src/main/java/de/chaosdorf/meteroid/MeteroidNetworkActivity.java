@@ -49,6 +49,6 @@ public abstract class MeteroidNetworkActivity extends Activity
 		super.onCreate(savedInstanceState);
 		activity = this;
 		config = Config.getInstance(getApplicationContext());
-		api = new Connection(config).getAPI();
+		api = Connection.getInstance(config).getAPI();
 	}
 }

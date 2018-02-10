@@ -45,7 +45,7 @@ public class MenuUtility
 		item.setChecked(multiUserMode);
 		if (multiUserMode)
 		{
-			Config config = new Config(activity);
+			Config config = Config.getInstance(activity.getApplicationContext());
 			config.userID = config.NO_USER_ID;
 			config.save();
 		}

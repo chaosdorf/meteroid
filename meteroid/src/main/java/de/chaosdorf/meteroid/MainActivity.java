@@ -37,7 +37,7 @@ public class MainActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 
-		final Config config = new Config(this);
+		final Config config = Config.getInstance(getApplicationContext());
 
 		if (config.hostname == null)
 		{

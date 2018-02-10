@@ -24,7 +24,7 @@
 
 package de.chaosdorf.meteroid.util;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -42,9 +42,11 @@ public class Config
     public int userID = NO_USER_ID;
     private int version = 0;
     
-    public Config(Activity activity)
+    private static Config instance;
+    
+    private Config(Context context)
     {
-        prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+        prefs = PreferenceManager.getDefaultSharedPreferences(context);
         hostname = prefs.getString("hostname", hostname);
         apiVersion = prefs.getString("api_version", apiVersion);
         multiUserMode = prefs.getBoolean("multi_user_mode", multiUserMode);
@@ -52,6 +54,15 @@ public class Config
         userID = prefs.getInt("userid", userID);
         version = prefs.getInt("config_version", version);
         migrate();
+    }
+    
+    public static Config getInstance(Context context)
+    {
+        if(instance == null)
+        {
+            instance = new Config(context);
+        }
+        return instance;
     }
     
     public void save()

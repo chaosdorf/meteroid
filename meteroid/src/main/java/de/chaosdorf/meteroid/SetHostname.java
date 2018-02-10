@@ -53,7 +53,7 @@ public class SetHostname extends Activity
 		activity = this;
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_set_hostname);
 
-		config = new Config(this);
+		config = Config.getInstance(getApplicationContext());
 
 		if (binding.hostname != null)
 		{

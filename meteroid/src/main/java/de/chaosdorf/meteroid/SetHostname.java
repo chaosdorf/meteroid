@@ -131,7 +131,9 @@ public class SetHostname extends Activity
 			Utility.displayToastMessage(activity, getResources().getString(R.string.set_hostname_invalid));
 			return;
 		}
+		// TODO: Do this properly.
 		config.hostname = newHostname;
+		config.apiVersion = Utility.guessApiVersion(newHostname);
 		config.save();
 		connection.reset();
 		Utility.startActivity(activity, PickUsername.class);

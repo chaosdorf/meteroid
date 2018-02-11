@@ -56,7 +56,6 @@ public class SetHostname extends Activity
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_set_hostname);
 
 		config = Config.getInstance(getApplicationContext());
-		connection = Connection.getInstance(config);
 
 		if (binding.hostname != null)
 		{
@@ -135,6 +134,7 @@ public class SetHostname extends Activity
 		config.hostname = newHostname;
 		config.apiVersion = Utility.guessApiVersion(newHostname);
 		config.save();
+		connection = Connection.getInstance(config);
 		connection.reset();
 		Utility.startActivity(activity, PickUsername.class);
 	}

@@ -232,14 +232,14 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 		final User user = (User) binding.gridView.getItemAtPosition(index);
 		if (user != null && user.getName() != null)
 		{
+			config.userID = user.getId();
+			config.save();
 			if (user.getId() == config.NO_USER_ID)
 			{
 				Utility.startActivity(this, UserSettings.class);
 			}
 			else
 			{
-				config.userID = user.getId();
-				config.save();
 				Utility.startActivity(this, BuyDrink.class);
 			}
 		}

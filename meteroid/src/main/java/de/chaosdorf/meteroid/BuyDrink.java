@@ -280,7 +280,6 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 			{
 				final List<BuyableItem> buyableItemList = (List<BuyableItem>)result;
 				MoneyController.addMoney(buyableItemList);
-				Collections.sort(buyableItemList, new BuyableComparator());
 
 				final BuyableItemAdapter buyableItemAdapter = new BuyableItemAdapter(buyableItemList);
 				if (config.useGridView)
@@ -458,12 +457,4 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		}
 	}
 
-	private class BuyableComparator implements Comparator<BuyableItem>
-	{
-		@Override
-		public int compare(final BuyableItem buyableItem, final BuyableItem buyableItem2)
-		{
-			return (int) Math.round(buyableItem2.getPrice() * 100 - buyableItem.getPrice() * 100);
-		}
-	}
 }

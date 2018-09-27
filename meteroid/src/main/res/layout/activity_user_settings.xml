@@ -26,7 +26,7 @@
 
 <layout
   xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="schemas.android.com/apk/res-auto"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   >
   

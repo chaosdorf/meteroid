@@ -54,6 +54,7 @@ public class UserSettings extends MeteroidNetworkActivity
 {
 	private User user;
 	private ActivityUserSettingsBinding binding;
+	private Menu menu;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState)
@@ -143,6 +144,7 @@ public class UserSettings extends MeteroidNetworkActivity
 	public boolean onCreateOptionsMenu(final Menu menu)
 	{
 		getMenuInflater().inflate(R.menu.settings, menu);
+		this.menu = menu;
 		return true;
 	}
 
@@ -160,12 +162,16 @@ public class UserSettings extends MeteroidNetworkActivity
 	private void makeReadOnly()
 	{
 		binding.setWritable(false);
+		menu.findItem(R.id.action_save).setEnabled(false);
+		menu.findItem(R.id.action_delete).setEnabled(false);
 		setProgressBarIndeterminateVisibility(true);
 	}
 
 	private void makeWritable()
 	{
 		setProgressBarIndeterminateVisibility(false);
+		menu.findItem(R.id.action_save).setEnabled(true);
+		menu.findItem(R.id.action_delete).setEnabled(true);
 		binding.setWritable(true);
 	}
 

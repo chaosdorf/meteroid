@@ -116,7 +116,7 @@ public class SetHostname extends Activity
 			return;
 		}
 		String newHostname = editTextHostname.toString();
-		if (newHostname.equals("http://"))
+		if (newHostname.equals("http://") || newHostname.equals("https://"))
 		{
 			Utility.displayToastMessage(activity, getResources().getString(R.string.set_hostname_empty));
 			return;

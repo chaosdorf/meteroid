@@ -166,14 +166,18 @@ public class UserSettings extends MeteroidNetworkActivity
 	private void makeReadOnly()
 	{
 		writable.set(false);
-		invalidateOptionsMenu();
+		try {
+			invalidateOptionsMenu();
+		} catch(NoSuchMethodError err) {} // workaround for 2.3.3
 		setProgressBarIndeterminateVisibility(true);
 	}
 
 	private void makeWritable()
 	{
 		setProgressBarIndeterminateVisibility(false);
-		invalidateOptionsMenu();
+		try {
+			invalidateOptionsMenu();
+		} catch(NoSuchMethodError err) {} // workaround for 2.3.3
 		writable.set(true);
 	}
 

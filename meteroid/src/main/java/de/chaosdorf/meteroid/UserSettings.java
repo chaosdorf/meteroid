@@ -27,6 +27,7 @@ package de.chaosdorf.meteroid;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.databinding.DataBindingUtil;
+import android.databinding.ObservableBoolean;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -54,7 +55,7 @@ public class UserSettings extends MeteroidNetworkActivity
 {
 	private User user;
 	private ActivityUserSettingsBinding binding;
-	private Menu menu;
+	private final ObservableBoolean writable = new ObservableBoolean(false);
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState)
@@ -64,6 +65,7 @@ public class UserSettings extends MeteroidNetworkActivity
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_user_settings);
 		binding.setUser(user);
 		binding.setDECIMALFORMAT(DECIMAL_FORMAT);
+		binding.setWritable(writable);
 
 		binding.buttonBack.setOnClickListener(new View.OnClickListener()
 		{
@@ -144,7 +146,9 @@ public class UserSettings extends MeteroidNetworkActivity
 	public boolean onCreateOptionsMenu(final Menu menu)
 	{
 		getMenuInflater().inflate(R.menu.settings, menu);
-		this.menu = menu;
+		boolean writable = this.writable.get();
+		menu.findItem(R.id.action_save).setEnabled(writable);
+		menu.findItem(R.id.action_delete).setEnabled(writable);
 		return true;
 	}
 
@@ -161,18 +165,16 @@ public class UserSettings extends MeteroidNetworkActivity
 
 	private void makeReadOnly()
 	{
-		binding.setWritable(false);
-		menu.findItem(R.id.action_save).setEnabled(false);
-		menu.findItem(R.id.action_delete).setEnabled(false);
+		writable.set(false);
+		invalidateOptionsMenu();
 		setProgressBarIndeterminateVisibility(true);
 	}
 
 	private void makeWritable()
 	{
 		setProgressBarIndeterminateVisibility(false);
-		menu.findItem(R.id.action_save).setEnabled(true);
-		menu.findItem(R.id.action_delete).setEnabled(true);
-		binding.setWritable(true);
+		invalidateOptionsMenu();
+		writable.set(true);
 	}
 
 	private void goBack()

@@ -384,6 +384,9 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 				{
 					new LongRunningIORequest<Void>(this, LongRunningIOTask.ADD_MONEY, connection.getAPI().deposit(config.userID, -buyableItem.getPrice()));
 				}
+			} else {
+				isBuying.set(false);
+				System.err.println("Touched item was null, ignoring.");
 			}
 		}
 	}

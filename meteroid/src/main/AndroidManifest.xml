@@ -25,8 +25,8 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="de.chaosdorf.meteroid"
-          android:versionCode="29"
-          android:versionName="2.4.1">
+          android:versionCode="30"
+          android:versionName="2.4.2">
 
     <uses-sdk
         android:minSdkVersion="9"

@@ -80,13 +80,10 @@ public class SetHostname extends Activity
 			}
 		});
 
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+		ActionBar actionBar = getActionBar();
+		if(actionBar != null)
 		{
-			ActionBar actionBar = getActionBar();
-			if(actionBar != null)
-			{
-				binding.buttonSave.setVisibility(View.GONE);
-			}
+			binding.buttonSave.setVisibility(View.GONE);
 		}
 	}
 

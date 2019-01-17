@@ -93,16 +93,13 @@ public class UserSettings extends MeteroidNetworkActivity
 			}
 		});
 
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+		ActionBar actionBar = getActionBar();
+		if(actionBar != null)
 		{
-			ActionBar actionBar = getActionBar();
-			if(actionBar != null)
-			{
-				actionBar.setDisplayHomeAsUpEnabled(true);
-				binding.buttonBack.setVisibility(View.GONE);
-				binding.buttonDelete.setVisibility(View.GONE);
-				binding.buttonSave.setVisibility(View.GONE);
-			}
+			actionBar.setDisplayHomeAsUpEnabled(true);
+			binding.buttonBack.setVisibility(View.GONE);
+			binding.buttonDelete.setVisibility(View.GONE);
+			binding.buttonSave.setVisibility(View.GONE);
 		}
 		
 		makeReadOnly();

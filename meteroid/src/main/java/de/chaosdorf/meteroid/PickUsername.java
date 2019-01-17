@@ -71,29 +71,8 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 		super.onCreate(savedInstanceState);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_pick_username);
 
-		binding.buttonBack.setOnClickListener(new View.OnClickListener()
-		{
-			public void onClick(View view)
-			{
-				Utility.startActivity(activity, SetHostname.class);
-			}
-		});
-
-		binding.buttonReload.setOnClickListener(new View.OnClickListener()
-		{
-			public void onClick(View view)
-			{
-				reload();
-			}
-		});
-
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-		{
-			ActionBar actionBar = getActionBar();
-			actionBar.setDisplayHomeAsUpEnabled(true);
-			binding.buttonReload.setVisibility(View.GONE);
-			binding.buttonBack.setVisibility(View.GONE);
-		}
+		ActionBar actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
 		
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 		{
@@ -211,10 +190,6 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 		{
 			final List<User> itemList = result;
 			editHostnameOnBackButton = false;
-			if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB)
-			{
-				itemList.add(new User(config.NO_USER_ID, getResources().getString(R.string.pick_username_new_user), "", 0, true, false, true));
-			}
 			final UserAdapter userAdapter = new UserAdapter(itemList);
 
 			binding.gridView.setAdapter(userAdapter);

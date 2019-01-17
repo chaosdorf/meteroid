@@ -50,30 +50,6 @@
               android:layout_height="wrap_content"
               android:textSize="16sp"
               android:text="@string/pick_username_error"/>
-
-          <LinearLayout
-              android:layout_height="wrap_content"
-              android:layout_width="wrap_content"
-              android:orientation="horizontal"
-              android:layout_gravity="end">
-
-              <ImageButton
-                  android:id="@+id/button_back"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_gravity="right"
-                  android:src="@drawable/button_back"
-                  android:contentDescription="@string/button_back"/>
-
-              <ImageButton
-                  android:id="@+id/button_reload"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_gravity="right"
-                  android:src="@drawable/button_reload"
-                  android:contentDescription="@string/button_reload"/>
-
-          </LinearLayout>
       </LinearLayout>
 
       <ProgressBar

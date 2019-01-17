@@ -66,13 +66,10 @@ public class About extends Activity
 		catch(NameNotFoundException ignored) {}
 		binding.setVersionName(versionName);
 		
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+		ActionBar actionBar = getActionBar();
+		if(actionBar != null)
 		{
-			ActionBar actionBar = getActionBar();
-			if(actionBar != null)
-			{
-				actionBar.setDisplayHomeAsUpEnabled(true);
-			}
+			actionBar.setDisplayHomeAsUpEnabled(true);
 		}
 		
 		binding.appIcon.setOnLongClickListener(new View.OnLongClickListener()

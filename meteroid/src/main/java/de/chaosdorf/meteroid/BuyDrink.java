@@ -101,47 +101,8 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 
 		barcodeIntegrator = new IntentIntegrator(this);
 
-		binding.buttonBack.setOnClickListener(new View.OnClickListener()
-		{
-			public void onClick(View view)
-			{
-				pickUsername();
-			}
-		});
-
-		binding.buttonReload.setOnClickListener(new View.OnClickListener()
-		{
-			public void onClick(View view)
-			{
-				reload();
-			}
-		});
-
-		binding.buttonEdit.setOnClickListener(new View.OnClickListener()
-		{
-			public void onClick(View view)
-			{
-				Utility.startActivity(activity, UserSettings.class);
-			}
-		});
-		
-		binding.buttonBarcode.setOnClickListener(new View.OnClickListener()
-		{
-			public void onClick(View view)
-			{
-				scanBarcode();
-			}
-		});
-
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-		{
-			ActionBar actionBar = getActionBar();
-			actionBar.setDisplayHomeAsUpEnabled(true);
-			binding.buttonReload.setVisibility(View.GONE);
-			binding.buttonBack.setVisibility(View.GONE);
-			binding.buttonEdit.setVisibility(View.GONE);
-			binding.buttonBarcode.setVisibility(View.GONE);
-		}
+		ActionBar actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
 		
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 		{
@@ -407,14 +368,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 			case R.id.use_grid_view:
 				Utility.toggleUseGridView(this);
 				item.setChecked(config.useGridView);
-				if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-				{
-					recreate();
-				}
-				else
-				{
-					Utility.startActivity(this, BuyDrink.class);
-				}
+				recreate();
 				break;
 			case R.id.about:
 				Utility.startActivity(this, About.class);

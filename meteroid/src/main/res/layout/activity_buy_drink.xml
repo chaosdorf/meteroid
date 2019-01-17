@@ -62,43 +62,6 @@
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
-        
-        <!-- Buttons for old Android versions -->
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right">
-          
-            <ImageButton
-                android:id="@+id/button_back"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/button_back"
-                android:contentDescription="@string/button_back"/>
-
-            <ImageButton
-                android:id="@+id/button_barcode"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/button_barcode"
-                android:contentDescription="@string/button_barcode"/>
-
-            <ImageButton
-                android:id="@+id/button_reload"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/button_reload"
-                android:contentDescription="@string/button_reload"/>
-
-            <ImageButton
-                android:id="@+id/button_edit"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@android:drawable/ic_menu_edit"
-                android:contentDescription="@string/buy_drink_edit_user"/>
-            
-        </LinearLayout>
 
         <!-- Display user data -->
         <LinearLayout

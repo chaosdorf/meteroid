@@ -175,10 +175,10 @@ public class UserSettings extends MeteroidNetworkActivity
 	private void makeWritable()
 	{
 		setProgressBarIndeterminateVisibility(false);
+		writable.set(true);
 		try {
 			invalidateOptionsMenu();
 		} catch(NoSuchMethodError err) {} // workaround for 2.3.3
-		writable.set(true);
 	}
 
 	private void goBack()

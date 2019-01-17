@@ -68,8 +68,6 @@ android {
     signingConfigs {}
     lintOptions {
       abortOnError false
-      //ActionBar on Gingerbread
-      disable 'UnusedAttribute'
     }
     dataBinding {
         enabled = true

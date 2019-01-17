@@ -166,9 +166,7 @@ public class UserSettings extends MeteroidNetworkActivity
 	private void makeReadOnly()
 	{
 		writable.set(false);
-		try {
-			invalidateOptionsMenu();
-		} catch(NoSuchMethodError err) {} // workaround for 2.3.3
+		invalidateOptionsMenu();
 		setProgressBarIndeterminateVisibility(true);
 	}
 
@@ -176,9 +174,7 @@ public class UserSettings extends MeteroidNetworkActivity
 	{
 		setProgressBarIndeterminateVisibility(false);
 		writable.set(true);
-		try {
-			invalidateOptionsMenu();
-		} catch(NoSuchMethodError err) {} // workaround for 2.3.3
+		invalidateOptionsMenu();
 	}
 
 	private void deleteUser()

@@ -151,6 +151,7 @@
         <GridView
             android:id="@+id/grid_view"
             android:visibility="gone"
+            android:fastScrollEnabled="true"
             android:paddingTop="15dp"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -164,6 +165,7 @@
         <ListView
             android:id="@+id/list_view"
             android:visibility="gone"
+            android:fastScrollEnabled="true"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_vertical_margin"

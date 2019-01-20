@@ -39,7 +39,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -55,6 +54,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import de.chaosdorf.meteroid.controller.MeteroidAdapter;
 import de.chaosdorf.meteroid.controller.MoneyController;
 import de.chaosdorf.meteroid.databinding.ActivityBuyDrinkBinding;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOCallback;
@@ -391,7 +391,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		}
 	}
 
-	private class BuyableItemAdapter extends ArrayAdapter<BuyableItem>
+	private class BuyableItemAdapter extends MeteroidAdapter<BuyableItem>
 	{
 		private final List<BuyableItem> drinkList;
 		private final LayoutInflater inflater;

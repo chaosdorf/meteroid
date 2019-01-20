@@ -96,6 +96,7 @@
           <GridView
             android:visibility="gone"
             android:id="@+id/grid_view"
+            android:fastScrollEnabled="true"
             android:columnWidth="100dp"
             android:numColumns="auto_fit"
             android:verticalSpacing="12dp"

@@ -36,7 +36,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -50,6 +49,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Date;
 import java.util.List;
 
+import de.chaosdorf.meteroid.controller.MeteroidAdapter;
 import de.chaosdorf.meteroid.databinding.ActivityPickUsernameBinding;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOCallback;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIORequest;
@@ -245,7 +245,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 		}
 	}
 
-	public class UserAdapter extends ArrayAdapter<User>
+	public class UserAdapter extends MeteroidAdapter<User>
 	{
 		private final List<User> userList;
 		private final LayoutInflater inflater;
@@ -256,6 +256,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 			this.userList = userList;
 			this.inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}
+		
 
 		public View getView(final int position, final View convertView, final ViewGroup parent)
 		{

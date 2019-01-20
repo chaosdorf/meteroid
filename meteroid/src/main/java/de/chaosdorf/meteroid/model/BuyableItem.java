@@ -24,15 +24,11 @@
 
 package de.chaosdorf.meteroid.model;
 
-public interface BuyableItem
+public interface BuyableItem extends MeteroidItem
 {
-	public String getName();
-
 	public String getLogoUrl(String hostname);
 
 	public double getPrice();
 
 	public boolean isDrink();
-	
-	public boolean getActive();
 }

@@ -26,6 +26,8 @@ package de.chaosdorf.meteroid;
 
 import android.app.Activity;
 import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Build;
@@ -131,6 +133,26 @@ public class SetHostname extends Activity
 			return;
 		}
 		// TODO: Do this properly.
+		final String url = newHostname;
+		if(URLUtil.isHttpUrl(url)) {
+			new AlertDialog.Builder(this)
+				.setMessage(R.string.set_hostname_continue_http)
+				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener()
+				{
+					@Override
+					public void onClick(DialogInterface dialog, int id)
+					{
+						saveAndExit(url);
+					}
+				})
+				.setNegativeButton(android.R.string.cancel, null) // Do nothing on click.
+				.create().show();
+		} else {
+			saveAndExit(url);
+		}
+	}
+	
+	private void saveAndExit(String newHostname) {
 		config.hostname = newHostname;
 		config.apiVersion = Utility.guessApiVersion(newHostname);
 		config.save();

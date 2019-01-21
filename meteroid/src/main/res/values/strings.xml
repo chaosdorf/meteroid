@@ -35,6 +35,7 @@
     <string name="set_hostname">Please enter the URL of mete</string>
     <string name="set_hostname_empty">Please enter a hostname</string>
     <string name="set_hostname_invalid">Invalid hostname entered</string>
+    <string name="set_hostname_continue_http">The URL you entered is not secure (HTTP instead of HTTPS). Do you really want to continue?</string>
 
     <!-- Pick username -->
     <string name="pick_username_label">Pick your username</string>

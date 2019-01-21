@@ -24,7 +24,7 @@
 
 buildscript {
     repositories {
-        maven { url 'http://repo1.maven.org/maven2' }
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.0'
@@ -34,7 +34,7 @@ apply plugin: 'com.android.application'
 
 dependencies {
     repositories {
-        maven { url 'http://repo1.maven.org/maven2' }
+        mavenCentral()
     }
     compile 'org.jetbrains:annotations:13.0'
     compile 'com.squareup.retrofit2:retrofit:2.5.0'

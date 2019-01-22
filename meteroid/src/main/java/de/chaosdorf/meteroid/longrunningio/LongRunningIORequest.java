@@ -57,15 +57,19 @@ public class LongRunningIORequest<T>
 			public void onResponse(final Call<T> call, final Response<T> resp)
 			{
 				Log.d(TAG, "Handling response: " + call.request());
+				T responseBody = null;
 				if(resp.isSuccessful())
 				{
 					try
 					{
-						callback.processIOResult(id, resp.body());
+						responseBody = resp.body();
 					}
 					catch(final Throwable t)
 					{
 						callback.displayErrorMessage(id, t.getLocalizedMessage());
+					}
+					if(responseBody != null) {
+						callback.processIOResult(id, responseBody);
 					}
 				}
 				else

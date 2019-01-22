@@ -327,12 +327,12 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 						Utility.startActivity(this, PickUsername.class);
 						break;
 					}
+					if(!buyableItem.getActive())
+					{
+						new LongRunningIORequest<List<Drink>>(this, LongRunningIOTask.GET_DRINKS, connection.getAPI().listDrinks());
+					}
 				}
 				new LongRunningIORequest<User>(this, LongRunningIOTask.UPDATE_USER, connection.getAPI().getUser(config.userID));
-				if(!buyableItem.getActive())
-				{
-					new LongRunningIORequest<List<Drink>>(this, LongRunningIOTask.GET_DRINKS, connection.getAPI().listDrinks());
-				}
 				break;
 			}
 			

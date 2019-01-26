@@ -163,12 +163,9 @@ public class Utility
 		{
 			return arrayToHex(MessageDigest.getInstance("MD5").digest(message.getBytes("CP1252")));
 		}
-		catch (NoSuchAlgorithmException ignored)
+		catch (NoSuchAlgorithmException | UnsupportedEncodingException exc)
 		{
+			throw new AssertionError("Can't happen: " + exc.toString(), exc);
 		}
-		catch (UnsupportedEncodingException ignored)
-		{
-		}
-		return null;
 	}
 }

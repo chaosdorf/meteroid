@@ -34,6 +34,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.MessageDigest;
@@ -156,12 +157,7 @@ public class Utility
 
 	private static String arrayToHex(final byte[] array)
 	{
-		StringBuilder sb = new StringBuilder();
-		for (final byte anArray : array)
-		{
-			sb.append(Integer.toHexString((anArray & 0xFF) | 0x100).substring(1, 3));
-		}
-		return sb.toString();
+		return String.format("%032x", new BigInteger(1, array));
 	}
 
 	private static String md5Hex(final String message)

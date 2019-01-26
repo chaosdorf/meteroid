@@ -68,9 +68,7 @@ public class LongRunningIORequest<T>
 					{
 						callback.displayErrorMessage(id, t.getLocalizedMessage());
 					}
-					if(responseBody != null) {
-						callback.processIOResult(id, responseBody);
-					}
+					callback.processIOResult(id, responseBody);
 				}
 				else
 				{

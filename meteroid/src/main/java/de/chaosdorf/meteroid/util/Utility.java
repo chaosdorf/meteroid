@@ -29,6 +29,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -36,13 +37,13 @@ import android.widget.Toast;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
 
+import com.squareup.picasso.Picasso;
+
 import de.chaosdorf.meteroid.R;
-import de.chaosdorf.meteroid.imageloader.ImageLoaderSingleton;
 import de.chaosdorf.meteroid.model.BuyableItem;
 import de.chaosdorf.meteroid.model.User;
 
@@ -102,6 +103,7 @@ public class Utility
 	private static void loadGravatarImage(final Activity activity, final ImageView icon, final User user)
 	{
 		String email = null;
+		Uri uri = null;
 		if (user != null)
 		{
 			email = user.getEmail();
@@ -112,17 +114,19 @@ public class Utility
 		}
 		if (email != null && email.length() > 0)
 		{
-			try
-			{
-				final URL url = new URL("http://www.gravatar.com/avatar/" + md5Hex(email) + "?d=404");
-				ImageLoaderSingleton.getInstance(activity).displayImage(url, icon, ImageLoaderSingleton.getUserDefaultImage());
-				return;
-			}
-			catch (MalformedURLException ignored)
-			{
-			}
+			uri = new Uri.Builder()
+				.scheme("https")
+				.authority("www.gravatar.com")
+				.appendPath("avatar")
+				.appendPath(md5Hex(email))
+				.appendQueryParameter("d", "404")
+				.build();
+			Picasso.with(activity).load(uri).error(R.drawable.default_user).into(icon);
 		}
-		icon.setImageBitmap(ImageLoaderSingleton.getUserDefaultImage());
+		else
+		{
+			icon.setImageResource(R.drawable.default_user);
+		}
 	}
 
 	public static void loadBuyableItemImage(final Activity activity, final ImageView icon, final BuyableItem buyableItem, final String hostname)
@@ -137,18 +141,11 @@ public class Utility
 	private static void loadBuyableItemImage_(final Activity activity, final ImageView icon, final BuyableItem buyableItem, final String hostname)
 	{
 		icon.setContentDescription(buyableItem.getName());
+		Uri uri = null;
 		if (buyableItem.isDrink())
 		{
-			final URL url;
-			try
-			{
-				url = new URL(buyableItem.getLogoUrl(hostname));
-				ImageLoaderSingleton.getInstance(activity).displayImage(url, icon, ImageLoaderSingleton.getDrinkDefaultImage());
-			}
-			catch (MalformedURLException ignored)
-			{
-				icon.setImageBitmap(ImageLoaderSingleton.getDrinkDefaultImage());
-			}
+			uri = Uri.parse(buyableItem.getLogoUrl(hostname));
+			Picasso.with(activity).load(uri).error(R.drawable.default_drink).into(icon);
 			return;
 		}
 		final int iconID = activity.getResources().getIdentifier(buyableItem.getLogoUrl(hostname), "drawable", activity.getPackageName());

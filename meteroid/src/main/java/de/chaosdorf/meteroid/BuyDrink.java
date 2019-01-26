@@ -152,6 +152,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 	{
 		binding.gridView.setVisibility(View.GONE);
 		binding.listView.setVisibility(View.GONE);
+		binding.buyDrinkError.setVisibility(View.GONE);
 		binding.progressBar.setVisibility(View.VISIBLE);
 		new LongRunningIORequest<User>(this, LongRunningIOTask.GET_USER, connection.getAPI().getUser(config.userID));
 		new LongRunningIORequest<List<Drink>>(this, LongRunningIOTask.GET_DRINKS, connection.getAPI().listDrinks());

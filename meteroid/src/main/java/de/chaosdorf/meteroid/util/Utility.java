@@ -26,11 +26,9 @@ package de.chaosdorf.meteroid.util;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -74,23 +72,24 @@ public class Utility
 
 	public static boolean toggleUseGridView(final Activity activity)
 	{
-		return Utility.toogleBooleanSharedPreference(activity, "use_grid_view", false, R.string.menu_use_grid_view_enabled, R.string.menu_use_grid_view_disabled);
+		Config config = Config.getInstance(activity);
+		config.useGridView = !config.useGridView;
+		config.save();
+		final boolean newState = config.useGridView;
+		displayToastMessage(activity, activity.getResources().getString(newState ? R.string.menu_use_grid_view_enabled : R.string.menu_use_grid_view_disabled));
+		return newState;
 	}
 
 	public static boolean toggleMultiUserMode(final Activity activity)
 	{
-		return Utility.toogleBooleanSharedPreference(activity, "multi_user_mode", false, R.string.menu_multi_user_mode_enabled, R.string.menu_multi_user_mode_disabled);
-	}
-
-	private static boolean toogleBooleanSharedPreference(final Activity activity, final String prefName, final boolean defaultValue, final int enabledMessageID, final int disabledMessageID)
-	{
-		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
-		final boolean newState = !prefs.getBoolean(prefName, defaultValue);
-		prefs.edit().putBoolean(prefName, newState).apply();
-		displayToastMessage(activity, activity.getResources().getString(newState ? enabledMessageID : disabledMessageID));
+		Config config = Config.getInstance(activity);
+		config.multiUserMode = !config.multiUserMode;
+		config.save();
+		final boolean newState = config.useGridView;
+		displayToastMessage(activity, activity.getResources().getString(newState ? R.string.menu_multi_user_mode_enabled : R.string.menu_multi_user_mode_disabled));
 		return newState;
 	}
-	
+
 	public static void loadUserImage(final Activity activity, final ImageView icon, final User user)
 	{
 		loadGravatarImage(activity, icon, user);

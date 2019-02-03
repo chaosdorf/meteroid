@@ -324,7 +324,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 					{
 						user.setBalance(user.getBalance() - buyableItem.getPrice());
 					}
-					if (config.multiUserMode)
+					if (config.multiUserMode && user.getRedirect())
 					{
 						Utility.startActivity(this, PickUsername.class);
 						break;

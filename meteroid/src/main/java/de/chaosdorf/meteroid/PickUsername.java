@@ -159,7 +159,8 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 				Utility.startActivity(this, SetHostname.class);
 				break;
 			case R.id.multi_user_mode:
-				config.multiUserMode = MenuUtility.onClickMultiUserMode(this, item);
+				MenuUtility.onClickMultiUserMode(this, item);
+				item.setChecked(config.multiUserMode);
 				break;
 		}
 		return super.onOptionsItemSelected(item);

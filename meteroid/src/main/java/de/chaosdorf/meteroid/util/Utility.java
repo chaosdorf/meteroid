@@ -85,7 +85,7 @@ public class Utility
 		Config config = Config.getInstance(activity);
 		config.multiUserMode = !config.multiUserMode;
 		config.save();
-		final boolean newState = config.useGridView;
+		final boolean newState = config.multiUserMode;
 		displayToastMessage(activity, activity.getResources().getString(newState ? R.string.menu_multi_user_mode_enabled : R.string.menu_multi_user_mode_disabled));
 		return newState;
 	}

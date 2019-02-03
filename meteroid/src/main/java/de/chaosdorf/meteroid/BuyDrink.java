@@ -27,8 +27,11 @@ package de.chaosdorf.meteroid;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
+import android.graphics.drawable.Icon;
 import android.os.Bundle;
 import android.os.Build;
 import android.view.KeyEvent;
@@ -46,6 +49,7 @@ import com.melnykov.fab.FloatingActionButton;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -75,7 +79,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 
 	private User user;
 	private ActivityBuyDrinkBinding binding;
-
+	private ShortcutManager shortcutManager;
 	private IntentIntegrator barcodeIntegrator;
 	
 	private static final String ACTION_BUY = "de.chaosdorf.meteroid.ACTION_BUY";
@@ -93,6 +97,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		binding.setDECIMALFORMAT(DECIMAL_FORMAT);
 
 		barcodeIntegrator = new IntentIntegrator(this);
+		shortcutManager = getSystemService(ShortcutManager.class);
 
 		binding.buttonBack.setOnClickListener(new View.OnClickListener()
 		{
@@ -232,6 +237,33 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		{
 			new LongRunningIORequest<Void>(this, LongRunningIOTask.ADD_MONEY, connection.getAPI().deposit(config.userID, -buyableItem.getPrice()));
 		}
+		
+		ShortcutInfo shortcut = shortcutForItem(buyableItem);
+		shortcutManager.setDynamicShortcuts(Arrays.asList(shortcut));
+	}
+	
+	private ShortcutInfo shortcutForItem(BuyableItem item)
+	{
+		String id = null;
+		Intent intent = new Intent(this, this.getClass());
+		intent.setAction(ACTION_BUY);
+		intent.putExtra(EXTRA_BUYABLE_ITEM_IS_DRINK, item.isDrink());
+		if(item.isDrink())
+		{
+			Drink drink = (Drink)item;
+			id = "d" + drink.getId();
+			intent.putExtra(EXTRA_BUYABLE_ITEM_ID, drink.getId());
+		}
+		else
+		{
+			id = "m" + item.getLogoUrl(null);
+			intent.putExtra(EXTRA_BUYABLE_ITEM_PRICE, item.getPrice());
+		}
+		return new ShortcutInfo.Builder(this, id)
+			.setShortLabel(item.getName())
+			.setIcon(Icon.createWithResource(this, R.drawable.default_drink)) // TODO
+			.setIntent(intent)
+			.build();
 	}
 	
 	public void reload()

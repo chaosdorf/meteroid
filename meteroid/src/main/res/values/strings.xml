@@ -63,6 +63,7 @@
     <string name="buy_drink_added_money">Successfully added %1$s</string>
     <string name="buy_drink_error">Well, this didn\'t succeed. Please check your inputs and network connection and try again or reset hostname/username to proceed.</string>
     <string name="buy_drink_edit_user">Edit user</string>
+    <string name="buy_drink_invalid_intent">This action is invalid.</string>
 
     <!-- Buttons -->
     <string name="button_back">Back</string>

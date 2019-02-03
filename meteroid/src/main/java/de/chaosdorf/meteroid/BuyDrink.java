@@ -70,12 +70,18 @@ import de.chaosdorf.meteroid.MeteroidNetworkActivity;
 public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnItemClickListener, LongRunningIOCallback
 {
 	private final AtomicBoolean isBuying = new AtomicBoolean(true);
+	private final AtomicBoolean intentHandled = new AtomicBoolean(false);
 	private final AtomicReference<BuyableItem> buyingItem = new AtomicReference<BuyableItem>(null);
 
 	private User user;
 	private ActivityBuyDrinkBinding binding;
 
 	private IntentIntegrator barcodeIntegrator;
+	
+	private static final String ACTION_BUY = "de.chaosdorf.meteroid.ACTION_BUY";
+	private static final String EXTRA_BUYABLE_ITEM_IS_DRINK = "de.chaosdorf.meteroid.EXTRA_BUYABLE_ITEM_IS_DRINK";
+	private static final String EXTRA_BUYABLE_ITEM_ID = "de.chaosdorf.meteroid.EXTRA_BUYABLE_ITEM_ID";
+	private static final String EXTRA_BUYABLE_ITEM_PRICE = "de.chaosdorf.meteroid.EXTRA_BUYABLE_ITEM_PRICE";
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState)
@@ -146,6 +152,86 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		}
 		
 		reload();
+	}
+	
+	private void handleIntent(List<BuyableItem> buyableItemList)
+	{
+		if (intentHandled.compareAndSet(false, true))
+		{
+			Intent intent = getIntent();
+			if(intent != null)
+			{
+				String action = intent.getAction();
+				if(action != null && action.equals(ACTION_BUY)) // shortcut
+				{
+					handleBuyIntent(buyableItemList, intent);
+				}
+			}
+		}
+	}
+	
+	private void handleBuyIntent(List<BuyableItem> buyableItemList, Intent intent)
+	{
+		BuyableItem itemSelected = null;
+		if(intent.getBooleanExtra(EXTRA_BUYABLE_ITEM_IS_DRINK, false))
+		{
+			int id = intent.getIntExtra(EXTRA_BUYABLE_ITEM_ID, -1);
+			if(id == -1)
+			{
+				Utility.displayToastMessage(this, getResources().getString(R.string.buy_drink_invalid_intent));
+				return;
+			}
+			for(BuyableItem item: buyableItemList)
+			{
+				if(item.isDrink())
+				{
+					if(((Drink)item).getId() == id) {
+						itemSelected = item;
+						break;
+					}
+				}
+			}
+		}
+		else
+		{
+			double price = intent.getDoubleExtra(EXTRA_BUYABLE_ITEM_PRICE, 0.0);
+			if(price == 0.0)
+			{
+				Utility.displayToastMessage(this, getResources().getString(R.string.buy_drink_invalid_intent));
+				return;
+			}
+			for(BuyableItem item: buyableItemList)
+			{
+				if(!item.isDrink())
+				{
+					if(item.getPrice() == price)
+					{
+						itemSelected = item;
+						break;
+					}
+				}
+			}
+		}
+		if(itemSelected == null)
+		{
+			Utility.displayToastMessage(this, getResources().getString(R.string.buy_drink_invalid_intent));
+			return;
+		}
+		buy(itemSelected);
+	}
+	
+	private void buy(BuyableItem buyableItem)
+	{
+		buyingItem.set(buyableItem);
+		setProgressBarIndeterminateVisibility(true);
+		if(buyableItem.isDrink())
+		{
+			new LongRunningIORequest<Void>(this, LongRunningIOTask.BUY_DRINK, connection.getAPI().buy(config.userID, ((Drink)buyableItem).getId()));
+		}
+		else
+		{
+			new LongRunningIORequest<Void>(this, LongRunningIOTask.ADD_MONEY, connection.getAPI().deposit(config.userID, -buyableItem.getPrice()));
+		}
 	}
 	
 	public void reload()
@@ -302,6 +388,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 					binding.fab.attachToListView(config.useGridView? binding.gridView : binding.listView);
 					binding.fab.show();
 				}
+				handleIntent(buyableItemList);
 				break;
 			}
 			
@@ -376,16 +463,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 			final BuyableItem buyableItem = (BuyableItem) (config.useGridView ? binding.gridView.getItemAtPosition(index) : binding.listView.getAdapter().getItem(index));
 			if (buyableItem != null)
 			{
-				buyingItem.set(buyableItem);
-				setProgressBarIndeterminateVisibility(true);
-				if(buyableItem.isDrink())
-				{
-					new LongRunningIORequest<Void>(this, LongRunningIOTask.BUY_DRINK, connection.getAPI().buy(config.userID, ((Drink)buyableItem).getId()));
-				}
-				else
-				{
-					new LongRunningIORequest<Void>(this, LongRunningIOTask.ADD_MONEY, connection.getAPI().deposit(config.userID, -buyableItem.getPrice()));
-				}
+				buy(buyableItem);
 			} else {
 				isBuying.set(false);
 				System.err.println("Touched item was null, ignoring.");

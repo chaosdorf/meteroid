@@ -83,6 +83,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 	private IntentIntegrator barcodeIntegrator;
 	
 	private static final String ACTION_BUY = "de.chaosdorf.meteroid.ACTION_BUY";
+	private static final String ACTION_SCAN = "de.chaosdorf.meteroid.ACTION_SCAN";
 	private static final String EXTRA_BUYABLE_ITEM_IS_DRINK = "de.chaosdorf.meteroid.EXTRA_BUYABLE_ITEM_IS_DRINK";
 	private static final String EXTRA_BUYABLE_ITEM_ID = "de.chaosdorf.meteroid.EXTRA_BUYABLE_ITEM_ID";
 	private static final String EXTRA_BUYABLE_ITEM_PRICE = "de.chaosdorf.meteroid.EXTRA_BUYABLE_ITEM_PRICE";
@@ -171,9 +172,16 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 			if(intent != null)
 			{
 				String action = intent.getAction();
-				if(action != null && action.equals(ACTION_BUY)) // shortcut
+				if(action != null)
 				{
-					handleBuyIntent(buyableItemList, intent);
+					if(action.equals(ACTION_BUY)) // shortcut
+					{
+						handleBuyIntent(buyableItemList, intent);
+					}
+					else if(action.equals(ACTION_SCAN))
+					{
+						barcodeIntegrator.initiateScan();
+					}
 				}
 			}
 		}

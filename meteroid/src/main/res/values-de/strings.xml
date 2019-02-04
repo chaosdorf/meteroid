@@ -64,6 +64,9 @@
     <string name="buy_drink_error">Ups, das hat nicht geklappt. Bitte Eingaben und Netzwerkverbindung überprüfen und erneut versuchen oder Hostname/Benutzername ändern um fortzufahren.</string>
     <string name="buy_drink_edit_user">Benutzer bearbeiten</string>
     <string name="buy_drink_invalid_intent">Diese Aktion ist ungültig.</string>
+    
+    <!-- About -->
+    <string name="about_label">Über…</string>
 
     <!-- Buttons -->
     <string name="button_back">Zurück</string>

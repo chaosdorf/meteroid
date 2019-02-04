@@ -355,6 +355,9 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 				Utility.toggleMultiUserMode(this);
 				item.setChecked(config.multiUserMode);
 				break;
+			case R.id.about:
+				Utility.startActivity(this, About.class);
+				break;
 		}
 		return super.onOptionsItemSelected(item);
 	}

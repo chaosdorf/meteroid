@@ -70,6 +70,11 @@
             android:label="@string/user_settings_label"
             android:theme="@style/DialogWhenLarge"
             android:noHistory="true"/>
+        
+        <activity
+            android:name=".About"
+            android:label="@string/about_label"
+            android:theme="@style/DialogWhenLarge"/>
 
     </application>
 

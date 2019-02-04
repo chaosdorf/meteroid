@@ -65,6 +65,9 @@
     <string name="buy_drink_edit_user">Edit user</string>
     <string name="buy_drink_invalid_intent">This action is invalid.</string>
 
+    <!-- About -->
+    <string name="about_label">About</string>
+
     <!-- Buttons -->
     <string name="button_back">Back</string>
     <string name="button_reload">Reload</string>

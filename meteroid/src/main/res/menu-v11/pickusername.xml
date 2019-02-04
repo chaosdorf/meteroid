@@ -45,4 +45,9 @@
         android:checked="false"
         android:orderInCategory="100"
         android:showAsAction="never"/>
+    <item
+        android:id="@+id/about"
+        android:title="@string/about_label"
+        android:orderInCategory="100"
+        android:showAsAction="never"/>
 </menu>

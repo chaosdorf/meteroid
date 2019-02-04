@@ -129,7 +129,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		{
 			public void onClick(View view)
 			{
-				barcodeIntegrator.initiateScan();
+				scanBarcode();
 			}
 		});
 
@@ -150,7 +150,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 			{
 				public void onClick(View view)
 				{
-					barcodeIntegrator.initiateScan();
+					scanBarcode();
 				}
 			});
 			binding.fab.setVisibility(View.VISIBLE);
@@ -180,7 +180,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 					}
 					else if(action.equals(ACTION_SCAN))
 					{
-						barcodeIntegrator.initiateScan();
+						scanBarcode();
 					}
 				}
 			}
@@ -257,6 +257,11 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		}
 	}
 	
+	private void scanBarcode()
+	{
+		barcodeIntegrator.initiateScan();
+	}
+	
 	private ShortcutInfo shortcutForItem(BuyableItem item)
 	{
 		String id = null;
@@ -317,7 +322,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 				Utility.startActivity(this, UserSettings.class);
 				break;
 			case R.id.action_barcode:
-				barcodeIntegrator.initiateScan();
+				scanBarcode();
 				break;
 			case R.id.edit_hostname:
 				Utility.startActivity(this, SetHostname.class);

@@ -97,7 +97,6 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		binding.setDECIMALFORMAT(DECIMAL_FORMAT);
 
 		barcodeIntegrator = new IntentIntegrator(this);
-		shortcutManager = getSystemService(ShortcutManager.class);
 
 		binding.buttonBack.setOnClickListener(new View.OnClickListener()
 		{
@@ -154,6 +153,11 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 				}
 			});
 			binding.fab.setVisibility(View.VISIBLE);
+		}
+		
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1)
+		{
+			shortcutManager = getSystemService(ShortcutManager.class);
 		}
 		
 		reload();
@@ -238,8 +242,11 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 			new LongRunningIORequest<Void>(this, LongRunningIOTask.ADD_MONEY, connection.getAPI().deposit(config.userID, -buyableItem.getPrice()));
 		}
 		
-		ShortcutInfo shortcut = shortcutForItem(buyableItem);
-		shortcutManager.setDynamicShortcuts(Arrays.asList(shortcut));
+		if(shortcutManager != null)
+		{
+			ShortcutInfo shortcut = shortcutForItem(buyableItem);
+			shortcutManager.setDynamicShortcuts(Arrays.asList(shortcut));
+		}
 	}
 	
 	private ShortcutInfo shortcutForItem(BuyableItem item)

@@ -24,11 +24,15 @@
 
 package de.chaosdorf.meteroid;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
+
 
 import de.chaosdorf.meteroid.databinding.ActivityAboutBinding;
 
@@ -42,6 +46,7 @@ public class About extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_about);
+		
 		String versionName = FALLBACK_VERSION_NAME;
 		try
 		{
@@ -50,5 +55,26 @@ public class About extends Activity
 		}
 		catch(NameNotFoundException ignored) {}
 		binding.setVersionName(versionName);
+		
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+		{
+			ActionBar actionBar = getActionBar();
+			if(actionBar != null)
+			{
+				actionBar.setDisplayHomeAsUpEnabled(true);
+			}
+		}
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(final MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+			case android.R.id.home:
+				finish();
+				break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }

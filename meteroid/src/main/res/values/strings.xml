@@ -81,5 +81,8 @@
     <string name="menu_use_grid_view">Use grid view</string>
     <string name="menu_use_grid_view_enabled">Grid view enabled</string>
     <string name="menu_use_grid_view_disabled">Grid view disabled</string>
+    
+    <!-- Shortcuts -->
+    <string name="shortcut_scan">Barcode</string>
 
 </resources>

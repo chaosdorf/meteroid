@@ -259,6 +259,17 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 	
 	private void scanBarcode()
 	{
+		if(shortcutManager != null)
+		{
+			Intent intent = new Intent(this, this.getClass());
+			intent.setAction(ACTION_SCAN);
+			ShortcutInfo shortcut = new ShortcutInfo.Builder(this, "barcode")
+				.setShortLabel(getResources().getString(R.string.shortcut_scan))
+				.setIcon(Icon.createWithResource(this, R.drawable.button_barcode))
+				.setIntent(intent)
+				.build();
+			shortcutManager.setDynamicShortcuts(Arrays.asList(shortcut));
+		}
 		barcodeIntegrator.initiateScan();
 	}
 	

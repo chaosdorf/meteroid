@@ -81,5 +81,8 @@
     <string name="menu_use_grid_view">Kachelansicht</string>
     <string name="menu_use_grid_view_enabled">Kachelansicht aktiviert</string>
     <string name="menu_use_grid_view_disabled">Kachelansicht deaktiviert</string>
+    
+    <!-- Shortcuts -->
+    <string name="shortcut_scan">Barcode</string>
 
 </resources>

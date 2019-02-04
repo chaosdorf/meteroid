@@ -39,7 +39,7 @@ import de.chaosdorf.meteroid.databinding.ActivityAboutBinding;
 public class About extends Activity
 {
 	private ActivityAboutBinding binding;
-	private static final String FALLBACK_VERSION_NAME = "unknown";
+	private static final String FALLBACK_VERSION_NAME = "UNKNOWN";
 	
 	@Override
 	protected void onCreate(final Bundle savedInstanceState)

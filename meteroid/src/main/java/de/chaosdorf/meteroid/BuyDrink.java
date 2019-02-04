@@ -158,7 +158,10 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1)
 		{
-			shortcutManager = getSystemService(ShortcutManager.class);
+			if(!config.multiUserMode)
+			{
+				shortcutManager = getSystemService(ShortcutManager.class);
+			}
 		}
 		
 		reload();

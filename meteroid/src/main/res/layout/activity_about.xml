@@ -64,6 +64,14 @@
               android:gravity="center"
               android:textSize="12sp"
               android:text="@{'v' + version_name}"/>
+    
+    <TextView android:id="@+id/github_link"
+              android:layout_height="wrap_content"
+              android:layout_width="fill_parent"
+              android:gravity="center"
+              android:textSize="15sp"
+              android:autoLink="web"
+              android:text="https://github.com/chaosdorf/meteroid"/>
 
   </LinearLayout>
 </layout>

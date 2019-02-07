@@ -90,6 +90,9 @@ public class MeteroidAdapter<T extends MeteroidItem> extends ArrayAdapter<T> imp
     }
     
     public int getPositionForSection(int sectionIndex) {
+        if(sectionIndex >= sections.size()) {
+            return objects.size() - 1;
+        }
         return indexForSection.get(sections.get(sectionIndex));
     }
 }

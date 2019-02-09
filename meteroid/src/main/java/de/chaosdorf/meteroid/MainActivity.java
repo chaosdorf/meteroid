@@ -44,7 +44,7 @@ public class MainActivity extends Activity
 			// Set hostname if not done yet
 			Utility.startActivity(this, SetHostname.class);
 		}
-		else if (config.userID == config.NO_USER_ID)
+		else if (config.multiUserMode || config.userID == config.NO_USER_ID)
 		{
 			// Pick username if not done yet
 			Utility.startActivity(this, PickUsername.class);

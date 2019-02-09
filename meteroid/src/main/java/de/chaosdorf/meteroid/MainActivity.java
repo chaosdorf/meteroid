@@ -54,5 +54,6 @@ public class MainActivity extends Activity
 			// Ready to buy some drinks
 			Utility.startActivity(this, BuyDrink.class);
 		}
+		finish();
 	}
 }

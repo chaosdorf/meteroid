@@ -103,9 +103,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		{
 			public void onClick(View view)
 			{
-				config.userID = config.NO_USER_ID;
-				config.save();
-				Utility.startActivity(activity, PickUsername.class);
+				pickUsername();
 			}
 		});
 
@@ -309,6 +307,20 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		new LongRunningIORequest<User>(this, LongRunningIOTask.GET_USER, connection.getAPI().getUser(config.userID));
 		new LongRunningIORequest<List<Drink>>(this, LongRunningIOTask.GET_DRINKS, connection.getAPI().listDrinks());
 	}
+	
+	private void pickUsername()
+	{
+		config.userID = config.NO_USER_ID;
+		config.save();
+		if(config.multiUserMode)
+		{
+			finish();
+		}
+		else
+		{
+			Utility.startActivity(this, PickUsername.class);
+		}
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu)
@@ -325,9 +337,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		switch (item.getItemId())
 		{
 			case android.R.id.home:
-				config.userID = config.NO_USER_ID;
-				config.save();
-				Utility.startActivity(this, PickUsername.class);
+				pickUsername();
 				break;
 			case R.id.action_reload:
 				reload();
@@ -342,36 +352,25 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 				Utility.startActivity(this, SetHostname.class);
 				break;
 			case R.id.reset_username:
-				config.userID = config.NO_USER_ID;
-				config.save();
-				Utility.startActivity(this, PickUsername.class);
+				pickUsername();
 				break;
 			case R.id.use_grid_view:
 				Utility.toggleUseGridView(this);
 				item.setChecked(config.useGridView);
-				Utility.startActivity(this, BuyDrink.class);
+				if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+				{
+					recreate();
+				}
+				else
+				{
+					Utility.startActivity(this, BuyDrink.class);
+				}
 				break;
 			case R.id.about:
 				Utility.startActivity(this, About.class);
 				break;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
-	public boolean onKeyDown(final int keyCode, @NotNull final KeyEvent event)
-	{
-		if (keyCode == KeyEvent.KEYCODE_BACK)
-		{
-			if (config.multiUserMode)
-			{
-				config.userID = config.NO_USER_ID;
-				config.save();
-				Utility.startActivity(this, MainActivity.class);
-				return true;
-			}
-		}
-		return super.onKeyDown(keyCode, event);
 	}
 
 	@Override
@@ -478,7 +477,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 					}
 					if (config.multiUserMode && user.getRedirect())
 					{
-						Utility.startActivity(this, PickUsername.class);
+						pickUsername();
 						break;
 					}
 					if(!buyableItem.getActive())

@@ -213,6 +213,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 		if (task == LongRunningIOTask.GET_USERS)
 		{
 			final List<User> itemList = result;
+			editHostnameOnBackButton = false;
 			if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB)
 			{
 				itemList.add(new User(config.NO_USER_ID, getResources().getString(R.string.pick_username_new_user), "", 0, true, false, true));

@@ -312,14 +312,11 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 	{
 		config.userID = config.NO_USER_ID;
 		config.save();
-		if(config.multiUserMode)
+		if(!config.multiUserMode)
 		{
-			finish();
+			Utility.startActivity(this, PickUsername.class, Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		}
-		else
-		{
-			Utility.startActivity(this, PickUsername.class);
-		}
+		finish();
 	}
 
 	@Override

@@ -1,4 +1,5 @@
 /*******************************************************************************
+
  * The MIT License (MIT)
  *
  * Copyright (c) 2013-2016 Chaosdorf e.V.
@@ -29,9 +30,13 @@ import android.app.Activity;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.databinding.DataBindingUtil;
+import android.databinding.ObservableBoolean;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.MenuItem;
+import android.view.View;
 
 
 import de.chaosdorf.meteroid.databinding.ActivityAboutBinding;
@@ -39,6 +44,8 @@ import de.chaosdorf.meteroid.databinding.ActivityAboutBinding;
 public class About extends Activity
 {
 	private ActivityAboutBinding binding;
+	private Vibrator vibrator;
+	private final ObservableBoolean glassEmpty = new ObservableBoolean(false);
 	private static final String FALLBACK_VERSION_NAME = "UNKNOWN";
 	
 	@Override
@@ -46,6 +53,9 @@ public class About extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_about);
+		binding.setGlassEmpty(glassEmpty);
+		
+		vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 		
 		String versionName = FALLBACK_VERSION_NAME;
 		try
@@ -64,6 +74,29 @@ public class About extends Activity
 				actionBar.setDisplayHomeAsUpEnabled(true);
 			}
 		}
+		
+		binding.appIcon.setOnLongClickListener(new View.OnLongClickListener()
+		{
+			private static final int VIBRATOR_DURATION = 500; // ms
+			
+			@Override
+			public boolean onLongClick(View view)
+			{
+				if(vibrator != null && vibrator.hasVibrator())
+				{
+					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+					{
+						vibrator.vibrate(VibrationEffect.createOneShot(VIBRATOR_DURATION, VibrationEffect.DEFAULT_AMPLITUDE));
+					}
+					else
+					{
+						vibrator.vibrate(VIBRATOR_DURATION);
+					}
+				}
+				glassEmpty.set(!glassEmpty.get());
+				return true;
+			}
+		});
 	}
 	
 	@Override

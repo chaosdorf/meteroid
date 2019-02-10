@@ -71,7 +71,7 @@ public class UserSettings extends MeteroidNetworkActivity
 		{
 			public void onClick(View view)
 			{
-				goBack();
+				finish();
 			}
 		});
 		
@@ -130,7 +130,7 @@ public class UserSettings extends MeteroidNetworkActivity
 		switch (item.getItemId())
 		{
 			case android.R.id.home:
-				goBack();
+				finish();
 				break;
 			case R.id.action_save:
 				saveUser();
@@ -157,7 +157,7 @@ public class UserSettings extends MeteroidNetworkActivity
 	{
 		if (keyCode == KeyEvent.KEYCODE_BACK)
 		{
-			goBack();
+			finish();
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
@@ -181,18 +181,6 @@ public class UserSettings extends MeteroidNetworkActivity
 		} catch(NoSuchMethodError err) {} // workaround for 2.3.3
 	}
 
-	private void goBack()
-	{
-		if(config.userID == config.NO_USER_ID) //new user
-		{
-			Utility.startActivity(this, PickUsername.class);
-		}
-		else
-		{
-			Utility.startActivity(this, BuyDrink.class);
-		}
-	}
-	
 	private void deleteUser()
 	{
 		if(config.userID == config.NO_USER_ID) //new user
@@ -228,7 +216,8 @@ public class UserSettings extends MeteroidNetworkActivity
 									config.save();
 									makeWritable();
 									Utility.displayToastMessage(userSettings, getResources().getString(R.string.user_settings_deleted_user));
-									Utility.startActivity(userSettings, PickUsername.class);
+									Utility.startActivity(userSettings, PickUsername.class, Intent.FLAG_ACTIVITY_CLEAR_TOP);
+									finish();
 								}
 							},
 							LongRunningIOTask.DELETE_USER,
@@ -283,7 +272,8 @@ public class UserSettings extends MeteroidNetworkActivity
 					@Override
 					public void processIOResult(LongRunningIOTask task, User result)
 					{
-						Utility.startActivity(userSettings, PickUsername.class);
+						Utility.startActivity(userSettings, PickUsername.class, Intent.FLAG_ACTIVITY_CLEAR_TOP);
+						finish();
 					}
 				},
 				LongRunningIOTask.ADD_USER,
@@ -302,7 +292,8 @@ public class UserSettings extends MeteroidNetworkActivity
 					@Override
 					public void processIOResult(LongRunningIOTask task, Void result)
 					{
-						Utility.startActivity(userSettings, BuyDrink.class);
+						Utility.startActivity(userSettings, BuyDrink.class, Intent.FLAG_ACTIVITY_CLEAR_TOP);
+						finish();
 					}
 				},
 				LongRunningIOTask.EDIT_USER,

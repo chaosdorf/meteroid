@@ -66,7 +66,13 @@ public class Utility
 
 	public static void startActivity(final Activity activity, Class<?> classType)
 	{
+		startActivity(activity, classType, 0);
+	}
+
+	public static void startActivity(final Activity activity, Class<?> classType, int flags)
+	{
 		final Intent intent = new Intent(activity, classType);
+		intent.addFlags(flags);
 		activity.startActivity(intent);
 	}
 

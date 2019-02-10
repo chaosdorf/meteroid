@@ -106,6 +106,15 @@ public class SetHostname extends Activity
 	public boolean onCreateOptionsMenu(final Menu menu)
 	{
 		getMenuInflater().inflate(R.menu.settings, menu);
+		
+		// the delete item doesn't make sense here
+		final MenuItem deleteItem = menu.findItem(R.id.action_delete);
+		if(deleteItem != null)
+		{
+			deleteItem.setVisible(false);
+			deleteItem.setEnabled(false);
+		}
+		
 		return true;
 	}
 

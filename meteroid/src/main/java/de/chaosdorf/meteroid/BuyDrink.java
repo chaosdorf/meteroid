@@ -544,7 +544,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		{
 			super(activity, R.layout.activity_buy_drink, drinkList);
 			this.drinkList = drinkList;
-			this.inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			this.inflater = activity.getLayoutInflater();
 		}
 
 		public View getView(final int position, final View convertView, final ViewGroup parent)

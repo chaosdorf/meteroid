@@ -259,7 +259,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 		{
 			super(activity, R.layout.activity_pick_username, userList);
 			this.userList = userList;
-			this.inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			this.inflater = activity.getLayoutInflater();
 		}
 		
 

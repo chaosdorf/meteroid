@@ -29,6 +29,14 @@
   xmlns:fab="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   >
+  
+  <data>
+    <variable
+      name="filter_button_handler"
+      type="View.OnClickListener"
+    />
+    <import type="android.view.View"/>
+  </data>
 
   <RelativeLayout android:layout_width="fill_parent"
                   android:layout_height="fill_parent"
@@ -74,6 +82,179 @@
                   android:contentDescription="@string/button_reload"/>
 
           </LinearLayout>
+      </LinearLayout>
+      
+      <!-- filter buttons -->
+      <LinearLayout
+          android:id="@+id/pick_username_filter"
+          android:layout_height="wrap_content"
+          android:layout_width="fill_parent"
+          android:visibility="gone"
+          android:orientation="horizontal">
+          
+          <!-- TODO: Some sort of loop? -->
+          <Button
+              android:id="@+id/filter_button_0"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:onClick="@{filter_button_handler}"
+              android:text="#"/>
+          <Button
+              android:id="@+id/filter_button_A"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:onClick="@{filter_button_handler}"
+              android:text="A"/>
+          <Button
+              android:id="@+id/filter_button_B"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:onClick="@{filter_button_handler}"
+              android:text="B"/>
+          <Button
+              android:id="@+id/filter_button_C"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:onClick="@{filter_button_handler}"
+              android:text="C"/>
+          <Button
+              android:id="@+id/filter_button_D"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:onClick="@{filter_button_handler}"
+              android:text="D"/>
+          <Button
+              android:id="@+id/filter_button_E"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:onClick="@{filter_button_handler}"
+              android:text="E"/>
+          <Button
+              android:id="@+id/filter_button_F"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:onClick="@{filter_button_handler}"
+              android:text="F"/>
+          <Button
+              android:id="@+id/filter_button_G"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:onClick="@{filter_button_handler}"
+              android:text="G"/>
+          <Button
+              android:id="@+id/filter_button_H"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:onClick="@{filter_button_handler}"
+              android:text="H"/>
+          <Button
+              android:id="@+id/filter_button_I"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:onClick="@{filter_button_handler}"
+              android:text="I"/>
+          <Button
+              android:id="@+id/filter_button_J"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:onClick="@{filter_button_handler}"
+              android:text="J"/>
+          <Button
+              android:id="@+id/filter_button_K"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:onClick="@{filter_button_handler}"
+              android:text="K"/>
+          <Button
+              android:id="@+id/filter_button_L"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:onClick="@{filter_button_handler}"
+              android:text="L"/>
+          <Button
+              android:id="@+id/filter_button_M"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:onClick="@{filter_button_handler}"
+              android:text="M"/>
+          <Button
+              android:id="@+id/filter_button_N"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:onClick="@{filter_button_handler}"
+              android:text="N"/>
+          <Button
+              android:id="@+id/filter_button_O"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:onClick="@{filter_button_handler}"
+              android:text="O"/>
+          <Button
+              android:id="@+id/filter_button_P"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:onClick="@{filter_button_handler}"
+              android:text="P"/>
+          <Button
+              android:id="@+id/filter_button_Q"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:onClick="@{filter_button_handler}"
+              android:text="Q"/>
+          <Button
+              android:id="@+id/filter_button_R"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:onClick="@{filter_button_handler}"
+              android:text="R"/>
+          <Button
+              android:id="@+id/filter_button_S"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:onClick="@{filter_button_handler}"
+              android:text="S"/>
+          <Button
+              android:id="@+id/filter_button_T"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:onClick="@{filter_button_handler}"
+              android:text="T"/>
+          <Button
+              android:id="@+id/filter_button_U"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:onClick="@{filter_button_handler}"
+              android:text="U"/>
+          <Button
+              android:id="@+id/filter_button_V"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:onClick="@{filter_button_handler}"
+              android:text="V"/>
+          <Button
+              android:id="@+id/filter_button_W"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:onClick="@{filter_button_handler}"
+              android:text="W"/>
+          <Button
+              android:id="@+id/filter_button_X"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:onClick="@{filter_button_handler}"
+              android:text="X"/>
+          <Button
+              android:id="@+id/filter_button_Y"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:onClick="@{filter_button_handler}"
+              android:text="Y"/>
+          <Button
+              android:id="@+id/filter_button_Z"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:onClick="@{filter_button_handler}"
+              android:text="Z"/>
       </LinearLayout>
 
       <ProgressBar

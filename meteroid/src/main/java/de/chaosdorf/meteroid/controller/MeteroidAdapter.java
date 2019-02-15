@@ -37,19 +37,19 @@ import java.util.Map;
 import de.chaosdorf.meteroid.model.MeteroidItem;
 
 public class MeteroidAdapter<T extends MeteroidItem> extends ArrayAdapter<T> implements SectionIndexer {
-    private final List<T> objects;
-    private final List<String> sections;
-    private final Map<String, Integer> indexForSection;
+    private List<T> objects;
+    private List<String> sections;
+    private Map<String, Integer> indexForSection;
     
     public MeteroidAdapter(Context context, int resource, List<T> objects) {
         super(context, resource, objects);
+        computeSections(objects);
+    }
+    
+    protected void computeSections(List<T> objects) {
         this.objects = objects;
         indexForSection = new HashMap<String, Integer>();
         sections = new ArrayList<String>();
-        computeSections();
-    }
-    
-    private void computeSections() {
         for(int i = 0; i < objects.size(); i++) {
             MeteroidItem item = objects.get(i);
             if(!item.getActive()) {

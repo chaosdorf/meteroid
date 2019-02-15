@@ -36,6 +36,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -47,6 +49,7 @@ import com.melnykov.fab.FloatingActionButton;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import de.chaosdorf.meteroid.controller.MeteroidAdapter;
@@ -250,18 +253,65 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 		}
 	}
 
-	public class UserAdapter extends MeteroidAdapter<User>
+	public class UserAdapter extends MeteroidAdapter<User> implements Filterable
 	{
 		private final List<User> userList;
+		private List<User> filteredUserList;
 		private final LayoutInflater inflater;
 
 		UserAdapter(final List<User> userList)
 		{
 			super(activity, R.layout.activity_pick_username, userList);
 			this.userList = userList;
+			this.filteredUserList = userList;
 			this.inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			setNotifyOnChange(false);
 		}
 		
+		@Override
+		public Filter getFilter()
+		{
+			return new Filter() 
+			{
+				@Override
+				protected void publishResults(CharSequence constraint, Filter.FilterResults results)
+				{
+					filteredUserList = (List<User>) results.values;
+					clear();
+					addAll(filteredUserList);
+					notifyDataSetChanged();
+					computeSections(filteredUserList);
+				}
+				
+				@Override
+				protected Filter.FilterResults performFiltering(CharSequence constraint)
+				{
+					FilterResults results = new FilterResults();
+					List<User> filtered = new ArrayList<User>();
+					
+					if(constraint != null)
+					{
+						String constraintLower = constraint.toString().toLowerCase();
+						for (int i = 0; i < userList.size(); i++) {
+							User currentUser = userList.get(i);
+							String name = currentUser.getName();
+							if (name.toLowerCase().startsWith(constraintLower))
+							{
+								filtered.add(currentUser);
+							}
+						}
+					}
+					else
+					{
+						filtered = userList;
+					}
+				
+					results.count = filtered.size();
+					results.values = filtered;
+					return results;
+				}
+			};
+		}
 
 		public View getView(final int position, final View convertView, final ViewGroup parent)
 		{
@@ -275,7 +325,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 				return null;
 			}
 
-			final User user = userList.get(position);
+			final User user = filteredUserList.get(position);
 			final ImageView icon = (ImageView) view.findViewById(R.id.icon);
 			final TextView label = (TextView) view.findViewById(R.id.label);
 

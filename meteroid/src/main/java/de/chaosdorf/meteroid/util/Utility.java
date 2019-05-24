@@ -126,7 +126,7 @@ public class Utility
 				.appendPath(md5Hex(email))
 				.appendQueryParameter("d", "404")
 				.build();
-			Picasso.with(activity).load(uri).error(R.drawable.default_user).into(icon);
+			Picasso.with(activity).load(uri).placeholder(R.drawable.default_user).into(icon);
 		}
 		else
 		{

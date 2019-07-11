@@ -93,6 +93,9 @@ public class MeteroidAdapter<T extends MeteroidItem> extends ArrayAdapter<T> imp
         if(sectionIndex >= sections.size()) {
             return objects.size() - 1;
         }
+        if(sectionIndex < 0) {
+            return 0;
+        }
         return indexForSection.get(sections.get(sectionIndex));
     }
 }

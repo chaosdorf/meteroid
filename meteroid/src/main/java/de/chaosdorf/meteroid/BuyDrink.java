@@ -253,7 +253,9 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		
 		if(shortcutManager != null)
 		{
-			updateShortcuts(shortcutForItem(buyableItem));
+			ShortcutInfo shortcut = shortcutForItem(buyableItem);
+			updateShortcuts(shortcut);
+			shortcutManager.reportShortcutUsed(shortcut.getId());
 		}
 	}
 	
@@ -269,6 +271,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 				.setIntent(intent)
 				.build();
 			updateShortcuts(shortcut);
+			shortcutManager.reportShortcutUsed(shortcut.getId());
 		}
 		barcodeIntegrator.initiateScan();
 	}

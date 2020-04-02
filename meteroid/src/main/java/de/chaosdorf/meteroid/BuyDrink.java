@@ -253,8 +253,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		
 		if(shortcutManager != null)
 		{
-			ShortcutInfo shortcut = shortcutForItem(buyableItem);
-			shortcutManager.setDynamicShortcuts(Arrays.asList(shortcut));
+			updateShortcuts(shortcutForItem(buyableItem));
 		}
 	}
 	
@@ -269,7 +268,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 				.setIcon(Icon.createWithResource(this, R.drawable.button_barcode))
 				.setIntent(intent)
 				.build();
-			shortcutManager.setDynamicShortcuts(Arrays.asList(shortcut));
+			updateShortcuts(shortcut);
 		}
 		barcodeIntegrator.initiateScan();
 	}
@@ -296,6 +295,35 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 			.setIcon(Icon.createWithResource(this, R.drawable.default_drink)) // TODO
 			.setIntent(intent)
 			.build();
+	}
+	
+	/**
+	* Updates the dynamic shortcuts.
+	* If a shortcut with this ID does not yet exist, it is added and some other one is removed.
+	* If a shortcut with this ID does already exist, nothing happens.
+	*/
+	private void updateShortcuts(ShortcutInfo shortcut) {
+		List<ShortcutInfo> shortcuts = shortcutManager.getDynamicShortcuts();
+		for(ShortcutInfo current : shortcuts) {
+			if(current.getId().equals(shortcut.getId())) {
+				// nothing to do here
+				return;
+			}
+		}
+		
+		// Do we have enough space to add another one?
+		// getMaxShortcutCountPerActivity gives us the upper bound of how many shortcuts we can set.
+		// But not every launcher can display as much. WTF.
+		// At least the AOSP launcher can display 4. Let's hope that others can do the same.
+		int maxShortcuts = Math.min(shortcutManager.getMaxShortcutCountPerActivity(), 4);
+		if(shortcuts.size() >= maxShortcuts) {
+			// if not, we have to remove one first
+			// pick the last one per default - it's the one we put there the first, I think
+			String idToRemove = shortcuts.get(shortcuts.size() - 1).getId();
+			shortcutManager.removeDynamicShortcuts(Arrays.asList(idToRemove));
+		}
+		// then add our new one
+		shortcutManager.addDynamicShortcuts(Arrays.asList(shortcut));
 	}
 	
 	public void reload()

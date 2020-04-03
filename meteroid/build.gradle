@@ -42,6 +42,7 @@ dependencies {
     repositories {
         mavenCentral()
         google()
+        jcenter()
     }
     implementation 'org.jetbrains:annotations:13.0'
     // Retrofit >= 2.7 needs Android 5+
@@ -88,7 +89,7 @@ sourceSets {
 }
 tasks.withType(com.github.spotbugs.SpotBugsTask) {
     dependsOn 'assembleDebug'
-    classes = files("$projectDir.absolutePath/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/")
+    classes = files("$projectDir.absolutePath/build/intermediates/javac/debug/classes/")
     source = fileTree('src/main/java')
 }
 spotbugs {

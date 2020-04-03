@@ -28,9 +28,10 @@ buildscript {
         maven {
             url "https://plugins.gradle.org/m2/"
         }
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'com.android.tools.build:gradle:3.3.2'
         // SpotBugs plugin >= 1.7 needs Gradle 5.0+
         classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.6.9"
     }
@@ -41,6 +42,7 @@ apply plugin: "com.github.spotbugs"
 dependencies {
     repositories {
         mavenCentral()
+        google()
     }
     compile 'org.jetbrains:annotations:13.0'
     // Retrofit >= 2.7 needs Android 5+
@@ -48,7 +50,7 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.6.4'
     compile 'com.google.zxing:android-integration:3.3.0'
     compile 'com.shamanland:fab:0.0.8'
-    // com.android.support:support-v4 is being pulled in by the databinding
+    compile 'com.android.support:support-core-ui:26.1.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
 }
 

@@ -85,7 +85,7 @@ sourceSets {
 }
 tasks.withType(com.github.spotbugs.SpotBugsTask) {
     dependsOn 'assembleDebug'
-    classes = files("$projectDir.absolutePath/build/intermediates/classes/debug")
+    classes = files("$projectDir.absolutePath/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes/")
     source = fileTree('src/main/java')
 }
 spotbugs {

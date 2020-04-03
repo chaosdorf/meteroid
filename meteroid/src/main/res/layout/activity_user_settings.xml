@@ -61,6 +61,7 @@
           android:layout_width="fill_parent"
           android:inputType="text"
           android:text="@={user.name}"
+          android:autofillHints="username"
           android:enabled="@{writable}"
           />
 
@@ -71,6 +72,7 @@
           android:layout_width="fill_parent"
           android:inputType="textEmailAddress"
           android:text="@={user.email}"
+          android:autofillHints="emailAddress"
           android:enabled="@{writable}"
           />
 

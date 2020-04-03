@@ -61,7 +61,6 @@
           style="@android:style/Widget.ProgressBar.Large"/>
 
       <android.support.v4.widget.SwipeRefreshLayout
-          xmlns:android="http://schemas.android.com/apk/res/android"
           android:id="@+id/swiperefresh"
           android:layout_alignParentTop="true"
           android:layout_width="fill_parent"

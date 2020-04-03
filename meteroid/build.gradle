@@ -73,6 +73,10 @@ android {
     dataBinding {
         enabled = true
     }
+    defaultConfig {
+        targetSdkVersion 29
+        minSdkVersion 14
+    }
 }
 
 

@@ -48,7 +48,6 @@
         android:paddingTop="2dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_weight="0"
         android:gravity="center_horizontal"
         android:textSize="14sp"/>

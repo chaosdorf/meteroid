@@ -32,8 +32,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.6.2'
-        // SpotBugs plugin >= 1.7 needs Gradle 5.0+
-        classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.6.9"
+        classpath 'com.github.spotbugs:spotbugs-gradle-plugin:3.0.0'
     }
 }
 apply plugin: 'com.android.application'

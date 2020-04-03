@@ -50,6 +50,7 @@ import com.melnykov.fab.FloatingActionButton;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -159,6 +160,14 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 			if(!config.multiUserMode)
 			{
 				shortcutManager = getSystemService(ShortcutManager.class);
+				// make sure all pinned shortcuts are enabled as we have a current user
+				List<ShortcutInfo> shortcuts = shortcutManager.getPinnedShortcuts();
+				// if this were Java 8 I could use a stream :(
+				List<String> shortcutIDs = new ArrayList<>();
+				for(ShortcutInfo shortcut : shortcuts) {
+					shortcutIDs.add(shortcut.getId());
+				}
+				shortcutManager.enableShortcuts(shortcutIDs);
 			}
 		}
 		
@@ -343,6 +352,19 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 	{
 		config.userID = config.NO_USER_ID;
 		config.save();
+		if(shortcutManager != null) {
+			// if we have no user, we can't buy drinks
+			// removing dynamic shortcuts is easy
+			shortcutManager.removeAllDynamicShortcuts();
+			// but if the user pinned them, that's going to be a bit more difficult
+			List<ShortcutInfo> shortcuts = shortcutManager.getPinnedShortcuts();
+			// if this were Java 8 I could use a stream :(
+			List<String> shortcutIDs = new ArrayList<>();
+			for(ShortcutInfo shortcut : shortcuts) {
+				shortcutIDs.add(shortcut.getId());
+			}
+			shortcutManager.disableShortcuts(shortcutIDs);
+		}
 		if(!config.multiUserMode)
 		{
 			Utility.startActivity(this, PickUsername.class, Intent.FLAG_ACTIVITY_CLEAR_TOP);

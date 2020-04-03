@@ -24,6 +24,7 @@
 
 package de.chaosdorf.meteroid;
 
+import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
@@ -275,7 +276,9 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 	* If a shortcut with this ID does not yet exist, it is added and some other one is removed.
 	* If a shortcut with this ID does already exist, nothing happens.
 	*/
+	@TargetApi(Build.VERSION_CODES.N_MR1)
 	private void updateShortcuts(ShortcutInfo shortcut) {
+		assert shortcutManager != null;
 		List<ShortcutInfo> shortcuts = shortcutManager.getDynamicShortcuts();
 		for(ShortcutInfo current : shortcuts) {
 			if(current.getId().equals(shortcut.getId())) {

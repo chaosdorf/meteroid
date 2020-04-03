@@ -48,7 +48,7 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.6.4'
     compile 'com.google.zxing:android-integration:3.3.0'
     compile 'com.shamanland:fab:0.0.8'
-    compile 'com.android.support:support-v4:22.1.1@aar'
+    // com.android.support:support-v4 is being pulled in by the databinding
     compile 'com.squareup.picasso:picasso:2.5.2'
 }
 

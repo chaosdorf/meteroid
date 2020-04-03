@@ -44,14 +44,14 @@ dependencies {
         mavenCentral()
         google()
     }
-    compile 'org.jetbrains:annotations:13.0'
+    implementation 'org.jetbrains:annotations:13.0'
     // Retrofit >= 2.7 needs Android 5+
-    compile 'com.squareup.retrofit2:retrofit:2.6.4'
-    compile 'com.squareup.retrofit2:converter-gson:2.6.4'
-    compile 'com.google.zxing:android-integration:3.3.0'
-    compile 'com.shamanland:fab:0.0.8'
-    compile 'com.android.support:support-core-ui:26.1.0'
-    compile 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.squareup.retrofit2:retrofit:2.6.4'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.4'
+    implementation 'com.google.zxing:android-integration:3.3.0'
+    implementation 'com.shamanland:fab:0.0.8'
+    implementation 'com.android.support:support-core-ui:26.1.0'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
 }
 
 //see https://stackoverflow.com/a/22183825/2192464

@@ -42,7 +42,7 @@ public class Connection
     private Config config;
     private API api;
     
-    private static Connection instance;
+    private static volatile Connection instance;
     
     private Connection(Config config)
     {

@@ -42,7 +42,7 @@ public class Config
     public int userID = NO_USER_ID;
     private int version = 0;
     
-    private static Config instance;
+    private static volatile Config instance;
     
     private Config(Context context)
     {

@@ -172,7 +172,7 @@
             android:drawSelectorOnTop="false"/>
       </LinearLayout>
       
-      <com.melnykov.fab.FloatingActionButton
+      <com.shamanland.fab.FloatingActionButton
           android:visibility="gone"
           android:id="@+id/fab"
           android:layout_width="wrap_content"

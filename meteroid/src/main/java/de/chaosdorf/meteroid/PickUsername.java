@@ -42,7 +42,8 @@ import android.widget.TextView;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 
-import com.melnykov.fab.FloatingActionButton;
+import com.shamanland.fab.FloatingActionButton;
+import com.shamanland.fab.ShowHideOnScroll;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -105,8 +106,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 					reload();
 				}
 			});
-			binding.fab.hide(false);
-			binding.fab.attachToListView(binding.gridView);
+			binding.gridView.setOnTouchListener(new ShowHideOnScroll(binding.fab));
 			binding.fab.setOnClickListener(new View.OnClickListener()
 			{
 				public void onClick(View view)
@@ -115,7 +115,6 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 				}
 			});
 			binding.fab.setVisibility(View.VISIBLE);
-			binding.fab.show();
 		}
 
 		reload();

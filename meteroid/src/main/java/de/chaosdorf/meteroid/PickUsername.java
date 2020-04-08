@@ -52,6 +52,7 @@ import java.util.List;
 
 import de.chaosdorf.meteroid.controller.MeteroidAdapter;
 import de.chaosdorf.meteroid.databinding.ActivityPickUsernameBinding;
+import de.chaosdorf.meteroid.databinding.ActivityPickUsernameItemBinding;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOCallback;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIORequest;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOTask;
@@ -238,33 +239,43 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 		public View getView(final int position, final View convertView, final ViewGroup parent)
 		{
 			View view = convertView;
+			ActivityPickUsernameItemBinding itemBinding;
 			if (view == null)
 			{
-				view = inflater.inflate(R.layout.activity_pick_username_item, parent, false);
+				itemBinding = ActivityPickUsernameItemBinding.inflate(
+					inflater, parent, false
+				);
+				view = itemBinding.getRoot();
 			}
-			if (view == null)
+			else
+			{
+				itemBinding = ActivityPickUsernameItemBinding.bind(view);
+			}
+			if (view == null | itemBinding == null)
 			{
 				return null;
 			}
 
 			final User user = userList.get(position);
-			final ImageView icon = (ImageView) view.findViewById(R.id.icon);
-			final TextView label = (TextView) view.findViewById(R.id.label);
 
-			Utility.loadUserImage(activity, icon, user);
-			icon.setContentDescription(user.getName());
-			label.setText(user.getName());
+			Utility.loadUserImage(activity, itemBinding.icon, user);
+			itemBinding.icon.setContentDescription(user.getName());
+			itemBinding.label.setText(user.getName());
 
 			if (user.getId() == config.NO_USER_ID)
 			{
 				if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 				{
-					icon.setImageDrawable(getDrawable(R.drawable.add_user));
+					itemBinding.icon.setImageDrawable(
+						getDrawable(R.drawable.add_user)
+					);
 				}
 				else
 				{
 					// This is only called on KitKat and lower.
-					icon.setImageDrawable(getResources().getDrawable(R.drawable.add_user));
+					itemBinding.icon.setImageDrawable(
+						getResources().getDrawable(R.drawable.add_user)
+					);
 				}
 			}
 

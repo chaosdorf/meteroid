@@ -212,14 +212,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 		{
 			config.userID = user.getId();
 			config.save();
-			if (user.getId() == config.NO_USER_ID)
-			{
-				Utility.startActivity(this, UserSettings.class);
-			}
-			else
-			{
-				Utility.startActivity(this, BuyDrink.class);
-			}
+			Utility.startActivity(this, BuyDrink.class);
 		}
 	}
 
@@ -261,23 +254,6 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 			Utility.loadUserImage(activity, itemBinding.icon, user);
 			itemBinding.icon.setContentDescription(user.getName());
 			itemBinding.label.setText(user.getName());
-
-			if (user.getId() == config.NO_USER_ID)
-			{
-				if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-				{
-					itemBinding.icon.setImageDrawable(
-						getDrawable(R.drawable.add_user)
-					);
-				}
-				else
-				{
-					// This is only called on KitKat and lower.
-					itemBinding.icon.setImageDrawable(
-						getResources().getDrawable(R.drawable.add_user)
-					);
-				}
-			}
 
 			return view;
 		}

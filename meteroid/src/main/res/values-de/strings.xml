@@ -38,31 +38,30 @@
     <string name="set_hostname_continue_http">Die eingegebene URL ist nicht sicher (HTTP statt HTTPS). Wirklich fortfahren?</string>
 
     <!-- Pick username -->
-    <string name="pick_username_label">Benutzer auswählen</string>
-    <string name="pick_username_new_user">Neuer Benutzer</string>
-    <string name="pick_username_error">Konnte Benutzerliste nicht laden. Bitte Netzwerkverbindung überprüfen oder Hostnamen ändern um fortzufahren.</string>
+    <string name="pick_username_label">Account auswählen</string>
+    <string name="pick_username_new_user">Neuer Account</string>
+    <string name="pick_username_error">Konnte Accountliste nicht laden. Bitte Netzwerkverbindung überprüfen oder Hostnamen ändern um fortzufahren.</string>
 
     <!-- User settings -->
-    <string name="user_settings_label">Benutzer hinzufügen oder bearbeiten</string>
-    <string name="user_settings_username">Benutzername</string>
+    <string name="user_settings_label">Account hinzufügen oder bearbeiten</string>
+    <string name="user_settings_username">Nickname</string>
     <string name="user_settings_email">Email</string>
     <string name="user_settings_balance">Guthaben</string>
     <string name="user_settings_active">Aktiv?</string>
     <string name="user_settings_audit">Transaktionen loggen?</string>
     <string name="user_settings_redirect">Umleiten nach einer Transaktion?</string>
-    <string name="user_settings_empty_username">Bitte Benutzername eingeben</string>
+    <string name="user_settings_empty_username">Bitte Nickname eingeben</string>
     <string name="user_settings_balance_no_double">Bitte Guthaben als Zahl eingeben</string>
-    <string name="user_settings_cant_delete_non_existing_user">Kann keinen noch nicht erstellten Benutzer löschen.</string>
-    <string name="user_settings_confirm_delete_user">Diesen Benutzer wirklich löschen?</string>
-    <string name="user_settings_deleted_user">Benutzer gelöscht.</string>
-
+    <string name="user_settings_cant_delete_non_existing_user">Kann keinen noch nicht erstellten Account löschen.</string>
+    <string name="user_settings_confirm_delete_user">Diesen Account wirklich löschen?</string>
+    <string name="user_settings_deleted_user">Account gelöscht.</string>
     <!-- Buy drink -->
     <string name="buy_drink_label">Für Getränk spenden</string>
     <string name="buy_drink_pending">Bitte warten bis aktueller Vorgang abgeschlossen ist…</string>
     <string name="buy_drink_bought_drink">%2$s für %1$s gespendet</string>
     <string name="buy_drink_added_money">Erfolgreich %1$s aufgeladen</string>
-    <string name="buy_drink_error">Ups, das hat nicht geklappt. Bitte Eingaben und Netzwerkverbindung überprüfen und erneut versuchen oder Hostname/Benutzername ändern um fortzufahren.</string>
-    <string name="buy_drink_edit_user">Benutzer bearbeiten</string>
+    <string name="buy_drink_error">Ups, das hat nicht geklappt. Bitte Eingaben und Netzwerkverbindung überprüfen und erneut versuchen oder Hostname/Account ändern um fortzufahren.</string>
+    <string name="buy_drink_edit_user">Account bearbeiten</string>
     <string name="buy_drink_invalid_intent">Diese Aktion ist ungültig.</string>
     
     <!-- About -->
@@ -77,10 +76,10 @@
 
     <!-- Menues -->
     <string name="menu_edit_hostname">Hostname ändern</string>
-    <string name="menu_reset_username">Benutzer zurücksetzen</string>
-    <string name="menu_multi_user_mode">Mehrbenutzer-Modus</string>
-    <string name="menu_multi_user_mode_enabled">Mehrbenutzer-Modus aktiviert</string>
-    <string name="menu_multi_user_mode_disabled">Mehrbenutzer-Modus deaktiviert</string>
+    <string name="menu_reset_username">Account zurücksetzen</string>
+    <string name="menu_multi_user_mode">Mehrpersonen-Modus</string>
+    <string name="menu_multi_user_mode_enabled">Mehrpersonen-Modus aktiviert</string>
+    <string name="menu_multi_user_mode_disabled">Mehrpersonen-Modus deaktiviert</string>
     <string name="menu_use_grid_view">Kachelansicht</string>
     <string name="menu_use_grid_view_enabled">Kachelansicht aktiviert</string>
     <string name="menu_use_grid_view_disabled">Kachelansicht deaktiviert</string>

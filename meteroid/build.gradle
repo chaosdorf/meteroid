@@ -31,7 +31,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.2'
+        classpath 'com.android.tools.build:gradle:4.0.1'
         classpath 'com.github.spotbugs:spotbugs-gradle-plugin:3.0.0'
     }
 }

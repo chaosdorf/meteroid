@@ -69,11 +69,9 @@ android {
     lintOptions {
       abortOnError false
     }
-    dataBinding {
-        enabled = true
-    }
-    viewBinding {
-        enabled = true
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
     }
     defaultConfig {
         targetSdkVersion 29

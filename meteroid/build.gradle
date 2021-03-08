@@ -50,7 +50,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.6.4'
     implementation 'com.google.zxing:android-integration:3.3.0'
     implementation 'com.shamanland:fab:0.0.8'
-    implementation 'com.android.support:support-core-ui:26.1.0'
+    implementation 'com.android.support:support-core-ui:27.1.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
 }
 

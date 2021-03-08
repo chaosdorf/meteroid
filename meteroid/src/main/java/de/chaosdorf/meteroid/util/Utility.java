@@ -126,7 +126,7 @@ public class Utility
 				.appendPath(md5Hex(email))
 				.appendQueryParameter("d", "404")
 				.build();
-			Picasso.with(activity).load(uri).placeholder(R.drawable.default_user).into(icon);
+			Picasso.get().load(uri).placeholder(R.drawable.default_user).into(icon);
 		}
 		else
 		{
@@ -150,7 +150,7 @@ public class Utility
 		if (buyableItem.isDrink())
 		{
 			uri = Uri.parse(buyableItem.getLogoUrl(hostname));
-			Picasso.with(activity).load(uri).error(R.drawable.default_drink).into(icon);
+			Picasso.get().load(uri).error(R.drawable.default_drink).into(icon);
 			return;
 		}
 		final int iconID = activity.getResources().getIdentifier(buyableItem.getLogoUrl(hostname), "drawable", activity.getPackageName());

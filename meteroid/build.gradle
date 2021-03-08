@@ -51,7 +51,7 @@ dependencies {
     implementation 'com.google.zxing:android-integration:3.3.0'
     implementation 'com.shamanland:fab:0.0.8'
     implementation 'com.android.support:support-core-ui:26.1.0'
-    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }
 
 //see https://stackoverflow.com/a/22183825/2192464

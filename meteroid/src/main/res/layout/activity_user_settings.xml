@@ -41,7 +41,7 @@
     />
     <variable
       name="writable"
-      type="android.databinding.ObservableBoolean"
+      type="androidx.databinding.ObservableBoolean"
     />
   </data>
   

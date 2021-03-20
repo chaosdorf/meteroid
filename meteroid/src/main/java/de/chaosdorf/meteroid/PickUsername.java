@@ -25,7 +25,8 @@
 package de.chaosdorf.meteroid;
 
 import android.app.ActionBar;
-import android.databinding.DataBindingUtil;
+import androidx.databinding.DataBindingUtil;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Build;
@@ -39,8 +40,6 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import android.support.v4.widget.SwipeRefreshLayout;
 
 import com.shamanland.fab.FloatingActionButton;
 import com.shamanland.fab.ShowHideOnScroll;

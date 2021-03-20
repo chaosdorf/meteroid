@@ -26,8 +26,8 @@ package de.chaosdorf.meteroid;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.databinding.DataBindingUtil;
-import android.databinding.ObservableBoolean;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ObservableBoolean;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;

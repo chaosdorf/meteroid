@@ -71,6 +71,7 @@
 
     <!-- Audits -->
     <string name="audits_label">Audits</string>
+    <string name="audits_error">Failed to fetch audits. Please check your network connection and try again or reset hostname/username to proceed.</string>
 
     <!-- Buttons -->
     <string name="button_back">Back</string>

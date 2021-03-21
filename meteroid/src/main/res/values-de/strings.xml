@@ -70,6 +70,7 @@
 
     <!-- Audits -->
     <string name="audits_label">Audits</string>
+    <string name="audits_error">Konnte Audits nicht laden. Bitte Netzwerkverbindung überprüfen und erneut versuchen oder Hostname/Account ändern um fortzufahren.</string>
 
     <!-- Buttons -->
     <string name="button_back">Zurück</string>

@@ -62,10 +62,14 @@
     <string name="buy_drink_added_money">Erfolgreich %1$s aufgeladen</string>
     <string name="buy_drink_error">Ups, das hat nicht geklappt. Bitte Eingaben und Netzwerkverbindung überprüfen und erneut versuchen oder Hostname/Account ändern um fortzufahren.</string>
     <string name="buy_drink_edit_user">Account bearbeiten</string>
+    <string name="buy_drink_show_audits">Logs anzeigen</string>
     <string name="buy_drink_invalid_intent">Diese Aktion ist ungültig.</string>
     
     <!-- About -->
     <string name="about_label">Über…</string>
+
+    <!-- Audits -->
+    <string name="audits_label">Audits</string>
 
     <!-- Buttons -->
     <string name="button_back">Zurück</string>

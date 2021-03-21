@@ -31,6 +31,7 @@ import android.content.Intent;
 import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
 import androidx.databinding.DataBindingUtil;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.graphics.Color;
 import android.graphics.drawable.Icon;
 import android.os.Bundle;
@@ -107,6 +108,15 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 		{
+			binding.swiperefresh.setEnabled(true);
+			binding.swiperefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+			{
+				@Override
+				public void onRefresh()
+				{
+					reload();
+				}
+			});
 			binding.fab.setOnClickListener(new View.OnClickListener()
 			{
 				public void onClick(View view)
@@ -308,6 +318,10 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		binding.listView.setVisibility(View.GONE);
 		binding.buyDrinkError.setVisibility(View.GONE);
 		binding.progressBar.setVisibility(View.VISIBLE);
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+		{
+			binding.swiperefresh.setRefreshing(true);
+		}
 		new LongRunningIORequest<User>(this, LongRunningIOTask.GET_USER, connection.getAPI().getUser(config.userID));
 		new LongRunningIORequest<List<Drink>>(this, LongRunningIOTask.GET_DRINKS, connection.getAPI().listDrinks());
 	}
@@ -454,6 +468,10 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 					binding.listView.setVisibility(View.VISIBLE);
 				}
 				binding.progressBar.setVisibility(View.GONE);
+				if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+				{
+					binding.swiperefresh.setRefreshing(false);
+				}
 				if(binding.fab != null)
 				{
 					(config.useGridView? binding.gridView : binding.listView)

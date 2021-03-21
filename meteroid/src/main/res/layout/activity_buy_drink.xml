@@ -58,82 +58,92 @@
           android:layout_centerInParent="true"
           style="@android:style/Widget.ProgressBar.Large"/>
 
-      <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+      <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+          android:id="@+id/swiperefresh"
+          android:layout_alignParentTop="true"
+          android:layout_width="fill_parent"
+          android:layout_height="fill_parent"
+          android:gravity="center"
+          android:enabled="false">
 
-        <!-- Display user data -->
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+          android:orientation="vertical"
+          android:layout_width="fill_parent"
+          android:layout_height="fill_parent">
 
-            <ImageView
-                android:id="@+id/icon"
-                android:layout_width="75dip"
-                android:layout_height="75dip"
-                android:contentDescription="@string/app_name"/>
+          <!-- Display user data -->
+          <LinearLayout
+              android:orientation="horizontal"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="1">
+              <ImageView
+                  android:id="@+id/icon"
+                  android:layout_width="75dip"
+                  android:layout_height="75dip"
+                  android:contentDescription="@string/app_name"/>
 
-                <TextView
-                    android:id="@+id/username"
-                    android:text="@{user.name}"
-                    android:layout_width="200dp"
-                    android:paddingLeft="9dip"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"/>
+              <LinearLayout
+                  android:orientation="vertical"
+                  android:layout_width="0dp"
+                  android:layout_height="fill_parent"
+                  android:layout_weight="1">
 
-                <TextView
-                    android:id="@+id/balance"
-                    android:text="@{DECIMAL_FORMAT.format(user.balance)}"
-                    android:textColor="@{user.balance >= 0 ? Color.LTGRAY : Color.RED}"
-                    android:layout_width="200dp"
-                    android:paddingLeft="9dip"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"/>
+                  <TextView
+                      android:id="@+id/username"
+                      android:text="@{user.name}"
+                      android:layout_width="200dp"
+                      android:paddingLeft="9dip"
+                      android:layout_height="wrap_content"
+                      android:textSize="16sp"/>
 
-            </LinearLayout>
+                  <TextView
+                      android:id="@+id/balance"
+                      android:text="@{DECIMAL_FORMAT.format(user.balance)}"
+                      android:textColor="@{user.balance >= 0 ? Color.LTGRAY : Color.RED}"
+                      android:layout_width="200dp"
+                      android:paddingLeft="9dip"
+                      android:layout_height="wrap_content"
+                      android:textSize="16sp"/>
 
+              </LinearLayout>
+
+          </LinearLayout>
+
+          <TextView
+              android:id="@+id/buy_drink_error"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:textSize="16sp"
+              android:visibility="gone"
+              android:text="@string/buy_drink_error"/>
+
+          <!-- Display drinks -->
+          <GridView
+              android:id="@+id/grid_view"
+              android:visibility="gone"
+              android:fastScrollEnabled="true"
+              android:paddingTop="15dp"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:columnWidth="100dp"
+              android:numColumns="auto_fit"
+              android:verticalSpacing="15dp"
+              android:horizontalSpacing="5dp"
+              android:stretchMode="columnWidth"
+              android:gravity="center"/>
+
+          <ListView
+              android:id="@+id/list_view"
+              android:visibility="gone"
+              android:fastScrollEnabled="true"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="@dimen/activity_vertical_margin"
+              android:drawSelectorOnTop="false"/>
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/buy_drink_error"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:textSize="16sp"
-            android:visibility="gone"
-            android:text="@string/buy_drink_error"/>
-
-        <!-- Display drinks -->
-        <GridView
-            android:id="@+id/grid_view"
-            android:visibility="gone"
-            android:fastScrollEnabled="true"
-            android:paddingTop="15dp"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:columnWidth="100dp"
-            android:numColumns="auto_fit"
-            android:verticalSpacing="15dp"
-            android:horizontalSpacing="5dp"
-            android:stretchMode="columnWidth"
-            android:gravity="center"/>
-
-        <ListView
-            android:id="@+id/list_view"
-            android:visibility="gone"
-            android:fastScrollEnabled="true"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:drawSelectorOnTop="false"/>
-      </LinearLayout>
+      
+      </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
       
       <com.shamanland.fab.FloatingActionButton
           android:visibility="gone"

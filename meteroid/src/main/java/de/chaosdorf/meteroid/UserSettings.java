@@ -83,6 +83,10 @@ public class UserSettings extends MeteroidNetworkActivity
 				deleteUser();
 			}
 		});
+		if(config.userID == config.NO_USER_ID) // new user
+		{
+			binding.buttonDelete.setVisibility(View.GONE);
+		}
 
 		binding.buttonSave.setOnClickListener(new View.OnClickListener()
 		{
@@ -162,7 +166,9 @@ public class UserSettings extends MeteroidNetworkActivity
 		{
 			saveItem.setEnabled(writable);
 		}
-		menu.findItem(R.id.action_delete).setEnabled(writable);
+		MenuItem deleteItem = menu.findItem(R.id.action_delete);
+		deleteItem.setEnabled(writable);
+		deleteItem.setVisible(config.userID != config.NO_USER_ID);
 		return true;
 	}
 

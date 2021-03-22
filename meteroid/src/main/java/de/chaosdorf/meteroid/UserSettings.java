@@ -102,6 +102,19 @@ public class UserSettings extends MeteroidNetworkActivity
 			binding.buttonSave.setVisibility(View.GONE);
 		}
 		
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+		{
+			binding.fab.setOnClickListener(new View.OnClickListener()
+			{
+				public void onClick(View view)
+				{
+					saveUser();
+				}
+			});
+			binding.fab.setVisibility(View.VISIBLE);
+			binding.buttonSave.setVisibility(View.GONE);
+		}
+		
 		makeReadOnly();
 		final UserSettings userSettings = this;
 		new LongRunningIORequest<User>(new LongRunningIOCallback<User>() {
@@ -144,7 +157,11 @@ public class UserSettings extends MeteroidNetworkActivity
 	{
 		getMenuInflater().inflate(R.menu.settings, menu);
 		boolean writable = this.writable.get();
-		menu.findItem(R.id.action_save).setEnabled(writable);
+		MenuItem saveItem = menu.findItem(R.id.action_save);
+		if(saveItem != null)
+		{
+			saveItem.setEnabled(writable);
+		}
 		menu.findItem(R.id.action_delete).setEnabled(writable);
 		return true;
 	}

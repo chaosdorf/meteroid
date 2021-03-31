@@ -29,7 +29,7 @@
   xmlns:tools="http://schemas.android.com/tools"
   >
 
-  <LinearLayout android:layout_width="fill_parent"
+  <RelativeLayout android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/activity_horizontal_margin_dialog"
@@ -37,6 +37,10 @@
                 android:paddingTop="@dimen/activity_vertical_margin"
                 android:paddingBottom="@dimen/activity_vertical_margin"
                 tools:context=".SetHostname">
+    
+    <LinearLayout android:orientation="vertical"
+                  android:layout_height="fill_parent"
+                  android:layout_width="fill_parent">
 
       <TextView
           android:id="@+id/text"
@@ -57,6 +61,18 @@
           android:text="@string/button_save"
           android:id="@+id/button_save"
           android:layout_gravity="center"/>
+    
+    </LinearLayout>
+    <com.shamanland.fab.FloatingActionButton
+        android:visibility="gone"
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="16dip"
+        android:src="@android:drawable/ic_menu_save"
+        android:contentDescription="@string/button_save"/>
 
-  </LinearLayout>
+  </RelativeLayout>
 </layout>

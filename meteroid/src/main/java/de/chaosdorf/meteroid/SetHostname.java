@@ -85,6 +85,18 @@ public class SetHostname extends Activity
 		{
 			binding.buttonSave.setVisibility(View.GONE);
 		}
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+		{
+			binding.fab.setOnClickListener(new View.OnClickListener()
+			{
+				public void onClick(View view)
+				{
+					saveHostname();
+				}
+			});
+			binding.fab.setVisibility(View.VISIBLE);
+			binding.buttonSave.setVisibility(View.GONE);
+		}
 	}
 
 	@Override

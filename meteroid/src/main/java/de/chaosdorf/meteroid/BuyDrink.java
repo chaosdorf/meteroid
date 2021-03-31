@@ -425,6 +425,10 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		binding.gridView.setVisibility(View.GONE);
 		binding.listView.setVisibility(View.GONE);
 		binding.progressBar.setVisibility(View.GONE);
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+		{
+			binding.swiperefresh.setRefreshing(false);
+		}
 	}
 
 	@Override

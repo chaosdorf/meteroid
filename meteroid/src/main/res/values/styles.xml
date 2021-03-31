@@ -42,7 +42,10 @@
     </style>
 
     <!-- Show some activities as dialogs on large screens. -->
-    <style name="DialogWhenLarge" parent="android:Theme.Holo.DialogWhenLarge">
+    <style name="DialogWhenLargeBase" parent="android:Theme.Holo.DialogWhenLarge">
+    </style>
+    <style name="DialogWhenLarge" parent="DialogWhenLargeBase">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
 </resources>

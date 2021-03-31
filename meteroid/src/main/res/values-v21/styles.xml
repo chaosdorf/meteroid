@@ -34,7 +34,7 @@
 
     <!-- Show some activities as dialogs on large screens.
     This only works on Honeycomb and above. -->
-    <style name="DialogWhenLarge" parent="android:Theme.Material.DialogWhenLarge">
+    <style name="DialogWhenLargeBase" parent="android:Theme.Material.DialogWhenLarge">
     </style>
 
 </resources>

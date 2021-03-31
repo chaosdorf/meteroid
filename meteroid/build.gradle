@@ -77,6 +77,10 @@ android {
         targetSdkVersion 30
         minSdkVersion 14
     }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
 }
 
 

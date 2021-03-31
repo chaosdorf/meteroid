@@ -77,6 +77,10 @@
     <string name="audits_payments">Sum of all payments made:</string>
     <string name="audits_sum">Sum of all transactions:</string>
     <string name="audits_no_audits">No audits found for the selected period or for this user. Please make sure to enable logging in your account settings.</string>
+    <string name="audits_from">From:</string>
+    <string name="audits_until">Until:</string>
+    <string name="audits_date_text">Showing audits from %1$s until %2$s.</string>
+    <string name="audits_modify_date">Change period</string>
 
     <!-- Buttons -->
     <string name="button_back">Back</string>

@@ -25,11 +25,14 @@
 
 package de.chaosdorf.meteroid;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import android.app.ActionBar;
 import android.app.Activity;
 import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ObservableField;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,6 +44,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import ru.slybeaver.slycalendarview.SlyCalendarDialog;
 
 import de.chaosdorf.meteroid.databinding.ActivityAuditsBinding;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOCallback;
@@ -50,9 +54,11 @@ import de.chaosdorf.meteroid.model.Audit;
 import de.chaosdorf.meteroid.model.AuditsInfo;
 import de.chaosdorf.meteroid.util.Utility;
 
-public class Audits extends MeteroidNetworkActivity implements LongRunningIOCallback<AuditsInfo>
+public class Audits extends MeteroidNetworkActivity implements LongRunningIOCallback<AuditsInfo>, SlyCalendarDialog.Callback
 {
 	private ActivityAuditsBinding binding;
+	private ObservableField<Date> fromDate;
+	private ObservableField<Date> untilDate;
 	
 	@Override
 	protected void onCreate(final Bundle savedInstanceState)
@@ -60,6 +66,14 @@ public class Audits extends MeteroidNetworkActivity implements LongRunningIOCall
 		super.onCreate(savedInstanceState);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_audits);
 		binding.setDECIMALFORMAT(DECIMAL_FORMAT);
+		Calendar fromCalendar = Calendar.getInstance();
+		fromCalendar.add(Calendar.DAY_OF_MONTH, -14);
+		fromDate = new ObservableField<>(fromCalendar.getTime());
+		Calendar untilCalendar = Calendar.getInstance();
+		untilCalendar.add(Calendar.DAY_OF_MONTH, 1);
+		untilDate = new ObservableField<>(untilCalendar.getTime());
+		binding.setFromDate(fromDate);
+		binding.setUntilDate(untilDate);
 		
 		binding.buttonBack.setOnClickListener(new View.OnClickListener()
 		{
@@ -75,6 +89,16 @@ public class Audits extends MeteroidNetworkActivity implements LongRunningIOCall
 			public void onClick(View view)
 			{
 				reload();
+			}
+		});
+		
+		binding.buttonModifyDate.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View view) {
+				new SlyCalendarDialog(activity, (SlyCalendarDialog.Callback) activity)
+					.setSingle(false)
+					.show();
 			}
 		});
 		
@@ -103,6 +127,18 @@ public class Audits extends MeteroidNetworkActivity implements LongRunningIOCall
 	}
 	
 	@Override
+	public void onCancelled() {
+		// Nothing
+	}
+
+	@Override
+	public void onDataSelected(Calendar firstDate, Calendar secondDate, int hours, int minutes) {
+		fromDate.set(firstDate.getTime());
+		untilDate.set(secondDate.getTime());
+		reload();
+	}
+	
+	@Override
 	public boolean onCreateOptionsMenu(final Menu menu)
 	{
 		getMenuInflater().inflate(R.menu.audits, menu);
@@ -121,7 +157,12 @@ public class Audits extends MeteroidNetworkActivity implements LongRunningIOCall
 		new LongRunningIORequest<AuditsInfo>(
 			this, LongRunningIOTask.GET_AUDITS, connection.getAPI().listAudits(
 				config.userID != config.NO_USER_ID? config.userID : null,
-				null, null, null, null, null, null
+				fromDate.get().getYear() + 1900,
+				fromDate.get().getMonth() + 1,
+				fromDate.get().getDate(), 
+				untilDate.get().getYear() + 1900,
+				untilDate.get().getMonth() + 1,
+				untilDate.get().getDate()
 			)
 		);
 	}

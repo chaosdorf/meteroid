@@ -43,6 +43,8 @@ dependencies {
         mavenCentral()
         google()
         jcenter()
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
     }
     implementation 'org.jetbrains:annotations:13.0'
     // Retrofit >= 2.7 needs Android 5+
@@ -52,6 +54,7 @@ dependencies {
     implementation 'com.shamanland:fab:0.0.8'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.github.YtvwlD:slycalendarview:dev-SNAPSHOT'
 }
 
 //see https://stackoverflow.com/a/22183825/2192464
@@ -75,7 +78,7 @@ android {
     }
     defaultConfig {
         targetSdkVersion 30
-        minSdkVersion 14
+        minSdkVersion 16
     }
 }
 

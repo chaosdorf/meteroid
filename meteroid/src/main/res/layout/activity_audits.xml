@@ -32,6 +32,10 @@
   <data>
     <variable name="DECIMAL_FORMAT"
               type="java.text.DecimalFormat" />
+    <variable name="from_date"
+              type="androidx.databinding.ObservableField"/>
+    <variable name="until_date"
+              type="androidx.databinding.ObservableField"/>
     <variable name="audits_info"
               type="de.chaosdorf.meteroid.model.AuditsInfo" />
     <import type="android.graphics.Color" />
@@ -91,9 +95,26 @@
                     android:layout_height="fill_parent"
                     android:orientation="vertical"
                     android:gravity="center">
+        <LinearLayout android:orientation="horizontal"
+                      android:layout_width="fill_parent"
+                      android:layout_height="wrap_content">
+          <TextView android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="@{@string/audits_date_text(from_date, until_date)}"/>
+          <ImageButton
+            android:id="@+id/button_modify_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:src="@android:drawable/ic_menu_edit"
+            android:contentDescription="@string/audits_modify_date"/>
+        </LinearLayout>
         <LinearLayout android:id="@+id/audits_display"
                       android:layout_width="fill_parent"
                       android:layout_height="fill_parent"
+                      android:layout_weight="1"
                       android:orientation="vertical"
                       android:gravity="center"
                       android:visibility="gone">

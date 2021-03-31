@@ -72,6 +72,9 @@
     <!-- Audits -->
     <string name="audits_label">Audits</string>
     <string name="audits_error">Failed to fetch audits. Please check your network connection and try again or reset hostname/username to proceed.</string>
+    <string name="audits_deposits">Sum of all deposits made:</string>
+    <string name="audits_payments">Sum of all payments made:</string>
+    <string name="audits_sum">Sum of all transactions:</string>
 
     <!-- Buttons -->
     <string name="button_back">Back</string>

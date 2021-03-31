@@ -52,6 +52,7 @@ public class Audits extends MeteroidNetworkActivity implements LongRunningIOCall
 	{
 		super.onCreate(savedInstanceState);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_audits);
+		binding.setDECIMALFORMAT(DECIMAL_FORMAT);
 		
 		binding.buttonBack.setOnClickListener(new View.OnClickListener()
 		{
@@ -104,6 +105,7 @@ public class Audits extends MeteroidNetworkActivity implements LongRunningIOCall
 	public void reload()
 	{
 		binding.error.setVisibility(View.GONE);
+		binding.auditsDisplay.setVisibility(View.GONE);
 		binding.progressBar.setVisibility(View.VISIBLE);
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 		{
@@ -132,8 +134,9 @@ public class Audits extends MeteroidNetworkActivity implements LongRunningIOCall
 	public void processIOResult(final LongRunningIOTask task, final AuditsInfo result)
 	{
 		assert task == LongRunningIOTask.GET_AUDITS;
-		// TODO: pass data to binding
+		binding.setAuditsInfo(result);
 		binding.progressBar.setVisibility(View.GONE);
+		binding.auditsDisplay.setVisibility(View.VISIBLE);
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 		{
 			binding.swiperefresh.setRefreshing(false);

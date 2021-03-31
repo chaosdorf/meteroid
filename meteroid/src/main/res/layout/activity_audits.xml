@@ -29,6 +29,14 @@
   xmlns:tools="http://schemas.android.com/tools"
   >
   
+  <data>
+    <variable name="DECIMAL_FORMAT"
+              type="java.text.DecimalFormat" />
+    <variable name="audits_info"
+              type="de.chaosdorf.meteroid.model.AuditsInfo" />
+    <import type="android.graphics.Color" />
+  </data>
+  
   <LinearLayout android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:orientation="vertical"
@@ -78,13 +86,51 @@
         android:layout_height="fill_parent"
         android:gravity="center"
         android:enabled="false">
-      <TextView
-          android:id="@+id/error"
-          android:layout_width="fill_parent"
-          android:layout_height="fill_parent"
-          android:textSize="16sp"
-          android:visibility="gone"
-          android:text="@string/audits_error"/>
+      <LinearLayout android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+        <LinearLayout android:id="@+id/audits_display"
+                      android:layout_width="fill_parent"
+                      android:layout_height="fill_parent"
+                      android:orientation="vertical"
+                      android:gravity="center"
+                      android:visibility="gone">
+          <TableLayout android:layout_width="fill_parent"
+                       android:layout_height="wrap_content"
+                       android:stretchColumns="1">
+            <TableRow>
+              <TextView android:layout_column="1"
+                        android:text="@string/audits_deposits"
+                        android:padding="3dip"/>
+              <TextView android:text="@{DECIMAL_FORMAT.format(audits_info.depositsSum)}"
+                        android:gravity="right"/>
+            </TableRow>
+            <TableRow>
+              <TextView android:layout_column="1"
+                        android:text="@string/audits_payments"
+                        android:padding="3dip"/>
+              <TextView android:text="@{DECIMAL_FORMAT.format(audits_info.paymentsSum)}"
+                        android:gravity="right"/>
+            </TableRow>
+            <TableRow>
+              <TextView android:layout_column="1"
+                        android:text="@string/audits_sum"
+                        android:padding="3dip"/>
+              <TextView android:text="@{DECIMAL_FORMAT.format(audits_info.sum)}"
+                        android:gravity="right"
+                        android:textColor="@{audits_info.sum >= 0 ? Color.LTGRAY : Color.RED}"/>
+            </TableRow>
+          </TableLayout>
+          <!-- TODO: the audits -->
+        </LinearLayout>
+        <TextView android:id="@+id/error"
+                  android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+                  android:textSize="16sp"
+                  android:visibility="gone"
+                  android:text="@string/audits_error"/>
+      </LinearLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
   </LinearLayout>

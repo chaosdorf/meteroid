@@ -122,7 +122,11 @@
                         android:textColor="@{audits_info.sum >= 0 ? Color.LTGRAY : Color.RED}"/>
             </TableRow>
           </TableLayout>
-          <!-- TODO: the audits -->
+          <ListView android:id="@+id/list_view"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:drawSelectorOnTop="false"/>
         </LinearLayout>
         <TextView android:id="@+id/error"
                   android:layout_width="fill_parent"

@@ -55,4 +55,8 @@ public class AuditsInfo
 	public double getDepositsSum() {
 		return deposits_sum;
 	}
+	
+	public List<Audit> getAudits() {
+		return audits;
+	}
 }

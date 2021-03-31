@@ -25,21 +25,28 @@
 
 package de.chaosdorf.meteroid;
 
+import java.util.List;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import androidx.databinding.DataBindingUtil;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 
 import de.chaosdorf.meteroid.databinding.ActivityAuditsBinding;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOCallback;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIORequest;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOTask;
+import de.chaosdorf.meteroid.model.Audit;
 import de.chaosdorf.meteroid.model.AuditsInfo;
 import de.chaosdorf.meteroid.util.Utility;
 
@@ -135,6 +142,10 @@ public class Audits extends MeteroidNetworkActivity implements LongRunningIOCall
 	{
 		assert task == LongRunningIOTask.GET_AUDITS;
 		binding.setAuditsInfo(result);
+		final AuditsAdapter auditsAdapter = new AuditsAdapter(
+			result.getAudits()
+		);
+		binding.listView.setAdapter(auditsAdapter);
 		binding.progressBar.setVisibility(View.GONE);
 		binding.auditsDisplay.setVisibility(View.VISIBLE);
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -156,5 +167,52 @@ public class Audits extends MeteroidNetworkActivity implements LongRunningIOCall
 				break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	public void onDestroy()
+	{
+		if(binding.listView != null)
+		{
+			binding.listView.setAdapter(null);
+		}
+		super.onDestroy();
+	}
+	
+	private class AuditsAdapter extends ArrayAdapter<Audit>
+	{
+		private final List<Audit> auditList;
+		private final LayoutInflater inflater;
+		
+		AuditsAdapter(final List<Audit> auditList)
+		{
+			super(activity, R.layout.activity_audits, auditList);
+			this.auditList = auditList;
+			this.inflater = activity.getLayoutInflater();
+		}
+		
+		public View getView(
+			final int position, final View convertView, final ViewGroup parent
+		)
+		{
+			View view = convertView;
+			if (view == null)
+			{
+				view = inflater.inflate(
+					R.layout.activity_audits_item, parent, false
+				);
+			}
+			if (view == null)
+			{
+				return null;
+			}
+			final Audit audit = auditList.get(position);
+			TextView timestamp = view.findViewById(R.id.timestamp);
+			timestamp.setText(audit.getCreatedAt().toLocaleString());
+			TextView amount = view.findViewById(R.id.amount);
+			amount.setText(DECIMAL_FORMAT.format(audit.getDifference()));
+			// TODO: drink
+			return view;
+		}
 	}
 }

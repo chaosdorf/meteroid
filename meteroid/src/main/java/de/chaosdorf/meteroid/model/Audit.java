@@ -29,7 +29,7 @@ import java.util.Date;
 public class Audit
 {
 	private final int id;
-	private final Date createdAt;
+	private final Date created_at;
 	private final double difference;
 	private final Integer drink;
 	
@@ -38,8 +38,20 @@ public class Audit
 		final Integer drink
 	) {
 		this.id = id;
-		this.createdAt = createdAt;
+		this.created_at = createdAt;
 		this.difference = difference;
 		this.drink = drink;
+	}
+	
+	public Date getCreatedAt() {
+		return created_at;
+	}
+	
+	public double getDifference() {
+		return difference;
+	}
+	
+	public Integer getDrink() {
+		return drink;
 	}
 }

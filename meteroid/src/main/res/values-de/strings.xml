@@ -41,6 +41,7 @@
     <string name="pick_username_label">Account auswählen</string>
     <string name="pick_username_new_user">Neuer Account</string>
     <string name="pick_username_error">Konnte Accountliste nicht laden. Bitte Netzwerkverbindung überprüfen oder Hostnamen ändern um fortzufahren.</string>
+    <string name="pick_username_show_audits">Audits anzeigen</string>
 
     <!-- User settings -->
     <string name="user_settings_label">Account hinzufügen oder bearbeiten</string>

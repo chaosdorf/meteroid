@@ -120,7 +120,8 @@ public class Audits extends MeteroidNetworkActivity implements LongRunningIOCall
 		}
 		new LongRunningIORequest<AuditsInfo>(
 			this, LongRunningIOTask.GET_AUDITS, connection.getAPI().listAudits(
-				config.userID, null, null, null, null, null, null
+				config.userID != config.NO_USER_ID? config.userID : null,
+				null, null, null, null, null, null
 			)
 		);
 	}

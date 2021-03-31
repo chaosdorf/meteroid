@@ -41,6 +41,7 @@
     <string name="pick_username_label">Pick your username</string>
     <string name="pick_username_new_user">New user</string>
     <string name="pick_username_error">Could not load user list. Please check network connection or reset hostname to proceed.</string>
+    <string name="pick_username_show_audits">Show audits</string>
 
     <!-- User settings -->
     <string name="user_settings_label">Add or edit user</string>

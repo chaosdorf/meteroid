@@ -35,6 +35,7 @@
     <variable name="audits_info"
               type="de.chaosdorf.meteroid.model.AuditsInfo" />
     <import type="android.graphics.Color" />
+    <import type="android.view.View" />
   </data>
   
   <LinearLayout android:layout_width="fill_parent"
@@ -122,6 +123,11 @@
                         android:textColor="@{audits_info.sum >= 0 ? Color.LTGRAY : Color.RED}"/>
             </TableRow>
           </TableLayout>
+          <TextView android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:visibility="@{audits_info.audits.empty? View.VISIBLE : View.GONE}"
+                    android:text="@string/audits_no_audits"/>
           <ListView android:id="@+id/list_view"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"

@@ -75,6 +75,7 @@
     <string name="audits_deposits">Summe aller Einzahlungen:</string>
     <string name="audits_payments">Summe aller Zahlungen:</string>
     <string name="audits_sum">Summe aller Transaktionen:</string>
+    <string name="audits_no_audits">Keine Audits gefunden für diesen Zeitraum oder diesen Account. Bitte prüfe, ob das Logging in deinen Accounteinstellungen aktiviert ist.</string>
 
     <!-- Buttons -->
     <string name="button_back">Zurück</string>

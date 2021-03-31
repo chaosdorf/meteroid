@@ -76,6 +76,7 @@
     <string name="audits_deposits">Sum of all deposits made:</string>
     <string name="audits_payments">Sum of all payments made:</string>
     <string name="audits_sum">Sum of all transactions:</string>
+    <string name="audits_no_audits">No audits found for the selected period or for this user. Please make sure to enable logging in your account settings.</string>
 
     <!-- Buttons -->
     <string name="button_back">Back</string>

@@ -78,6 +78,12 @@
               android:textSize="15sp"
               android:autoLink="web"
               android:text="https://github.com/chaosdorf/meteroid"/>
+    
+    <LinearLayout android:id="@+id/license_fragment_container"
+                  android:layout_margin="12dp"
+                  android:paddingTop="@dimen/activity_vertical_margin"
+                  android:layout_height="wrap_content"
+                  android:layout_width="fill_parent"/>
 
   </LinearLayout>
 </layout>

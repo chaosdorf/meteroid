@@ -52,6 +52,7 @@ dependencies {
     implementation 'com.shamanland:fab:0.0.8'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation "com.artit-k:license-fragment:1.3.0"
 }
 
 //see https://stackoverflow.com/a/22183825/2192464

@@ -25,6 +25,8 @@
 
 package de.chaosdorf.meteroid;
 
+import java.util.ArrayList;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.pm.PackageInfo;
@@ -38,12 +40,18 @@ import android.os.Vibrator;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.artitk.licensefragment.ListViewLicenseFragment;
+import com.artitk.licensefragment.model.CustomUI;
+import com.artitk.licensefragment.model.License;
+import com.artitk.licensefragment.model.LicenseID;
+import com.artitk.licensefragment.model.LicenseType;
 
 import de.chaosdorf.meteroid.databinding.ActivityAboutBinding;
 
 public class About extends Activity
 {
 	private ActivityAboutBinding binding;
+	private ListViewLicenseFragment licenseFragment;
 	private Vibrator vibrator;
 	private final ObservableBoolean glassEmpty = new ObservableBoolean(false);
 	private static final String FALLBACK_VERSION_NAME = "UNKNOWN";
@@ -94,6 +102,43 @@ public class About extends Activity
 				return true;
 			}
 		});
+		licenseFragment = ListViewLicenseFragment.newInstance(new int[] {
+			LicenseID.RETROFIT,
+			LicenseID.GSON,
+			LicenseID.PICASSO
+		});
+		ArrayList<License> licenseList = new ArrayList<>();
+		licenseList.add(new License(
+			this, "ZXing", LicenseType.APACHE_LICENSE_20,
+			"2007-2020", "ZXing authors"
+		));
+		licenseList.add(new License(
+			this, "Floating Action Button", LicenseType.APACHE_LICENSE_20,
+			"2014", "ShamanLand.Com"
+		));
+		licenseList.add(new License(
+			this, "Android Jetpack", LicenseType.APACHE_LICENSE_20,
+			"2018", "The Android Open Source Project"
+		));
+		licenseFragment.addCustomLicense(licenseList);
+		CustomUI customLicenseUI = new CustomUI()
+			.setTitleBackgroundColor(
+				getResources().getColor(android.R.color.background_dark)
+			)
+			.setTitleTextColor(
+				getResources().getColor(android.R.color.primary_text_dark)
+			)
+			.setLicenseBackgroundColor(
+				getResources().getColor(android.R.color.background_dark)
+			)
+			.setLicenseTextColor(
+				getResources().getColor(android.R.color.secondary_text_dark)
+			);
+		licenseFragment.setCustomUI(customLicenseUI);
+		getFragmentManager()
+			.beginTransaction()
+			.add(R.id.license_fragment_container, licenseFragment)
+			.commit();
 	}
 	
 	@Override

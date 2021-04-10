@@ -57,8 +57,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -120,13 +122,12 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 			{
 				shortcutManager = getSystemService(ShortcutManager.class);
 				// make sure all pinned shortcuts are enabled as we have a current user
-				List<ShortcutInfo> shortcuts = shortcutManager.getPinnedShortcuts();
-				// if this were Java 8 I could use a stream :(
-				List<String> shortcutIDs = new ArrayList<>();
-				for(ShortcutInfo shortcut : shortcuts) {
-					shortcutIDs.add(shortcut.getId());
-				}
-				shortcutManager.enableShortcuts(shortcutIDs);
+				shortcutManager.enableShortcuts(
+					shortcutManager.getPinnedShortcuts()
+						.stream()
+						.map(s -> s.getId())
+						.collect(Collectors.toList())
+				);
 			}
 		}
 		
@@ -158,7 +159,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 	
 	private void handleBuyIntent(List<BuyableItem> buyableItemList, Intent intent)
 	{
-		BuyableItem itemSelected = null;
+		Optional<BuyableItem> itemSelected = Optional.empty();
 		if(intent.getBooleanExtra(EXTRA_BUYABLE_ITEM_IS_DRINK, false))
 		{
 			int id = intent.getIntExtra(EXTRA_BUYABLE_ITEM_ID, -1);
@@ -167,16 +168,10 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 				Utility.displayToastMessage(this, getResources().getString(R.string.buy_drink_invalid_intent));
 				return;
 			}
-			for(BuyableItem item: buyableItemList)
-			{
-				if(item.isDrink())
-				{
-					if(((Drink)item).getId() == id) {
-						itemSelected = item;
-						break;
-					}
-				}
-			}
+			itemSelected = buyableItemList.stream()
+				.filter(i -> i.isDrink())
+				.filter(i -> ((Drink)i).getId() == id)
+				.findFirst();
 		}
 		else
 		{
@@ -186,24 +181,17 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 				Utility.displayToastMessage(this, getResources().getString(R.string.buy_drink_invalid_intent));
 				return;
 			}
-			for(BuyableItem item: buyableItemList)
-			{
-				if(!item.isDrink())
-				{
-					if(item.getPrice() == price)
-					{
-						itemSelected = item;
-						break;
-					}
-				}
-			}
+			itemSelected = buyableItemList.stream()
+				.filter(i -> !i.isDrink())
+				.filter(i -> i.getPrice() == price)
+				.findFirst();
 		}
-		if(itemSelected == null)
+		if(!itemSelected.isPresent())
 		{
 			Utility.displayToastMessage(this, getResources().getString(R.string.buy_drink_invalid_intent));
 			return;
 		}
-		buy(itemSelected);
+		buy(itemSelected.get());
 	}
 	
 	private void buy(BuyableItem buyableItem)
@@ -277,11 +265,10 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 	private void updateShortcuts(ShortcutInfo shortcut) {
 		assert shortcutManager != null;
 		List<ShortcutInfo> shortcuts = shortcutManager.getDynamicShortcuts();
-		for(ShortcutInfo current : shortcuts) {
-			if(current.getId().equals(shortcut.getId())) {
-				// nothing to do here
-				return;
-			}
+		if (shortcuts.stream().anyMatch(s -> s.equals(shortcut.getId())))
+		{
+			// nothing to do here
+			return;
 		}
 		
 		// Do we have enough space to add another one?
@@ -322,13 +309,12 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 			// removing dynamic shortcuts is easy
 			shortcutManager.removeAllDynamicShortcuts();
 			// but if the user pinned them, that's going to be a bit more difficult
-			List<ShortcutInfo> shortcuts = shortcutManager.getPinnedShortcuts();
-			// if this were Java 8 I could use a stream :(
-			List<String> shortcutIDs = new ArrayList<>();
-			for(ShortcutInfo shortcut : shortcuts) {
-				shortcutIDs.add(shortcut.getId());
-			}
-			shortcutManager.disableShortcuts(shortcutIDs);
+			shortcutManager.disableShortcuts(
+				shortcutManager.getPinnedShortcuts()
+					.stream()
+					.map(s -> s.getId())
+					.collect(Collectors.toList())
+			);
 		}
 		if(!config.multiUserMode)
 		{

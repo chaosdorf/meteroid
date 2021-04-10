@@ -476,7 +476,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 				{
 					binding.swiperefresh.setRefreshing(false);
 				}
-				if(binding.fab != null)
+				if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 				{
 					(config.useGridView? binding.gridView : binding.listView)
 					.setOnTouchListener(new ShowHideOnScroll(binding.fab));

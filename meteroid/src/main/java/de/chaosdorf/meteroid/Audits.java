@@ -25,6 +25,7 @@
 
 package de.chaosdorf.meteroid;
 
+import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -74,6 +75,7 @@ public class Audits extends MeteroidNetworkActivity implements LongRunningIOCall
 		untilDate = new ObservableField<>(untilCalendar.getTime());
 		binding.setFromDate(fromDate);
 		binding.setUntilDate(untilDate);
+		binding.setDATEFORMAT(DateFormat.getDateInstance());
 		
 		binding.buttonBack.setOnClickListener(new View.OnClickListener()
 		{

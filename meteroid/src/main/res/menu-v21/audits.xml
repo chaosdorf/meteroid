@@ -28,26 +28,4 @@
         android:icon="@drawable/button_reload"
         android:title="@string/button_reload"
         android:showAsAction="never"/>
-    <item
-        android:id="@+id/action_audits"
-        android:icon="@android:drawable/ic_menu_recent_history"
-        android:title="@string/pick_username_show_audits"
-        android:showAsAction="ifRoom"/>
-    <item
-        android:id="@+id/edit_hostname"
-        android:title="@string/menu_edit_hostname"
-        android:orderInCategory="100"
-        android:showAsAction="never"/>
-    <item
-        android:id="@+id/multi_user_mode"
-        android:title="@string/menu_multi_user_mode"
-        android:checkable="true"
-        android:checked="false"
-        android:orderInCategory="100"
-        android:showAsAction="never"/>
-    <item
-        android:id="@+id/about"
-        android:title="@string/about_label"
-        android:orderInCategory="100"
-        android:showAsAction="never"/>
 </menu>

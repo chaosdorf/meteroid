@@ -34,16 +34,17 @@ import de.chaosdorf.meteroid.model.*;
 public interface API
 {
 	
-	/*// list (some) audits
+	// list (some) audits
 	@GET("audits.json")
-	Call<List<Audit>> listAudits(
-		@Query("start_date[year]") int fromYear,
-		@Query("start_date[month]") int fromMonth,
-		@Query("start_date[day]") int fromDay,
-		@Query("end_date[year]") int toYear,
-		@Query("end_date[month]") int toMonth,
-		@Query("end_date[day]") int toDay
-	);*/
+	Call<AuditsInfo> listAudits(
+		@Query("user") Integer userID,
+		@Query("start_date[year]") Integer fromYear,
+		@Query("start_date[month]") Integer fromMonth,
+		@Query("start_date[day]") Integer fromDay,
+		@Query("end_date[year]") Integer toYear,
+		@Query("end_date[month]") Integer toMonth,
+		@Query("end_date[day]") Integer toDay
+	);
 	
 	// list all drinks
 	@GET("drinks.json")

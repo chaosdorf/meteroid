@@ -134,6 +134,9 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 			case R.id.edit_hostname:
 				Utility.startActivity(this, SetHostname.class);
 				break;
+			case R.id.action_audits:
+				Utility.startActivity(this, Audits.class);
+				break;
 			case R.id.multi_user_mode:
 				Utility.toggleMultiUserMode(this);
 				item.setChecked(config.multiUserMode);

@@ -22,18 +22,41 @@
  * THE SOFTWARE.
  ******************************************************************************/
 
-package de.chaosdorf.meteroid.longrunningio;
+package de.chaosdorf.meteroid.model;
 
-public enum LongRunningIOTask
+import java.util.List;
+
+public class AuditsInfo
 {
-	GET_USERS,
-	GET_USER,
-	GET_AUDITS,
-	GET_DRINKS,
-	BUY_DRINK,
-	ADD_MONEY,
-	ADD_USER,
-	UPDATE_USER,
-	EDIT_USER,
-	DELETE_USER
+	private final double sum;
+	private final double payments_sum;
+	private final double deposits_sum;
+
+	private final List<Audit> audits;
+	
+	public AuditsInfo(
+		final double sum, final double payments_sum, final double deposits_sum,
+		final List<Audit> audits
+	) {
+		this.sum = sum;
+		this.payments_sum = payments_sum;
+		this.deposits_sum = deposits_sum;
+		this.audits = audits;
+	}
+	
+	public double getSum() {
+		return sum;
+	}
+	
+	public double getPaymentsSum() {
+		return payments_sum;
+	}
+	
+	public double getDepositsSum() {
+		return deposits_sum;
+	}
+	
+	public List<Audit> getAudits() {
+		return audits;
+	}
 }

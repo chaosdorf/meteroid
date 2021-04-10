@@ -41,6 +41,7 @@
     <string name="pick_username_label">Pick your username</string>
     <string name="pick_username_new_user">New user</string>
     <string name="pick_username_error">Could not load user list. Please check network connection or reset hostname to proceed.</string>
+    <string name="pick_username_show_audits">Show audits</string>
 
     <!-- User settings -->
     <string name="user_settings_label">Add or edit user</string>
@@ -63,10 +64,23 @@
     <string name="buy_drink_added_money">Successfully added %1$s</string>
     <string name="buy_drink_error">Well, this didn\'t succeed. Please check your inputs and network connection and try again or reset hostname/username to proceed.</string>
     <string name="buy_drink_edit_user">Edit user</string>
+    <string name="buy_drink_show_audits">Show logs</string>
     <string name="buy_drink_invalid_intent">This action is invalid.</string>
 
     <!-- About -->
     <string name="about_label">About</string>
+
+    <!-- Audits -->
+    <string name="audits_label">Audits</string>
+    <string name="audits_error">Failed to fetch audits. Please check your network connection and try again or reset hostname/username to proceed.</string>
+    <string name="audits_deposits">Sum of all deposits made:</string>
+    <string name="audits_payments">Sum of all payments made:</string>
+    <string name="audits_sum">Sum of all transactions:</string>
+    <string name="audits_no_audits">No audits found for the selected period or for this user. Please make sure to enable logging in your account settings.</string>
+    <string name="audits_from">From:</string>
+    <string name="audits_until">Until:</string>
+    <string name="audits_date_text">Showing audits from %1$s until %2$s.</string>
+    <string name="audits_modify_date">Change period</string>
 
     <!-- Buttons -->
     <string name="button_back">Back</string>

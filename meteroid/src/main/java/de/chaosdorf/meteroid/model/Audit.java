@@ -22,18 +22,36 @@
  * THE SOFTWARE.
  ******************************************************************************/
 
-package de.chaosdorf.meteroid.longrunningio;
+package de.chaosdorf.meteroid.model;
 
-public enum LongRunningIOTask
+import java.util.Date;
+
+public class Audit
 {
-	GET_USERS,
-	GET_USER,
-	GET_AUDITS,
-	GET_DRINKS,
-	BUY_DRINK,
-	ADD_MONEY,
-	ADD_USER,
-	UPDATE_USER,
-	EDIT_USER,
-	DELETE_USER
+	private final int id;
+	private final Date created_at;
+	private final double difference;
+	private final Integer drink;
+	
+	public Audit(
+		final int id, final Date createdAt, final double difference,
+		final Integer drink
+	) {
+		this.id = id;
+		this.created_at = createdAt;
+		this.difference = difference;
+		this.drink = drink;
+	}
+	
+	public Date getCreatedAt() {
+		return created_at;
+	}
+	
+	public double getDifference() {
+		return difference;
+	}
+	
+	public Integer getDrink() {
+		return drink;
+	}
 }

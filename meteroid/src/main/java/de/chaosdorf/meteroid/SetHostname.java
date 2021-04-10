@@ -72,13 +72,7 @@ public class SetHostname extends Activity
 			}
 		}
 
-		binding.buttonSave.setOnClickListener(new View.OnClickListener()
-		{
-			public void onClick(View view)
-			{
-				saveHostname();
-			}
-		});
+		binding.buttonSave.setOnClickListener(v -> saveHostname());
 
 		ActionBar actionBar = getActionBar();
 		if(actionBar != null)
@@ -87,13 +81,7 @@ public class SetHostname extends Activity
 		}
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 		{
-			binding.fab.setOnClickListener(new View.OnClickListener()
-			{
-				public void onClick(View view)
-				{
-					saveHostname();
-				}
-			});
+			binding.fab.setOnClickListener(v -> saveHostname());
 			binding.fab.setVisibility(View.VISIBLE);
 			binding.buttonSave.setVisibility(View.GONE);
 		}

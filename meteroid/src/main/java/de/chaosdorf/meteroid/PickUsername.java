@@ -77,22 +77,11 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 		{
 			binding.swiperefresh.setEnabled(true);
-			binding.swiperefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
-			{
-				@Override
-				public void onRefresh()
-				{
-					reload();
-				}
-			});
+			binding.swiperefresh.setOnRefreshListener(() -> reload());
 			binding.gridView.setOnTouchListener(new ShowHideOnScroll(binding.fab));
-			binding.fab.setOnClickListener(new View.OnClickListener()
-			{
-				public void onClick(View view)
-				{
-					Utility.startActivity(activity, UserSettings.class);
-				}
-			});
+			binding.fab.setOnClickListener(
+				v -> Utility.startActivity(activity, UserSettings.class)
+			);
 			binding.fab.setVisibility(View.VISIBLE);
 		}
 

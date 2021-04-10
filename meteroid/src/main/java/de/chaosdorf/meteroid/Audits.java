@@ -77,32 +77,13 @@ public class Audits extends MeteroidNetworkActivity implements LongRunningIOCall
 		binding.setUntilDate(untilDate);
 		binding.setDATEFORMAT(DateFormat.getDateInstance());
 		
-		binding.buttonBack.setOnClickListener(new View.OnClickListener()
-		{
-			public void onClick(View view)
-			{
-				finish();
-			}
-		});
-		
-		binding.buttonReload.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View view)
-			{
-				reload();
-			}
-		});
-		
-		binding.buttonModifyDate.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View view) {
-				new SlyCalendarDialog(activity, (SlyCalendarDialog.Callback) activity)
-					.setSingle(false)
-					.show();
-			}
-		});
+		binding.buttonBack.setOnClickListener(v -> finish());
+		binding.buttonReload.setOnClickListener(v -> reload());
+		binding.buttonModifyDate.setOnClickListener(v -> 
+			new SlyCalendarDialog(activity, (SlyCalendarDialog.Callback) activity)
+				.setSingle(false)
+				.show()
+		);
 		
 		ActionBar actionBar = getActionBar();
 		if(actionBar != null)
@@ -115,14 +96,7 @@ public class Audits extends MeteroidNetworkActivity implements LongRunningIOCall
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 		{
 			binding.swiperefresh.setEnabled(true);
-			binding.swiperefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
-			{
-				@Override
-				public void onRefresh()
-				{
-					reload();
-				}
-			});
+			binding.swiperefresh.setOnRefreshListener(() -> reload());
 		}
 		
 		reload();

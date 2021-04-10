@@ -67,36 +67,14 @@ public class UserSettings extends MeteroidNetworkActivity
 		binding.setDECIMALFORMAT(DECIMAL_FORMAT);
 		binding.setWritable(writable);
 
-		binding.buttonBack.setOnClickListener(new View.OnClickListener()
-		{
-			public void onClick(View view)
-			{
-				finish();
-			}
-		});
-		
-		binding.buttonDelete.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View view)
-			{
-				deleteUser();
-			}
-		});
+		binding.buttonBack.setOnClickListener(v -> finish());
+		binding.buttonDelete.setOnClickListener(v -> deleteUser());
 		if(config.userID == config.NO_USER_ID) // new user
 		{
 			binding.buttonDelete.setVisibility(View.GONE);
 		}
-
-		binding.buttonSave.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View view)
-			{
-				saveUser();
-			}
-		});
-
+		binding.buttonSave.setOnClickListener(v -> saveUser());
+		
 		ActionBar actionBar = getActionBar();
 		if(actionBar != null)
 		{
@@ -108,13 +86,7 @@ public class UserSettings extends MeteroidNetworkActivity
 		
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 		{
-			binding.fab.setOnClickListener(new View.OnClickListener()
-			{
-				public void onClick(View view)
-				{
-					saveUser();
-				}
-			});
+			binding.fab.setOnClickListener(v -> saveUser());
 			binding.fab.setVisibility(View.VISIBLE);
 			binding.buttonSave.setVisibility(View.GONE);
 		}

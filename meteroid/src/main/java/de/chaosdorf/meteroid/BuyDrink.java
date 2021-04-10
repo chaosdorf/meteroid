@@ -109,21 +109,8 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 		{
 			binding.swiperefresh.setEnabled(true);
-			binding.swiperefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
-			{
-				@Override
-				public void onRefresh()
-				{
-					reload();
-				}
-			});
-			binding.fab.setOnClickListener(new View.OnClickListener()
-			{
-				public void onClick(View view)
-				{
-					scanBarcode();
-				}
-			});
+			binding.swiperefresh.setOnRefreshListener(() -> reload());
+			binding.fab.setOnClickListener(v -> scanBarcode());
 			binding.fab.setVisibility(View.VISIBLE);
 		}
 		

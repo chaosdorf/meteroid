@@ -117,6 +117,10 @@ public class About extends Activity
 			"2014", "ShamanLand.Com"
 		));
 		licenseList.add(new License(
+			this, "Sly Calendar View", LicenseType.MIT_LICENSE,
+			"2018", "psinetron, LuckyWins"
+		));
+		licenseList.add(new License(
 			this, "Android Jetpack", LicenseType.APACHE_LICENSE_20,
 			"2018", "The Android Open Source Project"
 		));

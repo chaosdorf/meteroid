@@ -46,7 +46,7 @@ dependencies {
         maven { url 'https://jitpack.io' }
         maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
     }
-    implementation 'org.jetbrains:annotations:20.1.0'
+    implementation 'org.jetbrains:annotations:23.0.0'
     // Retrofit >= 2.7 needs Android 5+
     implementation 'com.squareup.retrofit2:retrofit:2.6.4'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.4'

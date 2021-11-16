@@ -67,7 +67,7 @@ gradle.projectsEvaluated {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     signingConfigs {}
     lintOptions {
       abortOnError false
@@ -77,7 +77,7 @@ android {
         viewBinding = true
     }
     defaultConfig {
-        targetSdkVersion 30
+        targetSdkVersion 31
         minSdkVersion 16
     }
     compileOptions {

@@ -41,6 +41,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
+            android:exported="true"
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -60,6 +61,7 @@
 
         <activity
             android:name=".BuyDrink"
+            android:exported="true"
             android:label="@string/buy_drink_label"/>
 
         <activity

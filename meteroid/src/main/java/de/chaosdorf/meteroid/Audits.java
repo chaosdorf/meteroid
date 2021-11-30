@@ -114,6 +114,9 @@ public class Audits extends MeteroidNetworkActivity implements LongRunningIOCall
 
 	@Override
 	public void onDataSelected(Calendar firstDate, Calendar secondDate, int hours, int minutes) {
+		if(firstDate == null || secondDate == null) {
+			return;
+		}
 		fromDate.set(firstDate.getTime());
 		untilDate.set(secondDate.getTime());
 		reload();

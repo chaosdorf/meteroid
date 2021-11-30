@@ -28,6 +28,8 @@ package de.chaosdorf.meteroid;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 
 import android.app.ActionBar;
@@ -53,13 +55,16 @@ import de.chaosdorf.meteroid.longrunningio.LongRunningIORequest;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOTask;
 import de.chaosdorf.meteroid.model.Audit;
 import de.chaosdorf.meteroid.model.AuditsInfo;
+import de.chaosdorf.meteroid.model.Drink;
 import de.chaosdorf.meteroid.util.Utility;
 
-public class Audits extends MeteroidNetworkActivity implements LongRunningIOCallback<AuditsInfo>, SlyCalendarDialog.Callback
+public class Audits extends MeteroidNetworkActivity implements LongRunningIOCallback, SlyCalendarDialog.Callback
 {
 	private ActivityAuditsBinding binding;
 	private ObservableField<Date> fromDate;
 	private ObservableField<Date> untilDate;
+	private List<Audit> audits = null;
+	private HashMap<Integer, Drink> drinks = new HashMap<>();
 	
 	@Override
 	protected void onCreate(final Bundle savedInstanceState)
@@ -141,6 +146,11 @@ public class Audits extends MeteroidNetworkActivity implements LongRunningIOCall
 				untilDate.get().getDate()
 			)
 		);
+		new LongRunningIORequest<List<Drink>>(
+			this,
+			LongRunningIOTask.GET_DRINKS,
+			connection.getAPI().listDrinks()
+		);
 	}
 	
 	@Override
@@ -156,13 +166,29 @@ public class Audits extends MeteroidNetworkActivity implements LongRunningIOCall
 	}
 	
 	@Override
-	public void processIOResult(final LongRunningIOTask task, final AuditsInfo result)
+	public void processIOResult(final LongRunningIOTask task, final Object result)
 	{
-		assert task == LongRunningIOTask.GET_AUDITS;
-		binding.setAuditsInfo(result);
-		final AuditsAdapter auditsAdapter = new AuditsAdapter(
-			result.getAudits()
-		);
+		if(task == LongRunningIOTask.GET_AUDITS) {
+			final AuditsInfo info = (AuditsInfo) result;
+			audits = info.getAudits();
+			binding.setAuditsInfo(info);
+			if(!drinks.isEmpty()) {
+				// FIXME: This will fail if there are no drinks.
+				completeFetch();
+			}
+		} else if(task == LongRunningIOTask.GET_DRINKS) {
+			this.drinks.clear();
+			for(Drink d : (List<Drink>) result) {
+				this.drinks.put(d.getId(), d);
+			}
+			if(audits != null) {
+				completeFetch();
+			}
+		}
+	}
+	
+	private void completeFetch() {
+		final AuditsAdapter auditsAdapter = new AuditsAdapter(audits, drinks);
 		binding.listView.setAdapter(auditsAdapter);
 		binding.progressBar.setVisibility(View.GONE);
 		binding.auditsDisplay.setVisibility(View.VISIBLE);
@@ -200,12 +226,14 @@ public class Audits extends MeteroidNetworkActivity implements LongRunningIOCall
 	private class AuditsAdapter extends ArrayAdapter<Audit>
 	{
 		private final List<Audit> auditList;
+		private final Map<Integer, Drink> drinks;
 		private final LayoutInflater inflater;
 		
-		AuditsAdapter(final List<Audit> auditList)
+		AuditsAdapter(final List<Audit> auditList, final Map<Integer, Drink> drinks)
 		{
 			super(activity, R.layout.activity_audits, auditList);
 			this.auditList = auditList;
+			this.drinks = drinks;
 			this.inflater = activity.getLayoutInflater();
 		}
 		
@@ -229,7 +257,9 @@ public class Audits extends MeteroidNetworkActivity implements LongRunningIOCall
 			timestamp.setText(audit.getCreatedAt().toLocaleString());
 			TextView amount = view.findViewById(R.id.amount);
 			amount.setText(DECIMAL_FORMAT.format(audit.getDifference()));
-			// TODO: drink
+			TextView drinkView = view.findViewById(R.id.drink);
+			Drink drink = drinks.get(audit.getDrink());
+			drinkView.setText(drink == null? "n/a" : drink.getName());
 			return view;
 		}
 	}

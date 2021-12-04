@@ -46,9 +46,8 @@ dependencies {
         maven { url 'https://jitpack.io' }
     }
     implementation 'org.jetbrains:annotations:23.0.0'
-    // Retrofit >= 2.7 needs Android 5+
-    implementation 'com.squareup.retrofit2:retrofit:2.6.4'
-    implementation 'com.squareup.retrofit2:converter-gson:2.6.4'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.google.zxing:android-integration:3.3.0'
     implementation 'com.shamanland:fab:0.0.8'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'

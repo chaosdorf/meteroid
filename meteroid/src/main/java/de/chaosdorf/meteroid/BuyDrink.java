@@ -108,13 +108,10 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-		{
-			binding.swiperefresh.setEnabled(true);
-			binding.swiperefresh.setOnRefreshListener(() -> reload());
-			binding.fab.setOnClickListener(v -> scanBarcode());
-			binding.fab.setVisibility(View.VISIBLE);
-		}
+		binding.swiperefresh.setEnabled(true);
+		binding.swiperefresh.setOnRefreshListener(() -> reload());
+		binding.fab.setOnClickListener(v -> scanBarcode());
+		binding.fab.setVisibility(View.VISIBLE);
 		
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1)
 		{
@@ -292,10 +289,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		binding.listView.setVisibility(View.GONE);
 		binding.buyDrinkError.setVisibility(View.GONE);
 		binding.progressBar.setVisibility(View.VISIBLE);
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-		{
-			binding.swiperefresh.setRefreshing(true);
-		}
+		binding.swiperefresh.setRefreshing(true);
 		new LongRunningIORequest<User>(this, LongRunningIOTask.GET_USER, connection.getAPI().getUser(config.userID));
 		new LongRunningIORequest<List<Drink>>(this, LongRunningIOTask.GET_DRINKS, connection.getAPI().listDrinks());
 	}
@@ -401,10 +395,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		binding.gridView.setVisibility(View.GONE);
 		binding.listView.setVisibility(View.GONE);
 		binding.progressBar.setVisibility(View.GONE);
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-		{
-			binding.swiperefresh.setRefreshing(false);
-		}
+		binding.swiperefresh.setRefreshing(false);
 	}
 
 	@Override
@@ -448,15 +439,9 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 					binding.listView.setVisibility(View.VISIBLE);
 				}
 				binding.progressBar.setVisibility(View.GONE);
-				if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-				{
-					binding.swiperefresh.setRefreshing(false);
-				}
-				if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-				{
-					(config.useGridView? binding.gridView : binding.listView)
-					.setOnTouchListener(new ShowHideOnScroll(binding.fab));
-				}
+				binding.swiperefresh.setRefreshing(false);
+				(config.useGridView? binding.gridView : binding.listView)
+				.setOnTouchListener(new ShowHideOnScroll(binding.fab));
 				handleIntent(buyableItemList);
 				break;
 			}

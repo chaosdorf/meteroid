@@ -98,11 +98,8 @@ public class Audits extends MeteroidNetworkActivity implements LongRunningIOCall
 			binding.buttonReload.setVisibility(View.GONE);
 		}
 		
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-		{
-			binding.swiperefresh.setEnabled(true);
-			binding.swiperefresh.setOnRefreshListener(() -> reload());
-		}
+		binding.swiperefresh.setEnabled(true);
+		binding.swiperefresh.setOnRefreshListener(() -> reload());
 		
 		reload();
 	}
@@ -134,10 +131,7 @@ public class Audits extends MeteroidNetworkActivity implements LongRunningIOCall
 		binding.error.setVisibility(View.GONE);
 		binding.auditsDisplay.setVisibility(View.GONE);
 		binding.progressBar.setVisibility(View.VISIBLE);
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-		{
-			binding.swiperefresh.setRefreshing(true);
-		}
+		binding.swiperefresh.setRefreshing(true);
 		new LongRunningIORequest<AuditsInfo>(
 			this, LongRunningIOTask.GET_AUDITS, connection.getAPI().listAudits(
 				config.userID != config.NO_USER_ID? config.userID : null,
@@ -162,10 +156,7 @@ public class Audits extends MeteroidNetworkActivity implements LongRunningIOCall
 		Utility.displayToastMessage(this, message);
 		binding.error.setVisibility(View.VISIBLE);
 		binding.progressBar.setVisibility(View.GONE);
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-		{
-			binding.swiperefresh.setRefreshing(false);
-		}
+		binding.swiperefresh.setRefreshing(false);
 	}
 	
 	@Override
@@ -195,10 +186,7 @@ public class Audits extends MeteroidNetworkActivity implements LongRunningIOCall
 		binding.listView.setAdapter(auditsAdapter);
 		binding.progressBar.setVisibility(View.GONE);
 		binding.auditsDisplay.setVisibility(View.VISIBLE);
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-		{
-			binding.swiperefresh.setRefreshing(false);
-		}
+		binding.swiperefresh.setRefreshing(false);
 	}
 	
 	@Override

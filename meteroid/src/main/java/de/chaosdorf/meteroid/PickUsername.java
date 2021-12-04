@@ -74,16 +74,13 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-		{
-			binding.swiperefresh.setEnabled(true);
-			binding.swiperefresh.setOnRefreshListener(() -> reload());
-			binding.gridView.setOnTouchListener(new ShowHideOnScroll(binding.fab));
-			binding.fab.setOnClickListener(
-				v -> Utility.startActivity(activity, UserSettings.class)
-			);
-			binding.fab.setVisibility(View.VISIBLE);
-		}
+		binding.swiperefresh.setEnabled(true);
+		binding.swiperefresh.setOnRefreshListener(() -> reload());
+		binding.gridView.setOnTouchListener(new ShowHideOnScroll(binding.fab));
+		binding.fab.setOnClickListener(
+			v -> Utility.startActivity(activity, UserSettings.class)
+		);
+		binding.fab.setVisibility(View.VISIBLE);
 
 		reload();
 	}
@@ -93,10 +90,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 		binding.pickUsernameError.setVisibility(View.GONE);
 		binding.gridView.setVisibility(View.GONE);
 		binding.progressBar.setVisibility(View.VISIBLE);
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-		{
-			binding.swiperefresh.setRefreshing(true);
-		}
+		binding.swiperefresh.setRefreshing(true);
 		new LongRunningIORequest<List<User>>(this, LongRunningIOTask.GET_USERS, connection.getAPI().listUsers());
 	}
 
@@ -169,10 +163,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 		binding.gridView.setVisibility(View.GONE);
 		editHostnameOnBackButton = true;
 		binding.progressBar.setVisibility(View.GONE);
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-		{
-			binding.swiperefresh.setRefreshing(false);
-		}
+		binding.swiperefresh.setRefreshing(false);
 	}
 
 	@Override
@@ -188,10 +179,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 			binding.gridView.setOnItemClickListener(this);
 			binding.progressBar.setVisibility(View.GONE);
 			binding.gridView.setVisibility(View.VISIBLE);
-			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-			{
-				binding.swiperefresh.setRefreshing(false);
-			}
+			binding.swiperefresh.setRefreshing(false);
 		}
 	}
 

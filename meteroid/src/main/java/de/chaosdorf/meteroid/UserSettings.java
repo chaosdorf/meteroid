@@ -85,12 +85,9 @@ public class UserSettings extends MeteroidNetworkActivity
 			binding.buttonSave.setVisibility(View.GONE);
 		}
 		
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-		{
-			binding.fab.setOnClickListener(v -> saveUser());
-			binding.fab.setVisibility(View.VISIBLE);
-			binding.buttonSave.setVisibility(View.GONE);
-		}
+		binding.fab.setOnClickListener(v -> saveUser());
+		binding.fab.setVisibility(View.VISIBLE);
+		binding.buttonSave.setVisibility(View.GONE);
 		
 		makeReadOnly();
 		final UserSettings userSettings = this;

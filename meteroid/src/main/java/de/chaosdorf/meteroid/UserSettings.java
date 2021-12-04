@@ -121,9 +121,6 @@ public class UserSettings extends MeteroidNetworkActivity
 			case android.R.id.home:
 				finish();
 				break;
-			case R.id.action_save:
-				saveUser();
-				break;
 			case R.id.action_delete:
 				deleteUser();
 				break;
@@ -136,11 +133,6 @@ public class UserSettings extends MeteroidNetworkActivity
 	{
 		getMenuInflater().inflate(R.menu.settings, menu);
 		boolean writable = this.writable.get();
-		MenuItem saveItem = menu.findItem(R.id.action_save);
-		if(saveItem != null)
-		{
-			saveItem.setEnabled(writable);
-		}
 		MenuItem deleteItem = menu.findItem(R.id.action_delete);
 		deleteItem.setEnabled(writable);
 		deleteItem.setVisible(config.userID != config.NO_USER_ID);

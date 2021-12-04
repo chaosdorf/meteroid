@@ -343,9 +343,6 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 			case R.id.action_audits:
 				Utility.startActivity(this, Audits.class);
 				break;
-			case R.id.action_barcode:
-				scanBarcode();
-				break;
 			case R.id.edit_hostname:
 				Utility.startActivity(this, SetHostname.class);
 				break;

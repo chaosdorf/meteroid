@@ -85,18 +85,6 @@ public class SetHostname extends Activity
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(final MenuItem item)
-	{
-		switch (item.getItemId())
-		{
-			case R.id.action_save:
-				saveHostname();
-				break;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
 	public boolean onCreateOptionsMenu(final Menu menu)
 	{
 		getMenuInflater().inflate(R.menu.settings, menu);

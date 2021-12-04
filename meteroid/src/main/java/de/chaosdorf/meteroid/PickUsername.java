@@ -110,9 +110,6 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 			case R.id.action_reload:
 				reload();
 				break;
-			case R.id.action_add:
-				Utility.startActivity(this, UserSettings.class);
-				break;
 			case android.R.id.home:
 			case R.id.edit_hostname:
 				Utility.startActivity(this, SetHostname.class);

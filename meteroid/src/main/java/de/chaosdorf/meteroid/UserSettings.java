@@ -37,6 +37,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -97,7 +98,12 @@ public class UserSettings extends MeteroidNetworkActivity
 			@Override
 			public void displayErrorMessage(LongRunningIOTask task, String message)
 			{
-				userSettings.displayErrorMessage(task, message);
+				Toast.makeText(
+					userSettings,
+					R.string.user_settings_failed_fetch_details,
+					Toast.LENGTH_LONG
+				).show();
+				userSettings.finish();
 			}
 			
 			@Override

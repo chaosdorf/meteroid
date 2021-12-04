@@ -56,6 +56,7 @@
     <string name="user_settings_cant_delete_non_existing_user">Kann keinen noch nicht erstellten Account löschen.</string>
     <string name="user_settings_confirm_delete_user">Diesen Account wirklich löschen?</string>
     <string name="user_settings_deleted_user">Account gelöscht.</string>
+    <string name="user_settings_failed_fetch_details">Konnte Account-Informationen nicht laden.</string>
     <!-- Buy drink -->
     <string name="buy_drink_label">Für Getränk spenden</string>
     <string name="buy_drink_pending">Bitte warten bis aktueller Vorgang abgeschlossen ist…</string>

@@ -56,6 +56,7 @@
     <string name="user_settings_cant_delete_non_existing_user">Can\'t delete a not yet existing user.</string>
     <string name="user_settings_confirm_delete_user">Delete this user?</string>
     <string name="user_settings_deleted_user">Deleted the user.</string>
+    <string name="user_settings_failed_fetch_details">Failed to fetch user details.</string>
 
     <!-- Buy drink -->
     <string name="buy_drink_label">Donate for a drink</string>

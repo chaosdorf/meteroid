@@ -28,10 +28,4 @@
       android:icon="@android:drawable/ic_delete"
       android:title="@string/button_delete"
       android:showAsAction="ifRoom"/>
-    
-    <item
-        android:id="@+id/action_save"
-        android:icon="@android:drawable/ic_menu_save"
-        android:title="@string/button_save"
-        android:showAsAction="ifRoom"/>
 </menu>

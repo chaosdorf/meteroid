@@ -77,7 +77,7 @@ android {
     }
     defaultConfig {
         targetSdkVersion 31
-        minSdkVersion 16
+        minSdkVersion 21
     }
     compileOptions {
         sourceCompatibility 1.8

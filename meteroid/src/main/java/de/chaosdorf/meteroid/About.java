@@ -127,13 +127,13 @@ public class About extends Activity
 		licenseFragment.addCustomLicense(licenseList);
 		CustomUI customLicenseUI = new CustomUI()
 			.setTitleBackgroundColor(
-				getResources().getColor(android.R.color.background_dark)
+				getResources().getColor(R.color.colorPrimary)
 			)
 			.setTitleTextColor(
 				getResources().getColor(android.R.color.primary_text_dark)
 			)
 			.setLicenseBackgroundColor(
-				getResources().getColor(android.R.color.background_dark)
+				getResources().getColor(R.color.colorPrimaryDark)
 			)
 			.setLicenseTextColor(
 				getResources().getColor(android.R.color.secondary_text_dark)

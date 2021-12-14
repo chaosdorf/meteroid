@@ -44,7 +44,6 @@ dependencies {
         google()
         jcenter()
         maven { url 'https://jitpack.io' }
-        maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
     }
     implementation 'org.jetbrains:annotations:23.0.0'
     // Retrofit >= 2.7 needs Android 5+

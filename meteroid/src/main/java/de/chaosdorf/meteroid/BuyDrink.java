@@ -98,7 +98,6 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 	protected void onCreate(final Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_buy_drink);
 		binding.setUser(user);
 		binding.setDECIMALFORMAT(DECIMAL_FORMAT);
@@ -194,7 +193,6 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 	private void buy(BuyableItem buyableItem)
 	{
 		buyingItem.set(buyableItem);
-		setProgressBarIndeterminateVisibility(true);
 		if(buyableItem.isDrink())
 		{
 			new LongRunningIORequest<Void>(this, LongRunningIOTask.BUY_DRINK, connection.getAPI().buy(config.userID, ((Drink)buyableItem).getId()));
@@ -412,7 +410,6 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 					Utility.loadUserImage(this, binding.icon, user);
 				}
 				isBuying.set(false);
-				setProgressBarIndeterminateVisibility(false);
 				break;
 			}
 		

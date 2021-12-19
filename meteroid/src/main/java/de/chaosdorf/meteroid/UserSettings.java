@@ -62,7 +62,6 @@ public class UserSettings extends MeteroidNetworkActivity
 	protected void onCreate(final Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_user_settings);
 		binding.setUser(user);
 		binding.setDECIMALFORMAT(DECIMAL_FORMAT);
@@ -154,12 +153,10 @@ public class UserSettings extends MeteroidNetworkActivity
 	{
 		writable.set(false);
 		invalidateOptionsMenu();
-		setProgressBarIndeterminateVisibility(true);
 	}
 
 	private void makeWritable()
 	{
-		setProgressBarIndeterminateVisibility(false);
 		writable.set(true);
 		invalidateOptionsMenu();
 	}

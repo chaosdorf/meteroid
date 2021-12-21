@@ -24,7 +24,7 @@
 
 package de.chaosdorf.meteroid;
 
-import android.app.ActionBar;
+import androidx.appcompat.app.ActionBar;
 import android.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ObservableBoolean;
@@ -75,7 +75,7 @@ public class UserSettings extends MeteroidNetworkActivity
 		}
 		binding.buttonSave.setOnClickListener(v -> saveUser());
 		
-		ActionBar actionBar = getActionBar();
+		ActionBar actionBar = getSupportActionBar();
 		if(actionBar != null)
 		{
 			actionBar.setDisplayHomeAsUpEnabled(true);

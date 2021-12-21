@@ -22,10 +22,10 @@
   ~ THE SOFTWARE.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_reload"
         android:icon="@drawable/button_reload"
         android:title="@string/button_reload"
-        android:showAsAction="never"/>
+        app:showAsAction="never"/>
 </menu>

@@ -24,6 +24,7 @@
 
 package de.chaosdorf.meteroid;
 
+import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.os.Bundle;
 
@@ -34,7 +35,7 @@ import de.chaosdorf.meteroid.util.Connection;
 import de.chaosdorf.meteroid.util.Utility;
 
 
-public abstract class MeteroidNetworkActivity extends Activity
+public abstract class MeteroidNetworkActivity extends AppCompatActivity
 {
 	protected DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.00 '\u20AC'");
 	

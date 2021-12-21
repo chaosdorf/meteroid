@@ -32,7 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
-import android.app.ActionBar;
+import androidx.appcompat.app.ActionBar;
 import android.app.Activity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ObservableField;
@@ -90,7 +90,7 @@ public class Audits extends MeteroidNetworkActivity implements LongRunningIOCall
 				.show()
 		);
 		
-		ActionBar actionBar = getActionBar();
+		ActionBar actionBar = getSupportActionBar();
 		if(actionBar != null)
 		{
 			actionBar.setDisplayHomeAsUpEnabled(true);

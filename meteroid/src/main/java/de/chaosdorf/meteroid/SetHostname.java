@@ -25,7 +25,8 @@
 package de.chaosdorf.meteroid;
 
 import android.app.Activity;
-import android.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import androidx.databinding.DataBindingUtil;
@@ -43,7 +44,7 @@ import de.chaosdorf.meteroid.util.Config;
 import de.chaosdorf.meteroid.util.Connection;
 import de.chaosdorf.meteroid.util.Utility;
 
-public class SetHostname extends Activity
+public class SetHostname extends AppCompatActivity
 {
 	private Activity activity = null;
 	private Config config;
@@ -74,7 +75,7 @@ public class SetHostname extends Activity
 
 		binding.buttonSave.setOnClickListener(v -> saveHostname());
 
-		ActionBar actionBar = getActionBar();
+		ActionBar actionBar = getSupportActionBar();
 		if(actionBar != null)
 		{
 			binding.buttonSave.setVisibility(View.GONE);

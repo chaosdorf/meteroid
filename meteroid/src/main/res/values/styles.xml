@@ -28,7 +28,7 @@
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
-    <style name="AppBaseTheme" parent="android:Theme.Material">
+    <style name="AppBaseTheme" parent="Theme.MaterialComponents">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
@@ -46,7 +46,7 @@
     </style>
 
     <!-- Show some activities as dialogs on large screens. -->
-    <style name="DialogWhenLargeBase" parent="android:Theme.Material.DialogWhenLarge">
+    <style name="DialogWhenLargeBase" parent="Theme.MaterialComponents.DialogWhenLarge">
     </style>
     <style name="DialogWhenLarge" parent="DialogWhenLargeBase">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->

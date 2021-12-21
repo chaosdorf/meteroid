@@ -27,8 +27,8 @@ package de.chaosdorf.meteroid;
 
 import java.util.ArrayList;
 
-import android.app.ActionBar;
-import android.app.Activity;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import androidx.databinding.DataBindingUtil;
@@ -48,7 +48,7 @@ import com.artitk.licensefragment.model.LicenseType;
 
 import de.chaosdorf.meteroid.databinding.ActivityAboutBinding;
 
-public class About extends Activity
+public class About extends AppCompatActivity
 {
 	private ActivityAboutBinding binding;
 	private ListViewLicenseFragment licenseFragment;
@@ -74,7 +74,7 @@ public class About extends Activity
 		catch(NameNotFoundException ignored) {}
 		binding.setVersionName(versionName);
 		
-		ActionBar actionBar = getActionBar();
+		ActionBar actionBar = getSupportActionBar();
 		if(actionBar != null)
 		{
 			actionBar.setDisplayHomeAsUpEnabled(true);

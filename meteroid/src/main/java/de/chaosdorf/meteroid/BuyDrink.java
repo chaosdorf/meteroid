@@ -25,7 +25,7 @@
 package de.chaosdorf.meteroid;
 
 import android.annotation.TargetApi;
-import android.app.ActionBar;
+import androidx.appcompat.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ShortcutInfo;
@@ -104,7 +104,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 
 		barcodeIntegrator = new IntentIntegrator(this);
 
-		ActionBar actionBar = getActionBar();
+		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		
 		binding.swiperefresh.setEnabled(true);

@@ -24,7 +24,7 @@
 
 package de.chaosdorf.meteroid.util;
 
-import android.app.Activity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -59,24 +59,24 @@ public class Utility
 		}
 	}
 	
-	public static void displayToastMessage(final Activity activity, final String message)
+	public static void displayToastMessage(final AppCompatActivity activity, final String message)
 	{
 		Toast.makeText(activity, message, Toast.LENGTH_LONG).show();
 	}
 
-	public static void startActivity(final Activity activity, Class<?> classType)
+	public static void startActivity(final AppCompatActivity activity, Class<?> classType)
 	{
 		startActivity(activity, classType, 0);
 	}
 
-	public static void startActivity(final Activity activity, Class<?> classType, int flags)
+	public static void startActivity(final AppCompatActivity activity, Class<?> classType, int flags)
 	{
 		final Intent intent = new Intent(activity, classType);
 		intent.addFlags(flags);
 		activity.startActivity(intent);
 	}
 
-	public static boolean toggleUseGridView(final Activity activity)
+	public static boolean toggleUseGridView(final AppCompatActivity activity)
 	{
 		Config config = Config.getInstance(activity);
 		config.useGridView = !config.useGridView;
@@ -86,7 +86,7 @@ public class Utility
 		return newState;
 	}
 
-	public static boolean toggleMultiUserMode(final Activity activity)
+	public static boolean toggleMultiUserMode(final AppCompatActivity activity)
 	{
 		Config config = Config.getInstance(activity);
 		config.multiUserMode = !config.multiUserMode;
@@ -96,7 +96,7 @@ public class Utility
 		return newState;
 	}
 
-	public static void loadUserImage(final Activity activity, final ImageView icon, final User user)
+	public static void loadUserImage(final AppCompatActivity activity, final ImageView icon, final User user)
 	{
 		loadGravatarImage(activity, icon, user);
 		if(!user.getActive())
@@ -105,7 +105,7 @@ public class Utility
 		}
 	}
 
-	private static void loadGravatarImage(final Activity activity, final ImageView icon, final User user)
+	private static void loadGravatarImage(final AppCompatActivity activity, final ImageView icon, final User user)
 	{
 		String email = null;
 		Uri uri = null;
@@ -134,7 +134,7 @@ public class Utility
 		}
 	}
 
-	public static void loadBuyableItemImage(final Activity activity, final ImageView icon, final BuyableItem buyableItem, final String hostname)
+	public static void loadBuyableItemImage(final AppCompatActivity activity, final ImageView icon, final BuyableItem buyableItem, final String hostname)
 	{
 		loadBuyableItemImage_(activity, icon, buyableItem, hostname);
 		if(!buyableItem.getActive())
@@ -143,7 +143,7 @@ public class Utility
 		}
 	}
 
-	private static void loadBuyableItemImage_(final Activity activity, final ImageView icon, final BuyableItem buyableItem, final String hostname)
+	private static void loadBuyableItemImage_(final AppCompatActivity activity, final ImageView icon, final BuyableItem buyableItem, final String hostname)
 	{
 		icon.setContentDescription(buyableItem.getName());
 		Uri uri = null;

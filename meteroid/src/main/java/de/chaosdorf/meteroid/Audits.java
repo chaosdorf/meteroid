@@ -33,7 +33,6 @@ import java.util.Map;
 import java.util.List;
 
 import androidx.appcompat.app.ActionBar;
-import android.app.Activity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ObservableField;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;

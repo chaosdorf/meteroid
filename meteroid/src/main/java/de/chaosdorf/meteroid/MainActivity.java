@@ -24,13 +24,13 @@
 
 package de.chaosdorf.meteroid;
 
-import android.app.Activity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import de.chaosdorf.meteroid.util.Config;
 import de.chaosdorf.meteroid.util.Utility;
 
-public class MainActivity extends Activity
+public class MainActivity extends AppCompatActivity
 {
 	@Override
 	protected void onCreate(final Bundle savedInstanceState)

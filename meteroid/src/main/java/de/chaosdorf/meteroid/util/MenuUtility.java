@@ -24,7 +24,6 @@
 
 package de.chaosdorf.meteroid.util;
 
-import android.app.Activity;
 import android.view.Menu;
 import android.view.MenuItem;
 

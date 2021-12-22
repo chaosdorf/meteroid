@@ -24,7 +24,6 @@
 
 package de.chaosdorf.meteroid;
 
-import android.app.Activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.ActionBar;
 import android.app.AlertDialog;
@@ -46,7 +45,7 @@ import de.chaosdorf.meteroid.util.Utility;
 
 public class SetHostname extends AppCompatActivity
 {
-	private Activity activity = null;
+	private AppCompatActivity activity = null;
 	private Config config;
 	private Connection connection;
 	private ActivitySetHostnameBinding binding;

@@ -124,6 +124,10 @@ public class About extends AppCompatActivity
 			this, "Android Jetpack", LicenseType.APACHE_LICENSE_20,
 			"2018", "The Android Open Source Project"
 		));
+		licenseList.add(new License(
+			this, "Material Components for Android", LicenseType.APACHE_LICENSE_20,
+			"2021", "The Android Open Source Project"
+		));
 		licenseFragment.addCustomLicense(licenseList);
 		CustomUI customLicenseUI = new CustomUI()
 			.setTitleBackgroundColor(

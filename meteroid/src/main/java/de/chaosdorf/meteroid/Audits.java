@@ -33,6 +33,7 @@ import java.util.Map;
 import java.util.List;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.core.util.Pair;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ObservableField;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -46,7 +47,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import ru.slybeaver.slycalendarview.SlyCalendarDialog;
+import com.google.android.material.datepicker.MaterialDatePicker;
 
 import de.chaosdorf.meteroid.databinding.ActivityAuditsBinding;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOCallback;
@@ -57,7 +58,7 @@ import de.chaosdorf.meteroid.model.AuditsInfo;
 import de.chaosdorf.meteroid.model.Drink;
 import de.chaosdorf.meteroid.util.Utility;
 
-public class Audits extends MeteroidNetworkActivity implements LongRunningIOCallback, SlyCalendarDialog.Callback
+public class Audits extends MeteroidNetworkActivity implements LongRunningIOCallback
 {
 	private ActivityAuditsBinding binding;
 	private ObservableField<Date> fromDate;
@@ -83,10 +84,13 @@ public class Audits extends MeteroidNetworkActivity implements LongRunningIOCall
 		
 		binding.buttonBack.setOnClickListener(v -> finish());
 		binding.buttonReload.setOnClickListener(v -> reload());
+		MaterialDatePicker<Pair<Long, Long>> datePicker = MaterialDatePicker
+			.Builder.dateRangePicker().build();
+		datePicker.addOnPositiveButtonClickListener(
+			(Pair<Long, Long> s) -> this.onDateSelected(s)
+		);
 		binding.buttonModifyDate.setOnClickListener(v -> 
-			new SlyCalendarDialog(activity, (SlyCalendarDialog.Callback) activity)
-				.setSingle(false)
-				.show()
+			datePicker.show(this.getSupportFragmentManager(), "picker")
 		);
 		
 		ActionBar actionBar = getSupportActionBar();
@@ -103,18 +107,12 @@ public class Audits extends MeteroidNetworkActivity implements LongRunningIOCall
 		reload();
 	}
 	
-	@Override
-	public void onCancelled() {
-		// Nothing
-	}
-
-	@Override
-	public void onDataSelected(Calendar firstDate, Calendar secondDate, int hours, int minutes) {
-		if(firstDate == null || secondDate == null) {
+	public void onDateSelected(Pair<Long, Long> selection) {
+		if(selection.first == null || selection.second == null) {
 			return;
 		}
-		fromDate.set(firstDate.getTime());
-		untilDate.set(secondDate.getTime());
+		fromDate.set(new Date(selection.first));
+		untilDate.set(new Date(selection.second));
 		reload();
 	}
 	

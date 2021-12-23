@@ -1,0 +1,6 @@
+a small new feature, a few code corrections and some dependencies updated
+
+In particular:
+    Now the last four drinks (instead of just one) are available as a shortcut in your launcher (if supported)
+    Small fixes related to multithreading
+    Update Retrofit

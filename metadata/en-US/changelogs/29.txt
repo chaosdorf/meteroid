@@ -1,0 +1,4 @@
+new in this version:
+    upgraded dependencies
+    use the sort order provided by the server
+    small bugfixes

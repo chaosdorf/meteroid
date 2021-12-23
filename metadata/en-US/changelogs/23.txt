@@ -1,0 +1,5 @@
+new in this version:
+    better handling of input errors
+    fix XML lint warnings
+    use Android's own icons for things if possible
+    display some screens (SetHostname and UserSettings) as dialogs on big screens

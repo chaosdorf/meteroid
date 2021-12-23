@@ -1,0 +1,9 @@
+Nothing fancy: mostly just updates and bugfixes.
+
+in particular:
+    support for Android 2 and 3 dropped
+    support for Android 11 added
+    dependencies and build tools updated
+    bugfixes with regards to shortcuts
+    a bit of support for autofill
+    small changes to the German translation

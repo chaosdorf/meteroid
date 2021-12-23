@@ -1,0 +1,3 @@
+new in this version:
+    add image cache
+    handle network errors better

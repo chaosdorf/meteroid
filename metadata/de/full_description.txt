@@ -1,0 +1,2 @@
+<a href="https://github.com/chaosdorf/mete">Mete</a> is a system to have donations prepaid.
+You can create an account and deposit money. Later you can use your account  balance to buy drinks and snacks. 

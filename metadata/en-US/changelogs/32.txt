@@ -1,0 +1,5 @@
+new in this release:
+    shortcuts and intents for buying stuff
+    about screen
+    reworked transitions between activities
+    bug fixes

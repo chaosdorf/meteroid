@@ -1,0 +1,2 @@
+new in this version:
+    support users and drinks being inactive (note: If you have an old version of Mete, all users and drinks will be displayed as inactive. This shouldn't impact usability.)

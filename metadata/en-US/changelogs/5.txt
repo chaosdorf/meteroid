@@ -1,0 +1,3 @@
+new in this version:
+    less duplicate code
+    better error messages

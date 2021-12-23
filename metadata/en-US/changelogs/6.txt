@@ -1,0 +1,6 @@
+new in this version:
+    added grid view
+    added German translation
+    display which drink was bought
+    display stubs instead of user images
+    reworked drinks and money

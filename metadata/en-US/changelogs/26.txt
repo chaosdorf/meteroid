@@ -1,0 +1,4 @@
+new in this version:
+    support buying drinks by scanning a barcode
+    corrected the size of avatars
+    display negative account balances in red

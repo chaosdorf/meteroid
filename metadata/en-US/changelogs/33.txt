@@ -1,0 +1,6 @@
+a few bugs fixed and some dependencies updated
+
+In particular:
+    Update SDK, build tools and target SDK version to Android 10 (d80027e)
+    Update Retrofit (840e703)
+    MeteroidAdapter: Fix getPositionForSection to not throw an exception (60cbc0c)

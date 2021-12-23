@@ -1,0 +1,12 @@
+new in this version:
+    reworked connection part
+    reworked config part
+    support multiple API versions (currently just legacy and v1)
+    support config versions and upgrades
+    use data-binding
+    better compatibility to the Space-Market API v1 spec
+    better support for Android 2.3
+    add swipe-to-refresh
+    made refresh more seamless
+    upgraded dependencies
+    small bugfixes

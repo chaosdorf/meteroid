@@ -1,0 +1,7 @@
+This is the first v2 version, yay.
+
+new in this version:
+    use Material design on Android 5 and newer
+    don't access the external storage
+    support creating users without specifying a balance
+    use okHttp

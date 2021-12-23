@@ -1,0 +1,5 @@
+This is the last v1 version.
+
+new in this version:
+    integrate a bit better with the Mete API
+    support Android 6

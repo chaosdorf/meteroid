@@ -1,0 +1,5 @@
+new in this version:
+    use Retrofit
+    rework network stuff
+    add coins
+    add support for deleting users

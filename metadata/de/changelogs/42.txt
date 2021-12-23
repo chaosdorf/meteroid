@@ -1,0 +1,5 @@
+Diese Version unterstützt Audits Du kannst dir jetzt die globalen Logs angucken (oder deine eigenen, wenn du das eingeschaltet hast), indem du das Icon oben rechts antippst.
+
+Zusätzlich:
+kein Support mehr für Android 4.0, dafür für Android 12,
+Dependencys aktualisiert

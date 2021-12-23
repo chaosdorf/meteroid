@@ -1,0 +1,2 @@
+* Der Bilder-Cache wurde stark überarbeitet.
+* Es sollten nun die in mete hinterlegten Getränkegrafiken geladen werden.

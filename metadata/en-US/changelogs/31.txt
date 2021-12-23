@@ -1,0 +1,6 @@
+new in this release:
+    fast scroll for drinks and users
+    warning when using HTTP
+    improved support for Android 9
+    reworked loading of images
+    small bugfixes

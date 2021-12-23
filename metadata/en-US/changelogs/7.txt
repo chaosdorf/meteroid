@@ -1,0 +1,3 @@
+new in this release:
+    less code duplication
+    new logo

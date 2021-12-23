@@ -1,0 +1,6 @@
+Nothing fancy: mostly just updates and bugfixes.
+
+in particular:
+    switch to AndroidX
+    small changes to the layout
+    new dependency versions

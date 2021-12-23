@@ -1,0 +1,5 @@
+* Ist ein Avatar nicht herunterladbar wird nun das Standardbild angezeigt.
+* Der Avatar-Cache speichert jetzt korrekt Bilder aus URL-Quellen ab.
+* Die Avatare werden nach 15 Minuten neu gelesen.
+* Der Zurück-Knopf führt jetzt zum Ändern des Hostnamens wenn die Benutzerauswähl fehlschlägt (z.B. bei Netzwerkproblemen).
+* Übersetzungsfehler wurden behoben.

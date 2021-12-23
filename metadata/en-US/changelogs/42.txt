@@ -1,0 +1,6 @@
+This release adds support for displaying audits. You can now look at the global logs (or at your own if you enabled this) by tapping the icon in the top-right corner.
+
+additionally: 
+    support for Android 4.0 dropped
+    support for Android 12 added
+    dependencies and build tools updated

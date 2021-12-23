@@ -1,0 +1,7 @@
+This is a patch release:
+
+   remove unused repo
+   This prevented the app from being built in some cases.
+   
+   fix a crash when editing an account without a network connection
+   This simply should not have been possible.

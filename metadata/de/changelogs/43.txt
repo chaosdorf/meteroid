@@ -1,0 +1,7 @@
+Dies ist ein Patch-Release:
+
+    ein unbenutztes Repo entfernt
+    Dies hat unter bestimmten Umständen dazu geführt, dass die App nicht baubar war.
+    
+    ein Crash behoben, wenn Accounts ohne Netzwerkverbindung bearbeitet wurden
+    Das sollte einfach nicht gehen.

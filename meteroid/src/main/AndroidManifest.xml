@@ -78,7 +78,7 @@
         <activity
             android:name=".Audits"
             android:label="@string/audits_label"
-            android:theme="@style/DialogWhenLarge"/>
+            android:theme="@style/AppTheme"/>
 
     </application>
 

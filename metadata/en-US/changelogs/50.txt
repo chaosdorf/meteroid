@@ -1,0 +1,4 @@
+meteroid now requires Android 5 (or newer).
+
+The other changes are rather small:
+new versions of used libraries and small code cleanups

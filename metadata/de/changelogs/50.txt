@@ -1,0 +1,4 @@
+meteroid setzt nun Android 5 (oder neuer) voraus.
+
+Ansonsten hat sich nicht viel getan:
+neuere Versionen von verwendeten Libraries und kleinere Aufräumarbeiten

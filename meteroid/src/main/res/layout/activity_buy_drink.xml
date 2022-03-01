@@ -72,43 +72,52 @@
           android:layout_height="fill_parent">
 
           <!-- Display user data -->
-          <LinearLayout
-              android:orientation="horizontal"
-              android:layout_width="fill_parent"
-              android:layout_height="wrap_content">
-
-              <ImageView
-                  android:id="@+id/icon"
-                  android:layout_width="75dip"
-                  android:layout_height="75dip"
-                  android:contentDescription="@string/app_name"/>
-
+          <com.google.android.material.card.MaterialCardView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_margin="8dp">
+          
               <LinearLayout
-                  android:orientation="vertical"
-                  android:layout_width="0dp"
-                  android:layout_height="fill_parent"
-                  android:layout_weight="1">
+                  android:orientation="horizontal"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content">
 
-                  <TextView
-                      android:id="@+id/username"
-                      android:text="@{user.name}"
-                      android:layout_width="200dp"
-                      android:paddingLeft="9dip"
-                      android:layout_height="wrap_content"
-                      android:textSize="16sp"/>
+                  <ImageView
+                      android:id="@+id/icon"
+                      android:layout_width="75dip"
+                      android:layout_height="75dip"
+                      android:contentDescription="@{user.name}"/>
 
-                  <TextView
-                      android:id="@+id/balance"
-                      android:text="@{DECIMAL_FORMAT.format(user.balance)}"
-                      android:textColor="@{user.balance >= 0 ? Color.LTGRAY : Color.RED}"
-                      android:layout_width="200dp"
-                      android:paddingLeft="9dip"
-                      android:layout_height="wrap_content"
-                      android:textSize="16sp"/>
+                  <LinearLayout
+                      android:orientation="vertical"
+                      android:layout_width="0dp"
+                      android:layout_height="fill_parent"
+                      android:layout_weight="1"
+                      android:padding="16dp">
+
+                      <TextView
+                          android:id="@+id/username"
+                          android:text="@{user.name}"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:textAppearance="?attr/textAppearanceHeadline6"
+                          android:textSize="16sp"/>
+
+                      <TextView
+                          android:id="@+id/balance"
+                          android:text="@{DECIMAL_FORMAT.format(user.balance)}"
+                          android:textColor="@{user.balance >= 0 ? Color.LTGRAY : Color.RED}"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_marginTop="3dp"
+                          android:textAppearance="?attr/textAppearanceBody2"
+                          android:textSize="16sp"/>
+
+                  </LinearLayout>
 
               </LinearLayout>
-
-          </LinearLayout>
+          
+          </com.google.android.material.card.MaterialCardView>
 
           <TextView
               android:id="@+id/buy_drink_error"

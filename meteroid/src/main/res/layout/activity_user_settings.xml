@@ -55,44 +55,68 @@
     <LinearLayout android:orientation="vertical"
                   android:layout_height="fill_parent"
                   android:layout_width="fill_parent">
-
-      <EditText
-          android:id="@+id/username"
+      
+      <com.google.android.material.textfield.TextInputLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
           android:hint="@string/user_settings_username"
-          android:layout_height="wrap_content"
-          android:layout_width="fill_parent"
-          android:inputType="text"
-          android:text="@={user.name}"
-          android:autofillHints="username"
-          android:enabled="@{writable}"
-          />
+          style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-      <EditText
-          android:id="@+id/email"
+          <com.google.android.material.textfield.TextInputEditText
+              android:id="@+id/username"
+              android:layout_height="wrap_content"
+              android:layout_width="fill_parent"
+              android:inputType="text"
+              android:text="@={user.name}"
+              android:autofillHints="username"
+              android:enabled="@{writable}"
+              />
+      
+      </com.google.android.material.textfield.TextInputLayout>
+
+      <com.google.android.material.textfield.TextInputLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
           android:hint="@string/user_settings_email"
-          android:layout_height="wrap_content"
-          android:layout_width="fill_parent"
-          android:inputType="textEmailAddress"
-          android:text="@={user.email}"
-          android:autofillHints="emailAddress"
-          android:enabled="@{writable}"
-          />
+          style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+      
+          <com.google.android.material.textfield.TextInputEditText
+              android:id="@+id/email"
+              android:layout_height="wrap_content"
+              android:layout_width="fill_parent"
+              android:inputType="textEmailAddress"
+              android:text="@={user.email}"
+              android:autofillHints="emailAddress"
+              android:enabled="@{writable}"
+              />
+      
+      </com.google.android.material.textfield.TextInputLayout>
 
-      <EditText
-          android:id="@+id/balance"
-          android:hint="@string/user_settings_balance"
+      <com.google.android.material.textfield.TextInputLayout
+          android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_width="fill_parent"
-          android:inputType="numberDecimal"
-          android:text="@{DECIMAL_FORMAT.format(user.balance)}"
-          android:enabled="@{writable}"
-          />
+          android:layout_marginTop="8dp"
+          android:hint="@string/user_settings_balance"
+          style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+          <com.google.android.material.textfield.TextInputEditText
+              android:id="@+id/balance"
+              android:layout_height="wrap_content"
+              android:layout_width="fill_parent"
+              android:inputType="numberDecimal"
+              android:text="@{DECIMAL_FORMAT.format(user.balance)}"
+              android:enabled="@{writable}"
+              />
+      
+      </com.google.android.material.textfield.TextInputLayout>
           
       <CheckBox
           android:id="@+id/active"
           android:text="@string/user_settings_active"
           android:layout_height="wrap_content"
           android:layout_width="fill_parent"
+          android:layout_marginTop="8dp"
           android:checked="@={user.active}"
           android:enabled="@{writable}"
           />

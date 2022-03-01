@@ -47,13 +47,22 @@
           android:text="@string/set_hostname"
           android:layout_height="wrap_content"
           android:layout_width="wrap_content"/>
-
-      <EditText
-          android:inputType="textUri"
-          android:id="@+id/hostname"
-          android:text="@string/set_hostname_default_hostname"
+      
+      <com.google.android.material.textfield.TextInputLayout
+          android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_width="fill_parent"/>
+          android:hint="@string/set_hostname_hint"
+          android:layout_marginTop="8dp"
+          style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+          <com.google.android.material.textfield.TextInputEditText
+              android:inputType="textUri"
+              android:id="@+id/hostname"
+              android:text="@string/set_hostname_default_hostname"
+              android:layout_height="wrap_content"
+              android:layout_width="fill_parent"/>
+      
+      </com.google.android.material.textfield.TextInputLayout>
 
       <Button
           android:layout_width="wrap_content"

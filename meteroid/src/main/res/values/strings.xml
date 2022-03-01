@@ -33,6 +33,7 @@
     <string name="set_hostname_label">Hostname</string>
     <string name="set_hostname_default_hostname">https://mete.chaosdorf.space/api/v1</string>
     <string name="set_hostname">Please enter the URL of mete</string>
+    <string name="set_hostname_hint">URL of mete</string>
     <string name="set_hostname_empty">Please enter a hostname</string>
     <string name="set_hostname_invalid">Invalid hostname entered</string>
     <string name="set_hostname_continue_http">The URL you entered is not secure (HTTP instead of HTTPS). Do you really want to continue?</string>

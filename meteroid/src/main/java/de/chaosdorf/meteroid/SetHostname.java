@@ -24,9 +24,9 @@
 
 package de.chaosdorf.meteroid;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.ActionBar;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -126,7 +126,7 @@ public class SetHostname extends AppCompatActivity
 		// TODO: Do this properly.
 		final String url = newHostname;
 		if(URLUtil.isHttpUrl(url)) {
-			new AlertDialog.Builder(this)
+			new MaterialAlertDialogBuilder(this)
 				.setMessage(R.string.set_hostname_continue_http)
 				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener()
 				{

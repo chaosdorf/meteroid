@@ -24,8 +24,8 @@
 
 package de.chaosdorf.meteroid;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import androidx.appcompat.app.ActionBar;
-import android.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ObservableBoolean;
 import android.content.DialogInterface;
@@ -165,7 +165,7 @@ public class UserSettings extends MeteroidNetworkActivity
 	{
 		if(config.userID == config.NO_USER_ID) //new user
 		{
-			new AlertDialog.Builder(this)
+			new MaterialAlertDialogBuilder(this)
 				.setMessage(R.string.user_settings_cant_delete_non_existing_user)
 				.setPositiveButton(android.R.string.ok, null) // Do nothing on click.
 				.create().show();
@@ -173,7 +173,7 @@ public class UserSettings extends MeteroidNetworkActivity
 		else
 		{
 			final UserSettings userSettings = this;
-			new AlertDialog.Builder(this)
+			new MaterialAlertDialogBuilder(this)
 				.setMessage(R.string.user_settings_confirm_delete_user)
 				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener()
 				{

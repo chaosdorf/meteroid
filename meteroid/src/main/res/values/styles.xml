@@ -44,6 +44,7 @@
         <item name="colorSecondary">@color/secondaryColor</item>
         <item name="colorOnPrimary">@color/primaryTextColor</item>
         <item name="colorOnSecondary">@color/secondaryTextColor</item>
+        <item name="colorSurface">@color/primaryColor</item>
         <item name="android:colorBackground">@color/backgroundColor</item>
         <item name="android:windowBackground">@color/backgroundColor</item>
         <item name="android:statusBarColor">@color/primaryColor</item>
@@ -62,6 +63,7 @@
         <item name="colorSecondary">@color/secondaryColor</item>
         <item name="colorOnPrimary">@color/primaryTextColor</item>
         <item name="colorOnSecondary">@color/secondaryTextColor</item>
+        <item name="colorSurface">@color/primaryColor</item>
         <item name="android:colorBackground">@color/backgroundColor</item>
         <item name="android:windowBackground">@color/backgroundColor</item>
         <item name="android:statusBarColor">@color/primaryColor</item>

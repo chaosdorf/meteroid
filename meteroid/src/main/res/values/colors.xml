@@ -24,15 +24,12 @@
   ~ THE SOFTWARE.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <resources>
-    <!-- https://material.io/resources/color/#!/?view.left=1&view.right=0&primary.color=3a3f44&secondary.color=009688 -->
-    <color name="primaryColor">#3a3f44</color>
-    <color name="primaryLightColor">#646a6f</color>
-    <color name="primaryDarkColor">#14191d</color>
-    <color name="secondaryColor">#009688</color>
-    <color name="secondaryLightColor">#52c7b8</color>
-    <color name="secondaryDarkColor">#00675b</color>
-    <color name="primaryTextColor">#ffffff</color>
-    <color name="secondaryTextColor">#000000</color>
+    <!-- https://material.io/resources/color/#!/?view.left=0&view.right=1&primary.color=ff9800 -->
+    <color name="primaryColor">#ff9800</color>
+    <color name="primaryLightColor">#ffc947</color>
+    <color name="primaryDarkColor">#c66900</color>
+    <color name="primaryTextColor">#000000</color>
 
+    <color name="actionColor">#3a3f44</color>
     <color name="backgroundColor">#272b30</color>
 </resources>

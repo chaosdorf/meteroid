@@ -41,13 +41,13 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
-        <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="colorSecondary">@color/primaryColor</item>
         <item name="colorOnPrimary">@color/primaryTextColor</item>
-        <item name="colorOnSecondary">@color/secondaryTextColor</item>
-        <item name="colorSurface">@color/primaryColor</item>
+        <item name="colorOnSecondary">@color/primaryTextColor</item>
+        <item name="colorSurface">@color/actionColor</item>
         <item name="android:colorBackground">@color/backgroundColor</item>
         <item name="android:windowBackground">@color/backgroundColor</item>
-        <item name="android:statusBarColor">@color/primaryColor</item>
+        <item name="android:statusBarColor">@color/actionColor</item>
         <item name="android:navigationBarColor">@color/backgroundColor</item>
         <item name="actionBarStyle">@style/AppTheme.ActionBar</item>
         <item name="floatingActionButtonStyle">@style/AppTheme.Fab</item>
@@ -60,23 +60,23 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
-        <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="colorSecondary">@color/primaryColor</item>
         <item name="colorOnPrimary">@color/primaryTextColor</item>
-        <item name="colorOnSecondary">@color/secondaryTextColor</item>
-        <item name="colorSurface">@color/primaryColor</item>
+        <item name="colorOnSecondary">@color/primaryTextColor</item>
+        <item name="colorSurface">@color/actionColor</item>
         <item name="android:colorBackground">@color/backgroundColor</item>
         <item name="android:windowBackground">@color/backgroundColor</item>
-        <item name="android:statusBarColor">@color/primaryColor</item>
+        <item name="android:statusBarColor">@color/actionColor</item>
         <item name="android:navigationBarColor">@color/backgroundColor</item>
         <item name="actionBarStyle">@style/AppTheme.ActionBar</item>
         <item name="floatingActionButtonStyle">@style/AppTheme.Fab</item>
     </style>
     
-    <style name="AppTheme.ActionBar" parent="Widget.MaterialComponents.ActionBar.Solid">
+    <style name="AppTheme.ActionBar" parent="Widget.MaterialComponents.ActionBar.Surface">
     </style>
 
     <style name="AppTheme.Fab" parent="FloatingActionButton">
-        <item name="floatingActionButtonColor">@color/secondaryColor</item>
+        <item name="floatingActionButtonColor">@color/primaryColor</item>
     </style>
 
 </resources>

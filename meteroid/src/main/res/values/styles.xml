@@ -70,6 +70,8 @@
         <item name="android:navigationBarColor">@color/backgroundColor</item>
         <item name="actionBarStyle">@style/AppTheme.ActionBar</item>
         <item name="floatingActionButtonStyle">@style/AppTheme.Fab</item>
+        <item name="windowFixedHeightMajor">45%</item>
+        <item name="windowFixedHeightMinor">65%</item>
     </style>
     
     <style name="AppTheme.ActionBar" parent="Widget.MaterialComponents.ActionBar.Surface">

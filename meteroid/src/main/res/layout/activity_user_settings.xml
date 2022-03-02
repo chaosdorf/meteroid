@@ -138,45 +138,45 @@
           android:checked="@={user.redirect}"
           android:enabled="@{writable}"
           />
-
-      <LinearLayout
-          android:layout_height="wrap_content"
-          android:layout_width="fill_parent"
-          android:orientation="horizontal"
-          >
-
-          <Button
-              android:id="@+id/button_back"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="@string/button_back"
-              android:layout_gravity="left"
-              android:layout_weight="1"
-              android:enabled="@{writable}"
-              style="@style/Widget.MaterialComponents.Button.TextButton"/>
-          
-          <Button
-              android:id="@+id/button_delete"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="@string/button_delete"
-              android:layout_gravity="center"
-              android:layout_weight="1"
-              android:enabled="@{writable}"
-              style="@style/Widget.MaterialComponents.Button.TextButton"/>
-          
-          <Button
-              android:id="@+id/button_save"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="@string/button_save"
-              android:layout_gravity="right"
-              android:layout_weight="1"
-              android:enabled="@{writable}"
-              style="@style/Widget.MaterialComponents.Button.TextButton"/>
-
-      </LinearLayout>
       
+    </LinearLayout>
+
+    <LinearLayout
+      android:layout_height="wrap_content"
+      android:layout_width="fill_parent"
+      android:orientation="horizontal"
+      android:layout_alignParentBottom="true"
+      >
+
+      <Button
+          android:id="@+id/button_back"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/button_back"
+          android:layout_gravity="left"
+          android:layout_weight="1"
+          android:enabled="@{writable}"
+          style="@style/Widget.MaterialComponents.Button.TextButton"/>
+      
+      <Button
+          android:id="@+id/button_delete"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/button_delete"
+          android:layout_gravity="center"
+          android:layout_weight="1"
+          android:enabled="@{writable}"
+          style="@style/Widget.MaterialComponents.Button.TextButton"/>
+      
+      <Button
+          android:id="@+id/button_save"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/button_save"
+          android:layout_gravity="right"
+          android:layout_weight="1"
+          android:enabled="@{writable}"/>
+
     </LinearLayout>
 
   </RelativeLayout>

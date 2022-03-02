@@ -34,10 +34,10 @@
               type="java.text.DecimalFormat" />
     <variable name="DATE_FORMAT"
               type="java.text.DateFormat" />
-    <variable name="from_date"
-              type="androidx.databinding.ObservableField"/>
-    <variable name="until_date"
-              type="androidx.databinding.ObservableField"/>
+    <variable name="from_calendar"
+              type="java.util.Calendar"/>
+    <variable name="until_calendar"
+              type="java.util.Calendar"/>
     <variable name="audits_info"
               type="de.chaosdorf.meteroid.model.AuditsInfo" />
     <import type="android.graphics.Color" />
@@ -73,7 +73,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:textStyle="italic"
-                    android:text="@{@string/audits_date_text(DATE_FORMAT.format(from_date), DATE_FORMAT.format(until_date))}"/>
+                    android:text="@{@string/audits_date_text(DATE_FORMAT.format(from_calendar.getTime()), DATE_FORMAT.format(until_calendar.getTime()))}"/>
           <ImageButton
             android:id="@+id/button_modify_date"
             android:layout_width="wrap_content"

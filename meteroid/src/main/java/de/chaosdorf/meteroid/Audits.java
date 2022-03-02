@@ -27,7 +27,6 @@ package de.chaosdorf.meteroid;
 
 import java.text.DateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
@@ -61,8 +60,8 @@ import de.chaosdorf.meteroid.util.Utility;
 public class Audits extends MeteroidNetworkActivity implements LongRunningIOCallback
 {
 	private ActivityAuditsBinding binding;
-	private ObservableField<Date> fromDate;
-	private ObservableField<Date> untilDate;
+	private Calendar fromCalendar;
+	private Calendar untilCalendar;
 	private List<Audit> audits = null;
 	private HashMap<Integer, Drink> drinks = new HashMap<>();
 	
@@ -72,20 +71,23 @@ public class Audits extends MeteroidNetworkActivity implements LongRunningIOCall
 		super.onCreate(savedInstanceState);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_audits);
 		binding.setDECIMALFORMAT(DECIMAL_FORMAT);
-		Calendar fromCalendar = Calendar.getInstance();
+		fromCalendar = Calendar.getInstance();
 		fromCalendar.add(Calendar.DAY_OF_MONTH, -14);
-		fromDate = new ObservableField<>(fromCalendar.getTime());
-		Calendar untilCalendar = Calendar.getInstance();
+		untilCalendar = Calendar.getInstance();
 		untilCalendar.add(Calendar.DAY_OF_MONTH, 1);
-		untilDate = new ObservableField<>(untilCalendar.getTime());
-		binding.setFromDate(fromDate);
-		binding.setUntilDate(untilDate);
+		binding.setFromCalendar(fromCalendar);
+		binding.setUntilCalendar(untilCalendar);
 		binding.setDATEFORMAT(DateFormat.getDateInstance());
 		
 		binding.buttonBack.setOnClickListener(v -> finish());
 		binding.buttonReload.setOnClickListener(v -> reload());
 		MaterialDatePicker<Pair<Long, Long>> datePicker = MaterialDatePicker
-			.Builder.dateRangePicker().build();
+			.Builder
+			.dateRangePicker()
+			.setSelection(new Pair(
+				fromCalendar.getTimeInMillis(), untilCalendar.getTimeInMillis()
+			))
+			.build();
 		datePicker.addOnPositiveButtonClickListener(
 			(Pair<Long, Long> s) -> this.onDateSelected(s)
 		);
@@ -111,8 +113,12 @@ public class Audits extends MeteroidNetworkActivity implements LongRunningIOCall
 		if(selection.first == null || selection.second == null) {
 			return;
 		}
-		fromDate.set(new Date(selection.first));
-		untilDate.set(new Date(selection.second));
+		fromCalendar.setTimeInMillis(selection.first);
+		fromCalendar.add(Calendar.DATE, 1);
+		binding.setFromCalendar(fromCalendar);
+		untilCalendar.setTimeInMillis(selection.second);
+		untilCalendar.add(Calendar.DATE, 1);
+		binding.setUntilCalendar(untilCalendar);
 		reload();
 	}
 	
@@ -132,12 +138,12 @@ public class Audits extends MeteroidNetworkActivity implements LongRunningIOCall
 		new LongRunningIORequest<AuditsInfo>(
 			this, LongRunningIOTask.GET_AUDITS, connection.getAPI().listAudits(
 				config.userID != config.NO_USER_ID? config.userID : null,
-				fromDate.get().getYear() + 1900,
-				fromDate.get().getMonth() + 1,
-				fromDate.get().getDate(), 
-				untilDate.get().getYear() + 1900,
-				untilDate.get().getMonth() + 1,
-				untilDate.get().getDate()
+				fromCalendar.get(Calendar.YEAR),
+				fromCalendar.get(Calendar.MONTH) + 1,
+				fromCalendar.get(Calendar.DATE), 
+				untilCalendar.get(Calendar.YEAR),
+				untilCalendar.get(Calendar.MONTH) + 1,
+				untilCalendar.get(Calendar.DATE)
 			)
 		);
 		new LongRunningIORequest<List<Drink>>(
@@ -216,6 +222,7 @@ public class Audits extends MeteroidNetworkActivity implements LongRunningIOCall
 		private final List<Audit> auditList;
 		private final Map<Integer, Drink> drinks;
 		private final LayoutInflater inflater;
+		private final DateFormat dateFormat = DateFormat.getDateTimeInstance();
 		
 		AuditsAdapter(final List<Audit> auditList, final Map<Integer, Drink> drinks)
 		{
@@ -242,7 +249,7 @@ public class Audits extends MeteroidNetworkActivity implements LongRunningIOCall
 			}
 			final Audit audit = auditList.get(position);
 			TextView timestamp = view.findViewById(R.id.timestamp);
-			timestamp.setText(audit.getCreatedAt().toLocaleString());
+			timestamp.setText(dateFormat.format(audit.getCreatedAt()));
 			TextView amount = view.findViewById(R.id.amount);
 			amount.setText(DECIMAL_FORMAT.format(audit.getDifference()));
 			TextView drinkView = view.findViewById(R.id.drink);

@@ -141,50 +141,43 @@
 
       <LinearLayout
           android:layout_height="wrap_content"
-          android:layout_width="wrap_content"
+          android:layout_width="fill_parent"
           android:orientation="horizontal"
-          android:layout_gravity="right"
           >
 
-          <ImageButton
+          <Button
               android:id="@+id/button_back"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:layout_gravity="right"
-              android:src="@drawable/button_back"
+              android:text="@string/button_back"
+              android:layout_gravity="left"
+              android:layout_weight="1"
               android:enabled="@{writable}"
-              android:contentDescription="@string/button_back"/>
+              style="@style/Widget.MaterialComponents.Button.TextButton"/>
           
-          <ImageButton
-            android:id="@+id/button_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_delete"
-            android:enabled="@{writable}"
-            android:contentDescription="@string/button_delete"/>
-
-          <ImageButton
+          <Button
+              android:id="@+id/button_delete"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/button_delete"
+              android:layout_gravity="center"
+              android:layout_weight="1"
+              android:enabled="@{writable}"
+              style="@style/Widget.MaterialComponents.Button.TextButton"/>
+          
+          <Button
               android:id="@+id/button_save"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:src="@android:drawable/ic_menu_save"
+              android:text="@string/button_save"
+              android:layout_gravity="right"
+              android:layout_weight="1"
               android:enabled="@{writable}"
-              android:contentDescription="@string/button_save"/>
+              style="@style/Widget.MaterialComponents.Button.TextButton"/>
 
       </LinearLayout>
       
     </LinearLayout>
-    <com.shamanland.fab.FloatingActionButton
-        android:visibility="gone"
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="16dip"
-        android:enabled="@{writable}"
-        android:src="@android:drawable/ic_menu_save"
-        android:contentDescription="@string/button_save"/>
 
   </RelativeLayout>
 </layout>

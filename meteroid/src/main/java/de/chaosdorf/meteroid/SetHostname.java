@@ -79,9 +79,16 @@ public class SetHostname extends AppCompatActivity
 		{
 			binding.buttonSave.setVisibility(View.GONE);
 		}
-		binding.fab.setOnClickListener(v -> saveHostname());
-		binding.fab.setVisibility(View.VISIBLE);
-		binding.buttonSave.setVisibility(View.GONE);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(final MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.action_save:
+				saveHostname();
+				break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override

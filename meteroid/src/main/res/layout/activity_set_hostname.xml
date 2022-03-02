@@ -65,23 +65,14 @@
       </com.google.android.material.textfield.TextInputLayout>
 
       <Button
+          android:id="@+id/button_save"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:text="@string/button_save"
-          android:id="@+id/button_save"
-          android:layout_gravity="center"/>
+          android:layout_gravity="right"
+          style="@style/Widget.MaterialComponents.Button.TextButton"/>
     
     </LinearLayout>
-    <com.shamanland.fab.FloatingActionButton
-        android:visibility="gone"
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="16dip"
-        android:src="@android:drawable/ic_menu_save"
-        android:contentDescription="@string/button_save"/>
 
   </RelativeLayout>
 </layout>

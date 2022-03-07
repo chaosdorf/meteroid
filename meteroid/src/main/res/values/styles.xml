@@ -40,6 +40,9 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         <item name="colorPrimary">@color/primaryColor</item>
+        <!-- This is a hack to make the task in the recents screen and the
+        border of freeform windows have the same color as the action bar. -->
+        <item name="android:colorPrimary">@color/actionColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
         <item name="colorSecondary">@color/primaryColor</item>
         <item name="colorOnPrimary">@color/primaryTextColor</item>
@@ -59,6 +62,9 @@
     <style name="DialogWhenLarge" parent="DialogWhenLargeBase">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         <item name="colorPrimary">@color/primaryColor</item>
+        <!-- This is a hack to make the task in the recents screen and the
+        border of freeform windows have the same color as the action bar. -->
+        <item name="android:colorPrimary">@color/actionColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
         <item name="colorSecondary">@color/primaryColor</item>
         <item name="colorOnPrimary">@color/primaryTextColor</item>

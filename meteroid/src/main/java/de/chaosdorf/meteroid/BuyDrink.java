@@ -47,9 +47,6 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.shamanland.fab.FloatingActionButton;
-import com.shamanland.fab.ShowHideOnScroll;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -111,6 +108,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		binding.swiperefresh.setOnRefreshListener(() -> reload());
 		binding.fab.setOnClickListener(v -> scanBarcode());
 		binding.fab.setVisibility(View.VISIBLE);
+		binding.fab.show();
 		
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1)
 		{
@@ -434,8 +432,6 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 				}
 				binding.progressBar.setVisibility(View.GONE);
 				binding.swiperefresh.setRefreshing(false);
-				(config.useGridView? binding.gridView : binding.listView)
-				.setOnTouchListener(new ShowHideOnScroll(binding.fab));
 				handleIntent(buyableItemList);
 				break;
 			}

@@ -41,9 +41,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.shamanland.fab.FloatingActionButton;
-import com.shamanland.fab.ShowHideOnScroll;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
@@ -76,11 +73,11 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 		
 		binding.swiperefresh.setEnabled(true);
 		binding.swiperefresh.setOnRefreshListener(() -> reload());
-		binding.gridView.setOnTouchListener(new ShowHideOnScroll(binding.fab));
 		binding.fab.setOnClickListener(
 			v -> Utility.startActivity(activity, UserSettings.class)
 		);
 		binding.fab.setVisibility(View.VISIBLE);
+		binding.fab.show();
 
 		reload();
 	}

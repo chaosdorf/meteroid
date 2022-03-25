@@ -52,13 +52,13 @@
               android:text="@string/pick_username_error"/>
       </LinearLayout>
 
-      <ProgressBar
+      <com.google.android.material.progressindicator.CircularProgressIndicator
           android:visibility="visible"
           android:id="@+id/progress_bar"
           android:layout_width="76dip"
           android:layout_height="76dip"
           android:layout_centerInParent="true"
-          style="@android:style/Widget.ProgressBar.Large"/>
+          android:indeterminate="true"/>
 
       <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
           android:id="@+id/swiperefresh"

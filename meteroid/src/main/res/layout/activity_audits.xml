@@ -95,13 +95,13 @@
             android:src="@drawable/button_reload"
             android:contentDescription="@string/button_reload"/>
         </LinearLayout>
-        <ProgressBar
+        <com.google.android.material.progressindicator.CircularProgressIndicator
             android:visibility="visible"
             android:id="@+id/progress_bar"
             android:layout_width="76dip"
             android:layout_height="76dip"
             android:layout_centerInParent="true"
-            style="@android:style/Widget.ProgressBar.Large"/>
+            android:indeterminate="true"/>
         <LinearLayout android:id="@+id/audits_display"
                       android:layout_width="fill_parent"
                       android:layout_height="fill_parent"

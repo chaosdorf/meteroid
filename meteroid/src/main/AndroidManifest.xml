@@ -79,6 +79,11 @@
             android:name=".Audits"
             android:label="@string/audits_label"
             android:theme="@style/AppTheme"/>
+        
+        <activity
+            android:name=".Wrapped"
+            android:label="@string/wrapped_label"
+            android:theme="@style/DialogWhenLarge"/>
 
     </application>
 

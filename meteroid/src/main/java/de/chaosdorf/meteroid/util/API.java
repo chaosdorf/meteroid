@@ -117,6 +117,11 @@ public interface API
 		@Path("uid") int uid,
 		@Field("barcode") String barcode
 	);
+
+	@GET("/users/{uid}/wrapped")
+	Call<Void> checkWrapped(
+		@Path("uid") int uid
+	);
 	
 	/*// retrieves various statistics
 	@GET("users/stats.json")

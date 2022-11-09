@@ -67,6 +67,8 @@
     <string name="buy_drink_edit_user">Account bearbeiten</string>
     <string name="buy_drink_show_audits">Logs anzeigen</string>
     <string name="buy_drink_invalid_intent">Diese Aktion ist ungültig.</string>
+    <string name="buy_drink_wrapped_text">Dein %s Wrapped ist verfügbar.</string>
+    <string name="buy_drink_wrapped_button">Guck es dir an</string>
     
     <!-- About -->
     <string name="about_label">Über…</string>
@@ -82,6 +84,9 @@
     <string name="audits_until">Bis:</string>
     <string name="audits_date_text">Zeige Audits von %1$s bis %2$s.</string>
     <string name="audits_modify_date">Zeitraum bearbeiten</string>
+
+    <!-- Wrapped -->
+    <string name="wrapped_label">Wrapped</string>
 
     <!-- Buttons -->
     <string name="button_back">Zurück</string>

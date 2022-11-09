@@ -68,6 +68,8 @@
     <string name="buy_drink_edit_user">Edit user</string>
     <string name="buy_drink_show_audits">Show logs</string>
     <string name="buy_drink_invalid_intent">This action is invalid.</string>
+    <string name="buy_drink_wrapped_text">Your %s wrapped is available.</string>
+    <string name="buy_drink_wrapped_button">See what you\'ve been up to</string>
 
     <!-- About -->
     <string name="about_label">About</string>
@@ -83,6 +85,9 @@
     <string name="audits_until">Until:</string>
     <string name="audits_date_text">Showing audits from %1$s until %2$s.</string>
     <string name="audits_modify_date">Change period</string>
+
+    <!-- Wrapped -->
+    <string name="wrapped_label">Wrapped</string>
 
     <!-- Buttons -->
     <string name="button_back">Back</string>

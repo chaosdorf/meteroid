@@ -109,6 +109,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		binding.fab.setOnClickListener(v -> scanBarcode());
 		binding.fab.setVisibility(View.VISIBLE);
 		binding.fab.show();
+		binding.wrappedButton.setOnClickListener(v -> Utility.startActivity(this, Wrapped.class));
 		
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1)
 		{
@@ -375,6 +376,12 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 	@Override
 	public void displayErrorMessage(final LongRunningIOTask task, final String message)
 	{
+		if(task == LongRunningIOTask.CHECK_WRAPPED) {
+			// this is expected
+			binding.setWrapped(null);
+			return;
+		}
+
 		buyingItem.set(null);
 		if (task == LongRunningIOTask.GET_USER || task == LongRunningIOTask.UPDATE_USER)
 		{
@@ -408,6 +415,12 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 					Utility.loadUserImage(this, binding.icon, user);
 				}
 				isBuying.set(false);
+				if(user.getAudit()) {
+					new LongRunningIORequest<Void>(
+						this, LongRunningIOTask.CHECK_WRAPPED,
+						connection.getAPI().checkWrapped(config.userID)
+					);
+				}
 				break;
 			}
 		
@@ -489,6 +502,12 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 					}
 				}
 				new LongRunningIORequest<User>(this, LongRunningIOTask.UPDATE_USER, connection.getAPI().getUser(config.userID));
+				break;
+			}
+
+			case CHECK_WRAPPED:
+			{
+				binding.setWrapped(Wrapped.getYear());
 				break;
 			}
 		}

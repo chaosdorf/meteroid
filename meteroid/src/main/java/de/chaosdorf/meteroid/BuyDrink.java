@@ -592,6 +592,7 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 	// the barcode scan result
 	public void onActivityResult(int requestCode, int resultCode, Intent intent)
 	{
+		super.onActivityResult(requestCode, resultCode, intent);
 		IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
 		if(scanResult != null)
 		{

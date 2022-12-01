@@ -42,7 +42,6 @@ dependencies {
     repositories {
         mavenCentral()
         google()
-        jcenter()
         maven { url 'https://jitpack.io' }
     }
     implementation 'org.jetbrains:annotations:23.0.0'

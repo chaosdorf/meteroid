@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/chaosdorf/meteroid.svg?branch=master)](https://travis-ci.org/chaosdorf/meteroid)
 
+![logo](/metadata/en-US/images/featureGraphic.png)
+
 ### What
 Small Android application to use with mete, the Matekasse of Chaosdorf.
 
@@ -8,6 +10,14 @@ Small Android application to use with mete, the Matekasse of Chaosdorf.
 * [Google Play](https://play.google.com/store/apps/details?id=de.chaosdorf.meteroid2)
 * [F-Droid](https://f-droid.org/repository/browse/?fdid=de.chaosdorf.meteroid)
 * [apk](https://github.com/chaosdorf/meteroid/releases/)
+
+### How does it look?
+
+![the main screen](/metadata/en-US/images/phoneScreenshots/1.png)
+
+![adding an account](/metadata/en-US/images/phoneScreenshots/2.png)
+
+![your logs](/metadata/en-US/images/phoneScreenshots/3.png)
 
 ### License
 The MIT License (MIT)

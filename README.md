@@ -31,3 +31,22 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+### Privacy
+
+The meteroid app stores a few things permanently on your device
+("permanently" meaning, until you uninstall the app or clear its data):
+ * the URL of your chosen mete instance
+ * your user ID (just a number that identifies you)
+ * your last five used items
+
+Additionally, some data may be cached temporarily:
+ * your avatar
+ * the avatars of other users
+ * the images of drinks
+
+The rest of the data is kept in your mete instance. Please check its terms
+and make sure you trust its operators:
+ * your chosen name (this can just be a nickname)
+ * your e-mail address (optional)
+ * your usage history (optional)

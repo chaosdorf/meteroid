@@ -63,6 +63,7 @@ gradle.projectsEvaluated {
 }
 
 android {
+    namespace "de.chaosdorf.meteroid"
     compileSdkVersion 31
     signingConfigs {}
     lintOptions {

@@ -26,6 +26,7 @@ package de.chaosdorf.meteroid;
 
 import android.annotation.TargetApi;
 import androidx.appcompat.app.ActionBar;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ShortcutInfo;
@@ -47,6 +48,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -58,8 +60,6 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 
 import de.chaosdorf.meteroid.controller.MeteroidAdapter;
 import de.chaosdorf.meteroid.controller.MoneyController;
@@ -83,13 +83,14 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 	private User user;
 	private ActivityBuyDrinkBinding binding;
 	private ShortcutManager shortcutManager;
-	private IntentIntegrator barcodeIntegrator;
 	
 	private static final String ACTION_BUY = "de.chaosdorf.meteroid.ACTION_BUY";
 	private static final String ACTION_SCAN = "de.chaosdorf.meteroid.ACTION_SCAN";
 	private static final String EXTRA_BUYABLE_ITEM_IS_DRINK = "de.chaosdorf.meteroid.EXTRA_BUYABLE_ITEM_IS_DRINK";
 	private static final String EXTRA_BUYABLE_ITEM_ID = "de.chaosdorf.meteroid.EXTRA_BUYABLE_ITEM_ID";
 	private static final String EXTRA_BUYABLE_ITEM_PRICE = "de.chaosdorf.meteroid.EXTRA_BUYABLE_ITEM_PRICE";
+	private static final Intent SCAN_INTENT = new Intent("com.google.zxing.client.android.SCAN");
+	private static final int SCAN_NUMBER = 42;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState)
@@ -98,8 +99,6 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_buy_drink);
 		binding.setUser(user);
 		binding.setDECIMALFORMAT(DECIMAL_FORMAT);
-
-		barcodeIntegrator = new IntentIntegrator(this);
 
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -223,7 +222,16 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 			updateShortcuts(shortcut);
 			shortcutManager.reportShortcutUsed(shortcut.getId());
 		}
-		barcodeIntegrator.initiateScan();
+		try
+		{
+			startActivityForResult(SCAN_INTENT, SCAN_NUMBER);
+		} catch(ActivityNotFoundException e)
+		{
+			new MaterialAlertDialogBuilder(this)
+					.setMessage(R.string.buy_drink_no_barcode_scanner)
+					.setPositiveButton(android.R.string.ok, null) // Do nothing on click.
+					.create().show();
+		}
 	}
 	
 	private ShortcutInfo shortcutForItem(BuyableItem item)
@@ -593,13 +601,14 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 	public void onActivityResult(int requestCode, int resultCode, Intent intent)
 	{
 		super.onActivityResult(requestCode, resultCode, intent);
-		IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-		if(scanResult != null)
-		{
-			if(scanResult.getContents() != null)
-			{
-				System.err.println("Scanned barcode: " + scanResult.toString());
-				new LongRunningIORequest<Void>(this, LongRunningIOTask.BUY_DRINK, connection.getAPI().buy_barcode(config.userID, scanResult.getContents()));
+		if(requestCode == SCAN_NUMBER) {
+			if(resultCode == RESULT_OK) {
+				String barcode = intent.getStringExtra("SCAN_RESULT");
+				System.err.println("Scanned barcode: " + barcode);
+				new LongRunningIORequest<Void>(
+					this, LongRunningIOTask.BUY_DRINK,
+					connection.getAPI().buy_barcode(config.userID, barcode)
+				);
 			}
 		}
 	}

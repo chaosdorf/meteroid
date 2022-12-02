@@ -68,6 +68,7 @@
     <string name="buy_drink_edit_user">Edit user</string>
     <string name="buy_drink_show_audits">Show logs</string>
     <string name="buy_drink_invalid_intent">This action is invalid.</string>
+    <string name="buy_drink_no_barcode_scanner">You have no supported barcode scanner installed. It needs to reply to com.google.zxing.client.android.SCAN.</string>
     <string name="buy_drink_wrapped_text">Your %s wrapped is available.</string>
     <string name="buy_drink_wrapped_button">See what you\'ve been up to</string>
 

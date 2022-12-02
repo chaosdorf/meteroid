@@ -67,6 +67,7 @@
     <string name="buy_drink_edit_user">Account bearbeiten</string>
     <string name="buy_drink_show_audits">Logs anzeigen</string>
     <string name="buy_drink_invalid_intent">Diese Aktion ist ungültig.</string>
+    <string name="buy_drink_no_barcode_scanner">Du hast keinen unterstützten Barcodescanner installiert. Er muss auf com.google.zxing.client.android.SCAN reagieren.</string>
     <string name="buy_drink_wrapped_text">Dein %s Wrapped ist verfügbar.</string>
     <string name="buy_drink_wrapped_button">Guck es dir an</string>
     

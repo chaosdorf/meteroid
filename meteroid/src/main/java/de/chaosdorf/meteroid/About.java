@@ -109,10 +109,6 @@ public class About extends AppCompatActivity
 		});
 		ArrayList<License> licenseList = new ArrayList<>();
 		licenseList.add(new License(
-			this, "ZXing", LicenseType.APACHE_LICENSE_20,
-			"2007-2020", "ZXing authors"
-		));
-		licenseList.add(new License(
 			this, "Android Jetpack", LicenseType.APACHE_LICENSE_20,
 			"2018", "The Android Open Source Project"
 		));

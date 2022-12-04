@@ -28,7 +28,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.ActionBar;
 import android.content.DialogInterface;
+import android.content.Intent;
 import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ObservableBoolean;
 import android.os.Bundle;
 import android.os.Build;
 import android.text.Editable;
@@ -37,6 +39,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.URLUtil;
+import android.widget.Toast;
 
 import de.chaosdorf.meteroid.databinding.ActivitySetHostnameBinding;
 import de.chaosdorf.meteroid.util.Config;
@@ -49,6 +52,7 @@ public class SetHostname extends AppCompatActivity
 	private Config config;
 	private Connection connection;
 	private ActivitySetHostnameBinding binding;
+	private final ObservableBoolean writable = new ObservableBoolean(false);
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState)
@@ -56,6 +60,7 @@ public class SetHostname extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		activity = this;
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_set_hostname);
+		binding.setWritable(writable);
 
 		config = Config.getInstance(getApplicationContext());
 
@@ -79,6 +84,7 @@ public class SetHostname extends AppCompatActivity
 		{
 			binding.buttonSave.setVisibility(View.GONE);
 		}
+		writable.set(true);
 	}
 
 	@Override
@@ -140,22 +146,35 @@ public class SetHostname extends AppCompatActivity
 					@Override
 					public void onClick(DialogInterface dialog, int id)
 					{
-						saveAndExit(url);
+						trySaveAndExit(url);
 					}
 				})
 				.setNegativeButton(android.R.string.cancel, null) // Do nothing on click.
 				.create().show();
 		} else {
-			saveAndExit(url);
+			trySaveAndExit(url);
 		}
 	}
 	
-	private void saveAndExit(String newHostname) {
-		config.hostname = newHostname;
-		config.apiVersion = Utility.guessApiVersion(newHostname);
-		config.save();
+	private void trySaveAndExit(String newHostname) {
+		writable.set(false);
 		connection = Connection.getInstance(config);
-		connection.reset();
-		Utility.startActivity(activity, PickUsername.class);
+		connection.check(connection.initializeRetrofit(newHostname), new Connection.CheckCallback() {
+			@Override
+			public void handleSuccess() {
+				config.hostname = newHostname;
+				config.apiVersion = Utility.guessApiVersion(newHostname);
+				config.save();
+				connection.reset();
+				Utility.startActivity(activity, PickUsername.class, Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				finish();
+			}
+			
+			@Override
+			public void handleError(String message) {
+				Toast.makeText(activity, message, Toast.LENGTH_LONG).show();
+				writable.set(true);
+			}
+		});
 	}
 }

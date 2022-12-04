@@ -34,7 +34,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOCallback;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIORequest;
 import de.chaosdorf.meteroid.longrunningio.LongRunningIOTask;
-import de.chaosdorf.meteroid.model.User;
+import de.chaosdorf.meteroid.model.Drink;
 
 public class Connection
 {
@@ -71,6 +71,24 @@ public class Connection
     {
         return api;
     }
+
+    public void check(API api, CheckCallback callback) {
+        new LongRunningIORequest<List<Drink>>(
+            new LongRunningIOCallback<List<Drink>>() {
+                @Override
+                public void displayErrorMessage(LongRunningIOTask task, String message) {
+                    callback.handleError(message);
+                }
+
+                @Override
+                public void processIOResult(LongRunningIOTask task, List<Drink> result) {
+                    callback.handleSuccess();
+                }
+            },
+            LongRunningIOTask.GET_DRINKS,
+            api.listDrinks()
+        );
+    }
     
     private void upgradeAPIversion()
     {
@@ -88,30 +106,26 @@ public class Connection
                 Log.e(TAG, "API version is configured as 'legacy', but seems like 'v1'. This is most certainly a bug.");
             }
             final String test_hostname = config.hostname + "api/v1/";
+
             final API test_api = initializeRetrofit(test_hostname);
-            new LongRunningIORequest<List<User>>(new LongRunningIOCallback<List<User>>()
-            {
-                @Override
-                public void displayErrorMessage(LongRunningIOTask task, String message)
-                {
-                    Log.w(TAG, "The server doesn't seem to support 'v1' (or the request failed): "  + message);
-                    api = initializeRetrofit(config.hostname);
-                }
-                
-                @Override
-                public void processIOResult(LongRunningIOTask task, List<User> users)
-                {
+            check(test_api, new CheckCallback() {
+                public void handleSuccess() {
                     Log.i(TAG, "The server seems to support the newer API version 'v1'. Upgrading.");
                     config.hostname = test_hostname;
                     config.apiVersion = "v1";
                     config.save();
                     api = test_api;
                 }
-            }, LongRunningIOTask.GET_USERS, test_api.listUsers());
+
+                public void handleError(String message) {
+                    Log.w(TAG, "The server doesn't seem to support 'v1' (or the request failed): " + message);
+                    api = initializeRetrofit(config.hostname);
+                }
+            });
         }
     }
     
-    private API initializeRetrofit(String url)
+    public API initializeRetrofit(String url)
     {
         Log.d(TAG, "Opening connection to " + url + "...");
         return new Retrofit.Builder()
@@ -119,5 +133,10 @@ public class Connection
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(API.class);
+    }
+
+    public interface CheckCallback {
+        public void handleError(String message);
+        public void handleSuccess();
     }
 }

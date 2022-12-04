@@ -29,6 +29,13 @@
   xmlns:tools="http://schemas.android.com/tools"
   >
 
+  <data>
+    <variable
+      name="writable"
+      type="androidx.databinding.ObservableBoolean"
+    />
+  </data>
+
   <RelativeLayout android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:orientation="vertical"
@@ -57,6 +64,7 @@
 
           <com.google.android.material.textfield.TextInputEditText
               android:inputType="textUri"
+              android:enabled="@{writable}"
               android:id="@+id/hostname"
               android:text="@string/set_hostname_default_hostname"
               android:layout_height="wrap_content"
@@ -66,6 +74,7 @@
 
       <Button
           android:id="@+id/button_save"
+          android:enabled="@{writable}"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:text="@string/button_save"

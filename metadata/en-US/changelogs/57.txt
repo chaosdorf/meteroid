@@ -1,0 +1,1 @@
+This release comes with some small improvements, mostly for scanning barcodes, entering the URL and scrolling.

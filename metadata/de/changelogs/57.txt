@@ -1,0 +1,2 @@
+Dieses Release hat einige kleinere Verbesserungen.
+Diese betreffen u.a. das Scannen von Barcodes, das Eingeben der URL und das Scrollen.

@@ -26,7 +26,6 @@ package de.chaosdorf.meteroid;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.ActionBar;
 import android.content.DialogInterface;
 import android.content.Intent;
 import androidx.databinding.DataBindingUtil;
@@ -60,6 +59,7 @@ public class SetHostname extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		activity = this;
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_set_hostname);
+		setSupportActionBar(binding.toolbar);
 		binding.setWritable(writable);
 
 		config = Config.getInstance(getApplicationContext());
@@ -75,14 +75,6 @@ public class SetHostname extends AppCompatActivity
 			{
 				Selection.setSelection(editTextHostname, editTextHostname.length());
 			}
-		}
-
-		binding.buttonSave.setOnClickListener(v -> saveHostname());
-
-		ActionBar actionBar = getSupportActionBar();
-		if(actionBar != null)
-		{
-			binding.buttonSave.setVisibility(View.GONE);
 		}
 		writable.set(true);
 	}

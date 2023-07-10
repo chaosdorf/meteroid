@@ -25,7 +25,6 @@
 
 package de.chaosdorf.meteroid;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -46,11 +45,7 @@ public class Wrapped extends MeteroidNetworkActivity
 	{
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_wrapped);
-        ActionBar actionBar = getSupportActionBar();
-		if(actionBar != null)
-		{
-			actionBar.setDisplayHomeAsUpEnabled(true);
-        }
+        setSupportActionBar(binding.toolbar);
         binding.swiperefresh.setOnRefreshListener(() -> binding.webview.reload());
         binding.webview.setWebViewClient(new WebViewClient()
         {

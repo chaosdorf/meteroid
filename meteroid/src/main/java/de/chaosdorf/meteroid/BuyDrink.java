@@ -25,7 +25,6 @@
 package de.chaosdorf.meteroid;
 
 import android.annotation.TargetApi;
-import androidx.appcompat.app.ActionBar;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -97,12 +96,10 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 	{
 		super.onCreate(savedInstanceState);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_buy_drink);
+		setSupportActionBar(binding.toolbar);
 		binding.setUser(user);
 		binding.setDECIMALFORMAT(DECIMAL_FORMAT);
 
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
-		
 		if (config.useGridView) {
 			binding.swiperefreshGrid.setVisibility(View.VISIBLE);
 			binding.swiperefreshGrid.setEnabled(true);

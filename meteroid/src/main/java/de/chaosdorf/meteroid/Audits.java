@@ -31,7 +31,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.core.util.Pair;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ObservableField;
@@ -70,6 +69,7 @@ public class Audits extends MeteroidNetworkActivity implements LongRunningIOCall
 	{
 		super.onCreate(savedInstanceState);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_audits);
+		setSupportActionBar(binding.toolbar);
 		binding.setDECIMALFORMAT(DECIMAL_FORMAT);
 		fromCalendar = Calendar.getInstance();
 		fromCalendar.add(Calendar.DAY_OF_MONTH, -14);
@@ -79,8 +79,6 @@ public class Audits extends MeteroidNetworkActivity implements LongRunningIOCall
 		binding.setUntilCalendar(untilCalendar);
 		binding.setDATEFORMAT(DateFormat.getDateInstance());
 		
-		binding.buttonBack.setOnClickListener(v -> finish());
-		binding.buttonReload.setOnClickListener(v -> reload());
 		MaterialDatePicker<Pair<Long, Long>> datePicker = MaterialDatePicker
 			.Builder
 			.dateRangePicker()
@@ -94,14 +92,6 @@ public class Audits extends MeteroidNetworkActivity implements LongRunningIOCall
 		binding.buttonModifyDate.setOnClickListener(v -> 
 			datePicker.show(this.getSupportFragmentManager(), "picker")
 		);
-		
-		ActionBar actionBar = getSupportActionBar();
-		if(actionBar != null)
-		{
-			actionBar.setDisplayHomeAsUpEnabled(true);
-			binding.buttonBack.setVisibility(View.GONE);
-			binding.buttonReload.setVisibility(View.GONE);
-		}
 		
 		binding.swiperefresh.setEnabled(true);
 		binding.swiperefresh.setOnRefreshListener(() -> reload());

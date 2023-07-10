@@ -26,6 +26,7 @@
 
 <layout
   xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   >
 
@@ -49,6 +50,16 @@
                   android:layout_height="fill_parent"
                   android:layout_width="fill_parent">
 
+      <androidx.appcompat.widget.Toolbar
+          android:id="@+id/toolbar"
+          android:layout_width="match_parent"
+          android:layout_height="?attr/actionBarSize"
+          android:background="?attr/colorSurface"
+          android:elevation="4dp"
+          android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+          app:navigationIcon="?homeAsUpIndicator"
+          app:popupTheme="@style/AppTheme.ActionBar"/>
+
       <TextView
           android:id="@+id/text"
           android:text="@string/set_hostname"
@@ -71,15 +82,6 @@
               android:layout_width="fill_parent"/>
       
       </com.google.android.material.textfield.TextInputLayout>
-
-      <Button
-          android:id="@+id/button_save"
-          android:enabled="@{writable}"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="@string/button_save"
-          android:layout_marginTop="10dp"
-          android:layout_gravity="right"/>
     
     </LinearLayout>
 

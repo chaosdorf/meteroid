@@ -27,7 +27,6 @@ package de.chaosdorf.meteroid;
 
 import java.util.ArrayList;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -58,6 +57,7 @@ public class About extends AppCompatActivity
 	{
 		super.onCreate(savedInstanceState);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_about);
+		setSupportActionBar(binding.toolbar);
 		binding.setGlassEmpty(glassEmpty);
 		
 		vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
@@ -70,12 +70,6 @@ public class About extends AppCompatActivity
 		}
 		catch(NameNotFoundException ignored) {}
 		binding.setVersionName(versionName);
-		
-		ActionBar actionBar = getSupportActionBar();
-		if(actionBar != null)
-		{
-			actionBar.setDisplayHomeAsUpEnabled(true);
-		}
 		
 		binding.appIcon.setOnLongClickListener(new View.OnLongClickListener()
 		{

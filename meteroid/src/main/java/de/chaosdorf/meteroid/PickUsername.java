@@ -24,7 +24,6 @@
 
 package de.chaosdorf.meteroid;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.databinding.DataBindingUtil;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.content.Context;
@@ -67,9 +66,7 @@ public class PickUsername extends MeteroidNetworkActivity implements AdapterView
 	{
 		super.onCreate(savedInstanceState);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_pick_username);
-
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
+		setSupportActionBar(binding.toolbar);
 		
 		binding.swiperefresh.setEnabled(true);
 		binding.swiperefresh.setOnRefreshListener(() -> reload());

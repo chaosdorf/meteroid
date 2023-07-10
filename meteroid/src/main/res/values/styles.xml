@@ -28,7 +28,7 @@
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
-    <style name="AppBaseTheme" parent="Theme.MaterialComponents">
+    <style name="AppBaseTheme" parent="Theme.MaterialComponents.NoActionBar">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
@@ -56,6 +56,7 @@
     </style>
 
     <!-- Show some activities as dialogs on large screens. -->
+    <!-- DialogWhenLarge.NoActionBar is missing in Material Components. -->
     <style name="DialogWhenLargeBase" parent="Theme.MaterialComponents.DialogWhenLarge">
     </style>
     <style name="DialogWhenLarge" parent="DialogWhenLargeBase">
@@ -76,6 +77,8 @@
         <item name="actionBarStyle">@style/AppTheme.ActionBar</item>
         <item name="windowFixedHeightMajor">@dimen/dialogHeight</item>
         <item name="windowFixedHeightMinor">@dimen/dialogHeight</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
     
     <style name="AppTheme.ActionBar" parent="Widget.MaterialComponents.ActionBar.Surface">

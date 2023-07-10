@@ -25,7 +25,6 @@
 package de.chaosdorf.meteroid;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import androidx.appcompat.app.ActionBar;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ObservableBoolean;
 import android.content.DialogInterface;
@@ -63,26 +62,10 @@ public class UserSettings extends MeteroidNetworkActivity
 	{
 		super.onCreate(savedInstanceState);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_user_settings);
+		setSupportActionBar(binding.toolbar);
 		binding.setUser(user);
 		binding.setDECIMALFORMAT(DECIMAL_FORMAT);
 		binding.setWritable(writable);
-
-		binding.buttonBack.setOnClickListener(v -> finish());
-		binding.buttonDelete.setOnClickListener(v -> deleteUser());
-		if(config.userID == config.NO_USER_ID) // new user
-		{
-			binding.buttonDelete.setVisibility(View.GONE);
-		}
-		binding.buttonSave.setOnClickListener(v -> saveUser());
-		
-		ActionBar actionBar = getSupportActionBar();
-		if(actionBar != null)
-		{
-			actionBar.setDisplayHomeAsUpEnabled(true);
-			binding.buttonBack.setVisibility(View.GONE);
-			binding.buttonDelete.setVisibility(View.GONE);
-			binding.buttonSave.setVisibility(View.GONE);
-		}
 		
 		makeReadOnly();
 		final UserSettings userSettings = this;

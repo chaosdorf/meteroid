@@ -103,8 +103,15 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		
-		binding.swiperefresh.setEnabled(true);
-		binding.swiperefresh.setOnRefreshListener(() -> reload());
+		if (config.useGridView) {
+			binding.swiperefreshGrid.setVisibility(View.VISIBLE);
+			binding.swiperefreshGrid.setEnabled(true);
+		} else {
+			binding.swiperefreshList.setVisibility(View.VISIBLE);
+			binding.swiperefreshList.setEnabled(true);
+		}
+		binding.swiperefreshGrid.setOnRefreshListener(() -> reload());
+		binding.swiperefreshList.setOnRefreshListener(() -> reload());
 		binding.fab.setOnClickListener(v -> scanBarcode());
 		binding.fab.setVisibility(View.VISIBLE);
 		binding.fab.show();
@@ -294,7 +301,11 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		binding.listView.setVisibility(View.GONE);
 		binding.buyDrinkError.setVisibility(View.GONE);
 		binding.progressBar.setVisibility(View.VISIBLE);
-		binding.swiperefresh.setRefreshing(true);
+		if (config.useGridView) {
+			binding.swiperefreshGrid.setRefreshing(true);
+		} else {
+			binding.swiperefreshList.setRefreshing(true);
+		}
 		new LongRunningIORequest<User>(this, LongRunningIOTask.GET_USER, connection.getAPI().getUser(config.userID));
 		new LongRunningIORequest<List<Drink>>(this, LongRunningIOTask.GET_DRINKS, connection.getAPI().listDrinks());
 	}
@@ -403,7 +414,8 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 		binding.gridView.setVisibility(View.GONE);
 		binding.listView.setVisibility(View.GONE);
 		binding.progressBar.setVisibility(View.GONE);
-		binding.swiperefresh.setRefreshing(false);
+		binding.swiperefreshGrid.setRefreshing(false);
+		binding.swiperefreshList.setRefreshing(false);
 	}
 
 	@Override
@@ -452,7 +464,8 @@ public class BuyDrink extends MeteroidNetworkActivity implements AdapterView.OnI
 					binding.listView.setVisibility(View.VISIBLE);
 				}
 				binding.progressBar.setVisibility(View.GONE);
-				binding.swiperefresh.setRefreshing(false);
+				binding.swiperefreshGrid.setRefreshing(false);
+				binding.swiperefreshList.setRefreshing(false);
 				handleIntent(buyableItemList);
 				break;
 			}

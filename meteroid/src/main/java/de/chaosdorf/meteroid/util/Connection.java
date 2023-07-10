@@ -72,7 +72,7 @@ public class Connection
         return api;
     }
 
-    public void check(API api, CheckCallback callback) {
+    public static void check(API api, CheckCallback callback) {
         new LongRunningIORequest<List<Drink>>(
             new LongRunningIOCallback<List<Drink>>() {
                 @Override
@@ -125,7 +125,7 @@ public class Connection
         }
     }
     
-    public API initializeRetrofit(String url)
+    public static API initializeRetrofit(String url)
     {
         Log.d(TAG, "Opening connection to " + url + "...");
         return new Retrofit.Builder()

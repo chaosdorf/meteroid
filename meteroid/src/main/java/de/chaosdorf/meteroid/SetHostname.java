@@ -50,7 +50,6 @@ public class SetHostname extends AppCompatActivity
 {
 	private AppCompatActivity activity = null;
 	private Config config;
-	private Connection connection;
 	private ActivitySetHostnameBinding binding;
 	private final ObservableBoolean writable = new ObservableBoolean(false);
 
@@ -158,14 +157,13 @@ public class SetHostname extends AppCompatActivity
 	
 	private void trySaveAndExit(String newHostname) {
 		writable.set(false);
-		connection = Connection.getInstance(config);
-		connection.check(connection.initializeRetrofit(newHostname), new Connection.CheckCallback() {
+		Connection.check(Connection.initializeRetrofit(newHostname), new Connection.CheckCallback() {
 			@Override
 			public void handleSuccess() {
 				config.hostname = newHostname;
 				config.apiVersion = Utility.guessApiVersion(newHostname);
 				config.save();
-				connection.reset();
+				Connection.getInstance(config).reset();
 				Utility.startActivity(activity, PickUsername.class, Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				finish();
 			}

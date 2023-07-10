@@ -79,7 +79,7 @@
               android:autoLink="web"
               android:text="https://github.com/chaosdorf/meteroid"/>
     
-    <LinearLayout android:id="@+id/license_fragment_container"
+    <LinearLayout android:id="@+id/libraries_fragment_container"
                   android:layout_margin="12dp"
                   android:paddingTop="@dimen/activity_vertical_margin"
                   android:layout_height="wrap_content"

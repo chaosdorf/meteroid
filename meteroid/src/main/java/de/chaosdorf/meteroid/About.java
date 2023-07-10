@@ -40,18 +40,15 @@ import android.os.Vibrator;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.artitk.licensefragment.ListViewLicenseFragment;
-import com.artitk.licensefragment.model.CustomUI;
-import com.artitk.licensefragment.model.License;
-import com.artitk.licensefragment.model.LicenseID;
-import com.artitk.licensefragment.model.LicenseType;
+import com.mikepenz.aboutlibraries.LibsBuilder;
+import com.mikepenz.aboutlibraries.ui.LibsSupportFragment;
 
 import de.chaosdorf.meteroid.databinding.ActivityAboutBinding;
 
 public class About extends AppCompatActivity
 {
 	private ActivityAboutBinding binding;
-	private ListViewLicenseFragment licenseFragment;
+	private LibsSupportFragment librariesFragment;
 	private Vibrator vibrator;
 	private final ObservableBoolean glassEmpty = new ObservableBoolean(false);
 	private static final String FALLBACK_VERSION_NAME = "UNKNOWN";
@@ -102,38 +99,10 @@ public class About extends AppCompatActivity
 				return true;
 			}
 		});
-		licenseFragment = ListViewLicenseFragment.newInstance(new int[] {
-			LicenseID.RETROFIT,
-			LicenseID.GSON,
-			LicenseID.PICASSO
-		});
-		ArrayList<License> licenseList = new ArrayList<>();
-		licenseList.add(new License(
-			this, "Android Jetpack", LicenseType.APACHE_LICENSE_20,
-			"2018", "The Android Open Source Project"
-		));
-		licenseList.add(new License(
-			this, "Material Components for Android", LicenseType.APACHE_LICENSE_20,
-			"2021", "The Android Open Source Project"
-		));
-		licenseFragment.addCustomLicense(licenseList);
-		CustomUI customLicenseUI = new CustomUI()
-			.setTitleBackgroundColor(
-				getResources().getColor(R.color.actionColor)
-			)
-			.setTitleTextColor(
-				getResources().getColor(android.R.color.white)
-			)
-			.setLicenseBackgroundColor(
-				getResources().getColor(R.color.actionColor)
-			)
-			.setLicenseTextColor(
-				getResources().getColor(android.R.color.white)
-			);
-		licenseFragment.setCustomUI(customLicenseUI);
-		getFragmentManager()
+		librariesFragment = new LibsBuilder().supportFragment();
+		getSupportFragmentManager()
 			.beginTransaction()
-			.add(R.id.license_fragment_container, licenseFragment)
+			.add(R.id.libraries_fragment_container, librariesFragment)
 			.commit();
 	}
 	

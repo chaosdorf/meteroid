@@ -65,7 +65,7 @@ gradle.projectsEvaluated {
 
 android {
     namespace "de.chaosdorf.meteroid"
-    compileSdkVersion 33
+    compileSdkVersion 34
     signingConfigs {}
     lintOptions {
       abortOnError false
@@ -75,7 +75,7 @@ android {
         viewBinding = true
     }
     defaultConfig {
-        targetSdkVersion 33
+        targetSdkVersion 34
         minSdkVersion 21
     }
     compileOptions {

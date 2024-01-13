@@ -31,7 +31,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.0.2'
+        classpath 'com.android.tools.build:gradle:8.2.1'
         classpath 'gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:4.7.0'
         classpath "com.mikepenz.aboutlibraries.plugin:aboutlibraries-plugin:8.9.4"
     }
@@ -53,6 +53,16 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.8'
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'com.mikepenz:aboutlibraries:8.9.4'
+    // Fix old Kotlin dependencies
+    // https://stackoverflow.com/a/75298544/2192464
+    constraints {
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0") {
+            because("kotlin-stdlib-jdk7 is now a part of kotlin-stdlib")
+        }
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0") {
+            because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")
+        }
+    }
 }
 
 //see https://stackoverflow.com/a/22183825/2192464

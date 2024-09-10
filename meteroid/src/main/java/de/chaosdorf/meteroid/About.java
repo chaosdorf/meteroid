@@ -40,7 +40,9 @@ import android.os.Vibrator;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
+import com.mikepenz.aboutlibraries.util.AndroidExtensionsKt;
 import com.mikepenz.aboutlibraries.ui.LibsSupportFragment;
 
 import de.chaosdorf.meteroid.databinding.ActivityAboutBinding;
@@ -99,7 +101,11 @@ public class About extends AppCompatActivity
 				return true;
 			}
 		});
-		librariesFragment = new LibsBuilder().supportFragment();
+		librariesFragment = new LibsBuilder()
+			.withLibs(
+				AndroidExtensionsKt.withContext(new Libs.Builder(), this).build()
+			)
+			.supportFragment();
 		getSupportFragmentManager()
 			.beginTransaction()
 			.add(R.id.libraries_fragment_container, librariesFragment)

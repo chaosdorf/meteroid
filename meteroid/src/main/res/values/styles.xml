@@ -81,4 +81,11 @@
     <style name="AppTheme.ActionBar" parent="Widget.MaterialComponents.ActionBar.Surface">
     </style>
 
+    <!-- TODO: Remove once activities handle insets. -->
+    <style name="OptOutEdgeToEdgeEnforcement">
+        <!-- android:windowOptOutEdgeToEdgeEnforcement
+             isn't supported before SDK 35. This empty
+             style enables programmatically opting-out. -->
+    </style>
+
 </resources>

@@ -29,6 +29,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.ActionBar;
 import android.content.DialogInterface;
 import android.content.Intent;
+import androidx.core.view.WindowCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ObservableBoolean;
 import android.os.Bundle;
@@ -57,6 +58,7 @@ public class SetHostname extends AppCompatActivity
 	protected void onCreate(final Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
 		activity = this;
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_set_hostname);
 		binding.setWritable(writable);

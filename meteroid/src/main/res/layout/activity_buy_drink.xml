@@ -46,11 +46,14 @@
     <import type="android.view.View" />
   </data>
 
+  <!-- for Android 15, manually handle insets
+  
+  since we can't get the navigationBarHeight, use the actionBarSize -->
   <RelativeLayout android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingLeft="?attr/actionBarSize"
+                android:paddingRight="?attr/actionBarSize"
+                android:paddingTop="?attr/actionBarSize"
                 android:paddingBottom="@dimen/activity_vertical_margin"
                 tools:context=".BuyDrink">
 
@@ -64,6 +67,9 @@
 
         <LinearLayout
           android:orientation="vertical"
+          android:paddingTop="@dimen/activity_vertical_margin"
+          android:paddingLeft="@dimen/activity_horizontal_margin"
+          android:paddingRight="@dimen/activity_horizontal_margin"
           android:layout_width="fill_parent"
           android:layout_height="fill_parent">
 

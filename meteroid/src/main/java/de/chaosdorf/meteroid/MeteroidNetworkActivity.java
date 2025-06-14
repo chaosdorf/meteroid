@@ -25,6 +25,7 @@
 package de.chaosdorf.meteroid;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.WindowCompat;
 import android.os.Bundle;
 
 import java.text.DecimalFormat;
@@ -46,6 +47,7 @@ public abstract class MeteroidNetworkActivity extends AppCompatActivity
 	protected void onCreate(final Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
 		activity = this;
 		config = Config.getInstance(getApplicationContext());
 		connection = Connection.getInstance(config);

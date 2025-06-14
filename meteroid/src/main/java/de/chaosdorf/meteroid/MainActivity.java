@@ -25,6 +25,7 @@
 package de.chaosdorf.meteroid;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.WindowCompat;
 import android.os.Bundle;
 
 import de.chaosdorf.meteroid.util.Config;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity
 	protected void onCreate(final Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
 
 		final Config config = Config.getInstance(getApplicationContext());
 
